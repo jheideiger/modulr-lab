@@ -6,206 +6,148 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>modulr lab — comprendre l'eurorack</title>
 
-    <!-- Google Fonts -->
-    <!-- "Prépare la connexion vers le serveur qui sert le CSS des fonts" -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <!-- "Prépare la connexion vers le serveur qui sert les fichiers de polices" -->
-    <!-- crossorigin = les fonts sont chargées en mode CORS (exigé par les navigateurs) -->
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Manrope:wght@400;500;700&display=swap"
         rel="stylesheet">
 
-    <!-- CSS custom -->
     <link rel="stylesheet" href="css/common.css">
-
-    <!-- Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- JS defer pour qu'il se charge à la fin du chargement de la page -->
     <script src="js/main.js" defer></script>
 </head>
 
 <body>
 
     <!-- HEADER -->
-    <header
-        class="max-w-[var(--page-max-width)] mx-auto px-[var(--page-margin)] pt-12 pb-36 flex justify-between items-start">
-
-        <a href="/"
-            class="logo-link font-['Inter'] font-black text-[28px] leading-none tracking-[-0.02em] text-[var(--color-text)]">
-            modulr lab
-        </a>
-
-        <nav class="flex gap-8 font-['Manrope'] text-[15px] font-medium">
+    <header class="site-header page-container">
+        <a href="/" class="logo-link">modulr lab</a>
+        <nav class="desktop-nav">
             <a href="/le-cours" class="nav-link">le cours</a>
             <a href="/a-propos" class="nav-link">à propos</a>
             <a href="/contact" class="nav-link">contact</a>
         </nav>
-
+        <button class="burger" aria-label="Ouvrir le menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
     </header>
+
+    <!-- MENU MOBILE OVERLAY -->
+    <div class="menu-overlay" id="menu-overlay">
+        <div class="menu-overlay-header">
+            <a href="/" class="logo-link">modulr lab</a>
+            <button class="menu-close" aria-label="Fermer le menu">✕</button>
+        </div>
+        <nav>
+            <a href="/le-cours">le cours</a>
+            <a href="/a-propos">à propos</a>
+            <a href="/contact">contact</a>
+        </nav>
+    </div>
+
     <!-- MAIN -->
     <main>
+
         <!-- RANGÉE 1 : LEÇONS -->
-        <section class="max-w-[var(--page-max-width)] mx-auto px-[var(--page-margin)]">
-            <div class="grid grid-cols-[var(--rail-width)_1fr] gap-[var(--gutter)] items-start">
+        <section class="page-container">
+            <div class="row-grid">
+                <div class="rail-label">→ initiation</div>
+                <div class="lessons-grid">
 
-                <!-- Rail gauche -->
-                <div class="font-['Inter'] text-[14px] font-medium pt-3 tracking-[0.01em] text-[var(--color-text)]">
-                    → initiation
-                </div>
-
-                <!-- Zone de contenu : 3 colonnes asymétriques -->
-                <div class="grid grid-cols-[1.8fr_1fr_1.2fr] gap-8 items-start">
-
-                    <!-- Card 1 -->
                     <article>
-                        <h3
-                            class="font-['Inter'] font-bold text-[32px] leading-[1.05] tracking-[-0.01em] text-[var(--color-text)] mb-3">
-                            qu'est-ce qu'un signal ?
-                        </h3>
-                        <p
-                            class="font-['Manrope'] text-[14px] leading-[1.4] text-[var(--color-text)] mb-2 max-w-[38ch]">
-                            ↳ comprendre la matière première du modulaire avant de toucher au premier câble
-                        </p>
-                        <p
-                            class="font-['Manrope'] text-[12px] leading-[1.4] tracking-[0.02em] text-[var(--color-text-tertiary)]">
-                            leçon 1 · 12 min de lecture · vidéo incluse
-                        </p>
+                        <h3 class="lesson-title-lg">qu'est-ce qu'un signal ?</h3>
+                        <p class="lesson-desc" style="max-width: 38ch">↳ comprendre la matière première du modulaire
+                            avant de toucher au premier câble</p>
+                        <p class="lesson-meta">leçon 1 · 12 min de lecture · vidéo incluse</p>
                     </article>
 
-                    <!-- Card 2 (décalée de 80px) -->
-                    <article class="pt-[80px]">
-                        <h3
-                            class="font-['Inter'] font-bold text-[24px] leading-[1.05] tracking-[-0.01em] text-[var(--color-text)] mb-3">
-                            son et harmonique
-                        </h3>
-                        <p class="font-['Manrope'] text-[14px] leading-[1.4] text-[var(--color-text)] mb-2">
-                            ↳ d'où vient le timbre des choses
-                        </p>
-                        <p
-                            class="font-['Manrope'] text-[12px] leading-[1.4] tracking-[0.02em] text-[var(--color-text-tertiary)]">
-                            leçon 2 · 14 min de lecture
-                        </p>
+                    <article class="lesson-offset-80">
+                        <h3 class="lesson-title-sm">son et harmonique</h3>
+                        <p class="lesson-desc">↳ d'où vient le timbre des choses</p>
+                        <p class="lesson-meta">leçon 2 · 14 min de lecture</p>
                     </article>
 
-                    <!-- Card 3 (décalée de 32px) -->
-                    <article class="pt-[32px]">
-                        <h3
-                            class="font-['Inter'] font-bold text-[24px] leading-[1.05] tracking-[-0.01em] text-[var(--color-text)] mb-3">
-                            panorama des modules
-                        </h3>
-                        <p class="font-['Manrope'] text-[14px] leading-[1.4] text-[var(--color-text)] mb-2">
-                            ↳ vco, vcf, vca, lfo : à quoi ça sert vraiment
-                        </p>
-                        <p
-                            class="font-['Manrope'] text-[12px] leading-[1.4] tracking-[0.02em] text-[var(--color-text-tertiary)]">
-                            leçon 3 · 18 min de lecture
-                        </p>
+                    <article class="lesson-offset-32">
+                        <h3 class="lesson-title-sm">panorama des modules</h3>
+                        <p class="lesson-desc">↳ vco, vcf, vca, lfo : à quoi ça sert vraiment</p>
+                        <p class="lesson-meta">leçon 3 · 18 min de lecture</p>
                     </article>
 
                 </div>
             </div>
         </section>
+
         <!-- RANGÉE 2 : HERO -->
-        <section class="max-w-[var(--page-max-width)] mx-auto px-[var(--page-margin)] mt-[var(--section-gap)]">
-            <div class="grid grid-cols-[var(--rail-width)_1fr] gap-[var(--gutter)] items-start">
-
-                <!-- Rail gauche -->
-                <div class="font-['Inter'] text-[14px] font-medium pt-3 tracking-[0.01em] text-[var(--color-accent)]">
-                    récemment ↘
-                </div>
-
-                <!-- Zone de contenu -->
+        <section class="page-container section-gap">
+            <div class="row-grid">
+                <div class="rail-label rail-label--accent">récemment ↘</div>
                 <div>
-                    <h1
-                        class="font-['Inter'] font-black text-[110px] leading-[0.88] tracking-[-0.045em] text-[var(--color-text)] mb-8">
-                        comprendre<br>l'eurorack.
-                    </h1>
-                    <p class="font-['Inter'] text-[24px] leading-[1.2] text-[var(--color-text)] max-w-[32ch] mb-3">
-                        une initiation libre &amp; gratuite, sans détour ni jargon.
-                    </p>
-                    <p
-                        class="font-['Manrope'] text-[12px] leading-[1.4] tracking-[0.06em] uppercase text-[var(--color-text-secondary)] mb-10">
-                        4 leçons → durée libre · pour débutants curieux
-                    </p>
+                    <h1 class="hero-title">comprendre<br>l'eurorack.</h1>
+                    <p class="hero-lead">une initiation libre &amp; gratuite, sans détour ni jargon.</p>
+                    <p class="hero-meta">4 leçons → durée libre · pour débutants curieux</p>
                     <a href="/le-cours/intro" class="cta">→ commencer la leçon 1</a>
                 </div>
-
             </div>
         </section>
+
         <!-- RANGÉE 3 : MANIFESTE -->
-        <section class="max-w-[var(--page-max-width)] mx-auto px-[var(--page-margin)] mt-[var(--section-gap)]">
-            <div class="grid grid-cols-[var(--rail-width)_1fr] gap-[var(--gutter)] items-start">
-
-                <!-- Rail gauche -->
-                <div class="font-['Inter'] text-[14px] font-medium pt-3 tracking-[0.01em] text-[var(--color-text)]">
-                    → manifeste
-                </div>
-
-                <!-- Zone de contenu -->
+        <section class="page-container section-gap">
+            <div class="row-grid">
+                <div class="rail-label">→ manifeste</div>
                 <div>
-                    <p class="font-['Manrope'] text-[18px] leading-[1.65] text-[var(--color-text)] max-w-[60ch] mb-5">
-                        La synthèse modulaire n'est pas seulement une technique, c'est une manière de penser le son. Là
-                        où un synthétiseur classique propose un chemin tracé entre l'oscillateur et la sortie, le
-                        modulaire ouvre un terrain où chaque câble que l'on branche redessine la trajectoire du signal.
-                    </p>
-                    <p class="font-['Manrope'] text-[18px] leading-[1.65] text-[var(--color-text)] max-w-[60ch] mb-5">
-                        Modulr lab est né d'une envie : partager cette pratique avec celles et ceux qui en ont entendu
-                        parler sans oser franchir le pas. Pas de démonstration de virtuosité, pas de jargon technique
-                        gratuit — juste les bases, posées clairement, pour que vous puissiez décider si ce monde est
-                        fait pour vous.
-                    </p>
-                    <a href="/a-propos" class="read-more mt-3 inline-block">lire le manifeste complet →</a>
+                    <p class="manifesto-text">La synthèse modulaire n'est pas seulement une technique, c'est une manière
+                        de penser le son. Là où un synthétiseur classique propose un chemin tracé entre l'oscillateur et
+                        la sortie, le modulaire ouvre un terrain où chaque câble que l'on branche redessine la
+                        trajectoire du signal.</p>
+                    <p class="manifesto-text">Modulr lab est né d'une envie : partager cette pratique avec celles et
+                        ceux qui en ont entendu parler sans oser franchir le pas. Pas de démonstration de virtuosité,
+                        pas de jargon technique gratuit — juste les bases, posées clairement, pour que vous puissiez
+                        décider si ce monde est fait pour vous.</p>
+                    <a href="/a-propos" class="read-more" style="margin-top: 12px; display: inline-block">lire le
+                        manifeste complet →</a>
                 </div>
-
             </div>
         </section>
 
     </main>
+
     <!-- FOOTER -->
-    <footer
-        class="max-w-[var(--page-max-width)] mx-auto px-[var(--page-margin)] mt-[var(--section-gap)] border-t border-[var(--color-border)] pt-12 pb-16">
-        <div class="grid grid-cols-[var(--rail-width)_1fr] gap-[var(--gutter)]">
-
-            <!-- Rail gauche : brand -->
-            <div
-                class="font-['Inter'] text-[12px] font-medium tracking-[0.06em] uppercase text-[var(--color-text-secondary)] pt-12">
-                modulr lab
-            </div>
-
-            <!-- Zone de contenu : 3 colonnes -->
-            <div class="grid grid-cols-3 gap-8 pt-12">
+    <footer class="page-container footer">
+        <div class="footer-layout">
+            <div class="footer-brand">modulr lab</div>
+            <div class="footer-grid">
 
                 <div>
-                    <h4
-                        class="font-['Inter'] text-[12px] font-medium tracking-[0.06em] uppercase text-[var(--color-text-secondary)] mb-4">
-                        navigation</h4>
-                    <ul class="space-y-2 font-['Manrope'] text-[14px] text-[var(--color-text)]">
-                        <li><a href="/" class="nav-link">accueil</a></li>
-                        <li><a href="/le-cours" class="nav-link">le cours</a></li>
-                        <li><a href="/a-propos" class="nav-link">à propos</a></li>
-                        <li><a href="/contact" class="nav-link">contact</a></li>
+                    <h4 class="footer-col-title">navigation</h4>
+                    <ul style="list-style: none">
+                        <li style="margin-bottom: 8px"><a href="/" class="nav-link"
+                                style="font-family: var(--font-body); font-size: 14px">accueil</a></li>
+                        <li style="margin-bottom: 8px"><a href="/le-cours" class="nav-link"
+                                style="font-family: var(--font-body); font-size: 14px">le cours</a></li>
+                        <li style="margin-bottom: 8px"><a href="/a-propos" class="nav-link"
+                                style="font-family: var(--font-body); font-size: 14px">à propos</a></li>
+                        <li><a href="/contact" class="nav-link"
+                                style="font-family: var(--font-body); font-size: 14px">contact</a></li>
                     </ul>
                 </div>
 
                 <div>
-                    <h4
-                        class="font-['Inter'] text-[12px] font-medium tracking-[0.06em] uppercase text-[var(--color-text-secondary)] mb-4">
-                        newsletter</h4>
-                    <p class="font-['Manrope'] text-[14px] text-[var(--color-text)] mb-3">
-                        recevoir les prochaines leçons par email
-                    </p>
-                    <a href="/contact" class="cta text-[12px]">s'inscrire →</a>
+                    <h4 class="footer-col-title">newsletter</h4>
+                    <p
+                        style="font-family: var(--font-body); font-size: 14px; color: var(--color-text); margin-bottom: 12px">
+                        recevoir les prochaines leçons par email</p>
+                    <a href="/contact" class="cta" style="font-size: 12px">s'inscrire →</a>
                 </div>
 
                 <div>
-                    <h4
-                        class="font-['Inter'] text-[12px] font-medium tracking-[0.06em] uppercase text-[var(--color-text-secondary)] mb-4">
-                        informations</h4>
-                    <ul class="space-y-2 font-['Manrope'] text-[14px] text-[var(--color-text)]">
-                        <li><a href="/mentions-legales" class="nav-link">mentions légales</a></li>
-                        <li class="text-[var(--color-text-secondary)]">© 2026 modulr lab</li>
+                    <h4 class="footer-col-title">informations</h4>
+                    <ul style="list-style: none">
+                        <li style="margin-bottom: 8px"><a href="/mentions-legales" class="nav-link"
+                                style="font-family: var(--font-body); font-size: 14px">mentions légales</a></li>
+                        <li style="font-family: var(--font-body); font-size: 14px; color: var(--color-text-secondary)">©
+                            2026 modulr lab</li>
                     </ul>
                 </div>
 
