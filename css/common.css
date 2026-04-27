@@ -554,6 +554,89 @@ a {
     display: block;
 }
 
+/* --- Vidéo responsive 16:9 --- */
+.video-container {
+    max-width: 100%;
+}
+
+.video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%;
+    /* ratio 16:9 */
+    height: 0;
+    overflow: hidden;
+    background: #000;
+}
+
+.video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* --- Contenu pédagogique --- */
+.lesson-content {
+    max-width: 65ch;
+}
+
+/* --- Navigation leçon précédente / suivante --- */
+.lesson-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 32px;
+    padding: 40px 0;
+    border-top: 0.5px solid var(--color-border);
+    border-bottom: 0.5px solid var(--color-border);
+}
+
+.lesson-nav-prev,
+.lesson-nav-next {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    text-decoration: none;
+    color: var(--color-text);
+    transition: color 0.3s ease;
+}
+
+.lesson-nav-next {
+    text-align: right;
+    margin-left: auto;
+}
+
+.lesson-nav-prev:hover,
+.lesson-nav-next:hover {
+    color: var(--color-accent);
+}
+
+.lesson-nav-label {
+    font-family: var(--font-body);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+}
+
+.lesson-nav-title {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+.lesson-nav-prev:hover .lesson-nav-label,
+.lesson-nav-next:hover .lesson-nav-label {
+    color: var(--color-accent);
+}
+
+/* --- Contenu légal --- */
+.legal-content {
+    max-width: 60ch;
+}
+
 /* =========================================================
    RESPONSIVE
    ========================================================= */
@@ -671,5 +754,19 @@ a {
     .form-submit {
         align-self: stretch;
         text-align: center;
+    }
+
+    /* Navigation leçons */
+    .lesson-nav {
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    .lesson-nav-next {
+        text-align: left;
+    }
+
+    .lesson-nav-title {
+        font-size: 20px;
     }
 }
