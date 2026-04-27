@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>modulr lab — contact</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Manrope:wght@400;500;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/common.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../js/main.js" defer></script>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="site-header page-container">
+        <a href="/" class="logo-link">modulr lab</a>
+        <nav class="desktop-nav">
+            <a href="/le-cours" class="nav-link">le cours</a>
+            <a href="/a-propos" class="nav-link">à propos</a>
+            <a href="/contact" class="nav-link">contact</a>
+        </nav>
+        <button class="burger" aria-label="Ouvrir le menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </header>
+
+    <!-- MENU MOBILE OVERLAY -->
+    <div class="menu-overlay" id="menu-overlay">
+        <div class="menu-overlay-header">
+            <a href="/" class="logo-link">modulr lab</a>
+            <button class="menu-close" aria-label="Fermer le menu">✕</button>
+        </div>
+        <nav>
+            <a href="/le-cours">le cours</a>
+            <a href="/a-propos">à propos</a>
+            <a href="/contact">contact</a>
+        </nav>
+    </div>
+
+    <!-- MAIN -->
+    <main>
+
+        <!-- HERO -->
+        <section class="page-container">
+            <div class="row-grid">
+                <div class="rail-label rail-label--accent">→ contact</div>
+                <div>
+                    <h1 class="hero-title">parlons.</h1>
+                    <p class="hero-lead">une question, une idée, une envie d'en savoir plus — écrivez-nous.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FORMULAIRE DE CONTACT -->
+        <section class="page-container section-gap">
+            <div class="row-grid">
+                <div class="rail-label">→ message</div>
+                <div class="form-container">
+                    <form id="contact-form" class="contact-form" novalidate>
+
+                        <div class="form-group">
+                            <label for="name" class="form-label">nom</label>
+                            <input type="text" id="name" name="name" class="form-input" required autocomplete="name"
+                                placeholder="votre nom">
+                            <p class="form-error" id="name-error">merci d'indiquer votre nom</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email" class="form-label">email</label>
+                            <input type="email" id="email" name="email" class="form-input" required autocomplete="email"
+                                placeholder="votre@email.com">
+                            <p class="form-error" id="email-error">merci d'indiquer un email valide</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject" class="form-label">sujet</label>
+                            <select id="subject" name="subject" class="form-input form-select" required>
+                                <option value="" disabled selected>choisir un sujet</option>
+                                <option value="question">question sur le cours</option>
+                                <option value="feedback">retour ou suggestion</option>
+                                <option value="collaboration">proposition de collaboration</option>
+                                <option value="autre">autre</option>
+                            </select>
+                            <p class="form-error" id="subject-error">merci de choisir un sujet</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message" class="form-label">message</label>
+                            <textarea id="message" name="message" class="form-input form-textarea" required rows="6"
+                                placeholder="votre message..."></textarea>
+                            <p class="form-error" id="message-error">merci d'écrire votre message</p>
+                        </div>
+
+                        <button type="submit" class="form-submit">envoyer le message →</button>
+
+                    </form>
+
+                    <div class="form-success" id="form-success">
+                        <p class="lesson-title-sm" style="margin-bottom: 12px">message envoyé ✓</p>
+                        <p class="manifesto-text">merci pour votre message. comme ce site est un projet de formation,
+                            aucun email ne sera réellement envoyé — mais la validation fonctionne !</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- NEWSLETTER -->
+        <section class="page-container section-gap">
+            <div class="row-grid">
+                <div class="rail-label">→ newsletter</div>
+                <div class="form-container">
+                    <h2 class="lesson-title-lg" style="margin-bottom: 24px">rester informé.</h2>
+                    <p class="manifesto-text">recevez un email quand une nouvelle leçon est publiée. pas de spam, pas de
+                        revente — juste du contenu.</p>
+
+                    <form id="newsletter-form" class="newsletter-form" novalidate>
+                        <div class="newsletter-row">
+                            <input type="email" id="newsletter-email" name="newsletter-email" class="form-input"
+                                required autocomplete="email" placeholder="votre@email.com">
+                            <button type="submit" class="form-submit form-submit--compact">s'inscrire →</button>
+                        </div>
+                        <p class="form-error" id="newsletter-error">merci d'indiquer un email valide</p>
+                    </form>
+
+                    <div class="form-success" id="newsletter-success">
+                        <p class="manifesto-text">inscription confirmée ✓ (simulation — aucun email ne sera envoyé)</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="page-container footer">
+        <div class="footer-layout">
+            <div class="footer-brand">modulr lab</div>
+            <div class="footer-grid">
+
+                <div>
+                    <h4 class="footer-col-title">navigation</h4>
+                    <ul style="list-style: none">
+                        <li style="margin-bottom: 8px"><a href="/" class="nav-link"
+                                style="font-family: var(--font-body); font-size: 14px">accueil</a></li>
+                        <li style="margin-bottom: 8px"><a href="/le-cours" class="nav-link"
+                                style="font-family: var(--font-body); font-size: 14px">le cours</a></li>
+                        <li style="margin-bottom: 8px"><a href="/a-propos" class="nav-link"
+                                style="font-family: var(--font-body); font-size: 14px">à propos</a></li>
+                        <li><a href="/contact" class="nav-link"
+                                style="font-family: var(--font-body); font-size: 14px">contact</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="footer-col-title">newsletter</h4>
+                    <p
+                        style="font-family: var(--font-body); font-size: 14px; color: var(--color-text); margin-bottom: 12px">
+                        recevoir les prochaines leçons par email</p>
+                    <a href="/contact" class="cta" style="font-size: 12px">s'inscrire →</a>
+                </div>
+
+                <div>
+                    <h4 class="footer-col-title">informations</h4>
+                    <ul style="list-style: none">
+                        <li style="margin-bottom: 8px"><a href="/mentions-legales" class="nav-link"
+                                style="font-family: var(--font-body); font-size: 14px">mentions légales</a></li>
+                        <li style="font-family: var(--font-body); font-size: 14px; color: var(--color-text-secondary)">©
+                            2026 modulr lab</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

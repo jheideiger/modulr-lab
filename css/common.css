@@ -435,6 +435,125 @@ a {
     margin-bottom: 12px;
 }
 
+/* --- Formulaires --- */
+.form-container {
+    max-width: 560px;
+}
+
+.contact-form,
+.newsletter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-label {
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+}
+
+.form-input {
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--color-text);
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--color-border);
+    padding: 12px 0;
+    outline: none;
+    transition: border-color 0.3s ease;
+    width: 100%;
+}
+
+.form-input::placeholder {
+    color: var(--color-text-tertiary);
+}
+
+.form-input:focus {
+    border-color: var(--color-accent);
+}
+
+.form-input.is-invalid {
+    border-color: #E53E3E;
+}
+
+.form-select {
+    appearance: none;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%230A0A0A' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0 center;
+    padding-right: 24px;
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.form-error {
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: #E53E3E;
+    display: none;
+}
+
+.form-error.is-visible {
+    display: block;
+}
+
+.form-submit {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-bg);
+    background: var(--color-text);
+    border: none;
+    padding: 16px 32px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    align-self: flex-start;
+}
+
+.form-submit:hover {
+    background: var(--color-accent);
+}
+
+.form-submit--compact {
+    padding: 12px 24px;
+    white-space: nowrap;
+}
+
+.newsletter-row {
+    display: flex;
+    gap: 16px;
+    align-items: flex-end;
+}
+
+.newsletter-row .form-input {
+    flex: 1;
+}
+
+.form-success {
+    display: none;
+    padding: 32px 0;
+}
+
+.form-success.is-visible {
+    display: block;
+}
+
 /* =========================================================
    RESPONSIVE
    ========================================================= */
@@ -541,5 +660,16 @@ a {
 
     .lesson-card-number {
         font-size: 32px;
+    }
+
+    /* Formulaires */
+    .newsletter-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .form-submit {
+        align-self: stretch;
+        text-align: center;
     }
 }
