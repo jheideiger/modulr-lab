@@ -1,189 +1,128 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>modulr lab — introduction à la synthèse modulaire</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Manrope:wght@400;500;700&display=swap"
-        rel="stylesheet">
-
-    <link rel="stylesheet" href="../../css/common.css">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="../../js/main.js" defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>modulr lab — introduction à la synthèse modulaire</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/common.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../js/main.js" defer></script>
 </head>
-
 <body>
 
-    <!-- HEADER -->
-    <header class="site-header page-container">
-        <a href="/" class="logo-link">modulr lab</a>
-        <nav class="desktop-nav">
-            <a href="/le-cours" class="nav-link">le cours</a>
-            <a href="/a-propos" class="nav-link">à propos</a>
-            <a href="/contact" class="nav-link">contact</a>
-        </nav>
-        <button class="burger" aria-label="Ouvrir le menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-    </header>
+  <header class="site-header page-container">
+    <a href="../../" class="logo-link">modulr lab</a>
+    <nav class="desktop-nav">
+      <a href="../../le-cours/" class="nav-link">le cours</a>
+      <a href="../../a-propos/" class="nav-link">à propos</a>
+      <a href="../../contact/" class="nav-link">contact</a>
+    </nav>
+    <button class="burger" aria-label="Ouvrir le menu"><span></span><span></span><span></span></button>
+  </header>
 
-    <!-- MENU MOBILE OVERLAY -->
-    <div class="menu-overlay" id="menu-overlay">
-        <div class="menu-overlay-header">
-            <a href="/" class="logo-link">modulr lab</a>
-            <button class="menu-close" aria-label="Fermer le menu">✕</button>
-        </div>
-        <nav>
-            <a href="/le-cours">le cours</a>
-            <a href="/a-propos">à propos</a>
-            <a href="/contact">contact</a>
-        </nav>
+  <div class="menu-overlay" id="menu-overlay">
+    <div class="menu-overlay-header">
+      <a href="../../" class="logo-link">modulr lab</a>
+      <button class="menu-close" aria-label="Fermer le menu">✕</button>
     </div>
+    <nav>
+      <a href="../../le-cours/">le cours</a>
+      <a href="../../a-propos/">à propos</a>
+      <a href="../../contact/">contact</a>
+    </nav>
+  </div>
 
-    <!-- MAIN -->
-    <main>
+  <main>
 
-        <!-- HERO LEÇON -->
-        <section class="page-container">
-            <div class="row-grid">
-                <div class="rail-label rail-label--accent">→ leçon 1</div>
-                <div>
-                    <p class="lesson-meta" style="margin-bottom: 16px">leçon 1 sur 4 · 12 min de lecture</p>
-                    <h1 class="hero-title">qu'est-ce qu'un<br>signal ?</h1>
-                    <p class="hero-lead">comprendre la matière première du modulaire avant de toucher au premier câble.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- VIDÉO -->
-        <section class="page-container section-gap">
-            <div class="row-grid">
-                <div class="rail-label">→ vidéo</div>
-                <div class="video-container">
-                    <div class="video-wrapper">
-                        <iframe src="https://www.youtube.com/embed/UxStiQR4hkU"
-                            title="Leçon 1 — Introduction à la synthèse modulaire" frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowfullscreen loading="lazy"></iframe>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- CONTENU PÉDAGOGIQUE -->
-        <section class="page-container section-gap">
-            <div class="row-grid">
-                <div class="rail-label">→ texte</div>
-                <article class="lesson-content">
-
-                    <h2 class="lesson-title-lg" style="margin-bottom: 24px">le son, c'est du mouvement.</h2>
-                    <p class="manifesto-text">Avant de parler de modules, de câbles ou de voltage, il faut comprendre
-                        une chose fondamentale : un son, c'est une vibration. Une membrane qui bouge, de l'air qui
-                        oscille, un signal électrique qui monte et qui descend. Tout commence là.</p>
-                    <p class="manifesto-text">Dans un synthétiseur modulaire, cette vibration est représentée par un
-                        signal électrique — un voltage qui varie dans le temps. Ce signal est la matière première de
-                        tout ce que vous allez construire.</p>
-
-                    <h2 class="lesson-title-lg" style="margin-bottom: 24px; margin-top: 48px">audio vs control voltage.
-                    </h2>
-                    <p class="manifesto-text">Il y a deux grandes familles de signaux dans un modulaire : les signaux
-                        audio et les signaux de contrôle (CV, pour Control Voltage).</p>
-                    <p class="manifesto-text">Un signal audio vibre assez vite pour que vos oreilles le perçoivent comme
-                        un son — typiquement entre 20 Hz et 20 000 Hz. Un signal CV, lui, bouge plus lentement : il sert
-                        à contrôler les paramètres d'autres modules. Par exemple, un CV peut contrôler la hauteur d'une
-                        note, l'ouverture d'un filtre, ou le volume d'un amplificateur.</p>
-                    <p class="manifesto-text">La beauté du modulaire, c'est que ces deux types de signaux sont
-                        techniquement identiques — ce sont tous les deux du voltage. La seule différence, c'est comment
-                        vous décidez de les utiliser. Un LFO (oscillateur basse fréquence) est d'habitude un signal de
-                        contrôle, mais si vous accélérez sa fréquence au-delà de 20 Hz, il devient un signal audio.
-                        Cette interchangeabilité est au cœur de la philosophie modulaire.</p>
-
-                    <h2 class="lesson-title-lg" style="margin-bottom: 24px; margin-top: 48px">le patch : votre
-                        architecture sonore.</h2>
-                    <p class="manifesto-text">Chaque câble que vous branchez crée une connexion entre deux modules.
-                        L'ensemble de ces connexions forme ce qu'on appelle un patch — littéralement, un « branchement
-                        ». Chaque patch est une architecture sonore unique.</p>
-                    <p class="manifesto-text">Contrairement à un synthétiseur classique où le chemin du signal est fixe
-                        (oscillateur → filtre → amplificateur → sortie), un modulaire vous laisse décider de tout. Vous
-                        pouvez envoyer la sortie d'un filtre dans un autre filtre, utiliser un signal audio pour moduler
-                        un LFO, ou faire contrôler la hauteur d'un oscillateur par un microphone. Il n'y a pas de
-                        mauvais branchement — il n'y a que des expériences.</p>
-                    <p class="manifesto-text">Dans la prochaine leçon, on plongera dans les bases acoustiques :
-                        fréquence, harmoniques, et timbre. Vous comprendrez ce qui distingue le son d'une guitare de
-                        celui d'un synthétiseur — et comment un oscillateur fabrique tout ça à partir de rien.</p>
-
-                </article>
-            </div>
-        </section>
-
-        <!-- NAVIGATION LEÇON PRÉCÉDENTE / SUIVANTE -->
-        <section class="page-container section-gap">
-            <div class="row-grid">
-                <div class="rail-label">→ suite</div>
-                <nav class="lesson-nav">
-                    <div class="lesson-nav-prev">
-                        <!-- pas de leçon précédente pour la leçon 1 -->
-                    </div>
-                    <a href="/le-cours/son-et-harmonique" class="lesson-nav-next">
-                        <span class="lesson-nav-label">leçon suivante →</span>
-                        <span class="lesson-nav-title">son et harmonique</span>
-                    </a>
-                </nav>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- FOOTER -->
-    <footer class="page-container footer">
-        <div class="footer-layout">
-            <div class="footer-brand">modulr lab</div>
-            <div class="footer-grid">
-
-                <div>
-                    <h4 class="footer-col-title">navigation</h4>
-                    <ul style="list-style: none">
-                        <li style="margin-bottom: 8px"><a href="/" class="nav-link"
-                                style="font-family: var(--font-body); font-size: 14px">accueil</a></li>
-                        <li style="margin-bottom: 8px"><a href="/le-cours" class="nav-link"
-                                style="font-family: var(--font-body); font-size: 14px">le cours</a></li>
-                        <li style="margin-bottom: 8px"><a href="/a-propos" class="nav-link"
-                                style="font-family: var(--font-body); font-size: 14px">à propos</a></li>
-                        <li><a href="/contact" class="nav-link"
-                                style="font-family: var(--font-body); font-size: 14px">contact</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="footer-col-title">newsletter</h4>
-                    <p
-                        style="font-family: var(--font-body); font-size: 14px; color: var(--color-text); margin-bottom: 12px">
-                        recevoir les prochaines leçons par email</p>
-                    <a href="/contact" class="cta" style="font-size: 12px">s'inscrire →</a>
-                </div>
-
-                <div>
-                    <h4 class="footer-col-title">informations</h4>
-                    <ul style="list-style: none">
-                        <li style="margin-bottom: 8px"><a href="/mentions-legales" class="nav-link"
-                                style="font-family: var(--font-body); font-size: 14px">mentions légales</a></li>
-                        <li style="font-family: var(--font-body); font-size: 14px; color: var(--color-text-secondary)">©
-                            2026 modulr lab</li>
-                    </ul>
-                </div>
-
-            </div>
+    <section class="page-container">
+      <div class="row-grid">
+        <div class="rail-label rail-label--accent">→ leçon 1</div>
+        <div>
+          <p class="lesson-meta" style="margin-bottom: 16px">leçon 1 sur 4 · 12 min de lecture</p>
+          <h1 class="hero-title">qu'est-ce qu'un<br>signal ?</h1>
+          <p class="hero-lead">comprendre la matière première du modulaire avant de toucher au premier câble.</p>
         </div>
-    </footer>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ vidéo</div>
+        <div class="video-container">
+          <div class="video-wrapper">
+            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Leçon 1 — Introduction" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ texte</div>
+        <article class="lesson-content">
+          <h2 class="lesson-title-lg" style="margin-bottom: 24px">le son, c'est du mouvement.</h2>
+          <p class="manifesto-text">Avant de parler de modules, de câbles ou de voltage, il faut comprendre une chose fondamentale : un son, c'est une vibration. Une membrane qui bouge, de l'air qui oscille, un signal électrique qui monte et qui descend. Tout commence là.</p>
+          <p class="manifesto-text">Dans un synthétiseur modulaire, cette vibration est représentée par un signal électrique — un voltage qui varie dans le temps. Ce signal est la matière première de tout ce que vous allez construire.</p>
+
+          <h2 class="lesson-title-lg" style="margin-bottom: 24px; margin-top: 48px">audio vs control voltage.</h2>
+          <p class="manifesto-text">Il y a deux grandes familles de signaux dans un modulaire : les signaux audio et les signaux de contrôle (CV, pour Control Voltage).</p>
+          <p class="manifesto-text">Un signal audio vibre assez vite pour que vos oreilles le perçoivent comme un son — typiquement entre 20 Hz et 20 000 Hz. Un signal CV, lui, bouge plus lentement : il sert à contrôler les paramètres d'autres modules. Par exemple, un CV peut contrôler la hauteur d'une note, l'ouverture d'un filtre, ou le volume d'un amplificateur.</p>
+          <p class="manifesto-text">La beauté du modulaire, c'est que ces deux types de signaux sont techniquement identiques — ce sont tous les deux du voltage. La seule différence, c'est comment vous décidez de les utiliser. Un LFO (oscillateur basse fréquence) est d'habitude un signal de contrôle, mais si vous accélérez sa fréquence au-delà de 20 Hz, il devient un signal audio. Cette interchangeabilité est au cœur de la philosophie modulaire.</p>
+
+          <h2 class="lesson-title-lg" style="margin-bottom: 24px; margin-top: 48px">le patch : votre architecture sonore.</h2>
+          <p class="manifesto-text">Chaque câble que vous branchez crée une connexion entre deux modules. L'ensemble de ces connexions forme ce qu'on appelle un patch — littéralement, un « branchement ». Chaque patch est une architecture sonore unique.</p>
+          <p class="manifesto-text">Contrairement à un synthétiseur classique où le chemin du signal est fixe (oscillateur → filtre → amplificateur → sortie), un modulaire vous laisse décider de tout. Vous pouvez envoyer la sortie d'un filtre dans un autre filtre, utiliser un signal audio pour moduler un LFO, ou faire contrôler la hauteur d'un oscillateur par un microphone. Il n'y a pas de mauvais branchement — il n'y a que des expériences.</p>
+          <p class="manifesto-text">Dans la prochaine leçon, on plongera dans les bases acoustiques : fréquence, harmoniques, et timbre. Vous comprendrez ce qui distingue le son d'une guitare de celui d'un synthétiseur — et comment un oscillateur fabrique tout ça à partir de rien.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ suite</div>
+        <nav class="lesson-nav">
+          <div class="lesson-nav-prev"></div>
+          <a href="../son-et-harmonique/" class="lesson-nav-next">
+            <span class="lesson-nav-label">leçon suivante →</span>
+            <span class="lesson-nav-title">son et harmonique</span>
+          </a>
+        </nav>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="page-container footer">
+    <div class="footer-layout">
+      <div class="footer-brand">modulr lab</div>
+      <div class="footer-grid">
+        <div>
+          <h4 class="footer-col-title">navigation</h4>
+          <ul style="list-style: none">
+            <li style="margin-bottom: 8px"><a href="../../" class="nav-link" style="font-family: var(--font-body); font-size: 14px">accueil</a></li>
+            <li style="margin-bottom: 8px"><a href="../../le-cours/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">le cours</a></li>
+            <li style="margin-bottom: 8px"><a href="../../a-propos/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">à propos</a></li>
+            <li><a href="../../contact/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-col-title">newsletter</h4>
+          <p style="font-family: var(--font-body); font-size: 14px; color: var(--color-text); margin-bottom: 12px">recevoir les prochaines leçons par email</p>
+          <a href="../../contact/" class="cta" style="font-size: 12px">s'inscrire →</a>
+        </div>
+        <div>
+          <h4 class="footer-col-title">informations</h4>
+          <ul style="list-style: none">
+            <li style="margin-bottom: 8px"><a href="../../mentions-legales/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">mentions légales</a></li>
+            <li style="font-family: var(--font-body); font-size: 14px; color: var(--color-text-secondary)">© 2026 modulr lab</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
 
 </body>
-
 </html>
