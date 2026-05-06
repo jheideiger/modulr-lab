@@ -1,6 +1,7 @@
 /* =========================================================
    MODULR LAB — main.js
-   Menu burger + validation formulaires
+   Menu burger, animations au scroll, curseur custom,
+   validation formulaires
    ========================================================= */
 
 // --- Menu burger ---
@@ -27,6 +28,68 @@ if (burger && menuOverlay && menuClose) {
     });
 }
 
+// --- Animations au scroll (IntersectionObserver) ---
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+if (!prefersReducedMotion) {
+    const reveals = document.querySelectorAll('.reveal');
+
+    if (reveals.length > 0) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.15,
+            rootMargin: '0px 0px -40px 0px'
+        });
+
+        reveals.forEach(el => observer.observe(el));
+    }
+}
+
+// --- Curseur personnalisé ---
+if (!prefersReducedMotion && window.matchMedia('(pointer: fine)').matches) {
+    const cursor = document.createElement('div');
+    cursor.classList.add('custom-cursor');
+    document.body.appendChild(cursor);
+
+    let mouseX = 0;
+    let mouseY = 0;
+    let cursorX = 0;
+    let cursorY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        cursor.classList.add('is-active');
+    });
+
+    document.addEventListener('mouseleave', () => {
+        cursor.classList.remove('is-active');
+    });
+
+    // Smooth follow avec requestAnimationFrame
+    function animateCursor() {
+        cursorX += (mouseX - cursorX) * 0.15;
+        cursorY += (mouseY - cursorY) * 0.15;
+        cursor.style.left = cursorX + 'px';
+        cursor.style.top = cursorY + 'px';
+        requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+
+    // Agrandir le curseur au survol des liens
+    const hoverTargets = document.querySelectorAll('a, button, .lesson-card');
+    hoverTargets.forEach(el => {
+        el.addEventListener('mouseenter', () => cursor.classList.add('is-hovering'));
+        el.addEventListener('mouseleave', () => cursor.classList.remove('is-hovering'));
+    });
+}
+
 // --- Validation formulaire de contact ---
 const contactForm = document.getElementById('contact-form');
 const contactSuccess = document.getElementById('form-success');
@@ -36,7 +99,6 @@ if (contactForm && contactSuccess) {
         e.preventDefault();
         let isValid = true;
 
-        // Reset
         contactForm.querySelectorAll('.form-input').forEach(input => {
             input.classList.remove('is-invalid');
         });
@@ -44,7 +106,6 @@ if (contactForm && contactSuccess) {
             error.classList.remove('is-visible');
         });
 
-        // Nom
         const name = contactForm.querySelector('#name');
         if (!name.value.trim()) {
             name.classList.add('is-invalid');
@@ -52,7 +113,6 @@ if (contactForm && contactSuccess) {
             isValid = false;
         }
 
-        // Email
         const email = contactForm.querySelector('#email');
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email.value.trim())) {
@@ -61,7 +121,6 @@ if (contactForm && contactSuccess) {
             isValid = false;
         }
 
-        // Sujet
         const subject = contactForm.querySelector('#subject');
         if (!subject.value) {
             subject.classList.add('is-invalid');
@@ -69,7 +128,6 @@ if (contactForm && contactSuccess) {
             isValid = false;
         }
 
-        // Message
         const message = contactForm.querySelector('#message');
         if (!message.value.trim()) {
             message.classList.add('is-invalid');
@@ -83,7 +141,6 @@ if (contactForm && contactSuccess) {
         }
     });
 
-    // Retirer l'erreur quand on tape
     contactForm.querySelectorAll('.form-input').forEach(input => {
         input.addEventListener('input', () => {
             input.classList.remove('is-invalid');

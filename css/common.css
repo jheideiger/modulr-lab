@@ -638,6 +638,113 @@ a {
 }
 
 /* =========================================================
+   ANIMATIONS
+   ========================================================= */
+
+/* --- Apparitions au scroll --- */
+.reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Délais en cascade pour les éléments groupés */
+.reveal-delay-1 {
+    transition-delay: 0.1s;
+}
+
+.reveal-delay-2 {
+    transition-delay: 0.2s;
+}
+
+.reveal-delay-3 {
+    transition-delay: 0.3s;
+}
+
+/* --- Curseur personnalisé --- */
+.custom-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 12px;
+    height: 12px;
+    background: var(--color-accent);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: width 0.2s ease, height 0.2s ease, background 0.2s ease, opacity 0.2s ease;
+    opacity: 0;
+    mix-blend-mode: difference;
+}
+
+.custom-cursor.is-active {
+    opacity: 1;
+}
+
+.custom-cursor.is-hovering {
+    width: 40px;
+    height: 40px;
+    background: var(--color-accent);
+}
+
+/* --- Hover sophistiqué sur les lesson-cards du sommaire --- */
+.lesson-card .lesson-card-number {
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.lesson-card:hover .lesson-card-number {
+    transform: translateX(8px);
+}
+
+.lesson-card .lesson-card-content .lesson-title-sm {
+    transition: color 0.3s ease, letter-spacing 0.3s ease;
+}
+
+.lesson-card:hover .lesson-card-content .lesson-title-sm {
+    letter-spacing: 0.02em;
+}
+
+/* --- Hover sur les articles de la page d'accueil --- */
+.lessons-grid article {
+    transition: transform 0.3s ease;
+}
+
+.lessons-grid article:hover {
+    transform: translateY(-4px);
+}
+
+/* --- Transition douce sur les liens de navigation leçon --- */
+.lesson-nav-prev,
+.lesson-nav-next {
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.lesson-nav-next:hover {
+    transform: translateX(8px);
+}
+
+.lesson-nav-prev:hover {
+    transform: translateX(-8px);
+}
+
+/* --- Lien read-more : flèche qui glisse --- */
+.read-more::after {
+    content: '';
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.read-more:hover::after {
+    transform: translateX(4px);
+}
+
+/* =========================================================
    RESPONSIVE
    ========================================================= */
 /* --- Tablette --- */
@@ -767,5 +874,39 @@ a {
 
     .lesson-nav-title {
         font-size: 20px;
+    }
+
+    /* Curseur custom désactivé sur mobile (écran tactile) */
+    .custom-cursor {
+        display: none;
+    }
+}
+
+/* =========================================================
+   PREFERS-REDUCED-MOTION
+   ========================================================= */
+@media (prefers-reduced-motion: reduce) {
+    .reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+
+    .custom-cursor {
+        display: none;
+    }
+
+    .lesson-card .lesson-card-number,
+    .lesson-card .lesson-card-content .lesson-title-sm,
+    .lessons-grid article,
+    .lesson-nav-prev,
+    .lesson-nav-next,
+    .read-more::after,
+    .nav-link,
+    .cta,
+    .read-more,
+    .logo-link,
+    .menu-overlay {
+        transition: none;
     }
 }
