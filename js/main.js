@@ -93,6 +93,7 @@ if (!prefersReducedMotion && window.matchMedia('(pointer: fine)').matches) {
 // --- Validation formulaire de contact ---
 const contactForm = document.getElementById('contact-form');
 const contactSuccess = document.getElementById('form-success');
+const contactNetworkError = document.getElementById('form-network-error');
 
 if (contactForm && contactSuccess) {
     contactForm.addEventListener('submit', (e) => {
@@ -135,10 +136,33 @@ if (contactForm && contactSuccess) {
             isValid = false;
         }
 
-        if (isValid) {
-            contactForm.style.display = 'none';
-            contactSuccess.classList.add('is-visible');
-        }
+        if (!isValid) return;
+
+        // Envoi réel vers Formspree
+        const submitBtn = contactForm.querySelector('.form-submit');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'envoi en cours...';
+
+        fetch(contactForm.action, {
+            method: 'POST',
+            body: new FormData(contactForm),
+            headers: { 'Accept': 'application/json' }
+        })
+            .then(response => {
+                if (response.ok) {
+                    contactForm.style.display = 'none';
+                    contactSuccess.classList.add('is-visible');
+                } else {
+                    contactNetworkError.classList.add('is-visible');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'envoyer le message →';
+                }
+            })
+            .catch(() => {
+                contactNetworkError.classList.add('is-visible');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'envoyer le message →';
+            });
     });
 
     contactForm.querySelectorAll('.form-input').forEach(input => {
@@ -153,6 +177,7 @@ if (contactForm && contactSuccess) {
 // --- Validation newsletter ---
 const newsletterForm = document.getElementById('newsletter-form');
 const newsletterSuccess = document.getElementById('newsletter-success');
+const newsletterNetworkError = document.getElementById('newsletter-network-error');
 
 if (newsletterForm && newsletterSuccess) {
     newsletterForm.addEventListener('submit', (e) => {
@@ -171,8 +196,27 @@ if (newsletterForm && newsletterSuccess) {
             return;
         }
 
-        newsletterForm.style.display = 'none';
-        newsletterSuccess.classList.add('is-visible');
+        const submitBtn = newsletterForm.querySelector('.form-submit');
+        submitBtn.disabled = true;
+
+        fetch(newsletterForm.action, {
+            method: 'POST',
+            body: new FormData(newsletterForm),
+            headers: { 'Accept': 'application/json' }
+        })
+            .then(response => {
+                if (response.ok) {
+                    newsletterForm.style.display = 'none';
+                    newsletterSuccess.classList.add('is-visible');
+                } else {
+                    newsletterNetworkError.classList.add('is-visible');
+                    submitBtn.disabled = false;
+                }
+            })
+            .catch(() => {
+                newsletterNetworkError.classList.add('is-visible');
+                submitBtn.disabled = false;
+            });
     });
 
     newsletterForm.querySelector('#newsletter-email').addEventListener('input', () => {
