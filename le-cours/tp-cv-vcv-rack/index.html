@@ -1,18 +1,30 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>modulr lab — TP : le control voltage dans VCV Rack</title>
-
+  <meta name="description"
+    content="Leçon 4 : créez votre premier patch pas à pas dans VCV Rack, le logiciel modulaire gratuit.">
+  <link rel="canonical" href="https://modulrlab.com/le-cours/tp-cv-vcv-rack/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:title" content="modulr lab — TP : le control voltage dans VCV Rack">
+  <meta property="og:description"
+    content="Leçon 4 : créez votre premier patch pas à pas dans VCV Rack, le logiciel modulaire gratuit.">
+  <meta property="og:url" content="https://modulrlab.com/le-cours/tp-cv-vcv-rack/">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Manrope:wght@400;500;700&display=swap"
+    rel="stylesheet">
 
   <link rel="stylesheet" href="../../css/common.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="../../js/main.js" defer></script>
 </head>
+
 <body>
 
   <!-- HEADER -->
@@ -64,14 +76,10 @@
         <div class="rail-label">→ vidéo</div>
         <div class="video-container reveal">
           <div class="video-wrapper">
-            <iframe
-              src="https://www.youtube.com/embed/UxStiQR4hkU"
-              title="Leçon 4 — TP : le control voltage dans VCV Rack"
-              frameborder="0"
+            <iframe src="https://www.youtube.com/embed/UxStiQR4hkU"
+              title="Leçon 4 — TP : le control voltage dans VCV Rack" frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
-              loading="lazy"
-            ></iframe>
+              allowfullscreen loading="lazy"></iframe>
           </div>
         </div>
       </div>
@@ -84,30 +92,64 @@
         <article class="lesson-content">
 
           <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">VCV Rack : le modulaire sans le budget.</h2>
-          <p class="manifesto-text reveal">VCV Rack est un logiciel gratuit et open source qui simule un système modulaire Eurorack sur votre ordinateur. L'interface reproduit fidèlement l'expérience physique : des modules dans un rack, des câbles à brancher, des boutons à tourner. C'est l'outil parfait pour apprendre sans investir un centime.</p>
-          <p class="manifesto-text reveal">Téléchargez VCV Rack depuis vcvrack.com, installez-le, et lancez-le. Vous vous retrouvez face à un rack vide. C'est normal — dans le monde modulaire, tout commence par un espace vide et des choix à faire.</p>
+          <p class="manifesto-text reveal">VCV Rack est un logiciel gratuit et open source qui simule un système
+            modulaire Eurorack sur votre ordinateur. L'interface reproduit fidèlement l'expérience physique : des
+            modules dans un rack, des câbles à brancher, des boutons à tourner. C'est l'outil parfait pour apprendre
+            sans investir un centime.</p>
+          <p class="manifesto-text reveal">Téléchargez VCV Rack depuis vcvrack.com, installez-le, et lancez-le. Vous
+            vous retrouvez face à un rack vide. C'est normal — dans le monde modulaire, tout commence par un espace vide
+            et des choix à faire.</p>
 
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">étape 1 : un oscillateur et une sortie.</h2>
-          <p class="manifesto-text reveal">Le patch le plus simple du monde : un VCO branché directement sur la sortie audio. Dans VCV Rack, ajoutez un module VCO-1 (clic droit sur le rack → ajoutez le module Fundamental VCO-1) et un module Audio (Fundamental Audio). Branchez la sortie SAW du VCO dans l'entrée du module Audio.</p>
-          <p class="manifesto-text reveal">Vous devriez entendre un son continu : une dent de scie brute. C'est un peu agressif, mais c'est votre premier patch. Vous venez de créer un chemin du signal : oscillateur → sortie. Maintenant, on va le rendre intéressant.</p>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">étape 1 : un oscillateur et
+            une sortie.</h2>
+          <p class="manifesto-text reveal">Le patch le plus simple du monde : un VCO branché directement sur la sortie
+            audio. Dans VCV Rack, ajoutez un module VCO-1 (clic droit sur le rack → ajoutez le module Fundamental VCO-1)
+            et un module Audio (Fundamental Audio). Branchez la sortie SAW du VCO dans l'entrée du module Audio.</p>
+          <p class="manifesto-text reveal">Vous devriez entendre un son continu : une dent de scie brute. C'est un peu
+            agressif, mais c'est votre premier patch. Vous venez de créer un chemin du signal : oscillateur → sortie.
+            Maintenant, on va le rendre intéressant.</p>
 
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">étape 2 : ajouter un filtre.</h2>
-          <p class="manifesto-text reveal">Ajoutez un module VCF (Fundamental VCF). Débranchez le câble entre le VCO et le Audio, et insérez le filtre entre les deux : VCO → VCF → Audio. Tournez le bouton FREQ du filtre : vous entendez le son s'ouvrir et se fermer. C'est la fréquence de coupure en action.</p>
-          <p class="manifesto-text reveal">Maintenant, montez un peu le bouton RES (résonance). Le filtre commence à siffler légèrement à la fréquence de coupure — c'est la résonance qui amplifie les fréquences proches du cutoff. Ce son caractéristique est la signature de la synthèse soustractive.</p>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">étape 2 : ajouter un filtre.
+          </h2>
+          <p class="manifesto-text reveal">Ajoutez un module VCF (Fundamental VCF). Débranchez le câble entre le VCO et
+            le Audio, et insérez le filtre entre les deux : VCO → VCF → Audio. Tournez le bouton FREQ du filtre : vous
+            entendez le son s'ouvrir et se fermer. C'est la fréquence de coupure en action.</p>
+          <p class="manifesto-text reveal">Maintenant, montez un peu le bouton RES (résonance). Le filtre commence à
+            siffler légèrement à la fréquence de coupure — c'est la résonance qui amplifie les fréquences proches du
+            cutoff. Ce son caractéristique est la signature de la synthèse soustractive.</p>
 
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">étape 3 : donner du mouvement avec un LFO.</h2>
-          <p class="manifesto-text reveal">Le son est statique. Ajoutez un module LFO-1 (Fundamental LFO-1). Branchez sa sortie TRI (triangle) sur l'entrée CV du filtre (l'entrée marquée FREQ CV). Réglez la fréquence du LFO assez bas — environ 1 Hz.</p>
-          <p class="manifesto-text reveal">Le filtre s'ouvre et se ferme tout seul, en rythme. Le LFO envoie un voltage qui monte et descend lentement, et ce voltage contrôle la fréquence de coupure du filtre. Vous venez de découvrir le principe fondamental du modulaire : un signal qui contrôle un paramètre. C'est ça, le Control Voltage.</p>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">étape 3 : donner du mouvement
+            avec un LFO.</h2>
+          <p class="manifesto-text reveal">Le son est statique. Ajoutez un module LFO-1 (Fundamental LFO-1). Branchez sa
+            sortie TRI (triangle) sur l'entrée CV du filtre (l'entrée marquée FREQ CV). Réglez la fréquence du LFO assez
+            bas — environ 1 Hz.</p>
+          <p class="manifesto-text reveal">Le filtre s'ouvre et se ferme tout seul, en rythme. Le LFO envoie un voltage
+            qui monte et descend lentement, et ce voltage contrôle la fréquence de coupure du filtre. Vous venez de
+            découvrir le principe fondamental du modulaire : un signal qui contrôle un paramètre. C'est ça, le Control
+            Voltage.</p>
 
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">étape 4 : une enveloppe pour jouer des notes.</h2>
-          <p class="manifesto-text reveal">Pour l'instant, le son tourne en continu. Ajoutez un module ADSR (Fundamental ADSR) et un module VCA (Fundamental VCA). Branchez : VCF → VCA → Audio. Puis branchez la sortie de l'ADSR sur l'entrée CV du VCA.</p>
-          <p class="manifesto-text reveal">L'ADSR a besoin d'un signal de déclenchement (gate) pour fonctionner. Ajoutez un module SEQ-3 (séquenceur) ou simplement un bouton gate. À chaque impulsion gate, l'enveloppe se déclenche : le son apparaît, tient, puis s'éteint selon les réglages Attack, Decay, Sustain et Release.</p>
-          <p class="manifesto-text reveal">Félicitations — vous avez un patch complet : oscillateur → filtre → amplificateur, contrôlé par un LFO et une enveloppe. C'est le patch fondamental de la synthèse soustractive, celui sur lequel repose 90 % de la musique électronique.</p>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">étape 4 : une enveloppe pour
+            jouer des notes.</h2>
+          <p class="manifesto-text reveal">Pour l'instant, le son tourne en continu. Ajoutez un module ADSR (Fundamental
+            ADSR) et un module VCA (Fundamental VCA). Branchez : VCF → VCA → Audio. Puis branchez la sortie de l'ADSR
+            sur l'entrée CV du VCA.</p>
+          <p class="manifesto-text reveal">L'ADSR a besoin d'un signal de déclenchement (gate) pour fonctionner. Ajoutez
+            un module SEQ-3 (séquenceur) ou simplement un bouton gate. À chaque impulsion gate, l'enveloppe se déclenche
+            : le son apparaît, tient, puis s'éteint selon les réglages Attack, Decay, Sustain et Release.</p>
+          <p class="manifesto-text reveal">Félicitations — vous avez un patch complet : oscillateur → filtre →
+            amplificateur, contrôlé par un LFO et une enveloppe. C'est le patch fondamental de la synthèse soustractive,
+            celui sur lequel repose 90 % de la musique électronique.</p>
 
           <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">et maintenant ?</h2>
-          <p class="manifesto-text reveal">Ce cours vous a donné les bases : le signal, les harmoniques, les modules fondamentaux, et votre premier patch. Vous n'êtes pas un expert — mais vous avez les clés pour comprendre ce que vous faites, et pour explorer par vous-même.</p>
-          <p class="manifesto-text reveal">Le modulaire est un terrain de jeu infini. Chaque câble que vous branchez différemment crée une configuration nouvelle, un son que personne n'a entendu avant. Il n'y a pas de mauvais patch — il n'y a que des expériences qui vous apprennent quelque chose.</p>
-          <p class="manifesto-text reveal">Si cette initiation vous a donné envie d'aller plus loin, explorez les modules de VCV Rack, regardez des vidéos de patching, rejoignez la communauté. Et si vous avez des questions ou des retours, n'hésitez pas à nous écrire.</p>
+          <p class="manifesto-text reveal">Ce cours vous a donné les bases : le signal, les harmoniques, les modules
+            fondamentaux, et votre premier patch. Vous n'êtes pas un expert — mais vous avez les clés pour comprendre ce
+            que vous faites, et pour explorer par vous-même.</p>
+          <p class="manifesto-text reveal">Le modulaire est un terrain de jeu infini. Chaque câble que vous branchez
+            différemment crée une configuration nouvelle, un son que personne n'a entendu avant. Il n'y a pas de mauvais
+            patch — il n'y a que des expériences qui vous apprennent quelque chose.</p>
+          <p class="manifesto-text reveal">Si cette initiation vous a donné envie d'aller plus loin, explorez les
+            modules de VCV Rack, regardez des vidéos de patching, rejoignez la communauté. Et si vous avez des questions
+            ou des retours, n'hésitez pas à nous écrire.</p>
           <a href="../../contact/" class="cta" style="margin-top: 16px; display: inline-block">→ nous écrire</a>
 
         </article>
@@ -141,22 +183,29 @@
         <div>
           <h4 class="footer-col-title">navigation</h4>
           <ul style="list-style: none">
-            <li style="margin-bottom: 8px"><a href="../../" class="nav-link" style="font-family: var(--font-body); font-size: 14px">accueil</a></li>
-            <li style="margin-bottom: 8px"><a href="../../le-cours/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">le cours</a></li>
-            <li style="margin-bottom: 8px"><a href="../../a-propos/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">à propos</a></li>
-            <li><a href="../../contact/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">contact</a></li>
+            <li style="margin-bottom: 8px"><a href="../../" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">accueil</a></li>
+            <li style="margin-bottom: 8px"><a href="../../le-cours/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">le cours</a></li>
+            <li style="margin-bottom: 8px"><a href="../../a-propos/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">à propos</a></li>
+            <li><a href="../../contact/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">contact</a></li>
           </ul>
         </div>
         <div>
           <h4 class="footer-col-title">newsletter</h4>
-          <p style="font-family: var(--font-body); font-size: 14px; color: var(--color-text); margin-bottom: 12px">recevoir les prochaines leçons par email</p>
+          <p style="font-family: var(--font-body); font-size: 14px; color: var(--color-text); margin-bottom: 12px">
+            recevoir les prochaines leçons par email</p>
           <a href="../../contact/" class="cta" style="font-size: 12px">s'inscrire →</a>
         </div>
         <div>
           <h4 class="footer-col-title">informations</h4>
           <ul style="list-style: none">
-            <li style="margin-bottom: 8px"><a href="../../mentions-legales/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">mentions légales</a></li>
-            <li style="font-family: var(--font-body); font-size: 14px; color: var(--color-text-secondary)">© 2026 modulr lab</li>
+            <li style="margin-bottom: 8px"><a href="../../mentions-legales/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">mentions légales</a></li>
+            <li style="font-family: var(--font-body); font-size: 14px; color: var(--color-text-secondary)">© 2026 modulr
+              lab</li>
           </ul>
         </div>
       </div>
@@ -164,4 +213,5 @@
   </footer>
 
 </body>
+
 </html>
