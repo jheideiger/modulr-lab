@@ -4,27 +4,76 @@
    validation formulaires
    ========================================================= */
 
-// --- Menu burger ---
+// --- Menu burger accessible ---
 const burger = document.querySelector('.burger');
 const menuOverlay = document.getElementById('menu-overlay');
 const menuClose = document.querySelector('.menu-close');
 
 if (burger && menuOverlay && menuClose) {
-    burger.addEventListener('click', () => {
-        menuOverlay.classList.add('is-open');
-        document.body.style.overflow = 'hidden';
-    });
+    const focusableSelector = 'a[href], button:not([disabled])';
+    let lastFocusedElement = null;
 
-    menuClose.addEventListener('click', () => {
+    function getFocusableElements() {
+        return Array.from(menuOverlay.querySelectorAll(focusableSelector));
+    }
+
+    function handleKeydown(e) {
+        if (e.key === 'Escape') {
+            closeMenu();
+            return;
+        }
+
+        if (e.key === 'Tab') {
+            const focusables = getFocusableElements();
+            if (focusables.length === 0) return;
+
+            const first = focusables[0];
+            const last = focusables[focusables.length - 1];
+
+            if (e.shiftKey && document.activeElement === first) {
+                e.preventDefault();
+                last.focus();
+            } else if (!e.shiftKey && document.activeElement === last) {
+                e.preventDefault();
+                first.focus();
+            }
+        }
+    }
+
+    function openMenu() {
+        lastFocusedElement = document.activeElement;
+
+        menuOverlay.classList.add('is-open');
+        menuOverlay.removeAttribute('inert');
+        menuOverlay.setAttribute('aria-hidden', 'false');
+        burger.setAttribute('aria-expanded', 'true');
+        document.body.style.overflow = 'hidden';
+
+        const focusables = getFocusableElements();
+        if (focusables.length > 0) {
+            focusables[0].focus();
+        }
+
+        document.addEventListener('keydown', handleKeydown);
+    }
+
+    function closeMenu() {
         menuOverlay.classList.remove('is-open');
+        menuOverlay.setAttribute('aria-hidden', 'true');
+        menuOverlay.setAttribute('inert', '');
+        burger.setAttribute('aria-expanded', 'false');
         document.body.style.overflow = '';
-    });
+
+        document.removeEventListener('keydown', handleKeydown);
+
+        (lastFocusedElement || burger).focus();
+    }
+
+    burger.addEventListener('click', openMenu);
+    menuClose.addEventListener('click', closeMenu);
 
     menuOverlay.querySelectorAll('nav a').forEach(link => {
-        link.addEventListener('click', () => {
-            menuOverlay.classList.remove('is-open');
-            document.body.style.overflow = '';
-        });
+        link.addEventListener('click', closeMenu);
     });
 }
 
