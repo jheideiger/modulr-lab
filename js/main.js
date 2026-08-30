@@ -51,45 +51,6 @@ if (!prefersReducedMotion) {
     }
 }
 
-// --- Curseur personnalisé ---
-if (!prefersReducedMotion && window.matchMedia('(pointer: fine)').matches) {
-    const cursor = document.createElement('div');
-    cursor.classList.add('custom-cursor');
-    document.body.appendChild(cursor);
-
-    let mouseX = 0;
-    let mouseY = 0;
-    let cursorX = 0;
-    let cursorY = 0;
-
-    document.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-        cursor.classList.add('is-active');
-    });
-
-    document.addEventListener('mouseleave', () => {
-        cursor.classList.remove('is-active');
-    });
-
-    // Smooth follow avec requestAnimationFrame
-    function animateCursor() {
-        cursorX += (mouseX - cursorX) * 0.15;
-        cursorY += (mouseY - cursorY) * 0.15;
-        cursor.style.left = cursorX + 'px';
-        cursor.style.top = cursorY + 'px';
-        requestAnimationFrame(animateCursor);
-    }
-    animateCursor();
-
-    // Agrandir le curseur au survol des liens
-    const hoverTargets = document.querySelectorAll('a, button, .lesson-card');
-    hoverTargets.forEach(el => {
-        el.addEventListener('mouseenter', () => cursor.classList.add('is-hovering'));
-        el.addEventListener('mouseleave', () => cursor.classList.remove('is-hovering'));
-    });
-}
-
 // --- Validation formulaire de contact ---
 const contactForm = document.getElementById('contact-form');
 const contactSuccess = document.getElementById('form-success');
