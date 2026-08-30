@@ -10,21 +10,27 @@ const menuOverlay = document.getElementById('menu-overlay');
 const menuClose = document.querySelector('.menu-close');
 
 if (burger && menuOverlay && menuClose) {
-    burger.addEventListener('click', () => {
+    const openMenu = () => {
         menuOverlay.classList.add('is-open');
+        menuOverlay.removeAttribute('inert');
+        menuOverlay.setAttribute('aria-hidden', 'false');
+        burger.setAttribute('aria-expanded', 'true');
         document.body.style.overflow = 'hidden';
-    });
+    };
 
-    menuClose.addEventListener('click', () => {
+    const closeMenu = () => {
         menuOverlay.classList.remove('is-open');
+        menuOverlay.setAttribute('inert', '');
+        menuOverlay.setAttribute('aria-hidden', 'true');
+        burger.setAttribute('aria-expanded', 'false');
         document.body.style.overflow = '';
-    });
+    };
+
+    burger.addEventListener('click', openMenu);
+    menuClose.addEventListener('click', closeMenu);
 
     menuOverlay.querySelectorAll('nav a').forEach(link => {
-        link.addEventListener('click', () => {
-            menuOverlay.classList.remove('is-open');
-            document.body.style.overflow = '';
-        });
+        link.addEventListener('click', closeMenu);
     });
 }
 
