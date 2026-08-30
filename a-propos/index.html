@@ -6,20 +6,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>modulr lab — à propos</title>
   <meta name="description"
-    content="Le manifeste de modulr lab : pourquoi ce site existe, sa philosophie pédagogique, et pour qui il est fait.">
+    content="Le manifeste de modulr lab et le parcours de Jeremy Heideiger : de l'Elektron Analog Four au modulaire, et pourquoi ce site existe.">
   <link rel="canonical" href="https://modulrlab.com/a-propos/">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="fr_FR">
   <meta property="og:title" content="modulr lab — à propos">
   <meta property="og:description"
-    content="Le manifeste de modulr lab : pourquoi ce site existe, sa philosophie pédagogique, et pour qui il est fait.">
+    content="Le manifeste de modulr lab et le parcours de Jeremy Heideiger : de l'Elektron Analog Four au modulaire, et pourquoi ce site existe.">
   <meta property="og:url" content="https://modulrlab.com/a-propos/">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Manrope:wght@400;500;700&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="../css/common.css">
+  <script src="https://cdn.tailwindcss.com"></script>
   <script src="../js/main.js" defer></script>
 </head>
 
@@ -34,10 +36,12 @@
       <a href="../a-propos/" class="nav-link">à propos</a>
       <a href="../contact/" class="nav-link">contact</a>
     </nav>
-    <button class="burger" aria-label="Ouvrir le menu"><span></span><span></span><span></span></button>
+    <button class="burger" aria-label="Ouvrir le menu" aria-expanded="false"
+      aria-controls="menu-overlay"><span></span><span></span><span></span></button>
   </header>
 
-  <div class="menu-overlay" id="menu-overlay">
+  <div class="menu-overlay" id="menu-overlay" role="dialog" aria-modal="true" aria-label="Menu de navigation"
+    aria-hidden="true" inert>
     <div class="menu-overlay-header">
       <a href="../" class="logo-link">modulr lab</a>
       <button class="menu-close" aria-label="Fermer le menu">✕</button>
@@ -53,6 +57,7 @@
 
   <main>
 
+    <!-- HERO -->
     <section class="page-container">
       <div class="row-grid">
         <div class="rail-label rail-label--accent">→ à propos</div>
@@ -63,57 +68,75 @@
       </div>
     </section>
 
+    <!-- QUI SUIS-JE -->
     <section class="page-container section-gap">
       <div class="row-grid">
-        <div class="rail-label">→ le fond</div>
+        <div class="rail-label">→ qui suis-je</div>
         <article>
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">le modulaire n'est pas un instrument. c'est un
-            langage.</h2>
-          <p class="manifesto-text reveal reveal-delay-1">On dit souvent que la synthèse modulaire est complexe. Ce
-            n'est pas faux. Mais ce n'est pas la bonne entrée. La vraie question n'est pas « est-ce que c'est dur ? » —
-            c'est « est-ce que ça vaut le coup de désapprendre ce qu'on sait sur la musique pour redécouvrir le son
-            autrement ? »</p>
-          <p class="manifesto-text reveal reveal-delay-2">Un synthétiseur classique vous propose un chemin. Un
-            oscillateur, un filtre, un amplificateur, une sortie. Vous tournez des boutons, vous obtenez des sons. Le
-            modulaire, lui, vous tend une pile de câbles et vous dit : à vous de décider ce qui va où.</p>
-          <p class="manifesto-text reveal reveal-delay-3">Ce n'est pas plus difficile. C'est différent. C'est une
-            manière de penser le son où chaque connexion est un choix, chaque patch est une architecture, chaque session
-            est une conversation entre vous et la machine.</p>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">du synthétiseur au modulaire</h2>
+          <p class="manifesto-text reveal reveal-delay-1">Je m'appelle Jeremy Heideiger. Musicien et passionné de
+            synthèse sonore, j'ai découvert les machines électroniques dans les années 2000 avec l'Elektron Analog Four
+            et l'Octatrack — la culture du hardware, du séquençage et du DAWless est devenue une part essentielle de ma
+            façon de faire de la musique.</p>
+          <p class="manifesto-text reveal reveal-delay-2">Puis vient le modulaire. En 2020, je franchis le pas, module
+            après module, en apprenant sur le tas via la communauté ModWiggler. Une rencontre marque particulièrement ce
+            chemin : Julia Bondar, dont le travail chez Endorphin.es m'a montré qu'un Eurorack peut être bien plus
+            qu'une collection de « blips and bloops » — un véritable instrument de composition.</p>
+          <p class="manifesto-text reveal reveal-delay-3">Aujourd'hui, ma pratique s'articule autour d'un Make Noise
+            Shared System Plus et d'un Endorphin.es Shuttle System. Mais le plus important n'est pas le matériel : c'est
+            le chemin parcouru pour y arriver, et le fait qu'il n'y ait pas vraiment de point d'arrivée.</p>
         </article>
       </div>
     </section>
 
+    <!-- LE SON COMME MATIÈRE -->
     <section class="page-container section-gap">
       <div class="row-grid">
-        <div class="rail-label">→ la forme</div>
+        <div class="rail-label">→ le son comme matière</div>
         <article>
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">pas de jargon gratuit. pas de gate-keeping.
-          </h2>
-          <p class="manifesto-text reveal reveal-delay-1">La communauté modulaire est passionnée, mais elle peut être
-            intimidante. Entre les acronymes (VCO, VCA, LFO, EG, S&amp;H…), les débats d'initiés et les setups à cinq
-            chiffres, le débutant curieux se retrouve vite à la porte.</p>
-          <p class="manifesto-text reveal reveal-delay-2">Modulr lab prend le contre-pied. Ici, on explique les bases
-            sans présupposer que vous savez déjà. On nomme les choses simplement. On préfère un exemple clair à une
-            définition savante. Et on assume que la meilleure porte d'entrée, c'est la curiosité — pas le budget.</p>
-          <p class="manifesto-text reveal reveal-delay-3">Ce site est gratuit, ouvert, sans publicité. Il est né d'une
-            envie simple : partager ce qui m'a passionné, avec celles et ceux qui hésitent encore à franchir le pas.</p>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">le son comme matière</h2>
+          <p class="manifesto-text reveal reveal-delay-1">Ma relation au modulaire est avant tout une relation au design
+            sonore — dans la lignée de ce que Radiohead ont fait avec la synthèse : compléter les instruments
+            traditionnels plutôt que les remplacer.</p>
+          <p class="manifesto-text reveal reveal-delay-2">Un patch n'est pas qu'une suite de connexions, c'est un
+            système qui évolue : une modulation déplace un timbre, un hasard devient une idée. Et il y a le geste —
+            tourner un potentiomètre, déplacer un câble. Cette relation physique au son est pour moi fondamentale : on
+            ne dessine pas la musique, on la manipule.</p>
         </article>
       </div>
     </section>
 
+    <!-- LA CHOSE VIOLETTE -->
     <section class="page-container section-gap">
       <div class="row-grid">
-        <div class="rail-label">→ la suite</div>
+        <div class="rail-label">→ la chose violette</div>
         <article>
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">quatre leçons pour commencer. le reste viendra.
-          </h2>
-          <p class="manifesto-text reveal reveal-delay-1">Le cours que vous trouverez ici est un point de départ :
-            quatre leçons vidéo accompagnées de textes, pour comprendre ce qu'est un signal, comment naît un son, à quoi
-            servent les modules fondamentaux, et comment tout ça s'articule dans un premier patch.</p>
-          <p class="manifesto-text reveal reveal-delay-2">À la fin, vous ne serez pas un expert. Mais vous aurez les
-            clés pour décider si cette pratique est faite pour vous — et si oui, par où continuer.</p>
-          <a href="../le-cours/" class="cta reveal reveal-delay-3" style="margin-top: 16px; display: inline-block">→
-            découvrir le cours</a>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">la chose violette</h2>
+          <p class="manifesto-text reveal reveal-delay-1">Cette recherche nourrit mon projet musical, La Chose Violette
+            — un nom entre l'emoji Space Invaders 👾 et le violet mélancolico-nostalgique de Baudelaire.</p>
+          <p class="manifesto-text reveal reveal-delay-2">J'y travaille essentiellement DAWless : les machines et le
+            modulaire créent, Ableton Live enregistre et mixe ensuite. Ma musique est disponible sur les plateformes de
+            streaming et sur SoundCloud, notamment l'album Modular Studies, entièrement issu de cette exploration
+            modulaire.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- POURQUOI MODULR LAB -->
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label rail-label--accent">→ pourquoi modulr lab</div>
+        <article>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">pourquoi modulr lab ?</h2>
+          <p class="manifesto-text reveal reveal-delay-1">modulr lab est le prolongement naturel de ce parcours. Après
+            avoir longtemps appris en lisant, en regardant, en échangeant et en expérimentant, j'ai aujourd'hui envie de
+            transmettre à mon tour — c'est mon côté formateur.</p>
+          <p class="manifesto-text reveal reveal-delay-2">Je ne veux pas présenter le modulaire comme un univers réservé
+            aux spécialistes. Au fond, ce n'est pas une collection de machines : c'est une manière de faire de la
+            musique, un laboratoire où l'on apprend en faisant.</p>
+          <p class="manifesto-text reveal reveal-delay-3">Bienvenue dans modulr lab.</p>
+          <a href="../le-cours/" class="cta reveal" style="margin-top: 16px; display: inline-block">→ découvrir le
+            cours</a>
         </article>
       </div>
     </section>
