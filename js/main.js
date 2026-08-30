@@ -12,17 +12,23 @@ const menuClose = document.querySelector('.menu-close');
 if (burger && menuOverlay && menuClose) {
     burger.addEventListener('click', () => {
         menuOverlay.classList.add('is-open');
+        menuOverlay.removeAttribute('inert');
+        menuOverlay.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
     });
 
     menuClose.addEventListener('click', () => {
         menuOverlay.classList.remove('is-open');
+        menuOverlay.setAttribute('inert', '');
+        menuOverlay.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = '';
     });
 
     menuOverlay.querySelectorAll('nav a').forEach(link => {
         link.addEventListener('click', () => {
             menuOverlay.classList.remove('is-open');
+            menuOverlay.setAttribute('inert', '');
+            menuOverlay.setAttribute('aria-hidden', 'true');
             document.body.style.overflow = '';
         });
     });
