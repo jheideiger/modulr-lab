@@ -1,24 +1,40 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-X71P2T6L30"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-X71P2T6L30');
+  </script>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>modulr lab — atelier</title>
-  <meta name="description" content="Cinq idées de patchs à essayer une fois le cours terminé : vibrato, filtre qui chante, trémolo, enveloppes longues et séquences aléatoires.">
+  <meta name="description"
+    content="Cinq idées de patchs à essayer une fois le cours terminé : vibrato, filtre qui chante, trémolo, enveloppes longues et séquences aléatoires.">
   <link rel="canonical" href="https://modulrlab.com/atelier/">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="fr_FR">
   <meta property="og:title" content="modulr lab — atelier">
-  <meta property="og:description" content="Cinq idées de patchs à essayer une fois le cours terminé : vibrato, filtre qui chante, trémolo, enveloppes longues et séquences aléatoires.">
+  <meta property="og:description"
+    content="Cinq idées de patchs à essayer une fois le cours terminé : vibrato, filtre qui chante, trémolo, enveloppes longues et séquences aléatoires.">
   <meta property="og:url" content="https://modulrlab.com/atelier/">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Manrope:wght@400;500;700&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="../css/common.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="../js/main.js" defer></script>
 </head>
+
 <body>
 
   <header class="site-header page-container">
@@ -30,10 +46,12 @@
       <a href="../a-propos/" class="nav-link">à propos</a>
       <a href="../contact/" class="nav-link">contact</a>
     </nav>
-    <button class="burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="menu-overlay"><span></span><span></span><span></span></button>
+    <button class="burger" aria-label="Ouvrir le menu" aria-expanded="false"
+      aria-controls="menu-overlay"><span></span><span></span><span></span></button>
   </header>
 
-  <div class="menu-overlay" id="menu-overlay" role="dialog" aria-modal="true" aria-label="Menu de navigation" aria-hidden="true" inert>
+  <div class="menu-overlay" id="menu-overlay" role="dialog" aria-modal="true" aria-label="Menu de navigation"
+    aria-hidden="true" inert>
     <div class="menu-overlay-header">
       <a href="../" class="logo-link">modulr lab</a>
       <button class="menu-close" aria-label="Fermer le menu">✕</button>
@@ -54,7 +72,8 @@
         <div class="rail-label rail-label--accent">→ atelier</div>
         <div>
           <h1 class="hero-title reveal">atelier.</h1>
-          <p class="hero-lead reveal reveal-delay-1">quelques patchs à essayer une fois les quatre leçons terminées — pour continuer d'expérimenter par vous-même.</p>
+          <p class="hero-lead reveal reveal-delay-1">quelques patchs à essayer une fois les quatre leçons terminées —
+            pour continuer d'expérimenter par vous-même.</p>
         </div>
       </div>
     </section>
@@ -64,8 +83,12 @@
         <div class="rail-label">→ pourquoi</div>
         <article>
           <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">la pratique avant la théorie.</h2>
-          <p class="manifesto-text reveal reveal-delay-1">Le cours vous a donné les bases : le signal, les harmoniques, les modules fondamentaux. Mais la meilleure façon d'ancrer ces notions, c'est de les manipuler vous-même, sans instructions détaillées, en cherchant plutôt qu'en suivant.</p>
-          <p class="manifesto-text reveal reveal-delay-2">Les cinq patchs ci-dessous sont volontairement décrits en quelques lignes seulement — juste assez pour vous lancer, pas assez pour vous tenir la main. Faites-les dans VCV Rack (gratuit, déjà utilisé en leçon 4) ou sur un vrai système Eurorack si vous en avez un.</p>
+          <p class="manifesto-text reveal reveal-delay-1">Le cours vous a donné les bases : le signal, les harmoniques,
+            les modules fondamentaux. Mais la meilleure façon d'ancrer ces notions, c'est de les manipuler vous-même,
+            sans instructions détaillées, en cherchant plutôt qu'en suivant.</p>
+          <p class="manifesto-text reveal reveal-delay-2">Les cinq patchs ci-dessous sont volontairement décrits en
+            quelques lignes seulement — juste assez pour vous lancer, pas assez pour vous tenir la main. Faites-les dans
+            VCV Rack (gratuit, déjà utilisé en leçon 4) ou sur un vrai système Eurorack si vous en avez un.</p>
         </article>
       </div>
     </section>
@@ -77,31 +100,41 @@
 
           <article class="reveal">
             <h3 class="lesson-title-sm">créer un vibrato</h3>
-            <p class="lesson-desc">Branchez un LFO lent (4 à 6 Hz) sur l'entrée CV pitch d'un VCO. Réduisez l'amplitude du LFO au minimum, puis montez-la progressivement jusqu'à obtenir un vibrato discret plutôt qu'une sirène.</p>
+            <p class="lesson-desc">Branchez un LFO lent (4 à 6 Hz) sur l'entrée CV pitch d'un VCO. Réduisez l'amplitude
+              du LFO au minimum, puis montez-la progressivement jusqu'à obtenir un vibrato discret plutôt qu'une sirène.
+            </p>
             <p class="lesson-meta">modules : VCO, LFO</p>
           </article>
 
           <article class="reveal reveal-delay-1">
             <h3 class="lesson-title-sm">faire chanter un filtre</h3>
-            <p class="lesson-desc">Sur un VCF en résonance élevée, envoyez un LFO triangle lent sur l'entrée CV cutoff. Le filtre se met à osciller presque comme un second oscillateur — essayez de le désaccorder légèrement du VCO principal.</p>
+            <p class="lesson-desc">Sur un VCF en résonance élevée, envoyez un LFO triangle lent sur l'entrée CV cutoff.
+              Le filtre se met à osciller presque comme un second oscillateur — essayez de le désaccorder légèrement du
+              VCO principal.</p>
             <p class="lesson-meta">modules : VCF, LFO</p>
           </article>
 
           <article class="reveal reveal-delay-2">
             <h3 class="lesson-title-sm">un trémolo simple</h3>
-            <p class="lesson-desc">Branchez un LFO sur l'entrée CV d'un VCA. Testez différentes formes d'onde du LFO (carré vs triangle) pour comparer un trémolo abrupt et un trémolo doux.</p>
+            <p class="lesson-desc">Branchez un LFO sur l'entrée CV d'un VCA. Testez différentes formes d'onde du LFO
+              (carré vs triangle) pour comparer un trémolo abrupt et un trémolo doux.</p>
             <p class="lesson-meta">modules : VCA, LFO</p>
           </article>
 
           <article class="reveal reveal-delay-3">
             <h3 class="lesson-title-sm">une note qui respire</h3>
-            <p class="lesson-desc">Sur votre ADSR, poussez l'Attack et le Release à leurs valeurs maximales, avec un Sustain moyen. Déclenchez une note longue : le son doit apparaître et disparaître si lentement qu'on ne perçoit plus vraiment où il commence ni où il finit.</p>
+            <p class="lesson-desc">Sur votre ADSR, poussez l'Attack et le Release à leurs valeurs maximales, avec un
+              Sustain moyen. Déclenchez une note longue : le son doit apparaître et disparaître si lentement qu'on ne
+              perçoit plus vraiment où il commence ni où il finit.</p>
             <p class="lesson-meta">modules : ADSR, VCA</p>
           </article>
 
           <article class="reveal">
             <h3 class="lesson-title-sm">mélodies aléatoires</h3>
-            <p class="lesson-desc">Si votre setup inclut un module Sample &amp; Hold et une source de bruit blanc : échantillonnez le bruit à intervalles réguliers (via une horloge ou un second LFO carré) et envoyez la sortie sur le CV pitch d'un VCO. Vous obtenez une mélodie générative qui ne se répète jamais exactement.</p>
+            <p class="lesson-desc">Si votre setup inclut un module Sample &amp; Hold et une source de bruit blanc :
+              échantillonnez le bruit à intervalles réguliers (via une horloge ou un second LFO carré) et envoyez la
+              sortie sur le CV pitch d'un VCO. Vous obtenez une mélodie générative qui ne se répète jamais exactement.
+            </p>
             <p class="lesson-meta">modules : Sample &amp; Hold, bruit blanc, horloge, VCO</p>
           </article>
 
@@ -113,8 +146,10 @@
       <div class="row-grid">
         <div class="rail-label">→ et après</div>
         <article>
-          <p class="manifesto-text reveal">Une fois ces cinq patchs explorés, vous n'avez plus vraiment besoin de recettes. Le reste, c'est de la curiosité et des câbles — à vous de jouer.</p>
-          <a href="../histoire/" class="cta reveal reveal-delay-1" style="margin-top: 12px; display: inline-block">→ découvrir l'histoire de la synthèse modulaire</a>
+          <p class="manifesto-text reveal">Une fois ces cinq patchs explorés, vous n'avez plus vraiment besoin de
+            recettes. Le reste, c'est de la curiosité et des câbles — à vous de jouer.</p>
+          <a href="../histoire/" class="cta reveal reveal-delay-1" style="margin-top: 12px; display: inline-block">→
+            découvrir l'histoire de la synthèse modulaire</a>
         </article>
       </div>
     </section>
@@ -128,24 +163,33 @@
         <div>
           <h4 class="footer-col-title">navigation</h4>
           <ul style="list-style: none">
-            <li style="margin-bottom: 8px"><a href="../" class="nav-link" style="font-family: var(--font-body); font-size: 14px">accueil</a></li>
-            <li style="margin-bottom: 8px"><a href="../le-cours/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">le cours</a></li>
-            <li style="margin-bottom: 8px"><a href="../histoire/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">histoire</a></li>
-            <li style="margin-bottom: 8px"><a href="../atelier/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">atelier</a></li>
-            <li style="margin-bottom: 8px"><a href="../a-propos/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">à propos</a></li>
-            <li><a href="../contact/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">contact</a></li>
+            <li style="margin-bottom: 8px"><a href="../" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">accueil</a></li>
+            <li style="margin-bottom: 8px"><a href="../le-cours/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">le cours</a></li>
+            <li style="margin-bottom: 8px"><a href="../histoire/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">histoire</a></li>
+            <li style="margin-bottom: 8px"><a href="../atelier/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">atelier</a></li>
+            <li style="margin-bottom: 8px"><a href="../a-propos/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">à propos</a></li>
+            <li><a href="../contact/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">contact</a></li>
           </ul>
         </div>
         <div>
           <h4 class="footer-col-title">newsletter</h4>
-          <p style="font-family: var(--font-body); font-size: 14px; color: var(--color-text); margin-bottom: 12px">recevoir les prochaines leçons par email</p>
+          <p style="font-family: var(--font-body); font-size: 14px; color: var(--color-text); margin-bottom: 12px">
+            recevoir les prochaines leçons par email</p>
           <a href="../contact/" class="cta" style="font-size: 12px">s'inscrire →</a>
         </div>
         <div>
           <h4 class="footer-col-title">informations</h4>
           <ul style="list-style: none">
-            <li style="margin-bottom: 8px"><a href="../mentions-legales/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">mentions légales</a></li>
-            <li style="font-family: var(--font-body); font-size: 14px; color: var(--color-text-secondary)">© 2026 modulr lab</li>
+            <li style="margin-bottom: 8px"><a href="../mentions-legales/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">mentions légales</a></li>
+            <li style="font-family: var(--font-body); font-size: 14px; color: var(--color-text-secondary)">© 2026 modulr
+              lab</li>
           </ul>
         </div>
       </div>
@@ -153,4 +197,5 @@
   </footer>
 
 </body>
+
 </html>
