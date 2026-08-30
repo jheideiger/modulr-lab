@@ -666,33 +666,6 @@ a {
     transition-delay: 0.3s;
 }
 
-/* --- Curseur personnalisé --- */
-.custom-cursor {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 12px;
-    height: 12px;
-    background: var(--color-accent);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9999;
-    transform: translate(-50%, -50%);
-    transition: width 0.2s ease, height 0.2s ease, background 0.2s ease, opacity 0.2s ease;
-    opacity: 0;
-    mix-blend-mode: difference;
-}
-
-.custom-cursor.is-active {
-    opacity: 1;
-}
-
-.custom-cursor.is-hovering {
-    width: 40px;
-    height: 40px;
-    background: var(--color-accent);
-}
-
 /* --- Hover sophistiqué sur les lesson-cards du sommaire --- */
 .lesson-card .lesson-card-number {
     transition: color 0.3s ease, transform 0.3s ease;
@@ -742,6 +715,37 @@ a {
 
 .read-more:hover::after {
     transform: translateX(4px);
+}
+
+/* --- Hover renforcés sur les liens de contenu --- */
+.nav-link,
+.cta,
+.read-more {
+    position: relative;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 0;
+    height: 1px;
+    background: var(--color-accent);
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+/* --- Hover sur les liens du sommaire (le cours / histoire) --- */
+.lesson-card {
+    transition: padding-left 0.3s ease;
+}
+
+.lesson-card:hover {
+    padding-left: 12px;
 }
 
 /* =========================================================
