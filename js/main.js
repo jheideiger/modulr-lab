@@ -34,6 +34,32 @@ if (burger && menuOverlay && menuClose) {
     });
 }
 
+// --- Indication de la rubrique active dans la navigation ---
+function setActiveNavLink() {
+    const normalize = (path) => (path.endsWith('/') || path.includes('.') ? path : path + '/');
+    const currentPath = normalize(window.location.pathname);
+    const navLinks = document.querySelectorAll('.nav-link, .menu-overlay nav a');
+
+    navLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        if (!href) return;
+
+        const linkPath = normalize(new URL(href, window.location.href).pathname);
+        const isHomeLink = linkPath === '/';
+
+        const isActive = isHomeLink
+            ? currentPath === '/'
+            : currentPath === linkPath || currentPath.startsWith(linkPath);
+
+        if (isActive) {
+            link.classList.add('nav-link--active');
+            link.setAttribute('aria-current', 'page');
+        }
+    });
+}
+
+setActiveNavLink();
+
 // --- Animations au scroll (IntersectionObserver) ---
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -191,11 +217,22 @@ if (newsletterForm && newsletterSuccess) {
         document.getElementById('newsletter-error').classList.remove('is-visible');
     });
 }
-// --- Toggle son immersif (icône fixe, accueil) ---
+// --- Toggle son immersif (préférence mémorisée entre les pages) ---
 const soundToggle = document.getElementById('sound-toggle');
 const ambientAudio = document.getElementById('ambient-audio');
 
 if (soundToggle && ambientAudio) {
+
+    // Au chargement de CHAQUE page : si le son était activé avant de naviguer, on le relance
+    if (sessionStorage.getItem('modulr-sound-on') === 'true') {
+        ambientAudio.volume = 0.5;
+        ambientAudio.play().catch(() => {
+            // Si le navigateur bloque la reprise automatique, l'état visuel reste correct au clic suivant
+        });
+        soundToggle.setAttribute('aria-pressed', 'true');
+        soundToggle.setAttribute('aria-label', "Couper l'immersion sonore");
+    }
+
     soundToggle.addEventListener('click', () => {
         const isActive = soundToggle.getAttribute('aria-pressed') === 'true';
 
@@ -203,11 +240,13 @@ if (soundToggle && ambientAudio) {
             ambientAudio.pause();
             soundToggle.setAttribute('aria-pressed', 'false');
             soundToggle.setAttribute('aria-label', "Activer l'immersion sonore");
+            sessionStorage.setItem('modulr-sound-on', 'false');
         } else {
             ambientAudio.volume = 0.5;
             ambientAudio.play().catch(() => { });
             soundToggle.setAttribute('aria-pressed', 'true');
             soundToggle.setAttribute('aria-label', "Couper l'immersion sonore");
+            sessionStorage.setItem('modulr-sound-on', 'true');
         }
     });
 
