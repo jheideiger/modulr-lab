@@ -191,3 +191,27 @@ if (newsletterForm && newsletterSuccess) {
         document.getElementById('newsletter-error').classList.remove('is-visible');
     });
 }
+// --- Toggle son immersif (icône fixe, accueil) ---
+const soundToggle = document.getElementById('sound-toggle');
+const ambientAudio = document.getElementById('ambient-audio');
+
+if (soundToggle && ambientAudio) {
+    soundToggle.addEventListener('click', () => {
+        const isActive = soundToggle.getAttribute('aria-pressed') === 'true';
+
+        if (isActive) {
+            ambientAudio.pause();
+            soundToggle.setAttribute('aria-pressed', 'false');
+            soundToggle.setAttribute('aria-label', "Activer l'immersion sonore");
+        } else {
+            ambientAudio.volume = 0.5;
+            ambientAudio.play().catch(() => { });
+            soundToggle.setAttribute('aria-pressed', 'true');
+            soundToggle.setAttribute('aria-label', "Couper l'immersion sonore");
+        }
+    });
+
+    window.addEventListener('pagehide', () => {
+        ambientAudio.pause();
+    });
+}
