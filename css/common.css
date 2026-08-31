@@ -748,6 +748,71 @@ a {
     padding-left: 12px;
 }
 
+/* --- Toggle son immersif (icône fixe, accueil) --- */
+.sound-toggle {
+    position: fixed;
+    left: 64px;
+    bottom: 40px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid var(--color-border);
+    background: var(--color-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--color-text-secondary);
+    z-index: 50;
+    transition: border-color 0.3s ease, color 0.3s ease;
+}
+
+.sound-toggle:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+}
+
+.sound-toggle[aria-pressed="true"] {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+}
+
+.sound-waveform-svg {
+    width: 20px;
+    height: 10px;
+}
+
+.wave-flat {
+    opacity: 1;
+    transition: opacity 0.4s ease;
+}
+
+.wave-active {
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.sound-toggle[aria-pressed="true"] .wave-flat {
+    opacity: 0;
+}
+
+.sound-toggle[aria-pressed="true"] .wave-active {
+    opacity: 1;
+    animation: wave-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes wave-pulse {
+
+    0%,
+    100% {
+        transform: scaleY(1);
+    }
+
+    50% {
+        transform: scaleY(0.55);
+    }
+}
+
 /* =========================================================
    RESPONSIVE
    ========================================================= */
@@ -883,6 +948,11 @@ a {
     /* Curseur custom désactivé sur mobile (écran tactile) */
     .custom-cursor {
         display: none;
+    }
+
+    .sound-toggle {
+        left: 24px;
+        bottom: 24px;
     }
 }
 
