@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script src="../js/lang.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>modulr lab — understanding eurorack</title>
+  <meta name="description" content="Learn Eurorack modular synthesis for free: signal, harmonics, VCO, VCF, VCA, and your first patch in 4 clear, jargon-free lessons.">
+  <link rel="canonical" href="https://modulrlab.com/en/">
+  <link rel="alternate" hreflang="fr" href="https://modulrlab.com/">
+  <link rel="alternate" hreflang="en" href="https://modulrlab.com/en/">
+  <link rel="alternate" hreflang="x-default" href="https://modulrlab.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:title" content="modulr lab — understanding eurorack">
+  <meta property="og:description" content="Learn Eurorack modular synthesis for free: signal, harmonics, VCO, VCF, VCA, and your first patch in 4 clear, jargon-free lessons.">
+  <meta property="og:url" content="https://modulrlab.com/en/">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/common.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../js/main.js" defer></script>
+</head>
+<body>
+
+  <button class="sound-toggle" id="sound-toggle" type="button" aria-pressed="false" aria-label="Turn on ambient sound" title="ambient sound">
+    <svg class="sound-waveform-svg" viewBox="0 0 32 16" xmlns="http://www.w3.org/2000/svg">
+      <path class="wave-flat" d="M2,8 L30,8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      <path class="wave-active" d="M2,8 C6,3 6,3 10,8 C14,13 14,13 18,8 C22,3 22,3 26,8 C28,10.5 28,10.5 30,8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+  </button>
+  <audio id="ambient-audio" loop preload="none">
+    <source src="../audio/ambient-loop.mp3" type="audio/mpeg">
+  </audio>
+
+  <header class="site-header page-container">
+    <a href="./" class="logo-link">modulr lab</a>
+    <nav class="desktop-nav">
+      <a href="./le-cours/" class="nav-link">the course</a>
+      <a href="./histoire/" class="nav-link">history</a>
+      <a href="./atelier/" class="nav-link">workshop</a>
+      <a href="./about/" class="nav-link">about</a>
+      <a href="./contact/" class="nav-link">contact</a>
+      <button class="nav-link lang-switch" onclick="switchLang('fr')" type="button">FR</button>
+    </nav>
+    <button class="burger" aria-label="Open menu" aria-expanded="false" aria-controls="menu-overlay"><span></span><span></span><span></span></button>
+  </header>
+
+  <div class="menu-overlay" id="menu-overlay" role="dialog" aria-modal="true" aria-label="Navigation menu" aria-hidden="true" inert>
+    <div class="menu-overlay-header">
+      <a href="./" class="logo-link">modulr lab</a>
+      <button class="menu-close" aria-label="Close menu">✕</button>
+    </div>
+    <nav>
+      <a href="./le-cours/">the course</a>
+      <a href="./histoire/">history</a>
+      <a href="./atelier/">workshop</a>
+      <a href="./about/">about</a>
+      <a href="./contact/">contact</a>
+      <button class="nav-link lang-switch" onclick="switchLang('fr')" type="button">FR</button>
+    </nav>
+  </div>
+
+  <main>
+
+    <section class="page-container">
+      <div class="row-grid">
+        <div class="rail-label">→ starting out</div>
+        <div class="lessons-grid">
+          <article class="reveal">
+            <h3 class="lesson-title-lg">what is a signal?</h3>
+            <p class="lesson-desc" style="max-width: 38ch">↳ understanding the raw material of modular synthesis before touching your first cable</p>
+            <p class="lesson-meta">lesson 1 · 12 min read · video included</p>
+          </article>
+          <article class="lesson-offset-80 reveal reveal-delay-1">
+            <h3 class="lesson-title-sm">sound and harmonics</h3>
+            <p class="lesson-desc">↳ where the timbre of things comes from</p>
+            <p class="lesson-meta">lesson 2 · 14 min read</p>
+          </article>
+          <article class="lesson-offset-32 reveal reveal-delay-2">
+            <h3 class="lesson-title-sm">a tour of the modules</h3>
+            <p class="lesson-desc">↳ VCO, VCF, VCA, LFO: what they're actually for</p>
+            <p class="lesson-meta">lesson 3 · 18 min read</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label rail-label--accent">recently ↘</div>
+        <div>
+          <h1 class="hero-title reveal">understanding<br>eurorack.</h1>
+          <p class="hero-lead reveal reveal-delay-1">a free, open introduction — no detours, no jargon.</p>
+          <p class="hero-meta reveal reveal-delay-2">4 lessons → self-paced · for the curious beginner</p>
+          <a href="./le-cours/intro/" class="cta reveal reveal-delay-3">→ start lesson 1</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ manifesto</div>
+        <div>
+          <p class="manifesto-text reveal">Modular synthesis isn't just a technique — it's a way of thinking about sound. Where a classic synthesizer offers a fixed path from oscillator to output, the modular opens up a field where every cable you plug in redraws the signal's route.</p>
+          <p class="manifesto-text reveal reveal-delay-1">modulr lab was born from a simple wish: to share this practice with anyone who's heard of it but never quite dared to jump in. No displays of virtuosity, no gratuitous jargon — just the basics, laid out clearly, so you can decide for yourself whether this world is for you.</p>
+          <a href="./about/" class="read-more reveal reveal-delay-2" style="margin-top: 12px; display: inline-block">read the full manifesto →</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="page-container footer">
+    <div class="footer-layout">
+      <div class="footer-brand">modulr lab</div>
+      <div class="footer-grid">
+        <div>
+          <h4 class="footer-col-title">navigation</h4>
+          <ul style="list-style: none">
+            <li style="margin-bottom: 8px"><a href="./" class="nav-link" style="font-family: var(--font-body); font-size: 14px">home</a></li>
+            <li style="margin-bottom: 8px"><a href="./le-cours/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">the course</a></li>
+            <li style="margin-bottom: 8px"><a href="./histoire/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">history</a></li>
+            <li style="margin-bottom: 8px"><a href="./atelier/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">workshop</a></li>
+            <li style="margin-bottom: 8px"><a href="./about/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">about</a></li>
+            <li><a href="./contact/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-col-title">newsletter</h4>
+          <p style="font-family: var(--font-body); font-size: 14px; color: var(--color-text); margin-bottom: 12px">get notified about new lessons</p>
+          <a href="./contact/" class="cta" style="font-size: 12px">sign up →</a>
+        </div>
+        <div>
+          <h4 class="footer-col-title">information</h4>
+          <ul style="list-style: none">
+            <li style="margin-bottom: 8px"><a href="./legal-notice/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">legal notice</a></li>
+            <li style="font-family: var(--font-body); font-size: 14px; color: var(--color-text-secondary)">© 2026 modulr lab</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

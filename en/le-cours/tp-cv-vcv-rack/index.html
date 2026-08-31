@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script src="../../../js/lang.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>modulr lab — hands-on: control voltage in VCV Rack</title>
+  <meta name="description" content="Lesson 4: build your first patch step by step in VCV Rack, the free modular software.">
+  <link rel="canonical" href="https://modulrlab.com/en/le-cours/tp-cv-vcv-rack/">
+  <link rel="alternate" hreflang="fr" href="https://modulrlab.com/le-cours/tp-cv-vcv-rack/">
+  <link rel="alternate" hreflang="en" href="https://modulrlab.com/en/le-cours/tp-cv-vcv-rack/">
+  <link rel="alternate" hreflang="x-default" href="https://modulrlab.com/le-cours/tp-cv-vcv-rack/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:title" content="modulr lab — hands-on: control voltage in VCV Rack">
+  <meta property="og:description" content="Lesson 4: build your first patch step by step in VCV Rack, the free modular software.">
+  <meta property="og:url" content="https://modulrlab.com/en/le-cours/tp-cv-vcv-rack/">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/common.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../../js/main.js" defer></script>
+</head>
+<body>
+
+  <header class="site-header page-container">
+    <a href="../../" class="logo-link">modulr lab</a>
+    <nav class="desktop-nav">
+      <a href="../../le-cours/" class="nav-link">the course</a>
+      <a href="../../histoire/" class="nav-link">history</a>
+      <a href="../../atelier/" class="nav-link">workshop</a>
+      <a href="../../about/" class="nav-link">about</a>
+      <a href="../../contact/" class="nav-link">contact</a>
+      <button class="nav-link lang-switch" onclick="switchLang('fr')" type="button">FR</button>
+    </nav>
+    <button class="burger" aria-label="Open menu" aria-expanded="false" aria-controls="menu-overlay"><span></span><span></span><span></span></button>
+  </header>
+
+  <div class="menu-overlay" id="menu-overlay" role="dialog" aria-modal="true" aria-label="Navigation menu" aria-hidden="true" inert>
+    <div class="menu-overlay-header">
+      <a href="../../" class="logo-link">modulr lab</a>
+      <button class="menu-close" aria-label="Close menu">✕</button>
+    </div>
+    <nav>
+      <a href="../../le-cours/">the course</a>
+      <a href="../../histoire/">history</a>
+      <a href="../../atelier/">workshop</a>
+      <a href="../../about/">about</a>
+      <a href="../../contact/">contact</a>
+      <button class="nav-link lang-switch" onclick="switchLang('fr')" type="button">FR</button>
+    </nav>
+  </div>
+
+  <main>
+
+    <section class="page-container">
+      <div class="row-grid">
+        <div class="rail-label rail-label--accent">→ lesson 4</div>
+        <div>
+          <p class="lesson-meta reveal" style="margin-bottom: 16px">lesson 4 of 4 · 20 min read · hands-on</p>
+          <h1 class="hero-title reveal reveal-delay-1">control<br>voltage.</h1>
+          <p class="hero-lead reveal reveal-delay-2">hands-on practice in VCV Rack — your first patch, from start to finish.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ video</div>
+        <div class="video-container reveal">
+          <div class="video-wrapper">
+            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Lesson 4 — Hands-on: control voltage in VCV Rack" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ text</div>
+        <article class="lesson-content">
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">VCV Rack: modular without the budget.</h2>
+          <p class="manifesto-text reveal">VCV Rack is a free, open-source piece of software that simulates a Eurorack modular system on your computer. The interface faithfully reproduces the physical experience: modules in a rack, cables to plug, knobs to turn. It's the perfect tool for learning without spending a cent.</p>
+          <p class="manifesto-text reveal">Download VCV Rack from vcvrack.com, install it, and launch it. You'll find yourself facing an empty rack. That's normal — in the modular world, everything starts with an empty space and choices to make.</p>
+
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">step 1: an oscillator and an output.</h2>
+          <p class="manifesto-text reveal">The simplest patch in the world: a VCO plugged directly into the audio output. In VCV Rack, add a VCO-1 module (right-click the rack → add the Fundamental VCO-1 module) and an Audio module (Fundamental Audio). Plug the VCO's SAW output into the Audio module's input.</p>
+          <p class="manifesto-text reveal">You should hear a continuous sound: a raw sawtooth. It's a bit harsh, but it's your first patch. You've just created a signal path: oscillator → output. Now let's make it interesting.</p>
+
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">step 2: add a filter.</h2>
+          <p class="manifesto-text reveal">Add a VCF module (Fundamental VCF). Unplug the cable between the VCO and the Audio module, and insert the filter between them: VCO → VCF → Audio. Turn the filter's FREQ knob: you'll hear the sound open and close. That's the cutoff frequency at work.</p>
+          <p class="manifesto-text reveal">Now, bring up the RES (resonance) knob a bit. The filter starts to whistle slightly around the cutoff frequency — that's resonance boosting the frequencies near the cutoff. That characteristic sound is the signature of subtractive synthesis.</p>
+
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">step 3: add movement with an LFO.</h2>
+          <p class="manifesto-text reveal">The sound is static. Add an LFO-1 module (Fundamental LFO-1). Plug its TRI (triangle) output into the filter's CV input (the one labeled FREQ CV). Set the LFO's frequency fairly low — around 1 Hz.</p>
+          <p class="manifesto-text reveal">The filter opens and closes on its own, rhythmically. The LFO sends a voltage that rises and falls slowly, and that voltage controls the filter's cutoff frequency. You've just discovered modular's core principle: a signal controlling a parameter. That's what Control Voltage means.</p>
+
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">step 4: an envelope to play notes.</h2>
+          <p class="manifesto-text reveal">Right now, the sound runs continuously. Add an ADSR module (Fundamental ADSR) and a VCA module (Fundamental VCA). Plug: VCF → VCA → Audio. Then plug the ADSR's output into the VCA's CV input.</p>
+          <p class="manifesto-text reveal">The ADSR needs a trigger signal (gate) to work. Add a SEQ-3 module (sequencer) or simply a gate button. Each gate pulse triggers the envelope: the sound appears, holds, and fades according to the Attack, Decay, Sustain and Release settings.</p>
+          <p class="manifesto-text reveal">Congratulations — you have a complete patch: oscillator → filter → amplifier, controlled by an LFO and an envelope. That's the fundamental patch of subtractive synthesis, the one 90% of electronic music is built on.</p>
+
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">what now?</h2>
+          <p class="manifesto-text reveal">This course gave you the basics: signal, harmonics, fundamental modules, and your first patch. You're not an expert — but you now have the keys to understand what you're doing, and to explore on your own.</p>
+          <p class="manifesto-text reveal">Modular is an endless playground. Every cable you plug in differently creates a new configuration, a sound no one has heard before. There's no wrong patch — there are only experiments that teach you something.</p>
+          <p class="manifesto-text reveal">If this introduction made you want to go further, explore VCV Rack's modules, watch patching videos, join the community. And if you have questions or feedback, feel free to write to us.</p>
+          <a href="../../contact/" class="cta reveal" style="margin-top: 16px; display: inline-block">→ get in touch</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ end</div>
+        <nav class="lesson-nav reveal">
+          <a href="../les-modules/" class="lesson-nav-prev">
+            <span class="lesson-nav-label">← previous lesson</span>
+            <span class="lesson-nav-title">a tour of the modules</span>
+          </a>
+          <a href="../" class="lesson-nav-next">
+            <span class="lesson-nav-label">back to syllabus →</span>
+            <span class="lesson-nav-title">the course</span>
+          </a>
+        </nav>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="page-container footer">
+    <div class="footer-layout">
+      <div class="footer-brand">modulr lab</div>
+      <div class="footer-grid">
+        <div>
+          <h4 class="footer-col-title">navigation</h4>
+          <ul style="list-style: none">
+            <li style="margin-bottom: 8px"><a href="../../" class="nav-link" style="font-family: var(--font-body); font-size: 14px">home</a></li>
+            <li style="margin-bottom: 8px"><a href="../../le-cours/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">the course</a></li>
+            <li style="margin-bottom: 8px"><a href="../../histoire/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">history</a></li>
+            <li style="margin-bottom: 8px"><a href="../../atelier/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">workshop</a></li>
+            <li style="margin-bottom: 8px"><a href="../../about/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">about</a></li>
+            <li><a href="../../contact/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-col-title">newsletter</h4>
+          <p style="font-family: var(--font-body); font-size: 14px; color: var(--color-text); margin-bottom: 12px">get notified about new lessons</p>
+          <a href="../../contact/" class="cta" style="font-size: 12px">sign up →</a>
+        </div>
+        <div>
+          <h4 class="footer-col-title">information</h4>
+          <ul style="list-style: none">
+            <li style="margin-bottom: 8px"><a href="../../legal-notice/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">legal notice</a></li>
+            <li style="font-family: var(--font-body); font-size: 14px; color: var(--color-text-secondary)">© 2026 modulr lab</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
