@@ -993,3 +993,11 @@ a {
         transition: none;
     }
 }
+
+.lang-switch {
+    background: none;
+    border: none;
+    font: inherit;
+    cursor: pointer;
+    padding: 0;
+}
