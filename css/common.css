@@ -236,6 +236,15 @@ a {
     color: var(--color-accent);
 }
 
+/* --- Indication de la rubrique active --- */
+.nav-link.nav-link--active::after {
+    width: 100%;
+}
+
+.menu-overlay nav a.nav-link--active {
+    color: var(--color-accent);
+}
+
 .cta {
     font-family: var(--font-display);
     font-size: 14px;
