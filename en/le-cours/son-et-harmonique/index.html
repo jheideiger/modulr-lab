@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <script src="../../../js/lang.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>modulr lab — sound and harmonics</title>
-  <meta name="description" content="Lesson 2: frequency, harmonics, timbre and waveforms — the acoustic basics for understanding an oscillator.">
+  <meta name="description"
+    content="Lesson 2: frequency, harmonics, timbre and waveforms — the acoustic basics for understanding an oscillator.">
   <link rel="canonical" href="https://modulrlab.com/en/le-cours/son-et-harmonique/">
   <link rel="alternate" hreflang="fr" href="https://modulrlab.com/le-cours/son-et-harmonique/">
   <link rel="alternate" hreflang="en" href="https://modulrlab.com/en/le-cours/son-et-harmonique/">
@@ -13,16 +15,20 @@
   <meta property="og:type" content="website">
   <meta property="og:locale" content="en_US">
   <meta property="og:title" content="modulr lab — sound and harmonics">
-  <meta property="og:description" content="Lesson 2: frequency, harmonics, timbre and waveforms — the acoustic basics for understanding an oscillator.">
+  <meta property="og:description"
+    content="Lesson 2: frequency, harmonics, timbre and waveforms — the acoustic basics for understanding an oscillator.">
   <meta property="og:url" content="https://modulrlab.com/en/le-cours/son-et-harmonique/">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Manrope:wght@400;500;700&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="../../../css/common.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="../../../js/main.js" defer></script>
 </head>
+
 <body>
 
   <header class="site-header page-container">
@@ -35,10 +41,12 @@
       <a href="../../contact/" class="nav-link">contact</a>
       <button class="nav-link lang-switch" onclick="switchLang('fr')" type="button">FR</button>
     </nav>
-    <button class="burger" aria-label="Open menu" aria-expanded="false" aria-controls="menu-overlay"><span></span><span></span><span></span></button>
+    <button class="burger" aria-label="Open menu" aria-expanded="false"
+      aria-controls="menu-overlay"><span></span><span></span><span></span></button>
   </header>
 
-  <div class="menu-overlay" id="menu-overlay" role="dialog" aria-modal="true" aria-label="Navigation menu" aria-hidden="true" inert>
+  <div class="menu-overlay" id="menu-overlay" role="dialog" aria-modal="true" aria-label="Navigation menu"
+    aria-hidden="true" inert>
     <div class="menu-overlay-header">
       <a href="../../" class="logo-link">modulr lab</a>
       <button class="menu-close" aria-label="Close menu">✕</button>
@@ -61,7 +69,8 @@
         <div>
           <p class="lesson-meta reveal" style="margin-bottom: 16px">lesson 2 of 4 · 14 min read</p>
           <h1 class="hero-title reveal reveal-delay-1">sound and<br>harmonics.</h1>
-          <p class="hero-lead reveal reveal-delay-2">where the timbre of things comes from — and how an oscillator builds sound out of nothing.</p>
+          <p class="hero-lead reveal reveal-delay-2">where the timbre of things comes from — and how an oscillator
+            builds sound out of nothing.</p>
         </div>
       </div>
     </section>
@@ -71,7 +80,10 @@
         <div class="rail-label">→ video</div>
         <div class="video-container reveal">
           <div class="video-wrapper">
-            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Lesson 2 — Sound and harmonics" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+            <iframe src="https://www.youtube.com/embed/UxStiQR4hkU" title="Lesson 2 — Sound and harmonics"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen loading="lazy"></iframe>
           </div>
         </div>
       </div>
@@ -82,21 +94,42 @@
         <div class="rail-label">→ text</div>
         <article class="lesson-content">
           <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">it all starts with a vibration.</h2>
-          <p class="manifesto-text reveal">A sound is air moving. More precisely, it's a pressure variation propagating through the air as a wave. When that wave reaches your eardrum, it makes it vibrate — and your brain interprets that vibration as sound.</p>
-          <p class="manifesto-text reveal">The most fundamental trait of a sound is its frequency: how many times the wave oscillates per second, measured in Hertz (Hz). A frequency of 440 Hz means the air vibrates 440 times a second — that's the note A, the one orchestras tune to.</p>
-          <p class="manifesto-text reveal">The higher the frequency, the higher-pitched the sound. The lower it is, the deeper the sound. The human ear perceives frequencies roughly between 20 Hz and 20,000 Hz.</p>
+          <p class="manifesto-text reveal">A sound is air moving. More precisely, it's a pressure variation propagating
+            through the air as a wave. When that wave reaches your eardrum, it makes it vibrate — and your brain
+            interprets that vibration as sound.</p>
+          <p class="manifesto-text reveal">The most fundamental trait of a sound is its frequency: how many times the
+            wave oscillates per second, measured in Hertz (Hz). A frequency of 440 Hz means the air vibrates 440 times a
+            second — that's the note A, the one orchestras tune to.</p>
+          <p class="manifesto-text reveal">The higher the frequency, the higher-pitched the sound. The lower it is, the
+            deeper the sound. The human ear perceives frequencies roughly between 20 Hz and 20,000 Hz.</p>
 
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">the sine wave: the purest sound.</h2>
-          <p class="manifesto-text reveal">The simplest waveform is the sine wave. It's a perfectly smooth curve that rises and falls regularly. It contains only a single frequency — no complexity, no texture. It's the "barest" sound that exists.</p>
-          <p class="manifesto-text reveal">In practice, a pure sine wave sounds like a soft whistle, a bit like a phone's beep. It's a sound with no character, no personality. And that's exactly why it's interesting: it serves as the basic building block for understanding every other sound.</p>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">the sine wave: the purest
+            sound.</h2>
+          <p class="manifesto-text reveal">The simplest waveform is the sine wave. It's a perfectly smooth curve that
+            rises and falls regularly. It contains only a single frequency — no complexity, no texture. It's the
+            "barest" sound that exists.</p>
+          <p class="manifesto-text reveal">In practice, a pure sine wave sounds like a soft whistle, a bit like a
+            phone's beep. It's a sound with no character, no personality. And that's exactly why it's interesting: it
+            serves as the basic building block for understanding every other sound.</p>
 
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">harmonics: where character comes from.</h2>
-          <p class="manifesto-text reveal">In real life, no instrument produces a pure sine wave. A guitar, a voice, a violin — all produce a sound made up of several simultaneous frequencies. The lowest of these frequencies is called the fundamental, and all the others are harmonics.</p>
-          <p class="manifesto-text reveal">Harmonics are multiples of the fundamental. If your fundamental is at 100 Hz, the harmonics will be at 200 Hz, 300 Hz, 400 Hz, and so on. It's the mix of these harmonics — how many there are, their relative intensity — that creates a sound's timbre. That's what lets you tell a guitar apart from a piano even when they play the same note.</p>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">harmonics: where character
+            comes from.</h2>
+          <p class="manifesto-text reveal">In real life, no instrument produces a pure sine wave. A guitar, a voice, a
+            violin — all produce a sound made up of several simultaneous frequencies. The lowest of these frequencies is
+            called the fundamental, and all the others are harmonics.</p>
+          <p class="manifesto-text reveal">Harmonics are multiples of the fundamental. If your fundamental is at 100 Hz,
+            the harmonics will be at 200 Hz, 300 Hz, 400 Hz, and so on. It's the mix of these harmonics — how many there
+            are, their relative intensity — that creates a sound's timbre. That's what lets you tell a guitar apart from
+            a piano even when they play the same note.</p>
 
           <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">the classic waveforms.</h2>
-          <p class="manifesto-text reveal">In a synthesizer, the oscillator (VCO) generates electrical waveforms that correspond to different mixes of harmonics. The four classic shapes are the sine (no harmonics), the triangle (weak odd harmonics), the sawtooth (all harmonics, very rich), and the square (strong odd harmonics, a hollow, nasal sound).</p>
-          <p class="manifesto-text reveal">Each waveform has its own color, texture, character. And it's by combining them, filtering them, modulating them that you sculpt sound in a modular system. That's exactly what we'll look at in the next lesson: what the modules that process these signals are actually for.</p>
+          <p class="manifesto-text reveal">In a synthesizer, the oscillator (VCO) generates electrical waveforms that
+            correspond to different mixes of harmonics. The four classic shapes are the sine (no harmonics), the
+            triangle (weak odd harmonics), the sawtooth (all harmonics, very rich), and the square (strong odd
+            harmonics, a hollow, nasal sound).</p>
+          <p class="manifesto-text reveal">Each waveform has its own color, texture, character. And it's by combining
+            them, filtering them, modulating them that you sculpt sound in a modular system. That's exactly what we'll
+            look at in the next lesson: what the modules that process these signals are actually for.</p>
         </article>
       </div>
     </section>
@@ -126,24 +159,33 @@
         <div>
           <h4 class="footer-col-title">navigation</h4>
           <ul style="list-style: none">
-            <li style="margin-bottom: 8px"><a href="../../" class="nav-link" style="font-family: var(--font-body); font-size: 14px">home</a></li>
-            <li style="margin-bottom: 8px"><a href="../../le-cours/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">the course</a></li>
-            <li style="margin-bottom: 8px"><a href="../../histoire/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">history</a></li>
-            <li style="margin-bottom: 8px"><a href="../../atelier/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">workshop</a></li>
-            <li style="margin-bottom: 8px"><a href="../../about/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">about</a></li>
-            <li><a href="../../contact/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">contact</a></li>
+            <li style="margin-bottom: 8px"><a href="../../" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">home</a></li>
+            <li style="margin-bottom: 8px"><a href="../../le-cours/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">the course</a></li>
+            <li style="margin-bottom: 8px"><a href="../../histoire/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">history</a></li>
+            <li style="margin-bottom: 8px"><a href="../../atelier/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">workshop</a></li>
+            <li style="margin-bottom: 8px"><a href="../../about/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">about</a></li>
+            <li><a href="../../contact/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">contact</a></li>
           </ul>
         </div>
         <div>
           <h4 class="footer-col-title">newsletter</h4>
-          <p style="font-family: var(--font-body); font-size: 14px; color: var(--color-text); margin-bottom: 12px">get notified about new lessons</p>
+          <p style="font-family: var(--font-body); font-size: 14px; color: var(--color-text); margin-bottom: 12px">get
+            notified about new lessons</p>
           <a href="../../contact/" class="cta" style="font-size: 12px">sign up →</a>
         </div>
         <div>
           <h4 class="footer-col-title">information</h4>
           <ul style="list-style: none">
-            <li style="margin-bottom: 8px"><a href="../../legal-notice/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">legal notice</a></li>
-            <li style="font-family: var(--font-body); font-size: 14px; color: var(--color-text-secondary)">© 2026 modulr lab</li>
+            <li style="margin-bottom: 8px"><a href="../../legal-notice/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">legal notice</a></li>
+            <li style="font-family: var(--font-body); font-size: 14px; color: var(--color-text-secondary)">© 2026 modulr
+              lab</li>
           </ul>
         </div>
       </div>
@@ -151,4 +193,5 @@
   </footer>
 
 </body>
+
 </html>
