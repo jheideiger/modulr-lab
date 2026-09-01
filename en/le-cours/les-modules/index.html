@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <script src="../../../js/lang.js"></script>
@@ -13,16 +14,20 @@
   <meta property="og:type" content="website">
   <meta property="og:locale" content="en_US">
   <meta property="og:title" content="modulr lab — a tour of the modules">
-  <meta property="og:description" content="Lesson 3: what the VCO, VCF, VCA, LFO and envelope are for in a modular system.">
+  <meta property="og:description"
+    content="Lesson 3: what the VCO, VCF, VCA, LFO and envelope are for in a modular system.">
   <meta property="og:url" content="https://modulrlab.com/en/le-cours/les-modules/">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Manrope:wght@400;500;700&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="../../../css/common.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="../../../js/main.js" defer></script>
 </head>
+
 <body>
 
   <header class="site-header page-container">
@@ -35,10 +40,12 @@
       <a href="../../contact/" class="nav-link">contact</a>
       <button class="nav-link lang-switch" onclick="switchLang('fr')" type="button">FR</button>
     </nav>
-    <button class="burger" aria-label="Open menu" aria-expanded="false" aria-controls="menu-overlay"><span></span><span></span><span></span></button>
+    <button class="burger" aria-label="Open menu" aria-expanded="false"
+      aria-controls="menu-overlay"><span></span><span></span><span></span></button>
   </header>
 
-  <div class="menu-overlay" id="menu-overlay" role="dialog" aria-modal="true" aria-label="Navigation menu" aria-hidden="true" inert>
+  <div class="menu-overlay" id="menu-overlay" role="dialog" aria-modal="true" aria-label="Navigation menu"
+    aria-hidden="true" inert>
     <div class="menu-overlay-header">
       <a href="../../" class="logo-link">modulr lab</a>
       <button class="menu-close" aria-label="Close menu">✕</button>
@@ -61,7 +68,8 @@
         <div>
           <p class="lesson-meta reveal" style="margin-bottom: 16px">lesson 3 of 4 · 18 min read</p>
           <h1 class="hero-title reveal reveal-delay-1">a tour of<br>the modules.</h1>
-          <p class="hero-lead reveal reveal-delay-2">VCO, VCF, VCA, LFO: what the fundamental building blocks of modular are actually for.</p>
+          <p class="hero-lead reveal reveal-delay-2">VCO, VCF, VCA, LFO: what the fundamental building blocks of modular
+            are actually for.</p>
         </div>
       </div>
     </section>
@@ -71,7 +79,10 @@
         <div class="rail-label">→ video</div>
         <div class="video-container reveal">
           <div class="video-wrapper">
-            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Lesson 3 — A tour of the modules" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+            <iframe src="https://www.youtube.com/embed/UxStiQR4hkU" title="Lesson 3 — A tour of the modules"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen loading="lazy"></iframe>
           </div>
         </div>
       </div>
@@ -82,23 +93,47 @@
         <div class="rail-label">→ text</div>
         <article class="lesson-content">
           <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">the VCO: where sound is born.</h2>
-          <p class="manifesto-text reveal">The VCO (Voltage Controlled Oscillator) is the modular's sound source. It's the one generating the waveforms we saw in the previous lesson: sine, triangle, sawtooth, square. Without an oscillator, there's no sound — it's the starting point of every patch.</p>
-          <p class="manifesto-text reveal">What makes the VCO "voltage controlled" is that its frequency (the note's pitch) is controlled by a CV signal. Send 1 volt to the VCO's CV input, and the note goes up an octave. That's the 1V/octave convention, standard across Eurorack. This means a sequencer or a keyboard can "play" the oscillator simply by sending the right voltage.</p>
+          <p class="manifesto-text reveal">The VCO (Voltage Controlled Oscillator) is the modular's sound source. It's
+            the one generating the waveforms we saw in the previous lesson: sine, triangle, sawtooth, square. Without an
+            oscillator, there's no sound — it's the starting point of every patch.</p>
+          <p class="manifesto-text reveal">What makes the VCO "voltage controlled" is that its frequency (the note's
+            pitch) is controlled by a CV signal. Send 1 volt to the VCO's CV input, and the note goes up an octave.
+            That's the 1V/octave convention, standard across Eurorack. This means a sequencer or a keyboard can "play"
+            the oscillator simply by sending the right voltage.</p>
 
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">the VCF: sculpting timbre.</h2>
-          <p class="manifesto-text reveal">The VCF (Voltage Controlled Filter) is modular's sculptor. It takes a signal rich in harmonics — typically a sawtooth — and removes certain frequencies to change its timbre.</p>
-          <p class="manifesto-text reveal">The most common filter is the low-pass filter: it lets low frequencies through and cuts the highs. By turning the cutoff frequency knob, you open or close the filter, making the sound brighter or darker. It's the most iconic gesture of subtractive synthesis.</p>
-          <p class="manifesto-text reveal">And since it's a VCF, that cutoff frequency can itself be controlled by a voltage. Plug an envelope into the filter's CV input, and the timbre will evolve over time — that's how you get those sounds that open up and then close back down, everywhere in electronic music.</p>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">the VCF: sculpting timbre.
+          </h2>
+          <p class="manifesto-text reveal">The VCF (Voltage Controlled Filter) is modular's sculptor. It takes a signal
+            rich in harmonics — typically a sawtooth — and removes certain frequencies to change its timbre.</p>
+          <p class="manifesto-text reveal">The most common filter is the low-pass filter: it lets low frequencies
+            through and cuts the highs. By turning the cutoff frequency knob, you open or close the filter, making the
+            sound brighter or darker. It's the most iconic gesture of subtractive synthesis.</p>
+          <p class="manifesto-text reveal">And since it's a VCF, that cutoff frequency can itself be controlled by a
+            voltage. Plug an envelope into the filter's CV input, and the timbre will evolve over time — that's how you
+            get those sounds that open up and then close back down, everywhere in electronic music.</p>
 
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">the VCA: controlling volume.</h2>
-          <p class="manifesto-text reveal">The VCA (Voltage Controlled Amplifier) is often the least spectacular module, but it's one of the most essential. It controls a signal's volume based on a control voltage.</p>
-          <p class="manifesto-text reveal">Without a VCA, your sound loops forever without ever stopping. Plug an envelope into the VCA, and the sound will have a beginning, a middle and an end — like a piano note fading out gradually. The VCA gives sound its dimension in time.</p>
-          <p class="manifesto-text reveal">But the VCA isn't just for volume. Like everything in modular, it can be used creatively: modulating an LFO's amplitude, creating ducking effects, controlling an effect's wet/dry mix. It's a versatile tool.</p>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">the VCA: controlling volume.
+          </h2>
+          <p class="manifesto-text reveal">The VCA (Voltage Controlled Amplifier) is often the least spectacular module,
+            but it's one of the most essential. It controls a signal's volume based on a control voltage.</p>
+          <p class="manifesto-text reveal">Without a VCA, your sound loops forever without ever stopping. Plug an
+            envelope into the VCA, and the sound will have a beginning, a middle and an end — like a piano note fading
+            out gradually. The VCA gives sound its dimension in time.</p>
+          <p class="manifesto-text reveal">But the VCA isn't just for volume. Like everything in modular, it can be used
+            creatively: modulating an LFO's amplitude, creating ducking effects, controlling an effect's wet/dry mix.
+            It's a versatile tool.</p>
 
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">the LFO and envelope: movement.</h2>
-          <p class="manifesto-text reveal">The LFO (Low Frequency Oscillator) is an oscillator that vibrates too slowly to be heard — typically between 0.1 Hz and 20 Hz. It doesn't produce sound, but movement. Plugged into a VCO's pitch, it creates vibrato. Into a VCF's cutoff, a wah-wah. Into a VCA's volume, a tremolo.</p>
-          <p class="manifesto-text reveal">The envelope (EG, Envelope Generator) is a control signal that fires once and then stops. The classic model is ADSR: Attack (rise time), Decay (fall time), Sustain (held level), Release (fade-out time). It's the envelope that gives each note its shape over time.</p>
-          <p class="manifesto-text reveal">LFO and envelope are the engines of movement in a patch. Without them, sound is static, frozen. With them, it breathes, evolves, lives. In the next lesson, we'll put all of this into practice by building a first patch in VCV Rack.</p>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">the LFO and envelope:
+            movement.</h2>
+          <p class="manifesto-text reveal">The LFO (Low Frequency Oscillator) is an oscillator that vibrates too slowly
+            to be heard — typically between 0.1 Hz and 20 Hz. It doesn't produce sound, but movement. Plugged into a
+            VCO's pitch, it creates vibrato. Into a VCF's cutoff, a wah-wah. Into a VCA's volume, a tremolo.</p>
+          <p class="manifesto-text reveal">The envelope (EG, Envelope Generator) is a control signal that fires once and
+            then stops. The classic model is ADSR: Attack (rise time), Decay (fall time), Sustain (held level), Release
+            (fade-out time). It's the envelope that gives each note its shape over time.</p>
+          <p class="manifesto-text reveal">LFO and envelope are the engines of movement in a patch. Without them, sound
+            is static, frozen. With them, it breathes, evolves, lives. In the next lesson, we'll put all of this into
+            practice by building a first patch in VCV Rack.</p>
         </article>
       </div>
     </section>
@@ -128,24 +163,33 @@
         <div>
           <h4 class="footer-col-title">navigation</h4>
           <ul style="list-style: none">
-            <li style="margin-bottom: 8px"><a href="../../" class="nav-link" style="font-family: var(--font-body); font-size: 14px">home</a></li>
-            <li style="margin-bottom: 8px"><a href="../../le-cours/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">the course</a></li>
-            <li style="margin-bottom: 8px"><a href="../../histoire/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">history</a></li>
-            <li style="margin-bottom: 8px"><a href="../../atelier/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">workshop</a></li>
-            <li style="margin-bottom: 8px"><a href="../../about/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">about</a></li>
-            <li><a href="../../contact/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">contact</a></li>
+            <li style="margin-bottom: 8px"><a href="../../" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">home</a></li>
+            <li style="margin-bottom: 8px"><a href="../../le-cours/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">the course</a></li>
+            <li style="margin-bottom: 8px"><a href="../../histoire/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">history</a></li>
+            <li style="margin-bottom: 8px"><a href="../../atelier/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">workshop</a></li>
+            <li style="margin-bottom: 8px"><a href="../../about/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">about</a></li>
+            <li><a href="../../contact/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">contact</a></li>
           </ul>
         </div>
         <div>
           <h4 class="footer-col-title">newsletter</h4>
-          <p style="font-family: var(--font-body); font-size: 14px; color: var(--color-text); margin-bottom: 12px">get notified about new lessons</p>
+          <p style="font-family: var(--font-body); font-size: 14px; color: var(--color-text); margin-bottom: 12px">get
+            notified about new lessons</p>
           <a href="../../contact/" class="cta" style="font-size: 12px">sign up →</a>
         </div>
         <div>
           <h4 class="footer-col-title">information</h4>
           <ul style="list-style: none">
-            <li style="margin-bottom: 8px"><a href="../../legal-notice/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">legal notice</a></li>
-            <li style="font-family: var(--font-body); font-size: 14px; color: var(--color-text-secondary)">© 2026 modulr lab</li>
+            <li style="margin-bottom: 8px"><a href="../../legal-notice/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">legal notice</a></li>
+            <li style="font-family: var(--font-body); font-size: 14px; color: var(--color-text-secondary)">© 2026 modulr
+              lab</li>
           </ul>
         </div>
       </div>
@@ -153,4 +197,5 @@
   </footer>
 
 </body>
+
 </html>

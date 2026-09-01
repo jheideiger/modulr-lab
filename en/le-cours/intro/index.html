@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <script src="../../../js/lang.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>modulr lab — introduction to modular synthesis</title>
-  <meta name="description" content="Lesson 1: what a signal is, the difference between audio and control voltage, and the principle of a modular patch.">
+  <meta name="description"
+    content="Lesson 1: what a signal is, the difference between audio and control voltage, and the principle of a modular patch.">
   <link rel="canonical" href="https://modulrlab.com/en/le-cours/intro/">
   <link rel="alternate" hreflang="fr" href="https://modulrlab.com/le-cours/intro/">
   <link rel="alternate" hreflang="en" href="https://modulrlab.com/en/le-cours/intro/">
@@ -13,16 +15,20 @@
   <meta property="og:type" content="website">
   <meta property="og:locale" content="en_US">
   <meta property="og:title" content="modulr lab — introduction to modular synthesis">
-  <meta property="og:description" content="Lesson 1: what a signal is, the difference between audio and control voltage, and the principle of a modular patch.">
+  <meta property="og:description"
+    content="Lesson 1: what a signal is, the difference between audio and control voltage, and the principle of a modular patch.">
   <meta property="og:url" content="https://modulrlab.com/en/le-cours/intro/">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Manrope:wght@400;500;700&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="../../../css/common.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="../../../js/main.js" defer></script>
 </head>
+
 <body>
 
   <header class="site-header page-container">
@@ -35,10 +41,12 @@
       <a href="../../contact/" class="nav-link">contact</a>
       <button class="nav-link lang-switch" onclick="switchLang('fr')" type="button">FR</button>
     </nav>
-    <button class="burger" aria-label="Open menu" aria-expanded="false" aria-controls="menu-overlay"><span></span><span></span><span></span></button>
+    <button class="burger" aria-label="Open menu" aria-expanded="false"
+      aria-controls="menu-overlay"><span></span><span></span><span></span></button>
   </header>
 
-  <div class="menu-overlay" id="menu-overlay" role="dialog" aria-modal="true" aria-label="Navigation menu" aria-hidden="true" inert>
+  <div class="menu-overlay" id="menu-overlay" role="dialog" aria-modal="true" aria-label="Navigation menu"
+    aria-hidden="true" inert>
     <div class="menu-overlay-header">
       <a href="../../" class="logo-link">modulr lab</a>
       <button class="menu-close" aria-label="Close menu">✕</button>
@@ -61,7 +69,8 @@
         <div>
           <p class="lesson-meta reveal" style="margin-bottom: 16px">lesson 1 of 4 · 12 min read</p>
           <h1 class="hero-title reveal reveal-delay-1">what is a<br>signal?</h1>
-          <p class="hero-lead reveal reveal-delay-2">understanding the raw material of modular synthesis before touching your first cable.</p>
+          <p class="hero-lead reveal reveal-delay-2">understanding the raw material of modular synthesis before touching
+            your first cable.</p>
         </div>
       </div>
     </section>
@@ -71,7 +80,10 @@
         <div class="rail-label">→ video</div>
         <div class="video-container reveal">
           <div class="video-wrapper">
-            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Lesson 1 — Introduction to modular synthesis" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+            <iframe src="https://www.youtube.com/embed/UxStiQR4hkU" title="Lesson 1 — Introduction to modular synthesis"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen loading="lazy"></iframe>
           </div>
         </div>
       </div>
@@ -82,18 +94,38 @@
         <div class="rail-label">→ text</div>
         <article class="lesson-content">
           <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">sound is movement.</h2>
-          <p class="manifesto-text reveal">Before we talk about modules, cables, or voltage, there's one fundamental thing to understand: a sound is a vibration. A membrane moving, air oscillating, an electrical signal rising and falling. Everything starts there.</p>
-          <p class="manifesto-text reveal">In a modular synthesizer, this vibration is represented by an electrical signal — a voltage that varies over time. This signal is the raw material for everything you're about to build.</p>
+          <p class="manifesto-text reveal">Before we talk about modules, cables, or voltage, there's one fundamental
+            thing to understand: a sound is a vibration. A membrane moving, air oscillating, an electrical signal rising
+            and falling. Everything starts there.</p>
+          <p class="manifesto-text reveal">In a modular synthesizer, this vibration is represented by an electrical
+            signal — a voltage that varies over time. This signal is the raw material for everything you're about to
+            build.</p>
 
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">audio vs. control voltage.</h2>
-          <p class="manifesto-text reveal">There are two big families of signals in a modular system: audio signals and control signals (CV, for Control Voltage).</p>
-          <p class="manifesto-text reveal">An audio signal vibrates fast enough for your ears to perceive it as sound — typically between 20 Hz and 20,000 Hz. A CV signal moves more slowly: it's used to control the parameters of other modules. For example, a CV can control a note's pitch, how open a filter is, or an amplifier's volume.</p>
-          <p class="manifesto-text reveal">The beauty of modular is that both types of signal are technically identical — they're both just voltage. The only difference is how you decide to use them. An LFO (low frequency oscillator) is usually a control signal, but if you speed up its frequency past 20 Hz, it becomes an audio signal. This interchangeability sits at the heart of modular philosophy.</p>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">audio vs. control voltage.
+          </h2>
+          <p class="manifesto-text reveal">There are two big families of signals in a modular system: audio signals and
+            control signals (CV, for Control Voltage).</p>
+          <p class="manifesto-text reveal">An audio signal vibrates fast enough for your ears to perceive it as sound —
+            typically between 20 Hz and 20,000 Hz. A CV signal moves more slowly: it's used to control the parameters of
+            other modules. For example, a CV can control a note's pitch, how open a filter is, or an amplifier's volume.
+          </p>
+          <p class="manifesto-text reveal">The beauty of modular is that both types of signal are technically identical
+            — they're both just voltage. The only difference is how you decide to use them. An LFO (low frequency
+            oscillator) is usually a control signal, but if you speed up its frequency past 20 Hz, it becomes an audio
+            signal. This interchangeability sits at the heart of modular philosophy.</p>
 
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">the patch: your sonic architecture.</h2>
-          <p class="manifesto-text reveal">Every cable you plug in creates a connection between two modules. The sum of these connections forms what's called a patch — literally, a "wiring." Each patch is a unique sonic architecture.</p>
-          <p class="manifesto-text reveal">Unlike a classic synthesizer where the signal path is fixed (oscillator → filter → amplifier → output), a modular system leaves everything up to you. You can send a filter's output into another filter, use an audio signal to modulate an LFO, or have a microphone control an oscillator's pitch. There's no wrong connection — there are only experiments.</p>
-          <p class="manifesto-text reveal">In the next lesson, we'll dive into acoustic basics: frequency, harmonics, and timbre. You'll understand what sets the sound of a guitar apart from a synthesizer — and how an oscillator builds all of that from nothing.</p>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">the patch: your sonic
+            architecture.</h2>
+          <p class="manifesto-text reveal">Every cable you plug in creates a connection between two modules. The sum of
+            these connections forms what's called a patch — literally, a "wiring." Each patch is a unique sonic
+            architecture.</p>
+          <p class="manifesto-text reveal">Unlike a classic synthesizer where the signal path is fixed (oscillator →
+            filter → amplifier → output), a modular system leaves everything up to you. You can send a filter's output
+            into another filter, use an audio signal to modulate an LFO, or have a microphone control an oscillator's
+            pitch. There's no wrong connection — there are only experiments.</p>
+          <p class="manifesto-text reveal">In the next lesson, we'll dive into acoustic basics: frequency, harmonics,
+            and timbre. You'll understand what sets the sound of a guitar apart from a synthesizer — and how an
+            oscillator builds all of that from nothing.</p>
         </article>
       </div>
     </section>
@@ -120,24 +152,33 @@
         <div>
           <h4 class="footer-col-title">navigation</h4>
           <ul style="list-style: none">
-            <li style="margin-bottom: 8px"><a href="../../" class="nav-link" style="font-family: var(--font-body); font-size: 14px">home</a></li>
-            <li style="margin-bottom: 8px"><a href="../../le-cours/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">the course</a></li>
-            <li style="margin-bottom: 8px"><a href="../../histoire/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">history</a></li>
-            <li style="margin-bottom: 8px"><a href="../../atelier/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">workshop</a></li>
-            <li style="margin-bottom: 8px"><a href="../../about/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">about</a></li>
-            <li><a href="../../contact/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">contact</a></li>
+            <li style="margin-bottom: 8px"><a href="../../" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">home</a></li>
+            <li style="margin-bottom: 8px"><a href="../../le-cours/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">the course</a></li>
+            <li style="margin-bottom: 8px"><a href="../../histoire/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">history</a></li>
+            <li style="margin-bottom: 8px"><a href="../../atelier/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">workshop</a></li>
+            <li style="margin-bottom: 8px"><a href="../../about/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">about</a></li>
+            <li><a href="../../contact/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">contact</a></li>
           </ul>
         </div>
         <div>
           <h4 class="footer-col-title">newsletter</h4>
-          <p style="font-family: var(--font-body); font-size: 14px; color: var(--color-text); margin-bottom: 12px">get notified about new lessons</p>
+          <p style="font-family: var(--font-body); font-size: 14px; color: var(--color-text); margin-bottom: 12px">get
+            notified about new lessons</p>
           <a href="../../contact/" class="cta" style="font-size: 12px">sign up →</a>
         </div>
         <div>
           <h4 class="footer-col-title">information</h4>
           <ul style="list-style: none">
-            <li style="margin-bottom: 8px"><a href="../../legal-notice/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">legal notice</a></li>
-            <li style="font-family: var(--font-body); font-size: 14px; color: var(--color-text-secondary)">© 2026 modulr lab</li>
+            <li style="margin-bottom: 8px"><a href="../../legal-notice/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">legal notice</a></li>
+            <li style="font-family: var(--font-body); font-size: 14px; color: var(--color-text-secondary)">© 2026 modulr
+              lab</li>
           </ul>
         </div>
       </div>
@@ -145,4 +186,5 @@
   </footer>
 
 </body>
+
 </html>
