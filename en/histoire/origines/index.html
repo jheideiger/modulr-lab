@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <script src="../../../js/lang.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>modulr lab — origins of sound synthesis</title>
-  <meta name="description" content="From the Telharmonium to the Ondes Martenot: the first electrical machines to make sound, late 1800s to the 1930s.">
+  <meta name="description"
+    content="From the Telharmonium to the Ondes Martenot: the first electrical machines to make sound, late 1800s to the 1930s.">
   <link rel="canonical" href="https://modulrlab.com/en/histoire/origines/">
   <link rel="alternate" hreflang="fr" href="https://modulrlab.com/histoire/origines/">
   <link rel="alternate" hreflang="en" href="https://modulrlab.com/en/histoire/origines/">
@@ -13,16 +15,20 @@
   <meta property="og:type" content="website">
   <meta property="og:locale" content="en_US">
   <meta property="og:title" content="modulr lab — origins of sound synthesis">
-  <meta property="og:description" content="From the Telharmonium to the Ondes Martenot: the first electrical machines to make sound, late 1800s to the 1930s.">
+  <meta property="og:description"
+    content="From the Telharmonium to the Ondes Martenot: the first electrical machines to make sound, late 1800s to the 1930s.">
   <meta property="og:url" content="https://modulrlab.com/en/histoire/origines/">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Manrope:wght@400;500;700&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="../../../css/common.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="../../../js/main.js" defer></script>
 </head>
+
 <body>
 
   <header class="site-header page-container">
@@ -33,15 +39,20 @@
       <a href="../../atelier/" class="nav-link">workshop</a>
       <a href="../../about/" class="nav-link">about</a>
       <a href="../../contact/" class="nav-link">contact</a>
-      <button class="nav-link lang-switch" onclick="switchLang('fr')" type="button">FR</button>
+
     </nav>
-    <button class="burger" aria-label="Open menu" aria-expanded="false" aria-controls="menu-overlay"><span></span><span></span><span></span></button>
+    <button class="burger" aria-label="Open menu" aria-expanded="false"
+      aria-controls="menu-overlay"><span></span><span></span><span></span></button>
   </header>
 
-  <div class="menu-overlay" id="menu-overlay" role="dialog" aria-modal="true" aria-label="Navigation menu" aria-hidden="true" inert>
+  <div class="menu-overlay" id="menu-overlay" role="dialog" aria-modal="true" aria-label="Navigation menu"
+    aria-hidden="true" inert>
     <div class="menu-overlay-header">
       <a href="../../" class="logo-link">modulr lab</a>
-      <button class="menu-close" aria-label="Close menu">✕</button>
+      <div class="menu-overlay-controls">
+        <button class="lang-switch-mobile" onclick="switchLang('fr')" type="button">FR</button>
+        <button class="menu-close" aria-label="Close menu">✕</button>
+      </div>
     </div>
     <nav>
       <a href="../../le-cours/">the course</a>
@@ -49,7 +60,7 @@
       <a href="../../atelier/">workshop</a>
       <a href="../../about/">about</a>
       <a href="../../contact/">contact</a>
-      <button class="nav-link lang-switch" onclick="switchLang('fr')" type="button">FR</button>
+
     </nav>
   </div>
 
@@ -61,7 +72,8 @@
         <div>
           <p class="lesson-meta reveal" style="margin-bottom: 16px">late 1800s – 1930s</p>
           <h1 class="hero-title reveal reveal-delay-1">origins.</h1>
-          <p class="hero-lead reveal reveal-delay-2">before the synthesizer, someone had to learn how to make sound out of electricity.</p>
+          <p class="hero-lead reveal reveal-delay-2">before the synthesizer, someone had to learn how to make sound out
+            of electricity.</p>
         </div>
       </div>
     </section>
@@ -71,16 +83,37 @@
         <div class="rail-label">→ text</div>
         <article class="lesson-content">
           <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">the telharmonium, a machine weighing tons.</h2>
-          <p class="manifesto-text reveal">The story begins in 1897, when American engineer Thaddeus Cahill filed the patent for the Telharmonium. This machine, which would eventually fill an entire room and weigh over 200 tons in its most advanced version, used spinning toothed wheels ("tone wheels") to generate alternating electrical currents matching precise musical frequencies.</p>
-          <p class="manifesto-text reveal">The Telharmonium's sound was broadcast remotely over the telephone lines of the era — an early, unintentional form of audio streaming, decades before commercial radio. The project eventually failed commercially, held back by its cost and by complaints from phone companies whose lines were being saturated, but it planted a founding idea: sound can be born directly from electricity, with no string, reed, or column of air involved.</p>
+          <p class="manifesto-text reveal">The story begins in 1897, when American engineer Thaddeus Cahill filed the
+            patent for the Telharmonium. This machine, which would eventually fill an entire room and weigh over 200
+            tons in its most advanced version, used spinning toothed wheels ("tone wheels") to generate alternating
+            electrical currents matching precise musical frequencies.</p>
+          <p class="manifesto-text reveal">The Telharmonium's sound was broadcast remotely over the telephone lines of
+            the era — an early, unintentional form of audio streaming, decades before commercial radio. The project
+            eventually failed commercially, held back by its cost and by complaints from phone companies whose lines
+            were being saturated, but it planted a founding idea: sound can be born directly from electricity, with no
+            string, reed, or column of air involved.</p>
 
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">the theremin: playing without touching.</h2>
-          <p class="manifesto-text reveal">In 1920, Russian engineer Lev Termen (Léon Theremin) invented the instrument that bears his name. The principle was radically new: two antennas detect the position of the musician's hands in space, with no physical contact at all, to control the sound's pitch and volume. The Theremin became a worldwide curiosity, used in classical music as well as, later, science-fiction film scores.</p>
-          <p class="manifesto-text reveal">This idea of controlling a sound remotely, through a gesture rather than a key or a string, already foreshadows a question modular synthesis would ask differently fifty years later: what controls what, and how?</p>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">the theremin: playing without
+            touching.</h2>
+          <p class="manifesto-text reveal">In 1920, Russian engineer Lev Termen (Léon Theremin) invented the instrument
+            that bears his name. The principle was radically new: two antennas detect the position of the musician's
+            hands in space, with no physical contact at all, to control the sound's pitch and volume. The Theremin
+            became a worldwide curiosity, used in classical music as well as, later, science-fiction film scores.</p>
+          <p class="manifesto-text reveal">This idea of controlling a sound remotely, through a gesture rather than a
+            key or a string, already foreshadows a question modular synthesis would ask differently fifty years later:
+            what controls what, and how?</p>
 
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">the ondes Martenot and the Trautonium.</h2>
-          <p class="manifesto-text reveal">In 1928, French musician Maurice Martenot introduced the Ondes Martenot, an electronic instrument with a keyboard and a ribbon controller, capable of expressive glissandi impossible on a piano. It would be used by composers like Olivier Messiaen and is still taught today in some conservatories. That same year in Germany, Friedrich Trautwein developed the Trautonium, another monophonic electronic instrument that would later influence composers such as Oskar Sala.</p>
-          <p class="manifesto-text reveal">These instruments share a founding gesture: taking sound out of traditional acoustics and handing it over to electricity. It would take another thirty years, and the invention of the transistor and control voltage, for the idea of a modular system — one where you can freely reconfigure the signal's path — to be born. That's the subject of the next stage.</p>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">the ondes Martenot and the
+            Trautonium.</h2>
+          <p class="manifesto-text reveal">In 1928, French musician Maurice Martenot introduced the Ondes Martenot, an
+            electronic instrument with a keyboard and a ribbon controller, capable of expressive glissandi impossible on
+            a piano. It would be used by composers like Olivier Messiaen and is still taught today in some
+            conservatories. That same year in Germany, Friedrich Trautwein developed the Trautonium, another monophonic
+            electronic instrument that would later influence composers such as Oskar Sala.</p>
+          <p class="manifesto-text reveal">These instruments share a founding gesture: taking sound out of traditional
+            acoustics and handing it over to electricity. It would take another thirty years, and the invention of the
+            transistor and control voltage, for the idea of a modular system — one where you can freely reconfigure the
+            signal's path — to be born. That's the subject of the next stage.</p>
         </article>
       </div>
     </section>
@@ -107,24 +140,33 @@
         <div>
           <h4 class="footer-col-title">navigation</h4>
           <ul style="list-style: none">
-            <li style="margin-bottom: 8px"><a href="../../" class="nav-link" style="font-family: var(--font-body); font-size: 14px">home</a></li>
-            <li style="margin-bottom: 8px"><a href="../../le-cours/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">the course</a></li>
-            <li style="margin-bottom: 8px"><a href="../../histoire/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">history</a></li>
-            <li style="margin-bottom: 8px"><a href="../../atelier/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">workshop</a></li>
-            <li style="margin-bottom: 8px"><a href="../../about/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">about</a></li>
-            <li><a href="../../contact/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">contact</a></li>
+            <li style="margin-bottom: 8px"><a href="../../" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">home</a></li>
+            <li style="margin-bottom: 8px"><a href="../../le-cours/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">the course</a></li>
+            <li style="margin-bottom: 8px"><a href="../../histoire/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">history</a></li>
+            <li style="margin-bottom: 8px"><a href="../../atelier/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">workshop</a></li>
+            <li style="margin-bottom: 8px"><a href="../../about/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">about</a></li>
+            <li><a href="../../contact/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">contact</a></li>
           </ul>
         </div>
         <div>
           <h4 class="footer-col-title">newsletter</h4>
-          <p style="font-family: var(--font-body); font-size: 14px; color: var(--color-text); margin-bottom: 12px">get notified about new lessons</p>
+          <p style="font-family: var(--font-body); font-size: 14px; color: var(--color-text); margin-bottom: 12px">get
+            notified about new lessons</p>
           <a href="../../contact/" class="cta" style="font-size: 12px">sign up →</a>
         </div>
         <div>
           <h4 class="footer-col-title">information</h4>
           <ul style="list-style: none">
-            <li style="margin-bottom: 8px"><a href="../../legal-notice/" class="nav-link" style="font-family: var(--font-body); font-size: 14px">legal notice</a></li>
-            <li style="font-family: var(--font-body); font-size: 14px; color: var(--color-text-secondary)">© 2026 modulr lab</li>
+            <li style="margin-bottom: 8px"><a href="../../legal-notice/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">legal notice</a></li>
+            <li style="font-family: var(--font-body); font-size: 14px; color: var(--color-text-secondary)">© 2026 modulr
+              lab</li>
           </ul>
         </div>
       </div>
@@ -132,4 +174,5 @@
   </footer>
 
 </body>
+
 </html>
