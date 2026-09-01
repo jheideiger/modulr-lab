@@ -33,29 +33,27 @@ if (burger && menuOverlay && menuClose) {
         });
     });
 }
-
-// --- Indication de la rubrique active dans la navigation ---
 function setActiveNavLink() {
-    const normalize = (path) => (path.endsWith('/') || path.includes('.') ? path : path + '/');
-    const currentPath = normalize(window.location.pathname);
-    const navLinks = document.querySelectorAll('.nav-link, .menu-overlay nav a');
+  const normalize = (path) => (path.endsWith('/') || path.includes('.') ? path : path + '/');
+  const currentPath = normalize(window.location.pathname);
+  const navLinks = document.querySelectorAll('.nav-link, .menu-overlay nav a');
 
-    navLinks.forEach(link => {
-        const href = link.getAttribute('href');
-        if (!href) return;
+  navLinks.forEach(link => {
+    const href = link.getAttribute('href');
+    if (!href) return;
 
-        const linkPath = normalize(new URL(href, window.location.href).pathname);
-        const isHomeLink = linkPath === '/';
+    const linkPath = normalize(new URL(href, window.location.href).pathname);
+    const isHomeLink = linkPath === '/' || linkPath === '/en/';
 
-        const isActive = isHomeLink
-            ? currentPath === '/'
-            : currentPath === linkPath || currentPath.startsWith(linkPath);
+    const isActive = isHomeLink
+      ? currentPath === linkPath
+      : currentPath === linkPath || currentPath.startsWith(linkPath);
 
-        if (isActive) {
-            link.classList.add('nav-link--active');
-            link.setAttribute('aria-current', 'page');
-        }
-    });
+    if (isActive) {
+      link.classList.add('nav-link--active');
+      link.setAttribute('aria-current', 'page');
+    }
+  });
 }
 
 setActiveNavLink();
