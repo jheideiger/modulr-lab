@@ -617,8 +617,34 @@ a {
 }
 
 .lesson-nav-prev:hover,
-.lesson-nav-next:hover {
+.lesson-nav-next:hover,
+.lesson-nav-index:hover {
     color: var(--color-accent);
+}
+
+.lesson-nav-index {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    text-align: center;
+    text-decoration: none;
+    color: var(--color-text);
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.lesson-nav-index:hover {
+    color: var(--color-accent);
+}
+
+.lesson-nav:has(.lesson-nav-index) .lesson-nav-next {
+    margin-left: 0;
+}
+
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 32px;
+    align-items: baseline;
 }
 
 .lesson-nav-label {
@@ -637,13 +663,64 @@ a {
 }
 
 .lesson-nav-prev:hover .lesson-nav-label,
-.lesson-nav-next:hover .lesson-nav-label {
+.lesson-nav-next:hover .lesson-nav-label,
+.lesson-nav-index:hover .lesson-nav-label {
     color: var(--color-accent);
 }
 
 /* --- Contenu légal --- */
 .legal-content {
     max-width: 60ch;
+}
+
+/* --- Encart "en construction" (vidéo manquante, atelier à venir…) --- */
+.construction-notice {
+    border: 0.5px solid var(--color-border);
+    padding: 32px;
+    max-width: 60ch;
+}
+
+.construction-notice-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 1.2;
+    color: var(--color-text);
+    margin-bottom: 12px;
+}
+
+.construction-notice-body {
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+}
+
+.construction-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    margin-top: 48px;
+    max-width: 60ch;
+}
+
+.construction-actions:first-child {
+    margin-top: 0;
+}
+
+.construction-action .lesson-title-sm {
+    margin-bottom: 8px;
+}
+
+.construction-action .manifesto-text {
+    margin-bottom: 16px;
+}
+
+.page-exit-footnote {
+    margin-top: 40px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--color-text-secondary);
 }
 
 /* =========================================================
@@ -713,6 +790,10 @@ a {
 
 .lesson-nav-prev:hover {
     transform: translateX(-8px);
+}
+
+.lesson-nav-index:hover {
+    transform: translateY(-6px);
 }
 
 /* --- Lien read-more : flèche qui glisse --- */
@@ -950,6 +1031,16 @@ a {
         text-align: left;
     }
 
+    .lesson-nav-index {
+        text-align: left;
+    }
+
+    .hero-actions {
+        flex-direction: column;
+        gap: 16px;
+        align-items: flex-start;
+    }
+
     .lesson-nav-title {
         font-size: 20px;
     }
@@ -963,6 +1054,20 @@ a {
         left: 24px;
         bottom: 24px;
     }
+
+    /* Encart "en construction" */
+    .construction-notice {
+        padding: 24px;
+    }
+
+    .construction-actions {
+        gap: 32px;
+        margin-top: 40px;
+    }
+
+    
+
+    
 }
 
 /* =========================================================
