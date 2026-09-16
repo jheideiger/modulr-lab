@@ -144,21 +144,30 @@
       </div>
     </section>
 
-    <!-- VIDÉO -->
+    <!-- VIDÉO — en construction, contenu original à restaurer en remettant l'iframe ci-dessus -->
+    <!--
+    <div class="video-container reveal">
+      <div class="video-wrapper">
+        <iframe src="https://www.youtube.com/embed/UxStiQR4hkU"
+          title="Leçon 4 — TP : le control voltage dans VCV Rack" frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen loading="lazy"></iframe>
+      </div>
+    </div>
+    -->
     <section class="page-container section-gap">
       <div class="row-grid">
         <div class="rail-label">→ vidéo</div>
-        <div class="video-container reveal">
-          <div class="video-wrapper">
-            <iframe src="https://www.youtube.com/embed/UxStiQR4hkU"
-              title="Leçon 4 — TP : le control voltage dans VCV Rack" frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen loading="lazy"></iframe>
+        <div>
+          <div class="construction-notice reveal">
+            <p class="construction-notice-title">la vidéo de cette leçon arrive.</p>
+            <p class="construction-notice-body">Les trois premières leçons sont en ligne sur la chaîne. Celle-ci est
+              écrite, et le TP se fait dès maintenant dans VCV Rack — il ne manque que le montage.</p>
           </div>
+
         </div>
       </div>
     </section>
-
     <!-- CONTENU PÉDAGOGIQUE -->
     <section class="page-container section-gap">
       <div class="row-grid">
@@ -221,9 +230,9 @@
           <p class="manifesto-text reveal">Le modulaire est un terrain de jeu infini. Chaque câble que vous branchez
             différemment crée une configuration nouvelle, un son que personne n'a entendu avant. Il n'y a pas de mauvais
             patch — il n'y a que des expériences qui vous apprennent quelque chose.</p>
-          <p class="manifesto-text reveal">Si cette initiation vous a donné envie d'aller plus loin, direction
-            l'atelier : quelques patchs supplémentaires vous attendent, pour continuer à expérimenter par vous-même.</p>
-          <a href="../../atelier/" class="cta" style="margin-top: 16px; display: inline-block">→ découvrir l'atelier</a>
+          <p class="manifesto-text reveal">Si cette initiation vous a donné envie d'aller plus loin, l'histoire du
+            modulaire vous attend : cinq chapitres, des origines à la renaissance de l'Eurorack. Et l'atelier ouvrira
+            bientôt, avec d'autres patchs à essayer.</p>
 
         </article>
       </div>
@@ -232,15 +241,54 @@
     <!-- NAVIGATION LEÇON -->
     <section class="page-container section-gap">
       <div class="row-grid">
+        <div class="rail-label">→ en attendant</div>
+        <div>
+          <div class="construction-actions">
+            <div class="construction-action reveal">
+              <h3 class="lesson-title-sm">être prévenu</h3>
+              <div class="form-container">
+                <form id="newsletter-form" class="newsletter-form" action="https://formspree.io/f/xoeqqgnn"
+                  method="POST" novalidate>
+                  <div class="newsletter-row">
+                    <input type="email" id="newsletter-email" name="newsletter-email" class="form-input" required
+                      autocomplete="email" placeholder="votre@email.com">
+                    <button type="submit" class="form-submit form-submit--compact">s'inscrire →</button>
+                  </div>
+                  <p class="form-error" id="newsletter-error">merci d'indiquer un email valide</p>
+                </form>
+                <div class="form-success" id="newsletter-success">
+                  <p class="manifesto-text">inscription confirmée ✓ — merci !</p>
+                </div>
+                <p class="form-error" id="newsletter-network-error">une erreur est survenue, merci de réessayer.</p>
+              </div>
+            </div>
+
+            <div class="construction-action reveal">
+              <h3 class="lesson-title-sm">s'abonner à la chaîne YouTube</h3>
+              <p class="manifesto-text">c'est là que la vidéo sortira en premier.</p>
+              <a href="https://www.youtube.com/@modulrlab" class="cta" target="_blank" rel="noopener">→ s'abonner sur
+                YouTube</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
         <div class="rail-label">→ fin</div>
         <nav class="lesson-nav reveal">
           <a href="../les-modules/" class="lesson-nav-prev">
             <span class="lesson-nav-label">← leçon précédente</span>
             <span class="lesson-nav-title">panorama des modules</span>
           </a>
-          <a href="../../atelier/" class="lesson-nav-next">
+          <a href="../" class="lesson-nav-index">
+            <span class="lesson-nav-label">↑ sommaire</span>
+            <span class="lesson-nav-title">le cours</span>
+          </a>
+          <a href="../../histoire/" class="lesson-nav-next">
             <span class="lesson-nav-label">et maintenant →</span>
-            <span class="lesson-nav-title">atelier</span>
+            <span class="lesson-nav-title">l'histoire du modulaire</span>
           </a>
         </nav>
       </div>
