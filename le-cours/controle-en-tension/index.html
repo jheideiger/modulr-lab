@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <script src="../../js/lang.js"></script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-X71P2T6L30"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-X71P2T6L30');
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../icons/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="../../icons/favicon-96x96.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../icons/apple-touch-icon.png">
+  <title>modulr lab — le control voltage</title>
+  <meta name="description"
+    content="Leçon 4 : ce qu'est une tension de contrôle, et comment une même sortie CV pilote tour à tour la hauteur, le filtre et le volume d'un module.">
+  <link rel="canonical" href="https://modulrlab.com/le-cours/controle-en-tension/">
+  <link rel="alternate" hreflang="fr" href="https://modulrlab.com/le-cours/controle-en-tension/">
+  <link rel="alternate" hreflang="en" href="https://modulrlab.com/en/le-cours/controle-en-tension/">
+  <link rel="alternate" hreflang="x-default" href="https://modulrlab.com/le-cours/controle-en-tension/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:title" content="modulr lab — le control voltage">
+  <meta property="og:description"
+    content="Leçon 4 : ce qu'est une tension de contrôle, et comment une même sortie CV pilote tour à tour la hauteur, le filtre et le volume d'un module.">
+  <meta property="og:url" content="https://modulrlab.com/le-cours/controle-en-tension/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Manrope:wght@400;500;700&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="../../css/common.css">
+  <script src="../../js/main.js" defer></script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "modulr lab",
+      "item": "https://modulrlab.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "le cours",
+      "item": "https://modulrlab.com/le-cours/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "le control voltage",
+      "item": "https://modulrlab.com/le-cours/controle-en-tension/"
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "le control voltage",
+  "description": "Leçon 4 : ce qu'est une tension de contrôle, et comment une même sortie CV pilote tour à tour la hauteur, le filtre et le volume d'un module.",
+  "mainEntityOfPage": "https://modulrlab.com/le-cours/controle-en-tension/",
+  "author": {
+    "@type": "Person",
+    "name": "Jeremy Heideiger"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "modulr lab",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://modulrlab.com/icons/icon-512x512.png"
+    }
+  }
+}
+  </script>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header page-container">
+    <a href="../../" class="logo-link">modulr lab</a>
+    <nav class="desktop-nav">
+      <a href="../../le-cours/" class="nav-link">le cours</a>
+      <a href="../../histoire/" class="nav-link">histoire</a>
+      <a href="../../atelier/" class="nav-link">atelier</a>
+      <a href="../../a-propos/" class="nav-link">à propos</a>
+      <a href="../../contact/" class="nav-link">contact</a>
+      <button class="nav-link lang-switch" onclick="switchLang('en')" type="button">EN</button>
+
+    </nav>
+    <button class="burger" aria-label="Ouvrir le menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </header>
+
+  <!-- MENU MOBILE OVERLAY -->
+  <div class="menu-overlay" id="menu-overlay">
+    <div class="menu-overlay-header">
+      <a href="../../" class="logo-link">modulr lab</a>
+      <div class="menu-overlay-controls">
+        <button class="lang-switch-mobile" onclick="switchLang('en')" type="button">EN</button>
+        <button class="menu-close" aria-label="Fermer le menu">✕</button>
+      </div>
+    </div>
+    <nav>
+      <a href="../../le-cours/">le cours</a>
+      <a href="../../histoire/">histoire</a>
+      <a href="../../atelier/">atelier</a>
+      <a href="../../a-propos/">à propos</a>
+      <a href="../../contact/">contact</a>
+
+    </nav>
+  </div>
+
+  <!-- MAIN -->
+  <main>
+
+    <!-- HERO LEÇON -->
+    <section class="page-container">
+      <div class="row-grid">
+        <div class="rail-label rail-label--accent">→ leçon 4</div>
+        <div>
+          <p class="lesson-meta" style="margin-bottom: 16px">leçon 4 sur 4 · 15 min de lecture</p>
+          <h1 class="hero-title reveal">control<br>voltage.</h1>
+          <p class="hero-lead reveal reveal-delay-1">la tension qui relie tous les modules entre eux — la même sortie,
+            trois destinations, un seul principe.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIDÉO — en construction, contenu original à restaurer en remettant l'iframe ci-dessus -->
+    <!--
+    <div class="video-container reveal">
+      <div class="video-wrapper">
+        <iframe src="https://www.youtube.com/embed/UxStiQR4hkU"
+          title="Leçon 4 — Le control voltage" frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen loading="lazy"></iframe>
+      </div>
+    </div>
+    -->
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ vidéo</div>
+        <div>
+          <div class="construction-notice reveal">
+            <p class="construction-notice-title">la vidéo de cette leçon arrive.</p>
+            <p class="construction-notice-body">Les trois premières leçons sont en ligne sur la chaîne. Celle-ci est
+              en cours d'écriture : le texte ci-dessous sert de base au script, qui sera tourné sur le système
+              modulaire réel.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+    <!-- CONTENU PÉDAGOGIQUE -->
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ texte</div>
+        <article class="lesson-content">
+
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">le control voltage, en une phrase.</h2>
+          <p class="manifesto-text reveal">Chaque module que vous avez rencontré dans la leçon précédente possède une
+            ou plusieurs entrées marquées CV. Une tension de contrôle n'est pas un son : c'est un message. Une valeur
+            qui monte et qui descend, et que le module en face traduit en action — plus haut, plus fermé, plus fort.
+            Le mot « voltage » se prend au pied de la lettre : c'est littéralement une tension électrique, mesurée en
+            volts, qui circule dans le même type de câble que le son.</p>
+          <p class="manifesto-text reveal">Ce qui distingue un signal audio d'un signal de contrôle n'est donc pas sa
+            nature, c'est sa vitesse et son usage. Un signal audio oscille des centaines ou des milliers de fois par
+            seconde, et notre oreille l'entend comme un son. Un signal de contrôle évolue lentement, ou une seule
+            fois, et sert à faire bouger un paramètre plutôt qu'à produire un son. Mais la frontière entre les deux
+            est moins nette qu'il n'y paraît — on y revient plus bas.</p>
+
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">une même sortie, trois
+            destinations.</h2>
+          <p class="manifesto-text reveal">Prenez une seule sortie de contrôle — une enveloppe, ou un module de
+            fonction générique. Branchez-la d'abord sur l'entrée 1V/octave d'un oscillateur : la hauteur du son suit
+            exactement la forme de cette tension, elle monte quand elle monte, elle descend quand elle descend.</p>
+          <p class="manifesto-text reveal">Débranchez ce câble, sans rien changer d'autre à la source, et branchez-le
+            sur l'entrée CV de la fréquence de coupure d'un filtre : c'est maintenant le timbre qui respire au même
+            rythme, la hauteur reste parfaitement fixe. Débranchez encore, branchez sur l'entrée CV d'un
+            amplificateur : c'est le volume qui monte et qui descend, cette fois sans toucher ni à la hauteur ni au
+            timbre.</p>
+          <p class="manifesto-text reveal">Rien n'a changé à la source. La tension envoyée est exactement la même
+            dans les trois cas. Ce qui change, c'est uniquement la destination — l'entrée sur laquelle le câble
+            atterrit. C'est tout le principe du control voltage : le module récepteur décide ce que la tension
+            signifie, pas le module émetteur.</p>
+
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">un signal, deux vitesses.
+          </h2>
+          <p class="manifesto-text reveal">Il y a une nuance qui surprend souvent les débutants : rien n'empêche
+            d'envoyer un signal de contrôle très rapide, ou un signal audio dans une entrée de contrôle. Branchez un
+            oscillateur audio, réglé très bas, dans l'entrée CV de la fréquence d'un autre oscillateur, et vous
+            n'obtenez plus un vibrato lent mais une modulation de fréquence audible — le principe de la synthèse FM,
+            apparu bien avant le modulaire, mais qui s'y exprime avec une liberté totale.</p>
+          <p class="manifesto-text reveal">Ce que la leçon 2 appelait harmoniques peut donc, sur un système
+            modulaire, devenir lui-même un outil de contrôle. Il n'y a pas de frontière fixe entre « ce qui s'entend »
+            et « ce qui contrôle » — seulement une question de vitesse et de destination.</p>
+
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">pourquoi ça change tout.
+          </h2>
+          <p class="manifesto-text reveal">Sur un synthétiseur classique, chaque bouton contrôle un seul paramètre,
+            câblé une fois pour toutes en usine. Sur un système modulaire, la même sortie peut piloter n'importe
+            quelle entrée CV du système, et cette destination peut changer à chaque patch. C'est ce que veut dire le
+            mot « modulaire » : non pas que les modules sont assemblés physiquement, mais que le chemin du contrôle
+            lui-même est reconfigurable, câble après câble.</p>
+          <p class="manifesto-text reveal">C'est le fil qui traverse tout ce cours. La leçon 1 posait le signal, la
+            leçon 2 expliquait comment ce signal devient timbre, la leçon 3 présentait les modules qui le façonnent.
+            Le control voltage est ce qui relie ces trois briques entre elles — le langage commun qui permet à un
+            module de parler à un autre.</p>
+
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">et maintenant ?</h2>
+          <p class="manifesto-text reveal">Ce cours vous a donné les bases : le signal, les harmoniques, les modules
+            fondamentaux, et le principe qui les relie tous. Vous n'êtes pas un expert — mais vous avez les clés pour
+            comprendre ce qui se passe quand vous regardez un patch, le vôtre ou celui de quelqu'un d'autre.</p>
+          <p class="manifesto-text reveal">Le modulaire est un terrain de jeu infini. Chaque câble que vous branchez
+            différemment crée une configuration nouvelle, un son que personne n'a entendu avant. Il n'y a pas de
+            mauvais patch — il n'y a que des expériences qui vous apprennent quelque chose.</p>
+          <p class="manifesto-text reveal">Si cette initiation vous a donné envie d'aller plus loin, l'histoire du
+            modulaire vous attend : cinq chapitres, des origines à la renaissance de l'Eurorack. Et l'atelier ouvrira
+            bientôt, avec des patchs à essayer pour de vrai — cette fois avec des câbles.</p>
+
+        </article>
+      </div>
+    </section>
+
+    <!-- NAVIGATION LEÇON -->
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ en attendant</div>
+        <div>
+          <div class="construction-actions">
+            <div class="construction-action reveal">
+              <h3 class="lesson-title-sm">être prévenu</h3>
+              <div class="form-container">
+                <form id="newsletter-form" class="newsletter-form" action="https://formspree.io/f/xoeqqgnn"
+                  method="POST" novalidate>
+                  <div class="newsletter-row">
+                    <input type="email" id="newsletter-email" name="newsletter-email" class="form-input" required
+                      autocomplete="email" placeholder="votre@email.com">
+                    <button type="submit" class="form-submit form-submit--compact">s'inscrire →</button>
+                  </div>
+                  <p class="form-error" id="newsletter-error">merci d'indiquer un email valide</p>
+                </form>
+                <div class="form-success" id="newsletter-success">
+                  <p class="manifesto-text">inscription confirmée ✓ — merci !</p>
+                </div>
+                <p class="form-error" id="newsletter-network-error">une erreur est survenue, merci de réessayer.</p>
+              </div>
+            </div>
+
+            <div class="construction-action reveal">
+              <h3 class="lesson-title-sm">s'abonner à la chaîne YouTube</h3>
+              <p class="manifesto-text">c'est là que la vidéo sortira en premier.</p>
+              <a href="https://www.youtube.com/@modulrlab" class="cta" target="_blank" rel="noopener">→ s'abonner sur
+                YouTube</a>
+            </div>
+
+            <div class="construction-action reveal">
+              <h3 class="lesson-title-sm">l'atelier</h3>
+              <p class="manifesto-text">cinq patchs à essayer, bientôt en ligne.</p>
+              <a href="../../atelier/" class="cta">→ voir l'atelier</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ fin</div>
+        <nav class="lesson-nav reveal">
+          <a href="../les-modules/" class="lesson-nav-prev">
+            <span class="lesson-nav-label">← leçon précédente</span>
+            <span class="lesson-nav-title">panorama des modules</span>
+          </a>
+          <a href="../" class="lesson-nav-index">
+            <span class="lesson-nav-label">↑ sommaire</span>
+            <span class="lesson-nav-title">le cours</span>
+          </a>
+          <a href="../../histoire/" class="lesson-nav-next">
+            <span class="lesson-nav-label">et maintenant →</span>
+            <span class="lesson-nav-title">l'histoire du modulaire</span>
+          </a>
+        </nav>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="page-container footer">
+    <div class="footer-layout">
+      <div class="footer-brand">modulr lab</div>
+      <div class="footer-grid">
+        <div>
+          <h4 class="footer-col-title">navigation</h4>
+          <ul style="list-style: none">
+            <li style="margin-bottom: 8px"><a href="../../" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">accueil</a></li>
+            <li style="margin-bottom: 8px"><a href="../../le-cours/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">le cours</a></li>
+            <li style="margin-bottom: 8px"><a href="../../histoire/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">histoire</a></li>
+            <li style="margin-bottom: 8px"><a href="../../atelier/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">atelier</a></li>
+            <li style="margin-bottom: 8px"><a href="../../a-propos/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">à propos</a></li>
+            <li><a href="../../contact/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-col-title">rester informé</h4>
+          <p style="font-family: var(--font-body); font-size: 14px; color: var(--color-text); margin-bottom: 12px">
+            une leçon par email, rien d'autre</p>
+          <a href="../../contact/" class="cta" style="font-size: 12px">s'inscrire →</a>
+          <div style="margin-top: 10px"><a href="https://www.youtube.com/@modulrlab" class="cta" style="font-size: 12px" target="_blank" rel="noopener">la chaîne YouTube →</a></div>
+        </div>
+        <div>
+          <h4 class="footer-col-title">informations</h4>
+          <ul style="list-style: none">
+            <li style="margin-bottom: 8px"><a href="../../mentions-legales/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">mentions légales</a></li>
+            <li style="font-family: var(--font-body); font-size: 14px; color: var(--color-text-secondary)">© 2026 modulr
+              lab</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>
