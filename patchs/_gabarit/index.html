@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<!--
+  ============================================================================
+  GABARIT D'UNE NOTE DE PATCH — modulr lab
+  Ce dossier commence par « _ » : GitHub Pages (Jekyll) ne le publie pas.
+
+  Créer une note, le jour où la vidéo sort :
+   1. Copier ce dossier en /patchs/<slug>/. Le slug = la requête visée, pas le nom poétique du patch
+      (/patchs/patch-krell/ et non /patchs/glew-glew/). Minuscules, tirets, jamais de numéro ni de date.
+   2. Remplir chaque zone [entre crochets], puis supprimer les <span class="placeholder">.
+   3. Retirer la balise <meta name="robots">.
+   4. Créer le miroir anglais /en/patchs/<même-slug>/.
+   5. Ajouter les deux URL au sitemap.xml, et une carte dans /patchs/ et /en/patchs/.
+   6. Première note publiée : retirer le noindex de /patchs/ et ajouter « patchs » à la navigation.
+
+  Réglages SEO :
+   - <title> : 60 caractères maximum, la requête en tête.
+   - meta description : la promesse sonore, 150 caractères environ.
+   - Un H2 au moins contient le nom du module principal (c'est un terme réellement recherché).
+   - alt du schéma : décrire ce qu'on voit, jamais « schéma.png ».
+   - Données structurées : VideoObject + fil d'Ariane (HowTo n'a plus de résultat enrichi Google
+     depuis septembre 2023, inutile de le baliser).
+
+  Exemple : /patchs/patch-krell/ — H1 « Le patch Krell : faire jouer son modulaire tout seul »,
+  title « Patch Krell expliqué : le modulaire qui s'auto-génère », vidéo du samedi 17 octobre 2026, PDF n° 1.
+  ============================================================================
+-->
+<html lang="fr">
+
+<head>
+  <script src="../../js/lang.js"></script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-X71P2T6L30"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-X71P2T6L30');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../icons/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="../../icons/favicon-96x96.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../icons/apple-touch-icon.png">
+  <title>[Title : la requête en tête, 60 caractères maximum]</title>
+  <meta name="description"
+    content="[La promesse sonore, 150 caractères environ]">
+  <link rel="canonical" href="https://modulrlab.com/patchs/SLUG/">
+  <link rel="alternate" hreflang="fr" href="https://modulrlab.com/patchs/SLUG/">
+  <link rel="alternate" hreflang="en" href="https://modulrlab.com/en/patchs/SLUG/">
+  <link rel="alternate" hreflang="x-default" href="https://modulrlab.com/patchs/SLUG/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:title" content="[Title : la requête en tête, 60 caractères maximum]">
+  <meta property="og:description"
+    content="[La promesse sonore, 150 caractères environ]">
+  <meta property="og:url" content="https://modulrlab.com/patchs/SLUG/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Manrope:wght@400;500;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../../css/common.css">
+  <script src="../../js/main.js" defer></script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "modulr lab",
+      "item": "https://modulrlab.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "patchs",
+      "item": "https://modulrlab.com/patchs/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "[TITRE DE LA NOTE]",
+      "item": "https://modulrlab.com/patchs/SLUG/"
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  "name": "[TITRE DE LA VIDÉO]",
+  "description": "[DESCRIPTION : la promesse sonore]",
+  "thumbnailUrl": "https://i.ytimg.com/vi/ID_VIDEO/maxresdefault.jpg",
+  "uploadDate": "[AAAA-MM-JJ]",
+  "embedUrl": "https://www.youtube.com/embed/ID_VIDEO",
+  "inLanguage": "fr"
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "[TITRE DE LA NOTE]",
+  "description": "[META DESCRIPTION]",
+  "mainEntityOfPage": "https://modulrlab.com/patchs/SLUG/",
+  "author": {
+    "@type": "Person",
+    "name": "Jeremy Heideiger"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "modulr lab",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://modulrlab.com/icons/icon-512x512.png"
+    }
+  }
+}
+  </script>
+</head>
+
+<body>
+
+  <header class="site-header page-container">
+    <a href="../../" class="logo-link">modulr lab</a>
+    <nav class="desktop-nav">
+      <a href="../../le-cours/" class="nav-link">le cours</a>
+      <a href="../../atelier/" class="nav-link">atelier</a>
+      <a href="../../histoire/" class="nav-link">histoire</a>
+      <a href="../../a-propos/" class="nav-link">à propos</a>
+      <button class="nav-link lang-switch" onclick="switchLang('en')" type="button">EN</button>
+
+    </nav>
+    <button class="burger" aria-label="Ouvrir le menu"><span></span><span></span><span></span></button>
+  </header>
+
+  <div class="menu-overlay" id="menu-overlay">
+    <div class="menu-overlay-header">
+      <a href="../../" class="logo-link">modulr lab</a>
+      <div class="menu-overlay-controls">
+        <button class="lang-switch-mobile" onclick="switchLang('en')" type="button">EN</button>
+        <button class="menu-close" aria-label="Fermer le menu">✕</button>
+      </div>
+    </div>
+    <nav>
+      <a href="../../le-cours/">le cours</a>
+      <a href="../../atelier/">atelier</a>
+      <a href="../../histoire/">histoire</a>
+      <a href="../../a-propos/">à propos</a>
+
+    </nav>
+  </div>
+
+  <main>
+
+    <!-- 1 · TITRE ET 2 · CHAPÔ -->
+    <section class="page-container">
+      <div class="row-grid">
+        <div class="rail-label rail-label--accent">→ patch</div>
+        <div>
+          <h1 class="note-title reveal"><span class="placeholder">[la promesse de la vidéo : une question ou un résultat, jamais le nom du patch seul]</span></h1>
+          <p class="hero-lead reveal reveal-delay-1"><span class="placeholder">[chapô en trois lignes : ce que le patch produit, à qui il s'adresse, le temps nécessaire]</span></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3 · LA VIDÉO — la page prolonge la vidéo, elle ne la remplace pas.
+         Remplacer le bloc .video-placeholder par :
+         <iframe src="https://www.youtube.com/embed/ID_VIDEO" title="TITRE DE LA VIDÉO" frameborder="0"
+           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+           allowfullscreen loading="lazy"></iframe> -->
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ vidéo</div>
+        <div class="video-container reveal">
+          <div class="video-wrapper">
+            <div class="video-placeholder">[vidéo YouTube intégrée]</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4 · CE QUE VOUS ALLEZ OBTENIR -->
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ résultat</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">ce que vous allez obtenir.</h2>
+          <p class="manifesto-text reveal"><span class="placeholder">[le résultat sonore, en une phrase]</span></p>
+          <div class="note-facts reveal">
+            <p class="note-fact">niveau <b><span class="placeholder">[débutant · intermédiaire · avancé]</span></b></p>
+            <p class="note-fact">durée <b><span class="placeholder">[20 min]</span></b></p>
+            <p class="note-fact">système <b><span class="placeholder">[Shuttle System · Shared System]</span></b></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5 · MATÉRIEL — trois colonnes, toujours : c'est ce qui rend la page utile à qui n'a pas le même rack.
+         Ce H2 contient le nom du module principal. -->
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ matériel</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">le matériel : <span class="placeholder">[module principal]</span> et ses équivalents.</h2>
+          <div class="table-scroll reveal">
+            <table class="patch-table">
+              <thead>
+                <tr><th>fonction</th><th>sur mon système</th><th>équivalent générique</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><span class="placeholder">[source]</span></td><td><span class="placeholder">[Make Noise DPO]</span></td><td><span class="placeholder">[n'importe quel VCO]</span></td></tr>
+                <tr><td><span class="placeholder">[enveloppe]</span></td><td><span class="placeholder">[Maths]</span></td><td><span class="placeholder">[tout générateur de fonction]</span></td></tr>
+                <tr><td><span class="placeholder">[fonction]</span></td><td><span class="placeholder">[module]</span></td><td><span class="placeholder">[équivalent]</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6 · LE SCHÉMA — lisible en petit, câbles numérotés comme dans le tableau du câblage.
+         Remplacer le bloc .figure-placeholder par :
+         <img src="./SLUG-schema.png" alt="DÉCRIRE LE SCHÉMA : modules, câbles numérotés, sens du signal"
+           width="1600" height="900" loading="lazy"> -->
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ schéma</div>
+        <figure class="patch-figure reveal">
+          <div class="figure-placeholder">[schéma du patch, câbles numérotés]</div>
+          <figcaption class="lesson-meta"><span class="placeholder">[légende : ce que montre le schéma]</span></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- 7 · LE CÂBLAGE, ÉTAPE PAR ÉTAPE -->
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ câblage</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">le câblage, étape par étape.</h2>
+          <div class="table-scroll reveal">
+            <table class="patch-table">
+              <thead>
+                <tr><th>#</th><th>de</th><th>vers</th><th>ce que ça fait</th></tr>
+              </thead>
+              <tbody>
+                <tr><td class="cable-num">1</td><td><span class="placeholder">[Maths ch. 1 OUT]</span></td><td><span class="placeholder">[DPO 1V/oct]</span></td><td><span class="placeholder">[fait monter et descendre la hauteur]</span></td></tr>
+                <tr><td class="cable-num">2</td><td><span class="placeholder">[sortie]</span></td><td><span class="placeholder">[entrée]</span></td><td><span class="placeholder">[effet sur le son]</span></td></tr>
+                <tr><td class="cable-num">3</td><td><span class="placeholder">[sortie]</span></td><td><span class="placeholder">[entrée]</span></td><td><span class="placeholder">[effet sur le son]</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8 · RÉGLAGES DE DÉPART — pour que le lecteur parte du même endroit -->
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ réglages</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">les réglages de départ.</h2>
+          <div class="table-scroll reveal">
+            <table class="patch-table">
+              <thead>
+                <tr><th>module</th><th>réglage</th><th>position</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><span class="placeholder">[Maths ch. 1]</span></td><td><span class="placeholder">[Rise]</span></td><td><span class="placeholder">[midi]</span></td></tr>
+                <tr><td><span class="placeholder">[module]</span></td><td><span class="placeholder">[potentiomètre]</span></td><td><span class="placeholder">[position]</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9 · CE QU'IL FAUT ÉCOUTER — la partie pédagogique : ce qui distingue une note de patch d'une recette -->
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ écoute</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">ce qu'il faut écouter.</h2>
+          <ol class="listen-list reveal">
+            <li><span class="placeholder">[premier point d'attention : ce qu'on entend, et pourquoi]</span></li>
+            <li><span class="placeholder">[deuxième point d'attention]</span></li>
+            <li><span class="placeholder">[troisième point d'attention]</span></li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10 · VARIATIONS -->
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ variations</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">trois variations.</h2>
+          <ol class="listen-list reveal">
+            <li><span class="placeholder">[variation concrète : quel câble déplacer, quel réglage changer]</span></li>
+            <li><span class="placeholder">[deuxième variation]</span></li>
+            <li><span class="placeholder">[troisième variation]</span></li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11 · L'EXERCICE — une contrainte à réaliser seul, sur du matériel réel -->
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ à vous</div>
+        <div class="exercise-box reveal">
+          <p class="construction-notice-title">à vous de patcher.</p>
+          <p class="construction-notice-body"><span class="placeholder">[la contrainte : ce qu'il faut réaliser seul, et le résultat sonore à atteindre. Exemple : refaire le patch en remplaçant le hasard par une séquence fixe, et écouter ce qu'on perd]</span></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 12 · TÉLÉCHARGEMENT — le PDF contre une adresse email, unique point de capture de la page.
+         Remplacer SLUG dans le champ caché « source » et dans le lien du PDF. -->
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ pdf</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">le schéma en PDF.</h2>
+          <p class="manifesto-text reveal">Le schéma de ce patch, à imprimer et à garder à côté du rack. Laissez votre
+            adresse email : le lien de téléchargement apparaît aussitôt, et vous recevez la newsletter — un patch par
+            semaine, et ce qui se prépare.</p>
+          <div class="form-container reveal">
+          <form class="newsletter-form" action="https://formspree.io/f/xoeqqgnn" method="POST" novalidate>
+            <input type="hidden" name="source" value="note SLUG">
+            <div class="newsletter-row">
+              <input type="email" name="newsletter-email" class="form-input" required autocomplete="email"
+                placeholder="votre@email.com" aria-label="votre adresse email">
+              <button type="submit" class="form-submit form-submit--compact">s'inscrire →</button>
+            </div>
+            <p class="form-error" role="alert">merci d'indiquer un email valide</p>
+          </form>
+          <div class="form-success">
+            <p class="manifesto-text">inscription confirmée ✓ — merci !</p>
+            <a href="./SLUG.pdf" class="cta" download>→ télécharger le schéma (PDF)</a>
+          </div>
+          <p class="form-error" role="alert">une erreur est survenue, merci de réessayer.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 13 · POUR ALLER PLUS LOIN — deux leçons, deux patchs : le maillage interne fait remonter tout le site -->
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ plus loin</div>
+        <div class="further-grid">
+          <div>
+            <p class="lesson-meta" style="margin-bottom: 8px">dans le cours</p>
+            <a href="../../le-cours/controle-en-tension/" class="further-link reveal">
+              <h3 class="lesson-title-sm"><span class="placeholder">[titre de la leçon]</span></h3>
+              <p class="lesson-meta"><span class="placeholder">[leçon N · pourquoi la relire]</span></p>
+            </a>
+            <a href="../../le-cours/les-modules/" class="further-link reveal">
+              <h3 class="lesson-title-sm"><span class="placeholder">[titre de la leçon]</span></h3>
+              <p class="lesson-meta"><span class="placeholder">[leçon N · pourquoi la relire]</span></p>
+            </a>
+          </div>
+          <div>
+            <p class="lesson-meta" style="margin-bottom: 8px">d'autres patchs</p>
+            <a href="../" class="further-link reveal">
+              <h3 class="lesson-title-sm"><span class="placeholder">[titre d'une autre note]</span></h3>
+              <p class="lesson-meta"><span class="placeholder">[niveau · durée]</span></p>
+            </a>
+            <a href="../" class="further-link reveal">
+              <h3 class="lesson-title-sm"><span class="placeholder">[titre d'une autre note]</span></h3>
+              <p class="lesson-meta"><span class="placeholder">[niveau · durée]</span></p>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="page-container footer">
+    <div class="footer-layout">
+      <div class="footer-brand">modulr lab</div>
+      <div class="footer-grid">
+        <div>
+          <h4 class="footer-col-title">navigation</h4>
+          <ul class="footer-list">
+            <li><a href="../../" class="nav-link footer-link">accueil</a></li>
+            <li><a href="../../le-cours/" class="nav-link footer-link">le cours</a></li>
+            <li><a href="../../atelier/" class="nav-link footer-link">atelier</a></li>
+            <li><a href="../../histoire/" class="nav-link footer-link">histoire</a></li>
+            <li><a href="../../a-propos/" class="nav-link footer-link">à propos</a></li>
+          </ul>
+        </div>
+        <div class="footer-newsletter">
+          <h4 class="footer-col-title">rester informé</h4>
+          <p class="footer-text">un patch par semaine, et ce qui se prépare.</p>
+          <div class="newsletter-block">
+            <form class="newsletter-form newsletter-form--footer" action="https://formspree.io/f/xoeqqgnn" method="POST"
+              novalidate>
+              <input type="hidden" name="source" value="pied de page">
+              <div class="newsletter-row">
+                <input type="email" name="newsletter-email" class="form-input" required autocomplete="email"
+                  placeholder="votre@email.com" aria-label="votre adresse email">
+                <button type="submit" class="form-submit form-submit--compact">s'inscrire →</button>
+              </div>
+              <p class="form-error" role="alert">merci d'indiquer un email valide</p>
+            </form>
+            <div class="form-success">
+              <p class="footer-text">inscription confirmée ✓ — merci !</p>
+            </div>
+            <p class="form-error" role="alert">une erreur est survenue, merci de réessayer.</p>
+          </div>
+          <a href="https://www.youtube.com/@modulrlab" class="cta footer-cta" target="_blank" rel="noopener">la chaîne YouTube →</a>
+        </div>
+        <div>
+          <h4 class="footer-col-title">informations</h4>
+          <ul class="footer-list">
+            <li><a href="../../contact/" class="nav-link footer-link">contact</a></li>
+            <li><a href="../../mentions-legales/" class="nav-link footer-link">mentions légales</a></li>
+            <li class="footer-copy">© 2026 modulr lab</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>
