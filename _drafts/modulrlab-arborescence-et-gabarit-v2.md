@@ -173,7 +173,7 @@ Deux liens vers des leçons, deux vers d'autres notes. Le maillage interne est c
 | Meta description | Le patch autonome le plus célèbre du modulaire, expliqué câble par câble, avec le schéma en PDF. |
 | Vidéo | Samedi 17 octobre 2026 |
 | Niveau | Débutant avancé · 30 min |
-| Modules | À confirmer au tournage sur le Shared System, équivalents génériques fournis |
+| Modules | Maths, DPO, MMG, Wogglebug (liste à confirmer au tournage), équivalents génériques fournis |
 | Exercice | Refaire le patch en remplaçant le hasard par une séquence fixe, et écouter ce qu'on perd |
 | Téléchargement | `patch-krell.pdf` (PDF n° 1) |
 

@@ -1133,68 +1133,6 @@ a {
 
 
 /* =========================================================
-   PIED DE PAGE — liens et inscription newsletter en ligne
-   ========================================================= */
-.footer-list {
-    list-style: none;
-}
-
-.footer-list li {
-    margin-bottom: 8px;
-}
-
-.footer-list li:last-child {
-    margin-bottom: 0;
-}
-
-.footer-link {
-    font-family: var(--font-body);
-    font-size: 14px;
-}
-
-.footer-text {
-    font-family: var(--font-body);
-    font-size: 14px;
-    line-height: 1.5;
-    color: var(--color-text);
-    margin-bottom: 12px;
-}
-
-.footer-copy {
-    font-family: var(--font-body);
-    font-size: 14px;
-    color: var(--color-text-secondary);
-}
-
-.footer-cta {
-    display: inline-block;
-    margin-top: 20px;
-    font-size: 12px;
-}
-
-.newsletter-form--footer {
-    gap: 8px;
-}
-
-.newsletter-form--footer .newsletter-row {
-    gap: 12px;
-}
-
-.newsletter-form--footer .form-input {
-    font-size: 14px;
-    padding: 8px 0;
-}
-
-.newsletter-form--footer .form-submit--compact {
-    padding: 10px 16px;
-    font-size: 13px;
-}
-
-.newsletter-block .form-success {
-    padding: 4px 0 0;
-}
-
-/* =========================================================
    ACCUEIL — quatre leçons
    ========================================================= */
 .lessons-grid--four {
@@ -1386,15 +1324,6 @@ a {
 
 /* --- Responsive des blocs ajoutés --- */
 @media (max-width: 1024px) {
-    .newsletter-form--footer .newsletter-row {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .newsletter-form--footer .form-submit {
-        align-self: flex-start;
-    }
-
     .lessons-grid--four {
         grid-template-columns: 1fr 1fr;
     }
@@ -1409,18 +1338,6 @@ a {
 }
 
 @media (max-width: 768px) {
-    .footer-grid {
-        grid-auto-flow: dense;
-    }
-
-    .footer-newsletter {
-        grid-column: 1 / -1;
-    }
-
-    .newsletter-form--footer .form-submit {
-        align-self: stretch;
-    }
-
     .lessons-grid--four {
         grid-template-columns: 1fr;
     }
