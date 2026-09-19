@@ -165,56 +165,56 @@ if (contactForm && contactSuccess) {
     });
 }
 
-// --- Validation newsletter ---
-const newsletterForm = document.getElementById('newsletter-form');
-const newsletterSuccess = document.getElementById('newsletter-success');
-const newsletterNetworkError = document.getElementById('newsletter-network-error');
+// --- Newsletter : tous les formulaires de la page (corps, pied de page, notes de patch) ---
+// Chaque formulaire .newsletter-form est suivi, dans le même parent, d'un bloc .form-success
+// et d'un message .form-error (erreur réseau). L'erreur de saisie est le .form-error interne au formulaire.
+document.querySelectorAll('form.newsletter-form').forEach((form) => {
+    const box = form.parentElement;
+    const email = form.querySelector('input[type="email"]');
+    const inputError = form.querySelector('.form-error');
+    const success = Array.from(box.children).find((el) => el.classList.contains('form-success'));
+    const networkError = Array.from(box.children).find((el) => el !== form && el.classList.contains('form-error'));
+    const submitBtn = form.querySelector('.form-submit');
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-if (newsletterForm && newsletterSuccess) {
-    newsletterForm.addEventListener('submit', (e) => {
+    if (!email || !success || !submitBtn) return;
+
+    form.addEventListener('submit', (e) => {
         e.preventDefault();
 
-        const email = newsletterForm.querySelector('#newsletter-email');
-        const error = document.getElementById('newsletter-error');
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
         email.classList.remove('is-invalid');
-        error.classList.remove('is-visible');
+        if (inputError) inputError.classList.remove('is-visible');
+        if (networkError) networkError.classList.remove('is-visible');
 
         if (!emailRegex.test(email.value.trim())) {
             email.classList.add('is-invalid');
-            error.classList.add('is-visible');
+            if (inputError) inputError.classList.add('is-visible');
             return;
         }
 
-        const submitBtn = newsletterForm.querySelector('.form-submit');
         submitBtn.disabled = true;
 
-        fetch(newsletterForm.action, {
+        fetch(form.action, {
             method: 'POST',
-            body: new FormData(newsletterForm),
+            body: new FormData(form),
             headers: { 'Accept': 'application/json' }
         })
-            .then(response => {
-                if (response.ok) {
-                    newsletterForm.style.display = 'none';
-                    newsletterSuccess.classList.add('is-visible');
-                } else {
-                    newsletterNetworkError.classList.add('is-visible');
-                    submitBtn.disabled = false;
-                }
+            .then((response) => {
+                if (!response.ok) throw new Error('formspree');
+                form.style.display = 'none';
+                success.classList.add('is-visible');
             })
             .catch(() => {
-                newsletterNetworkError.classList.add('is-visible');
+                if (networkError) networkError.classList.add('is-visible');
                 submitBtn.disabled = false;
             });
     });
 
-    newsletterForm.querySelector('#newsletter-email').addEventListener('input', () => {
-        newsletterForm.querySelector('#newsletter-email').classList.remove('is-invalid');
-        document.getElementById('newsletter-error').classList.remove('is-visible');
+    email.addEventListener('input', () => {
+        email.classList.remove('is-invalid');
+        if (inputError) inputError.classList.remove('is-visible');
     });
-}
+});
 // --- Toggle son immersif (préférence mémorisée entre les pages) ---
 const soundToggle = document.getElementById('sound-toggle');
 const ambientAudio = document.getElementById('ambient-audio');
