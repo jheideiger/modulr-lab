@@ -21,6 +21,7 @@
     --color-border: rgba(10, 10, 10, 0.15);
     --color-accent: #00B8D9;
     --color-accent-dark: #003B45;
+    --color-sound-off: #7C3AED;
 
     --font-display: 'Inter', sans-serif;
     --font-body: 'Manrope', sans-serif;
@@ -838,7 +839,8 @@ a {
     padding-left: 12px;
 }
 
-/* --- Toggle son immersif (icône fixe, accueil) --- */
+/* --- Toggle son immersif (icône fixe, toutes les pages) ---
+   À l'arrêt : violet, onde fixe. En lecture : cyan, onde animée. */
 .sound-toggle {
     position: fixed;
     left: 64px;
@@ -846,20 +848,19 @@ a {
     width: 44px;
     height: 44px;
     border-radius: 50%;
-    border: 1px solid var(--color-border);
+    border: 1.5px solid var(--color-sound-off);
     background: var(--color-bg);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    color: var(--color-text-secondary);
+    color: var(--color-sound-off);
     z-index: 50;
-    transition: border-color 0.3s ease, color 0.3s ease;
+    transition: border-color 0.3s ease, color 0.3s ease, background-color 0.3s ease;
 }
 
 .sound-toggle:hover {
-    border-color: var(--color-accent);
-    color: var(--color-accent);
+    background: rgba(124, 58, 237, 0.08);
 }
 
 .sound-toggle[aria-pressed="true"] {
@@ -867,12 +868,16 @@ a {
     color: var(--color-accent);
 }
 
-.sound-waveform-svg {
-    width: 20px;
-    height: 10px;
+.sound-toggle[aria-pressed="true"]:hover {
+    background: rgba(0, 184, 217, 0.08);
 }
 
-.wave-flat {
+.sound-waveform-svg {
+    width: 22px;
+    height: 11px;
+}
+
+.wave-idle {
     opacity: 1;
     transition: opacity 0.4s ease;
 }
@@ -880,9 +885,11 @@ a {
 .wave-active {
     opacity: 0;
     transition: opacity 0.4s ease;
+    transform-box: fill-box;
+    transform-origin: center;
 }
 
-.sound-toggle[aria-pressed="true"] .wave-flat {
+.sound-toggle[aria-pressed="true"] .wave-idle {
     opacity: 0;
 }
 
