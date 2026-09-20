@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <!--
   ============================================================================
-  GABARIT D'UNE NOTE DE PATCH — modulr lab
+  GABARIT D'UNE FICHE DE PATCH — modulr lab
   Ce dossier commence par « _ » : GitHub Pages (Jekyll) ne le publie pas.
 
-  Créer une note, le jour où la vidéo sort :
+  Créer une fiche, le jour où la vidéo sort :
    1. Copier ce dossier en /patchs/<slug>/. Le slug = la requête visée, pas le nom poétique du patch
       (/patchs/patch-krell/ et non /patchs/glew-glew/). Minuscules, tirets, jamais de numéro ni de date.
    2. Remplir chaque zone [entre crochets], puis supprimer les <span class="placeholder">.
    3. Retirer la balise <meta name="robots">.
    4. Créer le miroir anglais /en/patchs/<même-slug>/.
    5. Ajouter les deux URL au sitemap.xml, et une carte dans /patchs/ et /en/patchs/.
-   6. Première note publiée : retirer le noindex de /patchs/ et ajouter « patchs » à la navigation.
+   6. Première fiche publiée : retirer le noindex de /patchs/ et ajouter « patchs » à la navigation.
 
   Réglages SEO :
    - <title> : 60 caractères maximum, la requête en tête.
@@ -85,7 +85,7 @@
     {
       "@type": "ListItem",
       "position": 3,
-      "name": "[TITRE DE LA NOTE]",
+      "name": "[TITRE DE LA FICHE]",
       "item": "https://modulrlab.com/patchs/SLUG/"
     }
   ]
@@ -107,7 +107,7 @@
 {
   "@context": "https://schema.org",
   "@type": "Article",
-  "headline": "[TITRE DE LA NOTE]",
+  "headline": "[TITRE DE LA FICHE]",
   "description": "[META DESCRIPTION]",
   "mainEntityOfPage": "https://modulrlab.com/patchs/SLUG/",
   "author": {
@@ -283,7 +283,7 @@
       </div>
     </section>
 
-    <!-- 9 · CE QU'IL FAUT ÉCOUTER — la partie pédagogique : ce qui distingue une note de patch d'une recette -->
+    <!-- 9 · CE QU'IL FAUT ÉCOUTER — la partie pédagogique : ce qui distingue une fiche de patch d'une recette -->
     <section class="page-container section-gap">
       <div class="row-grid">
         <div class="rail-label">→ écoute</div>
@@ -336,7 +336,7 @@
             semaine, et ce qui se prépare.</p>
           <div class="form-container reveal">
           <form class="newsletter-form" action="https://formspree.io/f/xoeqqgnn" method="POST" novalidate>
-            <input type="hidden" name="source" value="note SLUG">
+            <input type="hidden" name="source" value="fiche SLUG">
             <div class="newsletter-row">
               <input type="email" name="newsletter-email" class="form-input" required autocomplete="email"
                 placeholder="votre@email.com" aria-label="votre adresse email">
@@ -373,11 +373,11 @@
           <div>
             <p class="lesson-meta" style="margin-bottom: 8px">d'autres patchs</p>
             <a href="../" class="further-link reveal">
-              <h3 class="lesson-title-sm"><span class="placeholder">[titre d'une autre note]</span></h3>
+              <h3 class="lesson-title-sm"><span class="placeholder">[titre d'une autre fiche]</span></h3>
               <p class="lesson-meta"><span class="placeholder">[niveau · durée]</span></p>
             </a>
             <a href="../" class="further-link reveal">
-              <h3 class="lesson-title-sm"><span class="placeholder">[titre d'une autre note]</span></h3>
+              <h3 class="lesson-title-sm"><span class="placeholder">[titre d'une autre fiche]</span></h3>
               <p class="lesson-meta"><span class="placeholder">[niveau · durée]</span></p>
             </a>
           </div>
