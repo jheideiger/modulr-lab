@@ -674,7 +674,7 @@ a {
     max-width: 60ch;
 }
 
-/* --- Encart "en construction" (vidéo manquante, atelier à venir…) --- */
+/* --- Encart "en construction" (contenu annoncé mais pas encore en ligne) --- */
 .construction-notice {
     border: 0.5px solid var(--color-border);
     padding: 32px;
