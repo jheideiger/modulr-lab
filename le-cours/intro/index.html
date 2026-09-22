@@ -15,22 +15,22 @@
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>modulr lab — introduction à la synthèse modulaire</title>
+  <title>modulr lab — qu'est-ce qu'un son ?</title>
   <link rel="icon" type="image/png" sizes="16x16" href="../../icons/favicon-16x16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="../../icons/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="96x96" href="../../icons/favicon-96x96.png">
   <link rel="apple-touch-icon" sizes="180x180" href="../../icons/apple-touch-icon.png">
   <meta name="description"
-    content="Leçon 1 : qu'est-ce qu'un signal, la différence entre audio et control voltage, et le principe du patch modulaire.">
+    content="Leçon 1 : ce qu'est un son, et les deux grandeurs qui décrivent un signal — la fréquence et l'amplitude.">
   <link rel="canonical" href="https://modulrlab.com/le-cours/intro/">
   <link rel="alternate" hreflang="fr" href="https://modulrlab.com/le-cours/intro/">
   <link rel="alternate" hreflang="en" href="https://modulrlab.com/en/le-cours/intro/">
   <link rel="alternate" hreflang="x-default" href="https://modulrlab.com/le-cours/intro">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="fr_FR">
-  <meta property="og:title" content="modulr lab — introduction à la synthèse modulaire">
+  <meta property="og:title" content="modulr lab — qu'est-ce qu'un son ?">
   <meta property="og:description"
-    content="Leçon 1 : qu'est-ce qu'un signal, la différence entre audio et control voltage, et le principe du patch modulaire.">
+    content="Leçon 1 : ce qu'est un son, et les deux grandeurs qui décrivent un signal — la fréquence et l'amplitude.">
   <meta property="og:url" content="https://modulrlab.com/le-cours/intro/">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -59,7 +59,7 @@
     {
       "@type": "ListItem",
       "position": 3,
-      "name": "introduction à la synthèse modulaire",
+      "name": "qu'est-ce qu'un son ?",
       "item": "https://modulrlab.com/le-cours/intro/"
     }
   ]
@@ -69,8 +69,8 @@
 {
   "@context": "https://schema.org",
   "@type": "Article",
-  "headline": "introduction à la synthèse modulaire",
-  "description": "Leçon 1 : qu'est-ce qu'un signal, la différence entre audio et control voltage, et le principe du patch modulaire.",
+  "headline": "qu'est-ce qu'un son ?",
+  "description": "Leçon 1 : ce qu'est un son, et les deux grandeurs qui décrivent un signal — la fréquence et l'amplitude.",
   "mainEntityOfPage": "https://modulrlab.com/le-cours/intro/",
   "author": {
     "@type": "Person",
@@ -140,8 +140,8 @@
       <div class="row-grid">
         <div class="rail-label rail-label--accent">→ leçon 1</div>
         <div>
-          <p class="lesson-meta" style="margin-bottom: 16px">leçon 1 sur 4 · 12 min de lecture</p>
-          <h1 class="hero-title reveal">qu'est-ce qu'un<br>signal ?</h1>
+          <p class="lesson-meta" style="margin-bottom: 16px">leçon 1 sur 4 · 2 min de lecture</p>
+          <h1 class="hero-title reveal">qu'est-ce qu'un<br>son ?</h1>
           <p class="hero-lead reveal reveal-delay-1">comprendre la matière première du modulaire avant de toucher au
             premier câble.</p>
         </div>
@@ -153,7 +153,7 @@
         <div class="rail-label">→ vidéo</div>
         <div class="video-container reveal">
           <div class="video-wrapper">
-            <iframe src="https://www.youtube.com/embed/h0cdQ6J_Zb8" title="Leçon 1 — Introduction" frameborder="0"
+            <iframe src="https://www.youtube.com/embed/h0cdQ6J_Zb8" title="Leçon 1 — Qu'est-ce qu'un son ?" frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowfullscreen loading="lazy"></iframe>
           </div>
@@ -165,41 +165,43 @@
       <div class="row-grid">
         <div class="rail-label">→ texte</div>
         <article class="lesson-content">
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">le son, c'est du mouvement.</h2>
-          <p class="manifesto-text reveal">Avant de parler de modules, de câbles ou de voltage, il faut comprendre une
-            chose fondamentale : un son, c'est une vibration. Une membrane qui bouge, de l'air qui oscille, un signal
-            électrique qui monte et qui descend. Tout commence là.</p>
-          <p class="manifesto-text reveal">Dans un synthétiseur modulaire, cette vibration est représentée par un signal
-            électrique — un voltage qui varie dans le temps. Ce signal est la matière première de tout ce que vous allez
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">le son, c'est une vibration.</h2>
+          <p class="manifesto-text reveal">Avant de parler de synthétiseur, de modules ou de câbles, commençons par quelque chose de beaucoup plus
+            simple : ce que nous entendons. Un son est une vibration qui se propage dans un milieu — généralement
+            l'air — jusqu'à nos oreilles.</p>
+          <p class="manifesto-text reveal">Lorsqu'un objet vibre, il provoque de petites variations de pression dans l'air. Notre oreille
+            transforme ces variations en sensations, que nous percevons comme des sons.</p>
+          <p class="manifesto-text reveal">Un synthétiseur produit ce même type de variation, mais électroniquement : un oscillateur fabrique un
+            signal qui évolue continuellement dans le temps. C'est la matière première de tout ce que vous allez
             construire.</p>
 
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">audio vs control voltage.
-          </h2>
-          <p class="manifesto-text reveal">Il y a deux grandes familles de signaux dans un modulaire : les signaux audio
-            et les signaux de contrôle (CV, pour Control Voltage).</p>
-          <p class="manifesto-text reveal">Un signal audio vibre assez vite pour que vos oreilles le perçoivent comme un
-            son — typiquement entre 20 Hz et 20 000 Hz. Un signal CV, lui, bouge plus lentement : il sert à contrôler
-            les paramètres d'autres modules. Par exemple, un CV peut contrôler la hauteur d'une note, l'ouverture d'un
-            filtre, ou le volume d'un amplificateur.</p>
-          <p class="manifesto-text reveal">La beauté du modulaire, c'est que ces deux types de signaux sont
-            techniquement identiques — ce sont tous les deux du voltage. La seule différence, c'est comment vous décidez
-            de les utiliser. Un LFO (oscillateur basse fréquence) est d'habitude un signal de contrôle, mais si vous
-            accélérez sa fréquence au-delà de 20 Hz, il devient un signal audio. Cette interchangeabilité est au cœur de
-            la philosophie modulaire.</p>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">la fréquence : la hauteur.</h2>
+          <p class="manifesto-text reveal">La fréquence, c'est le nombre de cycles que le signal effectue chaque seconde. Elle se mesure en
+            hertz (Hz). Plus la fréquence augmente, plus nous percevons généralement le son comme aigu.</p>
+          <p class="manifesto-text reveal">Sur une représentation du signal dans le temps, on voit ces cycles : un signal qui oscille lentement
+            a une fréquence basse, un signal qui oscille rapidement a une fréquence élevée.</p>
 
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">le patch : votre architecture
-            sonore.</h2>
-          <p class="manifesto-text reveal">Chaque câble que vous branchez crée une connexion entre deux modules.
-            L'ensemble de ces connexions forme ce qu'on appelle un patch — littéralement, un « branchement ». Chaque
-            patch est une architecture sonore unique.</p>
-          <p class="manifesto-text reveal">Contrairement à un synthétiseur classique où le chemin du signal est fixe
-            (oscillateur → filtre → amplificateur → sortie), un modulaire vous laisse décider de tout. Vous pouvez
-            envoyer la sortie d'un filtre dans un autre filtre, utiliser un signal audio pour moduler un LFO, ou faire
-            contrôler la hauteur d'un oscillateur par un microphone. Il n'y a pas de mauvais branchement — il n'y a que
-            des expériences.</p>
-          <p class="manifesto-text reveal">Dans la prochaine leçon, on plongera dans les bases acoustiques : fréquence,
-            harmoniques, et timbre. Vous comprendrez ce qui distingue le son d'une guitare de celui d'un synthétiseur —
-            et comment un oscillateur fabrique tout ça à partir de rien.</p>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">l'amplitude : le niveau.</h2>
+          <p class="manifesto-text reveal">La fréquence n'est pas la seule chose qui peut changer. Un même son peut garder exactement la même
+            hauteur et changer d'amplitude : c'est alors l'ampleur de la variation qui change.</p>
+          <p class="manifesto-text reveal">Sur une représentation du signal, une amplitude plus grande correspond à une variation plus
+            importante autour de sa position d'équilibre. À l'oreille, cela se traduit notamment par une différence de
+            niveau sonore perçu.</p>
+          <p class="manifesto-text reveal">Fréquence et amplitude : nous avons déjà deux manières essentielles de décrire un signal.</p>
+
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">produire, transformer, contrôler.</h2>
+          <p class="manifesto-text reveal">C'est ici que le synthétiseur devient intéressant. Un signal n'est pas seulement quelque chose que
+            l'on écoute : on peut aussi le produire, le mesurer, le modifier… et même s'en servir pour contrôler autre
+            chose.</p>
+          <p class="manifesto-text reveal">Dans un système modulaire, on travaille justement avec ces signaux. Certains produisent du son.
+            D'autres le transforment. D'autres encore servent à contrôler la manière dont le système évolue dans le
+            temps. Ces trois fonctions sont l'objet de la leçon 3, et la dernière — le contrôle — a sa propre
+            leçon, la quatrième.</p>
+
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">et maintenant ?</h2>
+          <p class="manifesto-text reveal">Avant de connecter tout cela, il reste une question essentielle : pourquoi deux instruments
+            peuvent-ils jouer exactement la même note… sans avoir le même son ? C'est ce que nous allons découvrir dans
+            la prochaine leçon : fondamentale, harmoniques et timbre.</p>
         </article>
       </div>
     </section>
@@ -215,7 +217,7 @@
           </a>
           <a href="../son-et-harmonique/" class="lesson-nav-next">
             <span class="lesson-nav-label">leçon suivante →</span>
-            <span class="lesson-nav-title">son et harmonique</span>
+            <span class="lesson-nav-title">son, harmoniques et timbre</span>
           </a>
         </nav>
       </div>

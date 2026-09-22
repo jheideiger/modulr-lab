@@ -302,6 +302,15 @@
             }
         });
 
+        // Un clic dans une vidéo intégrée (YouTube) lui donne le focus : on coupe l'ambiance
+        // pour ne pas jouer deux sons à la fois. La préférence du visiteur n'est pas modifiée.
+        window.addEventListener('blur', () => {
+            setTimeout(() => {
+                const active = document.activeElement;
+                if (active && active.tagName === 'IFRAME' && !ambientAudio.paused) ambientAudio.pause();
+            }, 0);
+        });
+
         window.addEventListener('pagehide', () => {
             store.setSession('modulr-sound-time', String(ambientAudio.currentTime || 0));
             ambientAudio.pause();

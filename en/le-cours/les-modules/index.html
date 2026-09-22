@@ -9,17 +9,17 @@
   <link rel="icon" type="image/png" sizes="32x32" href="../../../icons/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="96x96" href="../../../icons/favicon-96x96.png">
   <link rel="apple-touch-icon" sizes="180x180" href="../../../icons/apple-touch-icon.png">
-  <title>modulr lab — a tour of the modules</title>
-  <meta name="description" content="Lesson 3: what the VCO, VCF, VCA, LFO and envelope are for in a modular system.">
+  <title>modulr lab — the functions of a modular system</title>
+  <meta name="description" content="Lesson 3: what a module really does — produce, transform, control — and how these functions connect.">
   <link rel="canonical" href="https://modulrlab.com/en/le-cours/les-modules/">
   <link rel="alternate" hreflang="fr" href="https://modulrlab.com/le-cours/les-modules/">
   <link rel="alternate" hreflang="en" href="https://modulrlab.com/en/le-cours/les-modules/">
   <link rel="alternate" hreflang="x-default" href="https://modulrlab.com/le-cours/les-modules/">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="en_US">
-  <meta property="og:title" content="modulr lab — a tour of the modules">
+  <meta property="og:title" content="modulr lab — the functions of a modular system">
   <meta property="og:description"
-    content="Lesson 3: what the VCO, VCF, VCA, LFO and envelope are for in a modular system.">
+    content="Lesson 3: what a module really does — produce, transform, control — and how these functions connect.">
   <meta property="og:url" content="https://modulrlab.com/en/le-cours/les-modules/">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -49,7 +49,7 @@
     {
       "@type": "ListItem",
       "position": 3,
-      "name": "a tour of the modules",
+      "name": "the functions of a modular system",
       "item": "https://modulrlab.com/en/le-cours/les-modules/"
     }
   ]
@@ -59,8 +59,8 @@
 {
   "@context": "https://schema.org",
   "@type": "Article",
-  "headline": "a tour of the modules",
-  "description": "Lesson 3: what the VCO, VCF, VCA, LFO and envelope are for in a modular system.",
+  "headline": "the functions of a modular system",
+  "description": "Lesson 3: what a module really does — produce, transform, control — and how these functions connect.",
   "mainEntityOfPage": "https://modulrlab.com/en/le-cours/les-modules/",
   "author": {
     "@type": "Person",
@@ -132,10 +132,9 @@
       <div class="row-grid">
         <div class="rail-label rail-label--accent">→ lesson 3</div>
         <div>
-          <p class="lesson-meta reveal" style="margin-bottom: 16px">lesson 3 of 4 · 18 min read</p>
-          <h1 class="hero-title reveal reveal-delay-1">a tour of<br>the modules.</h1>
-          <p class="hero-lead reveal reveal-delay-2">VCO, VCF, VCA, LFO: what the fundamental building blocks of modular
-            are actually for.</p>
+          <p class="lesson-meta reveal" style="margin-bottom: 16px">lesson 3 of 4 · 3 min read</p>
+          <h1 class="hero-title reveal reveal-delay-1">the functions<br>of modular.</h1>
+          <p class="hero-lead reveal reveal-delay-2">produce, transform, control: what a module really does.</p>
         </div>
       </div>
     </section>
@@ -145,7 +144,7 @@
         <div class="rail-label">→ video</div>
         <div class="video-container reveal">
           <div class="video-wrapper">
-            <iframe src="https://www.youtube.com/embed/E5LwkKzfjkw" title="Lesson 3 — A tour of the modules"
+            <iframe src="https://www.youtube.com/embed/E5LwkKzfjkw" title="Lesson 3 — The functions of a modular system"
               frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowfullscreen loading="lazy"></iframe>
@@ -158,48 +157,33 @@
       <div class="row-grid">
         <div class="rail-label">→ text</div>
         <article class="lesson-content">
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">the VCO: where sound is born.</h2>
-          <p class="manifesto-text reveal">The VCO (Voltage Controlled Oscillator) is the modular's sound source. It's
-            the one generating the waveforms we saw in the previous lesson: sine, triangle, sawtooth, square. Without an
-            oscillator, there's no sound — it's the starting point of every patch.</p>
-          <p class="manifesto-text reveal">What makes the VCO "voltage controlled" is that its frequency (the note's
-            pitch) is controlled by a CV signal. Send 1 volt to the VCO's CV input, and the note goes up an octave.
-            That's the 1V/octave convention, standard across Eurorack. This means a sequencer or a keyboard can "play"
-            the oscillator simply by sending the right voltage.</p>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">what does a module do?</h2>
+          <p class="manifesto-text reveal">In the first two lessons, we looked at sound itself. A signal has a frequency and an amplitude, and it can contain several frequencies whose makeup shapes its timbre.</p>
+          <p class="manifesto-text reveal">But in a modular synthesizer, these signals don't stay isolated. They can be produced, transformed, mixed… and used to control other parts of the system. So what does a module actually do?</p>
 
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">the VCF: sculpting timbre.
-          </h2>
-          <p class="manifesto-text reveal">The VCF (Voltage Controlled Filter) is modular's sculptor. It takes a signal
-            rich in harmonics — typically a sawtooth — and removes certain frequencies to change its timbre.</p>
-          <p class="manifesto-text reveal">The most common filter is the low-pass filter: it lets low frequencies
-            through and cuts the highs. By turning the cutoff frequency knob, you open or close the filter, making the
-            sound brighter or darker. It's the most iconic gesture of subtractive synthesis.</p>
-          <p class="manifesto-text reveal">And since it's a VCF, that cutoff frequency can itself be controlled by a
-            voltage. Plug an envelope into the filter's CV input, and the timbre will evolve over time — that's how you
-            get those sounds that open up and then close back down, everywhere in electronic music.</p>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">produce.</h2>
+          <p class="manifesto-text reveal">To make a sound, you first need a source. An oscillator produces an electrical signal that changes continuously over time. That signal can be a sine, a triangle, a square or a sawtooth, and each of these shapes has a different harmonic makeup: that's what we saw in lesson 2.</p>
+          <p class="manifesto-text reveal">The oscillator is therefore a source. It produces something we can then send elsewhere in the system.</p>
 
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">the VCA: controlling volume.
-          </h2>
-          <p class="manifesto-text reveal">The VCA (Voltage Controlled Amplifier) is often the least spectacular module,
-            but it's one of the most essential. It controls a signal's volume based on a control voltage.</p>
-          <p class="manifesto-text reveal">Without a VCA, your sound loops forever without ever stopping. Plug an
-            envelope into the VCA, and the sound will have a beginning, a middle and an end — like a piano note fading
-            out gradually. The VCA gives sound its dimension in time.</p>
-          <p class="manifesto-text reveal">But the VCA isn't just for volume. Like everything in modular, it can be used
-            creatively: modulating an LFO's amplitude, creating ducking effects, controlling an effect's wet/dry mix.
-            It's a versatile tool.</p>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">transform.</h2>
+          <p class="manifesto-text reveal">Producing a signal isn't enough. We may want to modify it: remove some frequencies, keep others, change its level. That's the role of other modules.</p>
+          <p class="manifesto-text reveal">A filter acts on the frequency content of the signal: by gradually reducing the high frequencies, it makes the sound darker. The signal produced by the oscillator is still there, but it has been transformed. Other modules act on amplitude: a VCA, for example, lets you control the level of a signal.</p>
 
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">the LFO and envelope:
-            movement.</h2>
-          <p class="manifesto-text reveal">The LFO (Low Frequency Oscillator) is an oscillator that vibrates too slowly
-            to be heard — typically between 0.1 Hz and 20 Hz. It doesn't produce sound, but movement. Plugged into a
-            VCO's pitch, it creates vibrato. Into a VCF's cutoff, a wah-wah. Into a VCA's volume, a tremolo.</p>
-          <p class="manifesto-text reveal">The envelope (EG, Envelope Generator) is a control signal that fires once and
-            then stops. The classic model is ADSR: Attack (rise time), Decay (fall time), Sustain (held level), Release
-            (fade-out time). It's the envelope that gives each note its shape over time.</p>
-          <p class="manifesto-text reveal">LFO and envelope are the engines of movement in a patch. Without them, sound
-            is static, frozen. With them, it breathes, evolves, lives. In the final lesson, we close the loop with
-            control voltage: the signal that connects all these modules to each other.</p>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">combine.</h2>
+          <p class="manifesto-text reveal">In a modular system, several signals can be combined. You can mix them, compare them, distribute them, or send them to different places in the system. The same signal can thus become the raw material for several different processes.</p>
+          <p class="manifesto-text reveal">So the system isn't a fixed chain. It's a set of functions that can be connected in different ways.</p>
+
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">control.</h2>
+          <p class="manifesto-text reveal">There is a third function, and it's especially important in a modular system. Some modules produce signals that aren't meant to be heard directly: they're there to control other modules.</p>
+          <p class="manifesto-text reveal">A slow signal can gradually vary an oscillator's frequency. Another can control the amplitude of a sound. An envelope can determine how a sound starts, evolves, then fades away. These control signals change the behavior of the system over time.</p>
+
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">functions, not boxes.</h2>
+          <p class="manifesto-text reveal">Produce, transform, control: these categories aren't closed boxes. A single module can sometimes fulfill several functions. What matters isn't only the module's name — it's what it does with the signal.</p>
+          <p class="manifesto-text reveal">In the video, these functions are embodied by the modules of Make Noise's Shared System: the DPO, the Optomix, the modDemix, MATHS and the Wogglebug. MATHS, for example, can serve as an envelope just as well as a slow signal that moves a parameter: one module, several functions.</p>
+          <p class="manifesto-text reveal">And this is where the logic of modular really begins. An oscillator produces a signal. That signal goes into a filter. The filter is controlled by another signal, and the amplitude is itself controlled by an envelope. We're no longer just using several modules: we're building a system in which every element can act on the others. The way we connect these functions determines how the system behaves.</p>
+
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">what's next?</h2>
+          <p class="manifesto-text reveal">In the next lesson, we look precisely at these connections. How can one module control another? What is a control signal? And how can a voltage become a musical gesture? That's control voltage.</p>
         </article>
       </div>
     </section>
@@ -210,7 +194,7 @@
         <nav class="lesson-nav reveal">
           <a href="../son-et-harmonique/" class="lesson-nav-prev">
             <span class="lesson-nav-label">← previous lesson</span>
-            <span class="lesson-nav-title">sound and harmonics</span>
+            <span class="lesson-nav-title">sound, harmonics and timbre</span>
           </a>
           <a href="../" class="lesson-nav-index">
             <span class="lesson-nav-label">↑ contents</span>

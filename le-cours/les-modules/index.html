@@ -19,18 +19,18 @@
   <link rel="icon" type="image/png" sizes="32x32" href="../../icons/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="96x96" href="../../icons/favicon-96x96.png">
   <link rel="apple-touch-icon" sizes="180x180" href="../../icons/apple-touch-icon.png">
-  <title>modulr lab — panorama des modules</title>
+  <title>modulr lab — les fonctions d'un système modulaire</title>
   <meta name="description"
-    content="Leçon 3 : à quoi servent le VCO, le VCF, le VCA, le LFO et l'enveloppe dans un système modulaire.">
+    content="Leçon 3 : ce que fait réellement un module — produire, transformer, contrôler — et comment ces fonctions se connectent.">
   <link rel="canonical" href="https://modulrlab.com/le-cours/les-modules/">
   <link rel="alternate" hreflang="fr" href="https://modulrlab.com/le-cours/les-modules/">
   <link rel="alternate" hreflang="en" href="https://modulrlab.com/en/le-cours/les-modules/">
   <link rel="alternate" hreflang="x-default" href="https://modulrlab.com/le-cours/les-modules/">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="fr_FR">
-  <meta property="og:title" content="modulr lab — panorama des modules">
+  <meta property="og:title" content="modulr lab — les fonctions d'un système modulaire">
   <meta property="og:description"
-    content="Leçon 3 : à quoi servent le VCO, le VCF, le VCA, le LFO et l'enveloppe dans un système modulaire.">
+    content="Leçon 3 : ce que fait réellement un module — produire, transformer, contrôler — et comment ces fonctions se connectent.">
   <meta property="og:url" content="https://modulrlab.com/le-cours/les-modules/">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -60,7 +60,7 @@
     {
       "@type": "ListItem",
       "position": 3,
-      "name": "panorama des modules",
+      "name": "les fonctions d'un système modulaire",
       "item": "https://modulrlab.com/le-cours/les-modules/"
     }
   ]
@@ -70,8 +70,8 @@
 {
   "@context": "https://schema.org",
   "@type": "Article",
-  "headline": "panorama des modules",
-  "description": "Leçon 3 : à quoi servent le VCO, le VCF, le VCA, le LFO et l'enveloppe dans un système modulaire.",
+  "headline": "les fonctions d'un système modulaire",
+  "description": "Leçon 3 : ce que fait réellement un module — produire, transformer, contrôler — et comment ces fonctions se connectent.",
   "mainEntityOfPage": "https://modulrlab.com/le-cours/les-modules/",
   "author": {
     "@type": "Person",
@@ -149,10 +149,10 @@
       <div class="row-grid">
         <div class="rail-label rail-label--accent">→ leçon 3</div>
         <div>
-          <p class="lesson-meta" style="margin-bottom: 16px">leçon 3 sur 4 · 18 min de lecture</p>
-          <h1 class="hero-title reveal">panorama<br>des modules.</h1>
-          <p class="hero-lead reveal reveal-delay-1">VCO, VCF, VCA, LFO : à quoi servent vraiment les briques
-            fondamentales du modulaire.</p>
+          <p class="lesson-meta" style="margin-bottom: 16px">leçon 3 sur 4 · 3 min de lecture</p>
+          <h1 class="hero-title reveal">les fonctions<br>du modulaire.</h1>
+          <p class="hero-lead reveal reveal-delay-1">produire, transformer, contrôler : ce que fait vraiment
+            un module.</p>
         </div>
       </div>
     </section>
@@ -163,7 +163,7 @@
         <div class="rail-label">→ vidéo</div>
         <div class="video-container reveal">
           <div class="video-wrapper">
-            <iframe src="https://www.youtube.com/embed/E5LwkKzfjkw" title="Leçon 3 — Panorama des modules"
+            <iframe src="https://www.youtube.com/embed/E5LwkKzfjkw" title="Leçon 3 — Les fonctions d'un système modulaire"
               frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowfullscreen loading="lazy"></iframe>
@@ -177,56 +177,33 @@
       <div class="row-grid">
         <div class="rail-label">→ texte</div>
         <article class="lesson-content">
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">que fait un module ?</h2>
+          <p class="manifesto-text reveal">Dans les deux premières leçons, nous avons observé le son lui-même. Un signal possède une fréquence et une amplitude, et il peut contenir plusieurs fréquences dont la composition influence son timbre.</p>
+          <p class="manifesto-text reveal">Mais dans un synthétiseur modulaire, ces signaux ne restent pas isolés. Ils peuvent être produits, transformés, mélangés… et utilisés pour contrôler d'autres éléments du système. Alors, que fait réellement un module ?</p>
 
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">le VCO : là où le son naît.</h2>
-          <p class="manifesto-text reveal">Le VCO (Voltage Controlled Oscillator) est la source sonore du modulaire.
-            C'est lui qui génère les formes d'onde que nous avons vues dans la leçon précédente : sinusoïde, triangle,
-            dent de scie, carré. Sans oscillateur, pas de son — c'est le point de départ de tout patch.</p>
-          <p class="manifesto-text reveal">Ce qui rend le VCO « voltage controlled », c'est que sa fréquence (la hauteur
-            de la note) est contrôlée par un signal CV. Envoyez 1 volt à l'entrée CV du VCO, et la note monte d'une
-            octave. C'est la convention 1V/octave, standard dans le monde Eurorack. Cela signifie qu'un séquenceur ou un
-            clavier peut « jouer » de l'oscillateur simplement en envoyant le bon voltage.</p>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">produire.</h2>
+          <p class="manifesto-text reveal">Pour fabriquer un son, il faut d'abord une source. Un oscillateur produit un signal électrique qui évolue continuellement dans le temps. Ce signal peut être sinusoïdal, triangulaire, carré ou en dent de scie, et chacune de ces formes possède une composition harmonique différente : c'est ce que nous avons vu dans la leçon 2.</p>
+          <p class="manifesto-text reveal">L'oscillateur est donc une source. Il produit quelque chose que l'on peut ensuite envoyer ailleurs dans le système.</p>
 
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">le VCF : sculpter le timbre.
-          </h2>
-          <p class="manifesto-text reveal">Le VCF (Voltage Controlled Filter) est le sculpteur du modulaire. Il prend un
-            signal riche en harmoniques — typiquement une dent de scie — et en retire certaines fréquences pour changer
-            le timbre.</p>
-          <p class="manifesto-text reveal">Le filtre le plus courant est le filtre passe-bas (low-pass) : il laisse
-            passer les fréquences graves et coupe les aigus. En tournant le bouton de fréquence de coupure (cutoff),
-            vous ouvrez ou fermez le filtre, rendant le son plus brillant ou plus sombre. C'est le geste le plus
-            emblématique de la synthèse soustractive.</p>
-          <p class="manifesto-text reveal">Et comme c'est un VCF, cette fréquence de coupure peut elle aussi être
-            contrôlée par un voltage. Branchez une enveloppe sur l'entrée CV du filtre, et le timbre évoluera dans le
-            temps — c'est comme ça qu'on crée ces sons qui s'ouvrent puis se referment, omniprésents dans la musique
-            électronique.</p>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">transformer.</h2>
+          <p class="manifesto-text reveal">Produire un signal ne suffit pas. On peut vouloir le modifier : retirer certaines fréquences, en conserver d'autres, changer son niveau. C'est le rôle d'autres modules.</p>
+          <p class="manifesto-text reveal">Un filtre agit sur le contenu fréquentiel du signal : en réduisant progressivement les fréquences aiguës, il rend le son plus sombre. Le signal produit par l'oscillateur est toujours là, mais il a été transformé. D'autres modules agissent sur l'amplitude : un VCA, par exemple, permet de contrôler le niveau d'un signal.</p>
 
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">le VCA : contrôler le volume.
-          </h2>
-          <p class="manifesto-text reveal">Le VCA (Voltage Controlled Amplifier) est souvent le module le moins
-            spectaculaire, mais c'est un des plus essentiels. Il contrôle le volume d'un signal en fonction d'un voltage
-            de contrôle.</p>
-          <p class="manifesto-text reveal">Sans VCA, votre son tourne en boucle sans jamais s'arrêter. Branchez une
-            enveloppe sur le VCA, et le son aura un début, un milieu et une fin — comme une note de piano qui s'atténue
-            progressivement. Le VCA donne la dimension temporelle au son.</p>
-          <p class="manifesto-text reveal">Mais le VCA ne sert pas qu'au volume. Comme tout dans le modulaire, il peut
-            être utilisé de façon créative : moduler l'amplitude d'un LFO, créer des ducking, contrôler le wet/dry d'un
-            effet. C'est un outil polyvalent.</p>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">combiner.</h2>
+          <p class="manifesto-text reveal">Dans un système modulaire, plusieurs signaux peuvent être combinés. On peut les mélanger, les comparer, les distribuer, ou les envoyer vers différents endroits du système. Un même signal peut ainsi devenir la matière première de plusieurs traitements différents.</p>
+          <p class="manifesto-text reveal">Le système n'est donc pas une chaîne fixe. C'est un ensemble de fonctions que l'on peut connecter de différentes manières.</p>
 
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">le LFO et l'enveloppe : le
-            mouvement.</h2>
-          <p class="manifesto-text reveal">Le LFO (Low Frequency Oscillator) est un oscillateur qui vibre trop lentement
-            pour être entendu — typiquement entre 0,1 Hz et 20 Hz. Il ne produit pas de son, mais du mouvement. Branché
-            sur le pitch d'un VCO, il crée un vibrato. Sur le cutoff d'un VCF, un wah-wah. Sur le volume d'un VCA, un
-            trémolo.</p>
-          <p class="manifesto-text reveal">L'enveloppe (EG, Envelope Generator) est un signal de contrôle qui se
-            déclenche une fois puis s'arrête. Le modèle classique est l'ADSR : Attack (temps de montée), Decay (temps de
-            descente), Sustain (niveau maintenu), Release (temps d'extinction). C'est l'enveloppe qui donne sa forme
-            temporelle à chaque note.</p>
-          <p class="manifesto-text reveal">LFO et enveloppe sont les moteurs du mouvement dans un patch. Sans eux, le
-            son est statique, figé. Avec eux, il respire, évolue, vit. Dans la dernière leçon, on referme la boucle avec
-            le control voltage : le signal qui relie tous ces modules entre eux.</p>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">contrôler.</h2>
+          <p class="manifesto-text reveal">Il existe une troisième fonction, particulièrement importante dans un système modulaire. Certains modules produisent des signaux qui ne sont pas destinés à être entendus directement : ils servent à contrôler les autres modules.</p>
+          <p class="manifesto-text reveal">Un signal lent peut faire varier progressivement la fréquence d'un oscillateur. Un autre peut contrôler l'amplitude d'un son. Une enveloppe peut déterminer comment un son commence, évolue, puis disparaît. Ces signaux de contrôle modifient le comportement du système dans le temps.</p>
 
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">des fonctions, pas des cases.</h2>
+          <p class="manifesto-text reveal">Produire, transformer, contrôler : ces catégories ne sont pas des cases fermées. Un même module peut parfois remplir plusieurs fonctions. Ce qui compte, ce n'est pas seulement le nom du module, c'est ce qu'il fait avec le signal.</p>
+          <p class="manifesto-text reveal">Dans la vidéo, ces fonctions sont incarnées par les modules du Shared System de Make Noise : le DPO, l'Optomix, le modDemix, MATHS et le Wogglebug. MATHS, par exemple, peut aussi bien servir d'enveloppe que de signal lent qui fait varier un paramètre : un seul module, plusieurs fonctions.</p>
+          <p class="manifesto-text reveal">Et c'est là que commence vraiment la logique du modulaire. Un oscillateur produit un signal. Ce signal entre dans un filtre. Le filtre est contrôlé par un autre signal, et l'amplitude est elle-même contrôlée par une enveloppe. Nous ne sommes plus simplement en train d'utiliser plusieurs modules : nous construisons un système dans lequel chaque élément peut agir sur les autres. La manière dont nous connectons ces fonctions détermine le comportement du système.</p>
+
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">et maintenant ?</h2>
+          <p class="manifesto-text reveal">Dans la prochaine leçon, nous nous intéressons justement à ces connexions. Comment un module peut-il en contrôler un autre ? Qu'est-ce qu'un signal de contrôle ? Et comment une tension peut-elle devenir un geste musical ? C'est le control voltage.</p>
         </article>
       </div>
     </section>
@@ -238,7 +215,7 @@
         <nav class="lesson-nav reveal">
           <a href="../son-et-harmonique/" class="lesson-nav-prev">
             <span class="lesson-nav-label">← leçon précédente</span>
-            <span class="lesson-nav-title">son et harmonique</span>
+            <span class="lesson-nav-title">son, harmoniques et timbre</span>
           </a>
           <a href="../" class="lesson-nav-index">
             <span class="lesson-nav-label">↑ sommaire</span>

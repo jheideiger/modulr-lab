@@ -9,18 +9,18 @@
   <link rel="icon" type="image/png" sizes="32x32" href="../../../icons/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="96x96" href="../../../icons/favicon-96x96.png">
   <link rel="apple-touch-icon" sizes="180x180" href="../../../icons/apple-touch-icon.png">
-  <title>modulr lab — sound and harmonics</title>
+  <title>modulr lab — sound, harmonics and timbre</title>
   <meta name="description"
-    content="Lesson 2: frequency, harmonics, timbre and waveforms — the acoustic basics for understanding an oscillator.">
+    content="Lesson 2: why two sounds at the same pitch don't sound alike — fundamental, harmonics, waveforms and filter.">
   <link rel="canonical" href="https://modulrlab.com/en/le-cours/son-et-harmonique/">
   <link rel="alternate" hreflang="fr" href="https://modulrlab.com/le-cours/son-et-harmonique/">
   <link rel="alternate" hreflang="en" href="https://modulrlab.com/en/le-cours/son-et-harmonique/">
   <link rel="alternate" hreflang="x-default" href="https://modulrlab.com/le-cours/son-et-harmonique/">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="en_US">
-  <meta property="og:title" content="modulr lab — sound and harmonics">
+  <meta property="og:title" content="modulr lab — sound, harmonics and timbre">
   <meta property="og:description"
-    content="Lesson 2: frequency, harmonics, timbre and waveforms — the acoustic basics for understanding an oscillator.">
+    content="Lesson 2: why two sounds at the same pitch don't sound alike — fundamental, harmonics, waveforms and filter.">
   <meta property="og:url" content="https://modulrlab.com/en/le-cours/son-et-harmonique/">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -50,7 +50,7 @@
     {
       "@type": "ListItem",
       "position": 3,
-      "name": "sound and harmonics",
+      "name": "sound, harmonics and timbre",
       "item": "https://modulrlab.com/en/le-cours/son-et-harmonique/"
     }
   ]
@@ -60,8 +60,8 @@
 {
   "@context": "https://schema.org",
   "@type": "Article",
-  "headline": "sound and harmonics",
-  "description": "Lesson 2: frequency, harmonics, timbre and waveforms — the acoustic basics for understanding an oscillator.",
+  "headline": "sound, harmonics and timbre",
+  "description": "Lesson 2: why two sounds at the same pitch don't sound alike — fundamental, harmonics, waveforms and filter.",
   "mainEntityOfPage": "https://modulrlab.com/en/le-cours/son-et-harmonique/",
   "author": {
     "@type": "Person",
@@ -133,10 +133,10 @@
       <div class="row-grid">
         <div class="rail-label rail-label--accent">→ lesson 2</div>
         <div>
-          <p class="lesson-meta reveal" style="margin-bottom: 16px">lesson 2 of 4 · 14 min read</p>
-          <h1 class="hero-title reveal reveal-delay-1">sound and<br>harmonics.</h1>
-          <p class="hero-lead reveal reveal-delay-2">where the timbre of things comes from — and how an oscillator
-            builds sound out of nothing.</p>
+          <p class="lesson-meta reveal" style="margin-bottom: 16px">lesson 2 of 4 · 2 min read</p>
+          <h1 class="hero-title reveal reveal-delay-1">sound, harmonics<br>and timbre.</h1>
+          <p class="hero-lead reveal reveal-delay-2">where the timbre of things comes from — and how a synthesizer
+            creates it, then transforms it.</p>
         </div>
       </div>
     </section>
@@ -146,7 +146,7 @@
         <div class="rail-label">→ video</div>
         <div class="video-container reveal">
           <div class="video-wrapper">
-            <iframe src="https://www.youtube.com/embed/UiN3_LtJc_E" title="Lesson 2 — Sound and harmonics"
+            <iframe src="https://www.youtube.com/embed/UiN3_LtJc_E" title="Lesson 2 — Sound, harmonics and timbre"
               frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowfullscreen loading="lazy"></iframe>
@@ -159,43 +159,26 @@
       <div class="row-grid">
         <div class="rail-label">→ text</div>
         <article class="lesson-content">
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">it all starts with a vibration.</h2>
-          <p class="manifesto-text reveal">A sound is air moving. More precisely, it's a pressure variation propagating
-            through the air as a wave. When that wave reaches your eardrum, it makes it vibrate — and your brain
-            interprets that vibration as sound.</p>
-          <p class="manifesto-text reveal">The most fundamental trait of a sound is its frequency: how many times the
-            wave oscillates per second, measured in Hertz (Hz). A frequency of 440 Hz means the air vibrates 440 times a
-            second — that's the note A, the one orchestras tune to.</p>
-          <p class="manifesto-text reveal">The higher the frequency, the higher-pitched the sound. The lower it is, the
-            deeper the sound. The human ear perceives frequencies roughly between 20 Hz and 20,000 Hz.</p>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">same note, two sounds.</h2>
+          <p class="manifesto-text reveal">In the previous lesson, we saw that a signal's frequency shapes the pitch we perceive. But frequency alone isn't enough to fully describe a sound.</p>
+          <p class="manifesto-text reveal">At the start of the video, two sounds play the same note: a very simple sound, then a rich one. Listen to them before reading on. They have the same pitch, and yet they don't sound the same. So what changes?</p>
 
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">the sine wave: the purest
-            sound.</h2>
-          <p class="manifesto-text reveal">The simplest waveform is the sine wave. It's a perfectly smooth curve that
-            rises and falls regularly. It contains only a single frequency — no complexity, no texture. It's the
-            "barest" sound that exists.</p>
-          <p class="manifesto-text reveal">In practice, a pure sine wave sounds like a soft whistle, a bit like a
-            phone's beep. It's a sound with no character, no personality. And that's exactly why it's interesting: it
-            serves as the basic building block for understanding every other sound.</p>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">fundamental and harmonics.</h2>
+          <p class="manifesto-text reveal">A sound we perceive as a single note can actually contain several frequencies. The main one is called the fundamental frequency: it's the one that notably sets the pitch we perceive.</p>
+          <p class="manifesto-text reveal">Other frequencies can be added to it, at multiples of the fundamental: these are the harmonics. For a fundamental at 220 Hz, they sit at 440 Hz, 660 Hz, 880 Hz, and so on.</p>
+          <p class="manifesto-text reveal">These extra frequencies change the shape of the signal, and therefore the way we perceive the sound. That's one of the reasons two sounds can share the same pitch while having different timbres.</p>
 
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">harmonics: where character
-            comes from.</h2>
-          <p class="manifesto-text reveal">In real life, no instrument produces a pure sine wave. A guitar, a voice, a
-            violin — all produce a sound made up of several simultaneous frequencies. The lowest of these frequencies is
-            called the fundamental, and all the others are harmonics.</p>
-          <p class="manifesto-text reveal">Harmonics are multiples of the fundamental. If your fundamental is at 100 Hz,
-            the harmonics will be at 200 Hz, 300 Hz, 400 Hz, and so on. It's the mix of these harmonics — how many there
-            are, their relative intensity — that creates a sound's timbre. That's what lets you tell a guitar apart from
-            a piano even when they play the same note.</p>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">waveforms.</h2>
+          <p class="manifesto-text reveal">In a synthesizer, this makeup depends notably on the shape of the signal produced by the oscillator. Sine, triangle, square, sawtooth: at the same pitch, the timbre changes, because each waveform has a different harmonic makeup.</p>
+          <p class="manifesto-text reveal">The sine contains only the fundamental: it's the barest sound there is. The triangle adds weak odd harmonics. The square also contains odd harmonics, but stronger ones, which gives it its hollow timbre. The sawtooth contains all of them: it's the richest.</p>
 
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">the classic waveforms.</h2>
-          <p class="manifesto-text reveal">In a synthesizer, the oscillator (VCO) generates electrical waveforms that
-            correspond to different mixes of harmonics. The four classic shapes are the sine (no harmonics), the
-            triangle (weak odd harmonics), the sawtooth (all harmonics, very rich), and the square (strong odd
-            harmonics, a hollow, nasal sound).</p>
-          <p class="manifesto-text reveal">Each waveform has its own color, texture, character. And it's by combining
-            them, filtering them, modulating them that you sculpt sound in a modular system. That's exactly what we'll
-            look at in the next lesson: what the modules that process these signals are actually for.</p>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">the filter.</h2>
+          <p class="manifesto-text reveal">We can also change this makeup after the signal has been produced — with a filter, for example. As the high frequencies of a rich sound are gradually reduced, you hear it get darker and darker.</p>
+          <p class="manifesto-text reveal">The note being played hasn't changed. We've only altered some of the frequencies present in the signal.</p>
+
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">two ways of looking at a sound.</h2>
+          <p class="manifesto-text reveal">We now have a second way of looking at a sound. We can watch how it evolves over time, but we can also look at the different frequencies it's made of. The fundamental tells us about pitch, the harmonics contribute to timbre, and in sound synthesis, we can act on this makeup to transform the sound.</p>
+          <p class="manifesto-text reveal">In the next lesson, we step into the system itself: what are the different roles of the modules?</p>
         </article>
       </div>
     </section>
@@ -206,7 +189,7 @@
         <nav class="lesson-nav reveal">
           <a href="../intro/" class="lesson-nav-prev">
             <span class="lesson-nav-label">← previous lesson</span>
-            <span class="lesson-nav-title">what is a signal?</span>
+            <span class="lesson-nav-title">what is a sound?</span>
           </a>
           <a href="../" class="lesson-nav-index">
             <span class="lesson-nav-label">↑ contents</span>
@@ -214,7 +197,7 @@
           </a>
           <a href="../les-modules/" class="lesson-nav-next">
             <span class="lesson-nav-label">next lesson →</span>
-            <span class="lesson-nav-title">a tour of the modules</span>
+            <span class="lesson-nav-title">the functions of a modular system</span>
           </a>
         </nav>
       </div>

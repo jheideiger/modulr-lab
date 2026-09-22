@@ -9,18 +9,18 @@
   <link rel="icon" type="image/png" sizes="32x32" href="../../../icons/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="96x96" href="../../../icons/favicon-96x96.png">
   <link rel="apple-touch-icon" sizes="180x180" href="../../../icons/apple-touch-icon.png">
-  <title>modulr lab — introduction to modular synthesis</title>
+  <title>modulr lab — what is a sound?</title>
   <meta name="description"
-    content="Lesson 1: what a signal is, the difference between audio and control voltage, and the principle of a modular patch.">
+    content="Lesson 1: what a sound is, and the two quantities that describe a signal — frequency and amplitude.">
   <link rel="canonical" href="https://modulrlab.com/en/le-cours/intro/">
   <link rel="alternate" hreflang="fr" href="https://modulrlab.com/le-cours/intro/">
   <link rel="alternate" hreflang="en" href="https://modulrlab.com/en/le-cours/intro/">
   <link rel="alternate" hreflang="x-default" href="https://modulrlab.com/le-cours/intro/">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="en_US">
-  <meta property="og:title" content="modulr lab — introduction to modular synthesis">
+  <meta property="og:title" content="modulr lab — what is a sound?">
   <meta property="og:description"
-    content="Lesson 1: what a signal is, the difference between audio and control voltage, and the principle of a modular patch.">
+    content="Lesson 1: what a sound is, and the two quantities that describe a signal — frequency and amplitude.">
   <meta property="og:url" content="https://modulrlab.com/en/le-cours/intro/">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -50,7 +50,7 @@
     {
       "@type": "ListItem",
       "position": 3,
-      "name": "introduction to modular synthesis",
+      "name": "what is a sound?",
       "item": "https://modulrlab.com/en/le-cours/intro/"
     }
   ]
@@ -60,8 +60,8 @@
 {
   "@context": "https://schema.org",
   "@type": "Article",
-  "headline": "introduction to modular synthesis",
-  "description": "Lesson 1: what a signal is, the difference between audio and control voltage, and the principle of a modular patch.",
+  "headline": "what is a sound?",
+  "description": "Lesson 1: what a sound is, and the two quantities that describe a signal — frequency and amplitude.",
   "mainEntityOfPage": "https://modulrlab.com/en/le-cours/intro/",
   "author": {
     "@type": "Person",
@@ -133,8 +133,8 @@
       <div class="row-grid">
         <div class="rail-label rail-label--accent">→ lesson 1</div>
         <div>
-          <p class="lesson-meta reveal" style="margin-bottom: 16px">lesson 1 of 4 · 12 min read</p>
-          <h1 class="hero-title reveal reveal-delay-1">what is a<br>signal?</h1>
+          <p class="lesson-meta reveal" style="margin-bottom: 16px">lesson 1 of 4 · 2 min read</p>
+          <h1 class="hero-title reveal reveal-delay-1">what is a<br>sound?</h1>
           <p class="hero-lead reveal reveal-delay-2">understanding the raw material of modular synthesis before touching
             your first cable.</p>
         </div>
@@ -146,7 +146,7 @@
         <div class="rail-label">→ video</div>
         <div class="video-container reveal">
           <div class="video-wrapper">
-            <iframe src="https://www.youtube.com/embed/h0cdQ6J_Zb8" title="Lesson 1 — Introduction to modular synthesis"
+            <iframe src="https://www.youtube.com/embed/h0cdQ6J_Zb8" title="Lesson 1 — What is a sound?"
               frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowfullscreen loading="lazy"></iframe>
@@ -159,39 +159,26 @@
       <div class="row-grid">
         <div class="rail-label">→ text</div>
         <article class="lesson-content">
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">sound is movement.</h2>
-          <p class="manifesto-text reveal">Before we talk about modules, cables, or voltage, there's one fundamental
-            thing to understand: a sound is a vibration. A membrane moving, air oscillating, an electrical signal rising
-            and falling. Everything starts there.</p>
-          <p class="manifesto-text reveal">In a modular synthesizer, this vibration is represented by an electrical
-            signal — a voltage that varies over time. This signal is the raw material for everything you're about to
-            build.</p>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">sound is vibration.</h2>
+          <p class="manifesto-text reveal">Before talking about synthesizers, modules or cables, let's start with something much simpler: what we hear. A sound is a vibration that travels through a medium — usually air — all the way to our ears.</p>
+          <p class="manifesto-text reveal">When an object vibrates, it creates small variations of pressure in the air. Our ears turn these variations into sensations, which we perceive as sounds.</p>
+          <p class="manifesto-text reveal">A synthesizer produces the same kind of variation, but electronically: an oscillator generates a signal that changes continuously over time. That signal is the raw material of everything you're going to build.</p>
 
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">audio vs. control voltage.
-          </h2>
-          <p class="manifesto-text reveal">There are two big families of signals in a modular system: audio signals and
-            control signals (CV, for Control Voltage).</p>
-          <p class="manifesto-text reveal">An audio signal vibrates fast enough for your ears to perceive it as sound —
-            typically between 20 Hz and 20,000 Hz. A CV signal moves more slowly: it's used to control the parameters of
-            other modules. For example, a CV can control a note's pitch, how open a filter is, or an amplifier's volume.
-          </p>
-          <p class="manifesto-text reveal">The beauty of modular is that both types of signal are technically identical
-            — they're both just voltage. The only difference is how you decide to use them. An LFO (low frequency
-            oscillator) is usually a control signal, but if you speed up its frequency past 20 Hz, it becomes an audio
-            signal. This interchangeability sits at the heart of modular philosophy.</p>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">frequency: pitch.</h2>
+          <p class="manifesto-text reveal">Frequency is the number of cycles the signal completes each second. It's measured in hertz (Hz). The higher the frequency, the higher we generally perceive the sound to be.</p>
+          <p class="manifesto-text reveal">On a picture of the signal over time, you can see these cycles: a signal that oscillates slowly has a low frequency, a signal that oscillates quickly has a high frequency.</p>
 
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">the patch: your sonic
-            architecture.</h2>
-          <p class="manifesto-text reveal">Every cable you plug in creates a connection between two modules. The sum of
-            these connections forms what's called a patch — literally, a "wiring." Each patch is a unique sonic
-            architecture.</p>
-          <p class="manifesto-text reveal">Unlike a classic synthesizer where the signal path is fixed (oscillator →
-            filter → amplifier → output), a modular system leaves everything up to you. You can send a filter's output
-            into another filter, use an audio signal to modulate an LFO, or have a microphone control an oscillator's
-            pitch. There's no wrong connection — there are only experiments.</p>
-          <p class="manifesto-text reveal">In the next lesson, we'll dive into acoustic basics: frequency, harmonics,
-            and timbre. You'll understand what sets the sound of a guitar apart from a synthesizer — and how an
-            oscillator builds all of that from nothing.</p>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">amplitude: level.</h2>
+          <p class="manifesto-text reveal">Frequency isn't the only thing that can change. The same sound can keep exactly the same pitch and change in amplitude: what changes then is the size of the variation.</p>
+          <p class="manifesto-text reveal">On a picture of the signal, a larger amplitude means a wider variation around its resting position. To the ear, this shows up notably as a difference in perceived loudness.</p>
+          <p class="manifesto-text reveal">Frequency and amplitude: we already have two essential ways of describing a signal.</p>
+
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">produce, transform, control.</h2>
+          <p class="manifesto-text reveal">This is where the synthesizer gets interesting. A signal isn't just something you listen to: you can also produce it, measure it, modify it… and even use it to control something else.</p>
+          <p class="manifesto-text reveal">In a modular system, that's exactly what we work with. Some signals produce sound. Others transform it. Others still control the way the system evolves over time. These three functions are the subject of lesson 3, and the last one — control — has a lesson of its own, the fourth.</p>
+
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">what's next?</h2>
+          <p class="manifesto-text reveal">Before connecting all of this, one essential question remains: why can two instruments play exactly the same note… without sounding the same? That's what we'll find out in the next lesson: fundamental, harmonics and timbre.</p>
         </article>
       </div>
     </section>
@@ -207,7 +194,7 @@
           </a>
           <a href="../son-et-harmonique/" class="lesson-nav-next">
             <span class="lesson-nav-label">next lesson →</span>
-            <span class="lesson-nav-title">sound and harmonics</span>
+            <span class="lesson-nav-title">sound, harmonics and timbre</span>
           </a>
         </nav>
       </div>

@@ -15,22 +15,22 @@
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>modulr lab — son et harmonique</title>
+  <title>modulr lab — son, harmoniques et timbre</title>
   <link rel="icon" type="image/png" sizes="16x16" href="../../icons/favicon-16x16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="../../icons/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="96x96" href="../../icons/favicon-96x96.png">
   <link rel="apple-touch-icon" sizes="180x180" href="../../icons/apple-touch-icon.png">
   <meta name="description"
-    content="Leçon 2 : fréquence, harmoniques, timbre et formes d'onde — les bases acoustiques pour comprendre un oscillateur.">
+    content="Leçon 2 : pourquoi deux sons de même hauteur ne sonnent pas pareil — fondamentale, harmoniques, formes d'onde et filtre.">
   <link rel="canonical" href="https://modulrlab.com/le-cours/son-et-harmonique/">
   <link rel="alternate" hreflang="fr" href="https://modulrlab.com/le-cours/son-et-harmonique/">
   <link rel="alternate" hreflang="en" href="https://modulrlab.com/en/le-cours/son-et-harmonique/">
   <link rel="alternate" hreflang="x-default" href="https://modulrlab.com/le-cours/son-et-harmonique/">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="fr_FR">
-  <meta property="og:title" content="modulr lab — son et harmonique">
+  <meta property="og:title" content="modulr lab — son, harmoniques et timbre">
   <meta property="og:description"
-    content="Leçon 2 : fréquence, harmoniques, timbre et formes d'onde — les bases acoustiques pour comprendre un oscillateur.">
+    content="Leçon 2 : pourquoi deux sons de même hauteur ne sonnent pas pareil — fondamentale, harmoniques, formes d'onde et filtre.">
   <meta property="og:url" content="https://modulrlab.com/le-cours/son-et-harmonique/">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -60,7 +60,7 @@
     {
       "@type": "ListItem",
       "position": 3,
-      "name": "son et harmonique",
+      "name": "son, harmoniques et timbre",
       "item": "https://modulrlab.com/le-cours/son-et-harmonique/"
     }
   ]
@@ -70,8 +70,8 @@
 {
   "@context": "https://schema.org",
   "@type": "Article",
-  "headline": "son et harmonique",
-  "description": "Leçon 2 : fréquence, harmoniques, timbre et formes d'onde — les bases acoustiques pour comprendre un oscillateur.",
+  "headline": "son, harmoniques et timbre",
+  "description": "Leçon 2 : pourquoi deux sons de même hauteur ne sonnent pas pareil — fondamentale, harmoniques, formes d'onde et filtre.",
   "mainEntityOfPage": "https://modulrlab.com/le-cours/son-et-harmonique/",
   "author": {
     "@type": "Person",
@@ -149,10 +149,10 @@
       <div class="row-grid">
         <div class="rail-label rail-label--accent">→ leçon 2</div>
         <div>
-          <p class="lesson-meta" style="margin-bottom: 16px">leçon 2 sur 4 · 14 min de lecture</p>
-          <h1 class="hero-title reveal">son et<br>harmonique.</h1>
-          <p class="hero-lead reveal reveal-delay-1">d'où vient le timbre des choses — et comment un oscillateur
-            fabrique du son à partir de rien.</p>
+          <p class="lesson-meta" style="margin-bottom: 16px">leçon 2 sur 4 · 2 min de lecture</p>
+          <h1 class="hero-title reveal">son, harmoniques<br>et timbre.</h1>
+          <p class="hero-lead reveal reveal-delay-1">d'où vient le timbre des choses — et comment un synthétiseur
+            le fabrique puis le transforme.</p>
         </div>
       </div>
     </section>
@@ -163,7 +163,7 @@
         <div class="rail-label">→ vidéo</div>
         <div class="video-container reveal">
           <div class="video-wrapper">
-            <iframe src="https://www.youtube.com/embed/UiN3_LtJc_E" title="Leçon 2 — Son et harmonique" frameborder="0"
+            <iframe src="https://www.youtube.com/embed/UiN3_LtJc_E" title="Leçon 2 — Son, harmoniques et timbre" frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowfullscreen loading="lazy"></iframe>
           </div>
@@ -176,46 +176,26 @@
       <div class="row-grid">
         <div class="rail-label">→ texte</div>
         <article class="lesson-content">
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">la même note, deux sons.</h2>
+          <p class="manifesto-text reveal">Dans la leçon précédente, nous avons vu que la fréquence d'un signal influence la hauteur que nous percevons. Mais la fréquence ne suffit pas à décrire complètement un son.</p>
+          <p class="manifesto-text reveal">Au début de la vidéo, deux sons jouent la même note : un son très simple, puis un son riche. Écoutez-les avant de lire la suite. Ils ont la même hauteur, et pourtant ils ne sonnent pas de la même manière. Alors, qu'est-ce qui change ?</p>
 
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">tout commence par une vibration.</h2>
-          <p class="manifesto-text reveal">Un son, c'est de l'air qui bouge. Plus précisément, c'est une variation de
-            pression qui se propage dans l'air sous forme d'onde. Quand cette onde atteint votre tympan, elle le fait
-            vibrer — et votre cerveau interprète cette vibration comme un son.</p>
-          <p class="manifesto-text reveal">La caractéristique la plus fondamentale d'un son, c'est sa fréquence : le
-            nombre de fois que l'onde oscille par seconde, mesuré en Hertz (Hz). Une fréquence de 440 Hz signifie que
-            l'air vibre 440 fois par seconde — c'est la note La, celle qu'on utilise pour accorder un orchestre.</p>
-          <p class="manifesto-text reveal">Plus la fréquence est élevée, plus le son est aigu. Plus elle est basse, plus
-            le son est grave. L'oreille humaine perçoit les fréquences entre 20 Hz et 20 000 Hz environ.</p>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">fondamentale et harmoniques.</h2>
+          <p class="manifesto-text reveal">Un son que nous percevons comme une seule note peut en réalité contenir plusieurs fréquences. La fréquence principale s'appelle la fréquence fondamentale : c'est elle qui détermine notamment la hauteur que nous percevons.</p>
+          <p class="manifesto-text reveal">D'autres fréquences peuvent s'y ajouter, situées à des multiples de la fondamentale : ce sont les harmoniques. Pour une fondamentale à 220 Hz, elles se trouvent à 440 Hz, 660 Hz, 880 Hz, et ainsi de suite.</p>
+          <p class="manifesto-text reveal">Ces fréquences supplémentaires modifient la forme du signal, et donc la manière dont nous percevons le son. C'est une des raisons pour lesquelles deux sons peuvent avoir la même hauteur tout en ayant des timbres différents.</p>
 
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">la sinusoïde : le son le plus
-            pur.</h2>
-          <p class="manifesto-text reveal">La forme d'onde la plus simple est la sinusoïde. C'est une courbe
-            parfaitement lisse qui monte et descend de façon régulière. Elle ne contient qu'une seule fréquence — pas de
-            complexité, pas de texture. C'est le son le plus « nu » qui existe.</p>
-          <p class="manifesto-text reveal">En pratique, une sinusoïde pure sonne comme un sifflement doux, un peu comme
-            le bip d'un téléphone. C'est un son sans caractère, sans personnalité. Et c'est exactement pour ça qu'il est
-            intéressant : il sert de brique de base pour comprendre tous les autres sons.</p>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">les formes d'onde.</h2>
+          <p class="manifesto-text reveal">Dans un synthétiseur, cette composition dépend notamment de la forme du signal produit par l'oscillateur. Sinusoïde, triangle, carré, dent de scie : à hauteur égale, le timbre change, parce que chaque forme d'onde possède une composition harmonique différente.</p>
+          <p class="manifesto-text reveal">La sinusoïde ne contient que la fondamentale : c'est le son le plus nu. Le triangle ajoute des harmoniques impaires, faibles. Le carré contient lui aussi des harmoniques impaires, mais plus fortes, d'où son timbre creux. La dent de scie les contient toutes : c'est la plus riche.</p>
 
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">les harmoniques : ce qui
-            donne du caractère.</h2>
-          <p class="manifesto-text reveal">Dans la vraie vie, aucun instrument ne produit une sinusoïde pure. Une
-            guitare, une voix, un violon — tous produisent un son composé de plusieurs fréquences simultanées. La plus
-            grave de ces fréquences s'appelle la fondamentale, et toutes les autres sont des harmoniques.</p>
-          <p class="manifesto-text reveal">Les harmoniques sont des multiples de la fondamentale. Si votre fondamentale
-            est à 100 Hz, les harmoniques seront à 200 Hz, 300 Hz, 400 Hz, etc. C'est le mélange de ces harmoniques —
-            leur nombre, leur intensité relative — qui crée le timbre d'un son. C'est ce qui fait que vous distinguez
-            une guitare d'un piano même quand ils jouent la même note.</p>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">le filtre.</h2>
+          <p class="manifesto-text reveal">Nous pouvons aussi modifier cette composition après la production du signal, par exemple avec un filtre. En réduisant progressivement les fréquences aiguës d'un son riche, on l'entend devenir de plus en plus sombre.</p>
+          <p class="manifesto-text reveal">La note jouée n'a pas changé. Nous avons seulement modifié une partie des fréquences présentes dans le signal.</p>
 
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">les formes d'onde classiques.
-          </h2>
-          <p class="manifesto-text reveal">Dans un synthétiseur, l'oscillateur (VCO) génère des formes d'onde
-            électriques qui correspondent à des mélanges d'harmoniques différents. Les quatre formes classiques sont la
-            sinusoïde (aucune harmonique), le triangle (harmoniques impaires faibles), la dent de scie (toutes les
-            harmoniques, très riche) et le carré (harmoniques impaires fortes, son creux et nasillard).</p>
-          <p class="manifesto-text reveal">Chaque forme d'onde a sa couleur, sa texture, son caractère. Et c'est en les
-            combinant, en les filtrant, en les modulant qu'on sculpte le son dans un modulaire. C'est exactement ce
-            qu'on verra dans la prochaine leçon : à quoi servent les modules qui traitent ces signaux.</p>
-
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">deux façons de regarder un son.</h2>
+          <p class="manifesto-text reveal">Nous avons donc maintenant une deuxième manière de regarder un son. Nous pouvons observer son évolution dans le temps, mais aussi nous intéresser aux différentes fréquences qui le composent. La fondamentale nous renseigne sur la hauteur, les harmoniques participent au timbre, et en synthèse sonore, nous pouvons agir sur cette composition pour transformer le son.</p>
+          <p class="manifesto-text reveal">Dans la prochaine leçon, nous entrons dans le système lui-même : quels sont les différents rôles des modules ?</p>
         </article>
       </div>
     </section>
@@ -227,7 +207,7 @@
         <nav class="lesson-nav reveal">
           <a href="../intro/" class="lesson-nav-prev">
             <span class="lesson-nav-label">← leçon précédente</span>
-            <span class="lesson-nav-title">qu'est-ce qu'un signal ?</span>
+            <span class="lesson-nav-title">qu'est-ce qu'un son ?</span>
           </a>
           <a href="../" class="lesson-nav-index">
             <span class="lesson-nav-label">↑ sommaire</span>
@@ -235,7 +215,7 @@
           </a>
           <a href="../les-modules/" class="lesson-nav-next">
             <span class="lesson-nav-label">leçon suivante →</span>
-            <span class="lesson-nav-title">panorama des modules</span>
+            <span class="lesson-nav-title">les fonctions d'un système modulaire</span>
           </a>
         </nav>
       </div>
