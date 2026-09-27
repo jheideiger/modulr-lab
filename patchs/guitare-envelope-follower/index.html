@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <script src="../../js/lang.js"></script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-X71P2T6L30"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-X71P2T6L30');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../icons/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="../../icons/favicon-96x96.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../icons/apple-touch-icon.png">
+  <title>La guitare pilote : MATHS en envelope follower — modulr lab</title>
+  <meta name="description"
+    content="La guitare ne traverse plus le système, elle le commande : MATHS suit la dynamique du jeu et ouvre ou referme le son du DPO dans l’Optomix.">
+  <link rel="canonical" href="https://modulrlab.com/patchs/guitare-envelope-follower/">
+  <link rel="alternate" hreflang="fr" href="https://modulrlab.com/patchs/guitare-envelope-follower/">
+  <link rel="alternate" hreflang="en" href="https://modulrlab.com/en/patchs/guitare-envelope-follower/">
+  <link rel="alternate" hreflang="x-default" href="https://modulrlab.com/patchs/guitare-envelope-follower/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:title" content="La guitare pilote : MATHS en envelope follower">
+  <meta property="og:description"
+    content="La guitare ne traverse plus le système, elle le commande : MATHS suit la dynamique du jeu et ouvre ou referme le son du DPO dans l’Optomix.">
+  <meta property="og:url" content="https://modulrlab.com/patchs/guitare-envelope-follower/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Manrope:wght@400;500;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../../css/common.css">
+  <script src="../../js/main.js" defer></script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "modulr lab",
+      "item": "https://modulrlab.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "patchs",
+      "item": "https://modulrlab.com/patchs/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "une guitare dans un synthé modulaire",
+      "item": "https://modulrlab.com/patchs/guitare-dans-un-modulaire/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "La guitare pilote : MATHS en envelope follower",
+      "item": "https://modulrlab.com/patchs/guitare-envelope-follower/"
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "La guitare pilote : MATHS en envelope follower",
+  "description": "La guitare ne traverse plus le système, elle le commande : MATHS suit la dynamique du jeu et ouvre ou referme le son du DPO dans l’Optomix.",
+  "mainEntityOfPage": "https://modulrlab.com/patchs/guitare-envelope-follower/",
+  "author": {
+    "@type": "Person",
+    "name": "Jeremy Heideiger"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "modulr lab",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://modulrlab.com/icons/icon-512x512.png"
+    }
+  }
+}
+  </script>
+</head>
+
+<body>
+
+  <!-- TOGGLE SON (icône fixe, toutes les pages) -->
+  <button class="sound-toggle" id="sound-toggle" type="button" aria-pressed="false"
+    aria-label="Activer l'immersion sonore" title="immersion sonore">
+    <svg class="sound-waveform-svg" viewBox="0 0 32 16" xmlns="http://www.w3.org/2000/svg">
+      <path class="wave-idle" d="M3.0,8.00 L3.5,6.92 L4.0,5.91 L4.5,5.02 L5.0,4.30 L5.5,3.79 L6.0,3.53 L6.5,3.53 L7.0,3.79 L7.5,4.30 L8.0,5.02 L8.5,5.91 L9.0,6.92 L9.5,8.00 L10.0,9.08 L10.5,10.09 L11.0,10.98 L11.5,11.70 L12.0,12.21 L12.5,12.47 L13.0,12.47 L13.5,12.21 L14.0,11.70 L14.5,10.98 L15.0,10.09 L15.5,9.08 L16.0,8.00 L16.5,6.92 L17.0,5.91 L17.5,5.02 L18.0,4.30 L18.5,3.79 L19.0,3.53 L19.5,3.53 L20.0,3.79 L20.5,4.30 L21.0,5.02 L21.5,5.91 L22.0,6.92 L22.5,8.00 L23.0,9.08 L23.5,10.09 L24.0,10.98 L24.5,11.70 L25.0,12.21 L25.5,12.47 L26.0,12.47 L26.5,12.21 L27.0,11.70 L27.5,10.98 L28.0,10.09 L28.5,9.08 L29.0,8.00" fill="none" stroke="currentColor"
+        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+      <path class="wave-active" d="M2,8 C6,3 6,3 10,8 C14,13 14,13 18,8 C22,3 22,3 26,8 C28,10.5 28,10.5 30,8"
+        fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+    </svg>
+  </button>
+  <audio id="ambient-audio" loop preload="none">
+    <source src="../../audio/ambient-loop.mp3" type="audio/mpeg">
+  </audio>
+
+  <header class="site-header page-container">
+    <a href="../../" class="logo-link">modulr lab</a>
+    <nav class="desktop-nav">
+      <a href="../../le-cours/" class="nav-link">le cours</a>
+      <a href="../../histoire/" class="nav-link">histoire</a>
+      <a href="../../a-propos/" class="nav-link">à propos</a>
+      <button class="nav-link lang-switch" onclick="switchLang('en')" type="button">EN</button>
+
+    </nav>
+    <button class="burger" aria-label="Ouvrir le menu"><span></span><span></span><span></span></button>
+  </header>
+
+  <div class="menu-overlay" id="menu-overlay">
+    <div class="menu-overlay-header">
+      <a href="../../" class="logo-link">modulr lab</a>
+      <div class="menu-overlay-controls">
+        <button class="lang-switch-mobile" onclick="switchLang('en')" type="button">EN</button>
+        <button class="menu-close" aria-label="Fermer le menu">✕</button>
+      </div>
+    </div>
+    <nav>
+      <a href="../../le-cours/">le cours</a>
+      <a href="../../histoire/">histoire</a>
+      <a href="../../a-propos/">à propos</a>
+
+    </nav>
+  </div>
+
+  <main>
+
+    <section class="page-container">
+      <div class="row-grid">
+        <div class="rail-label rail-label--accent">→ patch</div>
+        <div>
+          <p class="lesson-meta reveal" style="margin-bottom: 12px"><a href="../guitare-dans-un-modulaire/" class="nav-link">une guitare dans un synthé modulaire</a> · fiche n° 4 sur 4</p>
+          <h1 class="note-title reveal">La guitare pilote : MATHS en envelope follower</h1>
+          <p class="hero-lead reveal reveal-delay-1">La guitare ne traverse plus la machine, elle la pilote : plus vous jouez fort, plus le son du DPO s’ouvre. Quatrième des quatre patchs de la vidéo « J’ai branché ma guitare dans un synthé modulaire », à voir sur la page d’entrée.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ résultat</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">ce que vous allez obtenir.</h2>
+          <p class="manifesto-text reveal">Un son de synthèse qui respire au rythme de vos mains, sans qu’on entende la guitare.</p>
+          <div class="note-facts reveal">
+            <p class="note-fact">niveau <b>intermédiaire</b></p>
+            <p class="note-fact">durée <b>25 min</b></p>
+            <p class="note-fact">modules <b>CV Bus · MATHS · Optomix · DPO</b></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ matériel</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">le matériel : MATHS et ses équivalents.</h2>
+          <div class="table-scroll reveal">
+            <table class="patch-table">
+              <thead>
+                <tr><th>fonction</th><th>sur mon système</th><th>équivalent générique</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Source externe</td><td>Guitare électrique, entrée jack 1/4″ du CV Bus</td><td>Tout étage de gain qui amène la guitare au niveau modulaire : pédale, préampli, carte son</td></tr>
+                <tr><td>Envelope follower</td><td>MATHS, canal 1</td><td>Tout envelope follower, ou un slew limiter à montée rapide et descente lente</td></tr>
+                <tr><td>Low pass gate</td><td>Optomix, canal 1</td><td>Tout low pass gate ou tout VCA</td></tr>
+                <tr><td>Son commandé</td><td>DPO, VCO A, sortie Sine</td><td>Tout oscillateur</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ schéma</div>
+        <figure class="patch-figure reveal" style="min-width: 0">
+          <div style="overflow-x: auto; -webkit-overflow-scrolling: touch"><svg viewBox="0 10 1260 658" role="img" aria-label="Schéma : guitare vers CV Bus, CV Bus vers l’entrée Signal de MATHS canal 1, sortie de MATHS vers l’entrée CONTROL de l’Optomix, sortie Sine du DPO vers l’entrée signal de l’Optomix, sortie de l’Optomix vers l’enregistrement." style="width:100%;min-width:880px;height:auto;display:block;font-family:var(--font-display)"><rect x="20" y="300" width="190" height="104" rx="2" style="fill:none;stroke:var(--color-text);stroke-width:1.5"/><text x="38" y="344" style="fill:var(--color-text);font-size:24px;font-weight:700">Guitare</text><text x="38" y="374" style="fill:var(--color-text-secondary);font-size:15px">électrique</text><rect x="330" y="300" width="190" height="104" rx="2" style="fill:none;stroke:var(--color-text);stroke-width:1.5"/><text x="348" y="344" style="fill:var(--color-text);font-size:24px;font-weight:700">CV Bus</text><text x="348" y="374" style="fill:var(--color-text-secondary);font-size:15px">entrée jack 1/4″</text><rect x="640" y="300" width="190" height="104" rx="2" style="fill:none;stroke:var(--color-text);stroke-width:1.5"/><text x="658" y="344" style="fill:var(--color-text);font-size:24px;font-weight:700">MATHS</text><text x="658" y="374" style="fill:var(--color-text-secondary);font-size:15px">canal 1</text><rect x="950" y="300" width="190" height="104" rx="2" style="fill:none;stroke:var(--color-text);stroke-width:1.5"/><text x="968" y="344" style="fill:var(--color-text);font-size:24px;font-weight:700">Optomix</text><text x="968" y="374" style="fill:var(--color-text-secondary);font-size:15px">canal 1</text><rect x="950" y="40" width="190" height="104" rx="2" style="fill:none;stroke:var(--color-text);stroke-width:1.5"/><text x="968" y="84" style="fill:var(--color-text);font-size:24px;font-weight:700">DPO</text><text x="968" y="114" style="fill:var(--color-text-secondary);font-size:15px">VCO A</text><rect x="950" y="514" width="190" height="104" rx="2" style="fill:none;stroke:var(--color-text);stroke-width:1.5"/><text x="968" y="558" style="fill:var(--color-text);font-size:24px;font-weight:700">Sortie</text><text x="968" y="588" style="fill:var(--color-text-secondary);font-size:15px">ligne ou enregistrement</text><path d="M210,352.0 L330,352.0" style="fill:none;stroke:var(--color-accent);stroke-width:3;stroke-linejoin:round"/><circle cx="330" cy="352.0" r="5" style="fill:var(--color-accent)"/><circle cx="270.0" cy="352.0" r="15" style="fill:var(--color-bg, #fff);stroke:var(--color-accent);stroke-width:2"/><text x="270.0" y="357.5" text-anchor="middle" style="fill:var(--color-text);font-size:15px;font-weight:700">1</text><text x="322" y="332.0" text-anchor="end" style="fill:var(--color-text-secondary);font-size:13px">jack 1/4″</text><path d="M520,352.0 L640,352.0" style="fill:none;stroke:var(--color-accent);stroke-width:3;stroke-linejoin:round"/><circle cx="640" cy="352.0" r="5" style="fill:var(--color-accent)"/><circle cx="580.0" cy="352.0" r="15" style="fill:var(--color-bg, #fff);stroke:var(--color-accent);stroke-width:2"/><text x="580.0" y="357.5" text-anchor="middle" style="fill:var(--color-text);font-size:15px;font-weight:700">2</text><text x="528" y="382.0" style="fill:var(--color-text-secondary);font-size:13px">prise</text><text x="632" y="332.0" text-anchor="end" style="fill:var(--color-text-secondary);font-size:13px">Signal IN</text><path d="M830,352.0 L950,352.0" style="fill:none;stroke:var(--color-accent);stroke-width:3;stroke-linejoin:round"/><circle cx="950" cy="352.0" r="5" style="fill:var(--color-accent)"/><circle cx="890.0" cy="352.0" r="15" style="fill:var(--color-bg, #fff);stroke:var(--color-accent);stroke-width:2"/><text x="890.0" y="357.5" text-anchor="middle" style="fill:var(--color-text);font-size:15px;font-weight:700">3</text><text x="838" y="382.0" style="fill:var(--color-text-secondary);font-size:13px">sortie</text><text x="942" y="332.0" text-anchor="end" style="fill:var(--color-text-secondary);font-size:13px">CONTROL IN</text><path d="M1045.0,144 L1045.0,300" style="fill:none;stroke:var(--color-accent);stroke-width:3;stroke-linejoin:round"/><circle cx="1045.0" cy="300" r="5" style="fill:var(--color-accent)"/><circle cx="1045.0" cy="222.0" r="15" style="fill:var(--color-bg, #fff);stroke:var(--color-accent);stroke-width:2"/><text x="1045.0" y="227.5" text-anchor="middle" style="fill:var(--color-text);font-size:15px;font-weight:700">4</text><text x="1055.0" y="164" style="fill:var(--color-text-secondary);font-size:13px">Sine</text><text x="1055.0" y="288" style="fill:var(--color-text-secondary);font-size:13px">Signal IN</text><path d="M1045.0,404 L1045.0,514" style="fill:none;stroke:var(--color-accent);stroke-width:3;stroke-linejoin:round"/><circle cx="1045.0" cy="514" r="5" style="fill:var(--color-accent)"/><circle cx="1045.0" cy="459.0" r="15" style="fill:var(--color-bg, #fff);stroke:var(--color-accent);stroke-width:2"/><text x="1045.0" y="464.5" text-anchor="middle" style="fill:var(--color-text);font-size:15px;font-weight:700">5</text><text x="1055.0" y="424" style="fill:var(--color-text-secondary);font-size:13px">Signal OUT</text><text x="1055.0" y="502" style="fill:var(--color-text-secondary);font-size:13px">L</text></svg></div>
+          <figcaption class="lesson-meta">La guitare n’est pas écoutée : elle entre dans MATHS, qui en tire une enveloppe. Cette enveloppe ouvre l’Optomix, par où passe le DPO. Câbles numérotés comme dans le tableau ci-dessous.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ câblage</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">le câblage, étape par étape.</h2>
+          <div class="table-scroll reveal">
+            <table class="patch-table">
+              <thead>
+                <tr><th>#</th><th>de</th><th>vers</th><th>ce que ça fait</th></tr>
+              </thead>
+              <tbody>
+                <tr><td class="cable-num">1</td><td>Guitare</td><td>CV Bus, entrée jack 1/4″</td><td>fait entrer le signal et le monte au niveau du système</td></tr>
+                <tr><td class="cable-num">2</td><td>CV Bus, une autre prise du même canal de couleur</td><td>MATHS, Signal IN du canal 1</td><td>MATHS reçoit la guitare et en suit les crêtes</td></tr>
+                <tr><td class="cable-num">3</td><td>MATHS, sortie du canal 1</td><td>Optomix, CONTROL IN du canal 1</td><td>l’enveloppe de la guitare ouvre et referme le low pass gate</td></tr>
+                <tr><td class="cable-num">4</td><td>DPO, sortie Sine du VCO A</td><td>Optomix, Signal IN du canal 1</td><td>le son qu’on entend, et que la guitare commande</td></tr>
+                <tr><td class="cable-num">5</td><td>Optomix, Signal OUT du canal 1</td><td>sortie ligne du CV Bus, ou ta carte son</td><td>ce qu’on écoute et ce qu’on enregistre</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ réglages</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">les réglages de départ.</h2>
+          <div class="table-scroll reveal">
+            <table class="patch-table">
+              <thead>
+                <tr><th>module</th><th>réglage</th><th>position</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>CV Bus</td><td>Gain de l’entrée jack 1/4″</td><td>monter jusqu’à ce que les LED annoncent le bon niveau de sortie, sans allumer la limitation</td></tr>
+                <tr><td>MATHS, canal 1</td><td>Rise</td><td>midi, comme l’indique le manuel pour l’envelope follower</td></tr>
+                <tr><td>MATHS, canal 1</td><td>Fall</td><td>vers midi, puis à régler : court, le son suit nerveusement le jeu ; long, il se referme lentement</td></tr>
+                <tr><td>MATHS, canal 1</td><td>Cycle</td><td>désenclenché</td></tr>
+                <tr><td>Optomix, canal 1</td><td>CONTROL</td><td>aux trois quarts : une entrée est branchée, le bouton règle donc la part de l’enveloppe qui passe</td></tr>
+                <tr><td>Optomix, canal 1</td><td>DAMP</td><td>vers midi</td></tr>
+                <tr><td>Optomix, canal 1</td><td>STRIKE</td><td>rien de branché</td></tr>
+                <tr><td>DPO, VCO A</td><td>Coarse Tune</td><td>une note grave, accordée à l’oreille avec l’accord de guitare</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ écoute</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">ce qu’il faut écouter.</h2>
+          <ol class="listen-list reveal">
+            <li>Le niveau, avant tout. Tant que les LED du CV Bus n’annoncent pas le bon niveau, tout ce qui suit sonne faible et sans caractère. Ce n’est pas le patch qui est raté, c’est l’entrée.</li>
+            <li>Fall. C’est le réglage qui décide de la musicalité du patch : trop court, le son tremble à chaque attaque ; trop long, il reste ouvert entre deux accords.</li>
+            <li>Le DPO, et seulement lui. La guitare n’est pas dans le mix : on doit entendre la machine respirer au rythme de vos mains. Si le son reste fermé, le niveau d’entrée est trop bas et MATHS ne monte jamais assez.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ variations</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">trois variations.</h2>
+          <ol class="listen-list reveal">
+            <li>La sortie EOR de MATHS passe à 10 V à chaque crête : envoyez-la vers STRIKE du canal 2 de l’Optomix, ou vers un séquenceur, pour déclencher un événement à chaque attaque.</li>
+            <li>Envoyer la sortie de MATHS vers l’entrée CV du Fold du DPO plutôt que vers l’Optomix : jouer fort plie la forme d’onde au lieu d’ouvrir le son.</li>
+            <li>Remettre un peu de guitare dans le mix, très bas : la machine devient l’ombre de l’instrument.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ à vous</div>
+        <div class="exercise-box reveal">
+          <p class="construction-notice-title">à vous de patcher.</p>
+          <p class="construction-notice-body">Réglez Fall pour que le DPO se referme exactement au moment où l’accord de guitare s’éteint de lui-même.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ newsletter</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">les prochains patchs.</h2>
+          <p class="manifesto-text reveal">Une fiche de patch par vidéo, deux fois par semaine. Laissez votre adresse :
+            la newsletter vous envoie le patch de la semaine, et ce qui se prépare.</p>
+          <div class="form-container reveal">
+          <form class="newsletter-form" action="https://formspree.io/f/xoeqqgnn" method="POST" novalidate>
+            <input type="hidden" name="source" value="fiche guitare-envelope-follower">
+            <div class="newsletter-row">
+              <input type="email" name="newsletter-email" class="form-input" required autocomplete="email"
+                placeholder="votre@email.com" aria-label="votre adresse email">
+              <button type="submit" class="form-submit form-submit--compact">s'inscrire →</button>
+            </div>
+            <p class="form-error" role="alert">merci d'indiquer un email valide</p>
+          </form>
+          <div class="form-success">
+            <p class="manifesto-text">inscription confirmée ✓ — merci !</p>
+          </div>
+          <p class="form-error" role="alert">une erreur est survenue, merci de réessayer.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ plus loin</div>
+        <div class="further-grid">
+          <div>
+            <p class="lesson-meta" style="margin-bottom: 8px">dans le cours</p>
+            <a href="../../le-cours/controle-en-tension/" class="further-link reveal">
+              <h3 class="lesson-title-sm">Le control voltage</h3>
+              <p class="lesson-meta">leçon 4 · une tension qui commande un autre module</p>
+            </a>
+            <a href="../../le-cours/les-modules/" class="further-link reveal">
+              <h3 class="lesson-title-sm">Les fonctions d'un système modulaire</h3>
+              <p class="lesson-meta">leçon 3 · produire, transformer, contrôler</p>
+            </a>
+          </div>
+          <div>
+            <p class="lesson-meta" style="margin-bottom: 8px">les autres patchs de la vidéo</p>
+            <a href="../guitare-optomix/" class="further-link reveal">
+              <h3 class="lesson-title-sm">fiche n° 1 · Optomix, low pass gate</h3>
+              <p class="lesson-meta">débutant · 20 min</p>
+            </a>
+            <a href="../guitare-erbe-verb/" class="further-link reveal">
+              <h3 class="lesson-title-sm">fiche n° 2 · Erbe-Verb, reverb</h3>
+              <p class="lesson-meta">débutant · 15 min</p>
+            </a>
+            <a href="../guitare-morphagene/" class="further-link reveal">
+              <h3 class="lesson-title-sm">fiche n° 3 · Morphagene, granular</h3>
+              <p class="lesson-meta">intermédiaire · 30 min</p>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="page-container footer">
+    <div class="footer-layout">
+      <div class="footer-brand">modulr lab</div>
+      <div class="footer-grid">
+        <div>
+          <h4 class="footer-col-title">navigation</h4>
+          <ul style="list-style: none">
+            <li style="margin-bottom: 8px"><a href="../../" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">accueil</a></li>
+            <li style="margin-bottom: 8px"><a href="../../le-cours/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">le cours</a></li>
+            <li style="margin-bottom: 8px"><a href="../../histoire/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">histoire</a></li>
+            <li style="margin-bottom: 8px"><a href="../../a-propos/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">à propos</a></li>
+            <li><a href="../../contact/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-col-title">rester informé</h4>
+          <p style="font-family: var(--font-body); font-size: 14px; color: var(--color-text); margin-bottom: 12px">
+            un patch par semaine, et ce qui se prépare</p>
+          <a href="../../newsletter/" class="cta" style="font-size: 12px">s'inscrire →</a>
+          <div style="margin-top: 10px"><a href="https://www.youtube.com/@modulrlab" class="cta" style="font-size: 12px" target="_blank" rel="noopener">la chaîne YouTube →</a></div>
+        </div>
+        <div>
+          <h4 class="footer-col-title">informations</h4>
+          <ul style="list-style: none">
+            <li style="margin-bottom: 8px"><a href="../../mentions-legales/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">mentions légales</a></li>
+            <li style="font-family: var(--font-body); font-size: 14px; color: var(--color-text-secondary)">© 2026 modulr
+              lab</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>

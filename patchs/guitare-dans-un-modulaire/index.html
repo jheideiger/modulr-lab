@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <script src="../../js/lang.js"></script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-X71P2T6L30"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-X71P2T6L30');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../icons/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="../../icons/favicon-96x96.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../icons/apple-touch-icon.png">
+  <title>Brancher sa guitare dans un synthé modulaire — modulr lab</title>
+  <meta name="description"
+    content="Brancher une guitare électrique dans un système Eurorack : régler le niveau d’abord, puis quatre patchs qui la transforment — low pass gate, reverb, granular, envelope follower.">
+  <link rel="canonical" href="https://modulrlab.com/patchs/guitare-dans-un-modulaire/">
+  <link rel="alternate" hreflang="fr" href="https://modulrlab.com/patchs/guitare-dans-un-modulaire/">
+  <link rel="alternate" hreflang="en" href="https://modulrlab.com/en/patchs/guitare-dans-un-modulaire/">
+  <link rel="alternate" hreflang="x-default" href="https://modulrlab.com/patchs/guitare-dans-un-modulaire/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:title" content="Brancher sa guitare dans un synthé modulaire">
+  <meta property="og:description"
+    content="Brancher une guitare électrique dans un système Eurorack : régler le niveau d’abord, puis quatre patchs qui la transforment — low pass gate, reverb, granular, envelope follower.">
+  <meta property="og:url" content="https://modulrlab.com/patchs/guitare-dans-un-modulaire/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Manrope:wght@400;500;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../../css/common.css">
+  <script src="../../js/main.js" defer></script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "modulr lab",
+      "item": "https://modulrlab.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "patchs",
+      "item": "https://modulrlab.com/patchs/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "une guitare dans un synthé modulaire",
+      "item": "https://modulrlab.com/patchs/guitare-dans-un-modulaire/"
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  "name": "J'ai branché ma guitare dans un synthé modulaire",
+  "description": "Une guitare électrique branchée dans un système Eurorack, le niveau d'abord, puis quatre patchs qui la transforment.",
+  "thumbnailUrl": "https://i.ytimg.com/vi/ID_VIDEO/maxresdefault.jpg",
+  "uploadDate": "2026-10-03",
+  "embedUrl": "https://www.youtube.com/embed/ID_VIDEO",
+  "inLanguage": "fr"
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Brancher sa guitare dans un synthé modulaire",
+  "description": "Brancher une guitare électrique dans un système Eurorack : régler le niveau d’abord, puis quatre patchs qui la transforment — low pass gate, reverb, granular, envelope follower.",
+  "mainEntityOfPage": "https://modulrlab.com/patchs/guitare-dans-un-modulaire/",
+  "author": {
+    "@type": "Person",
+    "name": "Jeremy Heideiger"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "modulr lab",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://modulrlab.com/icons/icon-512x512.png"
+    }
+  }
+}
+  </script>
+</head>
+
+<body>
+
+  <!-- TOGGLE SON (icône fixe, toutes les pages) -->
+  <button class="sound-toggle" id="sound-toggle" type="button" aria-pressed="false"
+    aria-label="Activer l'immersion sonore" title="immersion sonore">
+    <svg class="sound-waveform-svg" viewBox="0 0 32 16" xmlns="http://www.w3.org/2000/svg">
+      <path class="wave-idle" d="M3.0,8.00 L3.5,6.92 L4.0,5.91 L4.5,5.02 L5.0,4.30 L5.5,3.79 L6.0,3.53 L6.5,3.53 L7.0,3.79 L7.5,4.30 L8.0,5.02 L8.5,5.91 L9.0,6.92 L9.5,8.00 L10.0,9.08 L10.5,10.09 L11.0,10.98 L11.5,11.70 L12.0,12.21 L12.5,12.47 L13.0,12.47 L13.5,12.21 L14.0,11.70 L14.5,10.98 L15.0,10.09 L15.5,9.08 L16.0,8.00 L16.5,6.92 L17.0,5.91 L17.5,5.02 L18.0,4.30 L18.5,3.79 L19.0,3.53 L19.5,3.53 L20.0,3.79 L20.5,4.30 L21.0,5.02 L21.5,5.91 L22.0,6.92 L22.5,8.00 L23.0,9.08 L23.5,10.09 L24.0,10.98 L24.5,11.70 L25.0,12.21 L25.5,12.47 L26.0,12.47 L26.5,12.21 L27.0,11.70 L27.5,10.98 L28.0,10.09 L28.5,9.08 L29.0,8.00" fill="none" stroke="currentColor"
+        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+      <path class="wave-active" d="M2,8 C6,3 6,3 10,8 C14,13 14,13 18,8 C22,3 22,3 26,8 C28,10.5 28,10.5 30,8"
+        fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+    </svg>
+  </button>
+  <audio id="ambient-audio" loop preload="none">
+    <source src="../../audio/ambient-loop.mp3" type="audio/mpeg">
+  </audio>
+
+  <header class="site-header page-container">
+    <a href="../../" class="logo-link">modulr lab</a>
+    <nav class="desktop-nav">
+      <a href="../../le-cours/" class="nav-link">le cours</a>
+      <a href="../../histoire/" class="nav-link">histoire</a>
+      <a href="../../a-propos/" class="nav-link">à propos</a>
+      <button class="nav-link lang-switch" onclick="switchLang('en')" type="button">EN</button>
+
+    </nav>
+    <button class="burger" aria-label="Ouvrir le menu"><span></span><span></span><span></span></button>
+  </header>
+
+  <div class="menu-overlay" id="menu-overlay">
+    <div class="menu-overlay-header">
+      <a href="../../" class="logo-link">modulr lab</a>
+      <div class="menu-overlay-controls">
+        <button class="lang-switch-mobile" onclick="switchLang('en')" type="button">EN</button>
+        <button class="menu-close" aria-label="Fermer le menu">✕</button>
+      </div>
+    </div>
+    <nav>
+      <a href="../../le-cours/">le cours</a>
+      <a href="../../histoire/">histoire</a>
+      <a href="../../a-propos/">à propos</a>
+
+    </nav>
+  </div>
+
+  <main>
+
+    <section class="page-container">
+      <div class="row-grid">
+        <div class="rail-label rail-label--accent">→ patch</div>
+        <div>
+          <h1 class="note-title reveal">Brancher sa guitare dans un synthé modulaire</h1>
+          <p class="hero-lead reveal reveal-delay-1">Un accord tenu, envoyé dans un système Eurorack, et quatre patchs qui le transforment. Tout commence au même endroit : le niveau. Le reste tient en quatre fiches, une par patch de la vidéo.</p>
+        </div>
+      </div>
+    </section>
+<!-- 3 · LA VIDÉO — remplacer le bloc .video-placeholder par l'iframe YouTube une fois l'ID connu
+         (programmation du lundi 28 septembre). Ajouter ?start=SECONDES pour ouvrir sur le passage de ce patch. -->
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ vidéo</div>
+        <div class="video-container reveal">
+          <div class="video-wrapper">
+            <div class="video-placeholder">[vidéo YouTube intégrée]</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ le niveau</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">le point commun : le niveau.</h2>
+          <p class="manifesto-text reveal">Un signal audio dans un système modulaire fait 10 V crête à crête. Une guitare électrique sort quelques centaines de millivolts. Branchée directement, elle ne produit presque rien, et la plupart des gens abandonnent là en croyant que ça ne marche pas.</p>
+          <p class="manifesto-text reveal">Il faut donc remonter le niveau avant d’entrer dans le système. Sur le Shared System Plus, l’entrée jack 1/4″ du CV Bus le fait : elle a le gain nécessaire, et ses LED annoncent le niveau atteint. Montez le gain jusqu’à ce qu’elles indiquent le bon niveau de sortie, sans allumer la limitation. Sans cette entrée, une pédale, un préampli ou une carte son font le même travail.</p>
+          <p class="manifesto-text reveal">Le signal se récupère ensuite sur une autre prise du même canal de couleur du CV Bus. C’est le câble n° 1 et le câble n° 2 des quatre fiches.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ les patchs</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">les quatre patchs.</h2>
+          <div>
+            <a href="../guitare-optomix/" class="further-link reveal">
+              <h3 class="lesson-title-sm">fiche n° 1 · Optomix, low pass gate</h3>
+              <p class="lesson-meta">débutant · 20 min</p>
+            </a>
+            <a href="../guitare-erbe-verb/" class="further-link reveal">
+              <h3 class="lesson-title-sm">fiche n° 2 · Erbe-Verb, reverb</h3>
+              <p class="lesson-meta">débutant · 15 min</p>
+            </a>
+            <a href="../guitare-morphagene/" class="further-link reveal">
+              <h3 class="lesson-title-sm">fiche n° 3 · Morphagene, granular</h3>
+              <p class="lesson-meta">intermédiaire · 30 min</p>
+            </a>
+            <a href="../guitare-envelope-follower/" class="further-link reveal">
+              <h3 class="lesson-title-sm">fiche n° 4 · MATHS, envelope follower</h3>
+              <p class="lesson-meta">intermédiaire · 25 min</p>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ newsletter</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">les prochains patchs.</h2>
+          <p class="manifesto-text reveal">Une fiche de patch par vidéo, deux fois par semaine. Laissez votre adresse :
+            la newsletter vous envoie le patch de la semaine, et ce qui se prépare.</p>
+          <div class="form-container reveal">
+          <form class="newsletter-form" action="https://formspree.io/f/xoeqqgnn" method="POST" novalidate>
+            <input type="hidden" name="source" value="fiche guitare-dans-un-modulaire">
+            <div class="newsletter-row">
+              <input type="email" name="newsletter-email" class="form-input" required autocomplete="email"
+                placeholder="votre@email.com" aria-label="votre adresse email">
+              <button type="submit" class="form-submit form-submit--compact">s'inscrire →</button>
+            </div>
+            <p class="form-error" role="alert">merci d'indiquer un email valide</p>
+          </form>
+          <div class="form-success">
+            <p class="manifesto-text">inscription confirmée ✓ — merci !</p>
+          </div>
+          <p class="form-error" role="alert">une erreur est survenue, merci de réessayer.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ plus loin</div>
+        <div class="further-grid">
+          <div>
+            <p class="lesson-meta" style="margin-bottom: 8px">dans le cours</p>
+            <a href="../../le-cours/intro/" class="further-link reveal">
+              <h3 class="lesson-title-sm">Qu'est-ce qu'un son ?</h3>
+              <p class="lesson-meta">leçon 1 · le signal, et pourquoi son niveau compte</p>
+            </a>
+            <a href="../../le-cours/les-modules/" class="further-link reveal">
+              <h3 class="lesson-title-sm">Les fonctions d'un système modulaire</h3>
+              <p class="lesson-meta">leçon 3 · produire, transformer, contrôler</p>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="page-container footer">
+    <div class="footer-layout">
+      <div class="footer-brand">modulr lab</div>
+      <div class="footer-grid">
+        <div>
+          <h4 class="footer-col-title">navigation</h4>
+          <ul style="list-style: none">
+            <li style="margin-bottom: 8px"><a href="../../" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">accueil</a></li>
+            <li style="margin-bottom: 8px"><a href="../../le-cours/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">le cours</a></li>
+            <li style="margin-bottom: 8px"><a href="../../histoire/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">histoire</a></li>
+            <li style="margin-bottom: 8px"><a href="../../a-propos/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">à propos</a></li>
+            <li><a href="../../contact/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-col-title">rester informé</h4>
+          <p style="font-family: var(--font-body); font-size: 14px; color: var(--color-text); margin-bottom: 12px">
+            un patch par semaine, et ce qui se prépare</p>
+          <a href="../../newsletter/" class="cta" style="font-size: 12px">s'inscrire →</a>
+          <div style="margin-top: 10px"><a href="https://www.youtube.com/@modulrlab" class="cta" style="font-size: 12px" target="_blank" rel="noopener">la chaîne YouTube →</a></div>
+        </div>
+        <div>
+          <h4 class="footer-col-title">informations</h4>
+          <ul style="list-style: none">
+            <li style="margin-bottom: 8px"><a href="../../mentions-legales/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">mentions légales</a></li>
+            <li style="font-family: var(--font-body); font-size: 14px; color: var(--color-text-secondary)">© 2026 modulr
+              lab</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>
