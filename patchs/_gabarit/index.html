@@ -29,15 +29,7 @@
 
 <head>
   <script src="../../js/lang.js"></script>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-X71P2T6L30"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-
-    gtag('config', 'G-X71P2T6L30');
-  </script>
+  <script src="../../js/consent.js" defer></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
@@ -58,11 +50,7 @@
   <meta property="og:description"
     content="[La promesse sonore, 150 caractères environ]">
   <meta property="og:url" content="https://modulrlab.com/patchs/SLUG/">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Manrope:wght@400;500;700&display=swap"
-    rel="stylesheet">
+  <link rel="preload" href="../../fonts/inter-var-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="../../css/common.css">
   <script src="../../js/main.js" defer></script>
   <script type="application/ld+json">
@@ -119,7 +107,7 @@
     "name": "modulr lab",
     "logo": {
       "@type": "ImageObject",
-      "url": "https://modulrlab.com/icons/icon-512x512.png"
+      "url": "https://modulrlab.com/icons/apple-touch-icon.png"
     }
   }
 }
@@ -185,9 +173,13 @@
 
     <!-- 3 · LA VIDÉO — la page prolonge la vidéo, elle ne la remplace pas.
          Remplacer le bloc .video-placeholder par :
-         <iframe src="https://www.youtube.com/embed/ID_VIDEO" title="TITRE DE LA VIDÉO" frameborder="0"
-           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-           allowfullscreen loading="lazy"></iframe> -->
+         <a class="yt-facade" href="https://www.youtube.com/watch?v=ID_VIDEO" data-yt="ID_VIDEO" data-title="TITRE DE LA VIDÉO"
+              aria-label="Lire la vidéo : TITRE DE LA VIDÉO">
+              <img src="https://i.ytimg.com/vi_webp/ID_VIDEO/maxresdefault.webp"
+                srcset="https://i.ytimg.com/vi_webp/ID_VIDEO/sddefault.webp 640w, https://i.ytimg.com/vi_webp/ID_VIDEO/maxresdefault.webp 1280w"
+                sizes="(max-width: 768px) 100vw, 900px" width="1280" height="720" alt="" decoding="async">
+              <span class="yt-facade-play" aria-hidden="true"></span>
+            </a> -->
     <section class="page-container section-gap">
       <div class="row-grid">
         <div class="rail-label">→ vidéo</div>
@@ -434,6 +426,8 @@
           <ul style="list-style: none">
             <li style="margin-bottom: 8px"><a href="../../mentions-legales/" class="nav-link"
                 style="font-family: var(--font-body); font-size: 14px">mentions légales</a></li>
+            <li style="margin-bottom: 8px"><a href="../../mentions-legales/#donnees" class="nav-link" data-consent-open data-no-swap
+                style="font-family: var(--font-body); font-size: 14px">gérer les cookies</a></li>
             <li style="font-family: var(--font-body); font-size: 14px; color: var(--color-text-secondary)">© 2026 modulr
               lab</li>
           </ul>

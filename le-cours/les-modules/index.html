@@ -3,15 +3,7 @@
 
 <head>
   <script src="../../js/lang.js"></script>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-X71P2T6L30"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-
-    gtag('config', 'G-X71P2T6L30');
-  </script>
+  <script src="../../js/consent.js" defer></script>
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,11 +24,7 @@
   <meta property="og:description"
     content="Leçon 3 : ce que fait réellement un module — produire, transformer, contrôler — et comment ces fonctions se connectent.">
   <meta property="og:url" content="https://modulrlab.com/le-cours/les-modules/">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Manrope:wght@400;500;700&display=swap"
-    rel="stylesheet">
+  <link rel="preload" href="../../fonts/inter-var-latin.woff2" as="font" type="font/woff2" crossorigin>
 
   <link rel="stylesheet" href="../../css/common.css">
   <script src="../../js/main.js" defer></script>
@@ -82,7 +70,7 @@
     "name": "modulr lab",
     "logo": {
       "@type": "ImageObject",
-      "url": "https://modulrlab.com/icons/icon-512x512.png"
+      "url": "https://modulrlab.com/icons/apple-touch-icon.png"
     }
   }
 }
@@ -161,10 +149,13 @@
         <div class="rail-label">→ vidéo</div>
         <div class="video-container reveal">
           <div class="video-wrapper">
-            <iframe src="https://www.youtube.com/embed/E5LwkKzfjkw" title="Leçon 3 — Les fonctions d'un système modulaire"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen loading="lazy"></iframe>
+            <a class="yt-facade" href="https://www.youtube.com/watch?v=E5LwkKzfjkw" data-yt="E5LwkKzfjkw" data-title="Leçon 3 — Les fonctions d'un système modulaire"
+              aria-label="Lire la vidéo : Leçon 3 — Les fonctions d'un système modulaire">
+              <img src="https://i.ytimg.com/vi_webp/E5LwkKzfjkw/maxresdefault.webp"
+                srcset="https://i.ytimg.com/vi_webp/E5LwkKzfjkw/sddefault.webp 640w, https://i.ytimg.com/vi_webp/E5LwkKzfjkw/maxresdefault.webp 1280w"
+                sizes="(max-width: 768px) 100vw, 900px" width="1280" height="720" alt="" decoding="async">
+              <span class="yt-facade-play" aria-hidden="true"></span>
+            </a>
           </div>
         </div>
       </div>
@@ -261,6 +252,8 @@
           <ul style="list-style: none">
             <li style="margin-bottom: 8px"><a href="../../mentions-legales/" class="nav-link"
                 style="font-family: var(--font-body); font-size: 14px">mentions légales</a></li>
+            <li style="margin-bottom: 8px"><a href="../../mentions-legales/#donnees" class="nav-link" data-consent-open data-no-swap
+                style="font-family: var(--font-body); font-size: 14px">gérer les cookies</a></li>
             <li style="font-family: var(--font-body); font-size: 14px; color: var(--color-text-secondary)">© 2026 modulr
               lab</li>
           </ul>

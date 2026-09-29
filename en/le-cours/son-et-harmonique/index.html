@@ -23,11 +23,7 @@
     content="Lesson 2: why two sounds at the same pitch don't sound alike — fundamental, harmonics, waveforms and filter.">
   <meta property="og:url" content="https://modulrlab.com/en/le-cours/son-et-harmonique/">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Manrope:wght@400;500;700&display=swap"
-    rel="stylesheet">
+  <link rel="preload" href="../../../fonts/inter-var-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="../../../css/common.css">
   <script src="../../../js/main.js" defer></script>
   <script type="application/ld+json">
@@ -72,7 +68,7 @@
     "name": "modulr lab",
     "logo": {
       "@type": "ImageObject",
-      "url": "https://modulrlab.com/icons/icon-512x512.png"
+      "url": "https://modulrlab.com/icons/apple-touch-icon.png"
     }
   }
 }
@@ -144,10 +140,13 @@
         <div class="rail-label">→ video</div>
         <div class="video-container reveal">
           <div class="video-wrapper">
-            <iframe src="https://www.youtube.com/embed/UiN3_LtJc_E" title="Lesson 2 — Sound, harmonics and timbre"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen loading="lazy"></iframe>
+            <a class="yt-facade" href="https://www.youtube.com/watch?v=UiN3_LtJc_E" data-yt="UiN3_LtJc_E" data-title="Lesson 2 — Sound, harmonics and timbre"
+              aria-label="Play video: Lesson 2 — Sound, harmonics and timbre">
+              <img src="https://i.ytimg.com/vi_webp/UiN3_LtJc_E/maxresdefault.webp"
+                srcset="https://i.ytimg.com/vi_webp/UiN3_LtJc_E/sddefault.webp 640w, https://i.ytimg.com/vi_webp/UiN3_LtJc_E/maxresdefault.webp 1280w"
+                sizes="(max-width: 768px) 100vw, 900px" width="1280" height="720" alt="" decoding="async">
+              <span class="yt-facade-play" aria-hidden="true"></span>
+            </a>
           </div>
         </div>
       </div>

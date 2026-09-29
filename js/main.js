@@ -208,12 +208,49 @@
         });
     }
 
+    // --- Vidéos : façade légère, le lecteur YouTube n'est chargé qu'au clic ---
+    function initVideos() {
+        document.querySelectorAll('.yt-facade').forEach((facade) => {
+            const id = facade.dataset.yt;
+            if (!id) return;
+
+            // Miniature absente (vidéo privée ou encore en traitement) : YouTube renvoie
+            // une image grise de 120 px ; on garde alors le fond noir et le bouton.
+            const img = facade.querySelector('img');
+            const checkThumb = () => { if (img.naturalWidth && img.naturalWidth <= 120) img.hidden = true; };
+            if (img) {
+                if (img.complete) checkThumb();
+                else img.addEventListener('load', checkThumb, { once: true });
+                img.addEventListener('error', () => { img.hidden = true; }, { once: true });
+                if (img.complete && !img.naturalWidth) img.hidden = true;
+            }
+
+            facade.addEventListener('click', (event) => {
+                event.preventDefault();
+                const iframe = document.createElement('iframe');
+                iframe.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(id) + '?autoplay=1&rel=0';
+                iframe.title = facade.dataset.title || '';
+                iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+                iframe.allowFullscreen = true;
+                iframe.setAttribute('frameborder', '0');
+
+                // Un seul son à la fois : l'ambiance s'arrête (sans changer la préférence du visiteur)
+                const ambient = document.getElementById('ambient-audio');
+                if (ambient && !ambient.paused) ambient.pause();
+
+                facade.replaceWith(iframe);
+                iframe.focus();
+            });
+        });
+    }
+
     function initPage() {
         initMenu();
         setActiveNavLink();
         initReveal();
         initContactForm();
         initNewsletterForms();
+        initVideos();
     }
 
     /* =====================================================
@@ -334,7 +371,7 @@
         if (!window.fetch || !window.DOMParser || !window.history || !history.pushState) return;
         if (window.location.protocol === 'file:') return;
 
-        const PERSISTENT = ['sound-toggle', 'ambient-audio'];
+        const PERSISTENT = ['sound-toggle', 'ambient-audio', 'consent-banner'];
         let navToken = 0;
         let currentPath = window.location.pathname;
 
@@ -412,8 +449,9 @@
                 finalUrl.hash = target.hash;
                 if (push) history.pushState({ modulr: true, scrollY: 0 }, '', finalUrl.href);
 
-                // Statistiques : seulement si la page chargée les inclut elle-même (pages françaises)
-                const tracked = !!doc.querySelector('script[src*="googletagmanager.com"]');
+                // Statistiques : seulement sur les pages qui les prévoient (pages françaises, consent.js),
+                // et seulement si le visiteur a accepté (window.gtag n'existe qu'après son accord)
+                const tracked = !!doc.querySelector('script[src*="consent.js"]');
 
                 swap(doc);
                 currentPath = window.location.pathname;

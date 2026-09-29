@@ -29,11 +29,26 @@ function toFrenchPath(p) {
   return stripped === '' ? '/' : stripped;
 }
 
+/* Le JavaScript tourne : les animations d'apparition peuvent masquer
+   le contenu en attendant (voir .js .reveal dans common.css). */
+document.documentElement.className += ' js';
+
+/* localStorage peut être indisponible (stockage bloqué) : on ne plante pas. */
+function langGet(key) { try { return localStorage.getItem(key); } catch (e) { return null; } }
+function langSet(key, value) { try { localStorage.setItem(key, value); } catch (e) { } }
+
 (function () {
   var LANG_KEY = 'modulr-lang';
-  var stored = localStorage.getItem(LANG_KEY);
   var path = window.location.pathname;
   var isEnglishPage = path.indexOf('/en/') === 0 || path === '/en';
+
+  /* Robots des moteurs de recherche et outils d'analyse : jamais de
+     redirection. Googlebot se présente en anglais ; sans cette garde,
+     il serait renvoyé vers /en/ et n'indexerait pas les pages françaises. */
+  var ua = navigator.userAgent || '';
+  if (/bot|crawl|spider|slurp|google|bing|lighthouse|facebookexternalhit|preview/i.test(ua)) return;
+
+  var stored = langGet(LANG_KEY);
 
   if (stored === 'en' && !isEnglishPage) {
     window.location.replace(toEnglishPath(path));
@@ -50,18 +65,18 @@ function toFrenchPath(p) {
     var prefersFrench = browserLang.indexOf('fr') === 0;
 
     if (!prefersFrench && !isEnglishPage) {
-      localStorage.setItem(LANG_KEY, 'en');
+      langSet(LANG_KEY, 'en');
       window.location.replace(toEnglishPath(path));
       return;
     }
 
-    localStorage.setItem(LANG_KEY, isEnglishPage ? 'en' : 'fr');
+    langSet(LANG_KEY, isEnglishPage ? 'en' : 'fr');
   }
 })();
 
 /* --- Fonction utilitaire pour le sélecteur manuel FR/EN --- */
 function switchLang(target) {
-  localStorage.setItem('modulr-lang', target);
+  langSet('modulr-lang', target);
   var path = window.location.pathname;
   var isEnglishPage = path.indexOf('/en/') === 0 || path === '/en';
 
