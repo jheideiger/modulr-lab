@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <script src="../../../js/lang.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../../icons/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../../icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="../../../icons/favicon-96x96.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../../icons/apple-touch-icon.png">
+  <title>Guitar and low pass gate: the struck chord — modulr lab</title>
+  <meta name="description"
+    content="A sustained guitar chord sent into the Optomix low pass gate and struck by a MATHS clock: the guitar sounds like a struck object.">
+  <link rel="canonical" href="https://modulrlab.com/en/patchs/guitare-optomix/">
+  <link rel="alternate" hreflang="fr" href="https://modulrlab.com/patchs/guitare-optomix/">
+  <link rel="alternate" hreflang="en" href="https://modulrlab.com/en/patchs/guitare-optomix/">
+  <link rel="alternate" hreflang="x-default" href="https://modulrlab.com/patchs/guitare-optomix/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:title" content="Guitar and low pass gate: the struck chord">
+  <meta property="og:description"
+    content="A sustained guitar chord sent into the Optomix low pass gate and struck by a MATHS clock: the guitar sounds like a struck object.">
+  <meta property="og:url" content="https://modulrlab.com/en/patchs/guitare-optomix/">
+  <link rel="preload" href="../../../fonts/inter-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../../css/common.css">
+  <script src="../../../js/main.js" defer></script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "modulr lab",
+      "item": "https://modulrlab.com/en/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "patches",
+      "item": "https://modulrlab.com/en/patchs/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "a guitar in a modular synth",
+      "item": "https://modulrlab.com/en/patchs/guitare-dans-un-modulaire/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "Guitar and low pass gate: the struck chord",
+      "item": "https://modulrlab.com/en/patchs/guitare-optomix/"
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Guitar and low pass gate: the struck chord",
+  "description": "A sustained guitar chord sent into the Optomix low pass gate and struck by a MATHS clock: the guitar sounds like a struck object.",
+  "mainEntityOfPage": "https://modulrlab.com/en/patchs/guitare-optomix/",
+  "author": {
+    "@type": "Person",
+    "name": "Jeremy Heideiger"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "modulr lab",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://modulrlab.com/icons/apple-touch-icon.png"
+    }
+  }
+}
+  </script>
+</head>
+
+<body>
+
+  <!-- TOGGLE SON (icône fixe, toutes les pages) -->
+  <button class="sound-toggle" id="sound-toggle" type="button" aria-pressed="false" aria-label="Turn on ambient sound"
+    title="ambient sound">
+    <svg class="sound-waveform-svg" viewBox="0 0 32 16" xmlns="http://www.w3.org/2000/svg">
+      <path class="wave-idle" d="M3.0,8.00 L3.5,6.92 L4.0,5.91 L4.5,5.02 L5.0,4.30 L5.5,3.79 L6.0,3.53 L6.5,3.53 L7.0,3.79 L7.5,4.30 L8.0,5.02 L8.5,5.91 L9.0,6.92 L9.5,8.00 L10.0,9.08 L10.5,10.09 L11.0,10.98 L11.5,11.70 L12.0,12.21 L12.5,12.47 L13.0,12.47 L13.5,12.21 L14.0,11.70 L14.5,10.98 L15.0,10.09 L15.5,9.08 L16.0,8.00 L16.5,6.92 L17.0,5.91 L17.5,5.02 L18.0,4.30 L18.5,3.79 L19.0,3.53 L19.5,3.53 L20.0,3.79 L20.5,4.30 L21.0,5.02 L21.5,5.91 L22.0,6.92 L22.5,8.00 L23.0,9.08 L23.5,10.09 L24.0,10.98 L24.5,11.70 L25.0,12.21 L25.5,12.47 L26.0,12.47 L26.5,12.21 L27.0,11.70 L27.5,10.98 L28.0,10.09 L28.5,9.08 L29.0,8.00" fill="none" stroke="currentColor"
+        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+      <path class="wave-active" d="M2,8 C6,3 6,3 10,8 C14,13 14,13 18,8 C22,3 22,3 26,8 C28,10.5 28,10.5 30,8"
+        fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+    </svg>
+  </button>
+  <audio id="ambient-audio" loop preload="none">
+    <source src="../../../audio/ambient-loop.mp3" type="audio/mpeg">
+  </audio>
+
+  <header class="site-header page-container">
+    <a href="../../" class="logo-link">modulr lab</a>
+    <nav class="desktop-nav">
+      <a href="../../le-cours/" class="nav-link">the course</a>
+      <a href="../../histoire/" class="nav-link">history</a>
+      <a href="../../about/" class="nav-link">about</a>
+      <button class="nav-link lang-switch" onclick="switchLang('fr')" type="button">FR</button>
+
+    </nav>
+    <button class="burger" aria-label="Open menu" aria-expanded="false"
+      aria-controls="menu-overlay"><span></span><span></span><span></span></button>
+  </header>
+
+  <div class="menu-overlay" id="menu-overlay" role="dialog" aria-modal="true" aria-label="Navigation menu"
+    aria-hidden="true" inert>
+    <div class="menu-overlay-header">
+      <a href="../../" class="logo-link">modulr lab</a>
+      <div class="menu-overlay-controls">
+        <button class="lang-switch-mobile" onclick="switchLang('fr')" type="button">FR</button>
+        <button class="menu-close" aria-label="Close menu">✕</button>
+      </div>
+    </div>
+    <nav>
+      <a href="../../le-cours/">the course</a>
+      <a href="../../histoire/">history</a>
+      <a href="../../about/">about</a>
+
+    </nav>
+  </div>
+
+  <main>
+
+    <section class="page-container">
+      <div class="row-grid">
+        <div class="rail-label rail-label--accent">→ patch</div>
+        <div>
+          <p class="lesson-meta reveal" style="margin-bottom: 12px"><a href="../guitare-dans-un-modulaire/" class="nav-link">a guitar in a modular synth</a> · patch note 1 of 4</p>
+          <h1 class="note-title reveal">Guitar and low pass gate: the struck chord</h1>
+          <p class="hero-lead reveal reveal-delay-1">A sustained chord sent into the Optomix, and a clock that strikes it: the guitar sounds like a struck object. First of the four patches in the video “J'ai branché ma guitare dans un synthé modulaire” (in French), to watch on the main page.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ result</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">what you'll get.</h2>
+          <p class="manifesto-text reveal">A sustained chord that turns into a series of strikes. On each hit, the sound opens up bright, then darkens as it fades.</p>
+          <div class="note-facts reveal">
+            <p class="note-fact">level <b>beginner</b></p>
+            <p class="note-fact">time <b>20 min</b></p>
+            <p class="note-fact">modules <b>CV Bus · Optomix · MATHS</b></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ gear</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">the gear: Optomix and its equivalents.</h2>
+          <div class="table-scroll reveal">
+            <table class="patch-table">
+              <thead>
+                <tr><th>function</th><th>on my system</th><th>generic equivalent</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>External source</td><td>Electric guitar, CV Bus 1/4″ jack input</td><td>Any gain stage that brings the guitar up to modular level: pedal, preamp, audio interface</td></tr>
+                <tr><td>Low pass gate</td><td>Optomix, channel 1</td><td>Any low pass gate, or a low-pass filter and a VCA controlled together</td></tr>
+                <tr><td>Clock</td><td>MATHS, channel 4 in Cycle</td><td>Any LFO or clock that outputs a gate of at least 8 V</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ diagram</div>
+        <figure class="patch-figure reveal" style="min-width: 0">
+          <div style="overflow-x: auto; -webkit-overflow-scrolling: touch"><svg viewBox="0 10 1260 444" role="img" aria-label="Diagram: guitar into the CV Bus, CV Bus into the signal input of Optomix channel 1, MATHS channel 4 EOC output into STRIKE, Optomix output to the recording." style="width:100%;min-width:880px;height:auto;display:block;font-family:var(--font-display)"><rect x="20" y="300" width="190" height="104" rx="2" style="fill:none;stroke:var(--color-text);stroke-width:1.5"/><text x="38" y="344" style="fill:var(--color-text);font-size:24px;font-weight:700">Guitar</text><text x="38" y="374" style="fill:var(--color-text-secondary);font-size:15px">electric</text><rect x="350" y="300" width="190" height="104" rx="2" style="fill:none;stroke:var(--color-text);stroke-width:1.5"/><text x="368" y="344" style="fill:var(--color-text);font-size:24px;font-weight:700">CV Bus</text><text x="368" y="374" style="fill:var(--color-text-secondary);font-size:15px">1/4″ jack input</text><rect x="680" y="300" width="190" height="104" rx="2" style="fill:none;stroke:var(--color-text);stroke-width:1.5"/><text x="698" y="344" style="fill:var(--color-text);font-size:24px;font-weight:700">Optomix</text><text x="698" y="374" style="fill:var(--color-text-secondary);font-size:15px">channel 1</text><rect x="1050" y="300" width="190" height="104" rx="2" style="fill:none;stroke:var(--color-text);stroke-width:1.5"/><text x="1068" y="344" style="fill:var(--color-text);font-size:24px;font-weight:700">Output</text><text x="1068" y="374" style="fill:var(--color-text-secondary);font-size:15px">line or recording</text><rect x="680" y="40" width="190" height="104" rx="2" style="fill:none;stroke:var(--color-text);stroke-width:1.5"/><text x="698" y="84" style="fill:var(--color-text);font-size:24px;font-weight:700">MATHS</text><text x="698" y="114" style="fill:var(--color-text-secondary);font-size:15px">channel 4 · Cycle</text><path d="M210,352.0 L350,352.0" style="fill:none;stroke:var(--color-accent);stroke-width:3;stroke-linejoin:round"/><circle cx="350" cy="352.0" r="5" style="fill:var(--color-accent)"/><circle cx="280.0" cy="352.0" r="15" style="fill:var(--color-bg, #fff);stroke:var(--color-accent);stroke-width:2"/><text x="280.0" y="357.5" text-anchor="middle" style="fill:var(--color-text);font-size:15px;font-weight:700">1</text><text x="342" y="332.0" text-anchor="end" style="fill:var(--color-text-secondary);font-size:13px">1/4″ jack</text><path d="M540,352.0 L680,352.0" style="fill:none;stroke:var(--color-accent);stroke-width:3;stroke-linejoin:round"/><circle cx="680" cy="352.0" r="5" style="fill:var(--color-accent)"/><circle cx="610.0" cy="352.0" r="15" style="fill:var(--color-bg, #fff);stroke:var(--color-accent);stroke-width:2"/><text x="610.0" y="357.5" text-anchor="middle" style="fill:var(--color-text);font-size:15px;font-weight:700">2</text><text x="548" y="382.0" style="fill:var(--color-text-secondary);font-size:13px">jack</text><text x="672" y="332.0" text-anchor="end" style="fill:var(--color-text-secondary);font-size:13px">Signal IN</text><path d="M775.0,144 L775.0,300" style="fill:none;stroke:var(--color-accent);stroke-width:3;stroke-linejoin:round"/><circle cx="775.0" cy="300" r="5" style="fill:var(--color-accent)"/><circle cx="775.0" cy="222.0" r="15" style="fill:var(--color-bg, #fff);stroke:var(--color-accent);stroke-width:2"/><text x="775.0" y="227.5" text-anchor="middle" style="fill:var(--color-text);font-size:15px;font-weight:700">3</text><text x="785.0" y="164" style="fill:var(--color-text-secondary);font-size:13px">EOC</text><text x="785.0" y="288" style="fill:var(--color-text-secondary);font-size:13px">STRIKE</text><path d="M870,352.0 L1050,352.0" style="fill:none;stroke:var(--color-accent);stroke-width:3;stroke-linejoin:round"/><circle cx="1050" cy="352.0" r="5" style="fill:var(--color-accent)"/><circle cx="960.0" cy="352.0" r="15" style="fill:var(--color-bg, #fff);stroke:var(--color-accent);stroke-width:2"/><text x="960.0" y="357.5" text-anchor="middle" style="fill:var(--color-text);font-size:15px;font-weight:700">4</text><text x="878" y="382.0" style="fill:var(--color-text-secondary);font-size:13px">Signal OUT</text><text x="1042" y="332.0" text-anchor="end" style="fill:var(--color-text-secondary);font-size:13px">L</text></svg></div>
+          <figcaption class="lesson-meta">The guitar comes in through the CV Bus and goes through Optomix channel 1. MATHS, cycling, strikes it at the end of each cycle. Cables are numbered as in the table below.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ wiring</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">the wiring, step by step.</h2>
+          <div class="table-scroll reveal">
+            <table class="patch-table">
+              <thead>
+                <tr><th>#</th><th>from</th><th>to</th><th>what it does</th></tr>
+              </thead>
+              <tbody>
+                <tr><td class="cable-num">1</td><td>Guitar</td><td>CV Bus, 1/4″ jack input</td><td>brings the signal in and raises it to the system's level</td></tr>
+                <tr><td class="cable-num">2</td><td>CV Bus, another jack on the same color channel</td><td>Optomix, channel 1 Signal IN</td><td>the chord reaches the low pass gate</td></tr>
+                <tr><td class="cable-num">3</td><td>MATHS, channel 4 EOC</td><td>Optomix, channel 1 STRIKE</td><td>each end of cycle strikes the vactrol: EOC outputs 0 or 10 V, STRIKE expects an 8 V gate</td></tr>
+                <tr><td class="cable-num">4</td><td>Optomix, channel 1 Signal OUT</td><td>CV Bus line output, or your audio interface</td><td>what you listen to and what you record</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ settings</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">the starting settings.</h2>
+          <div class="table-scroll reveal">
+            <table class="patch-table">
+              <thead>
+                <tr><th>module</th><th>setting</th><th>position</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>CV Bus</td><td>1/4″ jack input gain</td><td>turn up until the LEDs show the right output level, without lighting the limiter</td></tr>
+                <tr><td>Optomix, channel 1</td><td>CONTROL</td><td>fully counterclockwise: with no strike, the sound must be off. Otherwise the low pass gate stays open and STRIKE can't be heard</td></tr>
+                <tr><td>Optomix, channel 1</td><td>DAMP</td><td>around noon, then less for a drier strike</td></tr>
+                <tr><td>MATHS, channel 4</td><td>Cycle</td><td>on</td></tr>
+                <tr><td>MATHS, channel 4</td><td>Rise</td><td>fully counterclockwise</td></tr>
+                <tr><td>MATHS, channel 4</td><td>Fall</td><td>around noon, then set the tempo by ear: clockwise, the strikes spread out</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ listening</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">what to listen for.</h2>
+          <ol class="listen-list reveal">
+            <li>The level, first of all. Until the CV Bus LEDs show the right level, everything after it sounds weak and characterless. It isn't the patch that failed, it's the input.</li>
+            <li>Each strike. At the moment of the hit, the sound is bright; as it fades, it loses its highs along with its volume. That's what makes it sound “struck”: real objects sound like that.</li>
+            <li>DAMP. At minimum, the strike is short and muffled; at maximum, it rings for a long time. Somewhere in between is the strike closest to wood.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ variations</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">three variations.</h2>
+          <ol class="listen-list reveal">
+            <li>Replace the clock with the Pressure Points plates: the common gate into STRIKE, and you strike by hand. It's the “bongo” patch from the Optomix manual, which adds a channel gate into DAMP to mute the sound.</li>
+            <li>Turn Fall while the chord sustains: the strikes speed up or slow down, without touching the guitar.</li>
+            <li>Slowly raise CONTROL: the low pass gate no longer closes completely, and the strikes sit on a bed of sustained chord.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ your turn</div>
+        <div class="exercise-box reveal">
+          <p class="construction-notice-title">your turn to patch.</p>
+          <p class="construction-notice-body">Set DAMP and Fall so that each strike fades out exactly as the next one arrives, with no silence and no overlap.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ newsletter</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">the next patches.</h2>
+          <p class="manifesto-text reveal">Leave your email: every Saturday, we'll send you the patch of the week, and what's coming next.</p>
+          <div class="form-container reveal">
+          <form class="newsletter-form" action="https://formspree.io/f/xoeqqgnn" method="POST" novalidate>
+            <input type="hidden" name="source" value="fiche en guitare-optomix">
+            <div class="newsletter-row">
+              <input type="email" name="newsletter-email" class="form-input" required autocomplete="email"
+                placeholder="you@email.com" aria-label="your email address">
+              <button type="submit" class="form-submit form-submit--compact">sign up →</button>
+            </div>
+            <p class="form-error" role="alert">please enter a valid email</p>
+          </form>
+          <div class="form-success">
+            <p class="manifesto-text">subscription confirmed ✓ — thank you!</p>
+          </div>
+          <p class="form-error" role="alert">something went wrong, please try again.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ further</div>
+        <div class="further-grid">
+          <div>
+            <p class="lesson-meta" style="margin-bottom: 8px">in the course</p>
+            <a href="../../le-cours/les-modules/" class="further-link reveal">
+              <h3 class="lesson-title-sm">The functions of a modular system</h3>
+              <p class="lesson-meta">lesson 3 · generate, transform, control</p>
+            </a>
+            <a href="../../le-cours/controle-en-tension/" class="further-link reveal">
+              <h3 class="lesson-title-sm">Control voltage</h3>
+              <p class="lesson-meta">lesson 4 · a voltage that controls another module</p>
+            </a>
+          </div>
+          <div>
+            <p class="lesson-meta" style="margin-bottom: 8px">the other patches in the video</p>
+            <a href="../guitare-erbe-verb/" class="further-link reveal">
+              <h3 class="lesson-title-sm">patch note 2 · Erbe-Verb, reverb</h3>
+              <p class="lesson-meta">beginner · 15 min</p>
+            </a>
+            <a href="../guitare-morphagene/" class="further-link reveal">
+              <h3 class="lesson-title-sm">patch note 3 · Morphagene, granular</h3>
+              <p class="lesson-meta">intermediate · 30 min</p>
+            </a>
+            <a href="../guitare-envelope-follower/" class="further-link reveal">
+              <h3 class="lesson-title-sm">patch note 4 · MATHS, envelope follower</h3>
+              <p class="lesson-meta">intermediate · 25 min</p>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="page-container footer">
+    <div class="footer-layout">
+      <div class="footer-brand">modulr lab</div>
+      <div class="footer-grid">
+        <div>
+          <h4 class="footer-col-title">navigation</h4>
+          <ul style="list-style: none">
+            <li style="margin-bottom: 8px"><a href="../../" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">home</a></li>
+            <li style="margin-bottom: 8px"><a href="../../le-cours/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">the course</a></li>
+            <li style="margin-bottom: 8px"><a href="../../histoire/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">history</a></li>
+            <li style="margin-bottom: 8px"><a href="../../about/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">about</a></li>
+            <li><a href="../../contact/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-col-title">stay in the loop</h4>
+          <p style="font-family: var(--font-body); font-size: 14px; color: var(--color-text); margin-bottom: 12px">every new patch, and what's coming next</p>
+          <a href="../../newsletter/" class="cta" style="font-size: 12px">sign up →</a>
+          <div style="margin-top: 10px"><a href="https://www.youtube.com/@modulrlab" class="cta" style="font-size: 12px" target="_blank" rel="noopener">the YouTube channel →</a></div>
+        </div>
+        <div>
+          <h4 class="footer-col-title">information</h4>
+          <ul style="list-style: none">
+            <li style="margin-bottom: 8px"><a href="../../legal-notice/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">legal notice</a></li>
+            <li style="font-family: var(--font-body); font-size: 14px; color: var(--color-text-secondary)">© 2026 modulr
+              lab</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>

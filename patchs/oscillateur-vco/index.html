@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <script src="../../js/lang.js"></script>
+  <script src="../../js/consent.js" defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../icons/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="../../icons/favicon-96x96.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../icons/apple-touch-icon.png">
+  <title>À quoi sert un oscillateur : le VCO du DPO — modulr lab</title>
+  <meta name="description"
+    content="Le VCO expliqué sur le DPO de Make Noise : la vitesse fait la hauteur, la forme d’onde fait le timbre, et une tension envoyée par René commande la note. Le patch, les réglages et un exercice d’écoute.">
+  <link rel="canonical" href="https://modulrlab.com/patchs/oscillateur-vco/">
+  <link rel="alternate" hreflang="fr" href="https://modulrlab.com/patchs/oscillateur-vco/">
+  <link rel="alternate" hreflang="en" href="https://modulrlab.com/en/patchs/oscillateur-vco/">
+  <link rel="alternate" hreflang="x-default" href="https://modulrlab.com/patchs/oscillateur-vco/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:title" content="À quoi sert un oscillateur : le VCO du DPO">
+  <meta property="og:description"
+    content="Le VCO expliqué sur le DPO de Make Noise : la vitesse fait la hauteur, la forme d’onde fait le timbre, et une tension envoyée par René commande la note. Le patch, les réglages et un exercice d’écoute.">
+  <meta property="og:url" content="https://modulrlab.com/patchs/oscillateur-vco/">
+  <link rel="preload" href="../../fonts/inter-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../css/common.css">
+  <script src="../../js/main.js" defer></script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "modulr lab",
+      "item": "https://modulrlab.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "patchs",
+      "item": "https://modulrlab.com/patchs/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "À quoi sert un oscillateur : le VCO du DPO",
+      "item": "https://modulrlab.com/patchs/oscillateur-vco/"
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  "name": "À quoi sert un oscillateur ? Démonstration sur le DPO",
+  "description": "Un oscillateur expliqué sur le VCO A du DPO : la fréquence, les formes d’onde et l’entrée 1V/Oct.",
+  "thumbnailUrl": "https://i.ytimg.com/vi/T3RNzxXSNTw/maxresdefault.jpg",
+  "uploadDate": "2026-10-06",
+  "embedUrl": "https://www.youtube.com/embed/T3RNzxXSNTw",
+  "inLanguage": "fr"
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "À quoi sert un oscillateur : le VCO du DPO",
+  "description": "Le VCO expliqué sur le DPO de Make Noise : la vitesse fait la hauteur, la forme d’onde fait le timbre, et une tension envoyée par René commande la note. Le patch, les réglages et un exercice d’écoute.",
+  "mainEntityOfPage": "https://modulrlab.com/patchs/oscillateur-vco/",
+  "author": {
+    "@type": "Person",
+    "name": "Jeremy Heideiger"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "modulr lab",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://modulrlab.com/icons/apple-touch-icon.png"
+    }
+  }
+}
+  </script>
+</head>
+
+<body>
+
+  <!-- TOGGLE SON (icône fixe, toutes les pages) -->
+  <button class="sound-toggle" id="sound-toggle" type="button" aria-pressed="false"
+    aria-label="Activer l'immersion sonore" title="immersion sonore">
+    <svg class="sound-waveform-svg" viewBox="0 0 32 16" xmlns="http://www.w3.org/2000/svg">
+      <path class="wave-idle" d="M3.0,8.00 L3.5,6.92 L4.0,5.91 L4.5,5.02 L5.0,4.30 L5.5,3.79 L6.0,3.53 L6.5,3.53 L7.0,3.79 L7.5,4.30 L8.0,5.02 L8.5,5.91 L9.0,6.92 L9.5,8.00 L10.0,9.08 L10.5,10.09 L11.0,10.98 L11.5,11.70 L12.0,12.21 L12.5,12.47 L13.0,12.47 L13.5,12.21 L14.0,11.70 L14.5,10.98 L15.0,10.09 L15.5,9.08 L16.0,8.00 L16.5,6.92 L17.0,5.91 L17.5,5.02 L18.0,4.30 L18.5,3.79 L19.0,3.53 L19.5,3.53 L20.0,3.79 L20.5,4.30 L21.0,5.02 L21.5,5.91 L22.0,6.92 L22.5,8.00 L23.0,9.08 L23.5,10.09 L24.0,10.98 L24.5,11.70 L25.0,12.21 L25.5,12.47 L26.0,12.47 L26.5,12.21 L27.0,11.70 L27.5,10.98 L28.0,10.09 L28.5,9.08 L29.0,8.00" fill="none" stroke="currentColor"
+        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+      <path class="wave-active" d="M2,8 C6,3 6,3 10,8 C14,13 14,13 18,8 C22,3 22,3 26,8 C28,10.5 28,10.5 30,8"
+        fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+    </svg>
+  </button>
+  <audio id="ambient-audio" loop preload="none">
+    <source src="../../audio/ambient-loop.mp3" type="audio/mpeg">
+  </audio>
+
+  <header class="site-header page-container">
+    <a href="../../" class="logo-link">modulr lab</a>
+    <nav class="desktop-nav">
+      <a href="../../le-cours/" class="nav-link">le cours</a>
+      <a href="../../histoire/" class="nav-link">histoire</a>
+      <a href="../../a-propos/" class="nav-link">à propos</a>
+      <button class="nav-link lang-switch" onclick="switchLang('en')" type="button">EN</button>
+
+    </nav>
+    <button class="burger" aria-label="Ouvrir le menu"><span></span><span></span><span></span></button>
+  </header>
+
+  <div class="menu-overlay" id="menu-overlay">
+    <div class="menu-overlay-header">
+      <a href="../../" class="logo-link">modulr lab</a>
+      <div class="menu-overlay-controls">
+        <button class="lang-switch-mobile" onclick="switchLang('en')" type="button">EN</button>
+        <button class="menu-close" aria-label="Fermer le menu">✕</button>
+      </div>
+    </div>
+    <nav>
+      <a href="../../le-cours/">le cours</a>
+      <a href="../../histoire/">histoire</a>
+      <a href="../../a-propos/">à propos</a>
+
+    </nav>
+  </div>
+
+  <main>
+
+    <section class="page-container">
+      <div class="row-grid">
+        <div class="rail-label rail-label--accent">→ patch</div>
+        <div>
+          <p class="lesson-meta reveal" style="margin-bottom: 12px">fiche n° 5 · le VCO</p>
+          <h1 class="note-title reveal">À quoi sert un oscillateur : le VCO du DPO</h1>
+          <p class="hero-lead reveal reveal-delay-1">Une tension qui monte et qui descend, encore et encore. Lentement, on entend chaque passage ; assez vite, ça devient une note. Sur un seul oscillateur, le VCO A du DPO, on entend les trois idées qui font un VCO : la vitesse, la forme, et la tension qui commande la note.</p>
+        </div>
+      </div>
+    </section>
+<!-- 3 · LA VIDÉO — remplacer le bloc .video-placeholder par la façade YouTube (comme sur la page guitare) une fois l'ID connu. -->
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ vidéo</div>
+        <div class="video-container reveal">
+          <div class="video-wrapper">
+            <a class="yt-facade" href="https://www.youtube.com/watch?v=T3RNzxXSNTw" data-yt="T3RNzxXSNTw" data-title="À quoi sert un oscillateur ? Démonstration sur le DPO"
+              aria-label="Lire la vidéo : À quoi sert un oscillateur ? Démonstration sur le DPO">
+              <img src="https://i.ytimg.com/vi_webp/T3RNzxXSNTw/maxresdefault.webp"
+                srcset="https://i.ytimg.com/vi_webp/T3RNzxXSNTw/sddefault.webp 640w, https://i.ytimg.com/vi_webp/T3RNzxXSNTw/maxresdefault.webp 1280w"
+                sizes="(max-width: 768px) 100vw, 900px" width="1280" height="720" alt="" decoding="async">
+              <span class="yt-facade-play" aria-hidden="true"></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ résultat</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">ce que vous allez obtenir.</h2>
+          <p class="manifesto-text reveal">Un oscillateur qu’on entend passer du rythme à la note, changer de timbre sans changer de hauteur, puis jouer tout seul une petite mélodie envoyée par un séquenceur.</p>
+          <div class="note-facts reveal">
+            <p class="note-fact">niveau <b>débutant</b></p>
+            <p class="note-fact">durée <b>20 min</b></p>
+            <p class="note-fact">modules <b>DPO · René · Tempi · CV Bus</b></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ matériel</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">le matériel : le DPO et ses équivalents.</h2>
+          <div class="table-scroll reveal">
+            <table class="patch-table">
+              <thead>
+                <tr><th>fonction</th><th>sur mon système</th><th>équivalent générique</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Oscillateur</td><td>DPO, VCO A (sorties Sine, Triangle, Saw) ; VCO B pour la sortie Square</td><td>Tout VCO avec une entrée 1V/Oct et plusieurs formes d’onde</td></tr>
+                <tr><td>Séquenceur</td><td>René, sortie X QCV</td><td>Tout séquenceur qui sort une tension 1V/Oct, ou un clavier avec sortie CV</td></tr>
+                <tr><td>Horloge</td><td>Tempi, une sortie vers René</td><td>Toute horloge ou tout LFO qui sort des impulsions</td></tr>
+                <tr><td>Sortie</td><td>CV Bus, sortie stéréo vers la carte son</td><td>Toute sortie qui ramène le modulaire au niveau ligne</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ schéma</div>
+        <figure class="patch-figure reveal" style="min-width: 0">
+          <div style="overflow-x: auto; -webkit-overflow-scrolling: touch"><svg viewBox="0 270 1260 184" role="img" aria-label="Schéma : sortie de Tempi vers X-CLK de René, X QCV de René vers l’entrée 1V/Oct du VCO A du DPO, une sortie de forme d’onde du VCO A vers le CV Bus." style="width:100%;min-width:880px;height:auto;display:block;font-family:var(--font-display)"><rect x="20" y="300" width="190" height="104" rx="2" style="fill:none;stroke:var(--color-text);stroke-width:1.5"/><text x="38" y="344" style="fill:var(--color-text);font-size:24px;font-weight:700">Tempi</text><text x="38" y="374" style="fill:var(--color-text-secondary);font-size:15px">horloge</text><rect x="350" y="300" width="190" height="104" rx="2" style="fill:none;stroke:var(--color-text);stroke-width:1.5"/><text x="368" y="344" style="fill:var(--color-text);font-size:24px;font-weight:700">René</text><text x="368" y="374" style="fill:var(--color-text-secondary);font-size:15px">séquenceur</text><rect x="680" y="300" width="190" height="104" rx="2" style="fill:none;stroke:var(--color-text);stroke-width:1.5"/><text x="698" y="344" style="fill:var(--color-text);font-size:24px;font-weight:700">DPO</text><text x="698" y="374" style="fill:var(--color-text-secondary);font-size:15px">VCO A</text><rect x="1050" y="300" width="190" height="104" rx="2" style="fill:none;stroke:var(--color-text);stroke-width:1.5"/><text x="1068" y="344" style="fill:var(--color-text);font-size:24px;font-weight:700">CV Bus</text><text x="1068" y="374" style="fill:var(--color-text-secondary);font-size:15px">vers la carte son</text><path d="M210,352.0 L350,352.0" style="fill:none;stroke:var(--color-accent);stroke-width:3;stroke-linejoin:round"/><circle cx="350" cy="352.0" r="5" style="fill:var(--color-accent)"/><circle cx="280.0" cy="352.0" r="15" style="fill:var(--color-bg, #fff);stroke:var(--color-accent);stroke-width:2"/><text x="280.0" y="357.5" text-anchor="middle" style="fill:var(--color-text);font-size:15px;font-weight:700">1</text><text x="218" y="382.0" style="fill:var(--color-text-secondary);font-size:13px">sortie</text><text x="342" y="332.0" text-anchor="end" style="fill:var(--color-text-secondary);font-size:13px">X-CLK</text><path d="M540,352.0 L680,352.0" style="fill:none;stroke:var(--color-accent);stroke-width:3;stroke-linejoin:round"/><circle cx="680" cy="352.0" r="5" style="fill:var(--color-accent)"/><circle cx="610.0" cy="352.0" r="15" style="fill:var(--color-bg, #fff);stroke:var(--color-accent);stroke-width:2"/><text x="610.0" y="357.5" text-anchor="middle" style="fill:var(--color-text);font-size:15px;font-weight:700">2</text><text x="548" y="382.0" style="fill:var(--color-text-secondary);font-size:13px">X QCV</text><text x="672" y="332.0" text-anchor="end" style="fill:var(--color-text-secondary);font-size:13px">1V/Oct A</text><path d="M870,352.0 L1050,352.0" style="fill:none;stroke:var(--color-accent);stroke-width:3;stroke-linejoin:round"/><circle cx="1050" cy="352.0" r="5" style="fill:var(--color-accent)"/><circle cx="960.0" cy="352.0" r="15" style="fill:var(--color-bg, #fff);stroke:var(--color-accent);stroke-width:2"/><text x="960.0" y="357.5" text-anchor="middle" style="fill:var(--color-text);font-size:15px;font-weight:700">3</text><text x="878" y="382.0" style="fill:var(--color-text-secondary);font-size:13px">Sine, Triangle ou Saw</text><text x="1042" y="332.0" text-anchor="end" style="fill:var(--color-text-secondary);font-size:13px">entrée</text></svg></div>
+          <figcaption class="lesson-meta">Tempi donne le tempo à René. René envoie à chaque pas une tension qui dit au VCO A quelle note jouer. Une sortie du VCO A part vers l’écoute. Câbles numérotés comme dans le tableau ci-dessous.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ câblage</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">le câblage, étape par étape.</h2>
+          <div class="table-scroll reveal">
+            <table class="patch-table">
+              <thead>
+                <tr><th>#</th><th>de</th><th>vers</th><th>ce que ça fait</th></tr>
+              </thead>
+              <tbody>
+                <tr><td class="cable-num">1</td><td>Tempi, une sortie</td><td>René, X-CLK</td><td>chaque impulsion fait avancer René d’un pas</td></tr>
+                <tr><td class="cable-num">2</td><td>René, X QCV</td><td>DPO, entrée 1V/Oct du VCO A</td><td>à chaque pas, une tension dit à l’oscillateur quelle note jouer : un volt par octave</td></tr>
+                <tr><td class="cable-num">3</td><td>DPO, sortie Sine, Triangle ou Saw du VCO A</td><td>CV Bus, vers la carte son</td><td>ce qu’on écoute ; on change de sortie pour changer de forme d’onde</td></tr>
+                <tr><td class="cable-num">3 bis</td><td>DPO, sortie Square du VCO B</td><td>CV Bus, à la place du câble 3</td><td>le carré n’existe que sur le VCO B : on le branche seul, accordé sur la même note</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ réglages</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">les réglages de départ.</h2>
+          <div class="table-scroll reveal">
+            <table class="patch-table">
+              <thead>
+                <tr><th>module</th><th>réglage</th><th>position</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Écoute</td><td>Volume</td><td>bas avant de brancher : une sortie d’oscillateur envoie 10 V crête à crête, bien plus fort qu’un signal de ligne</td></tr>
+                <tr><td>DPO, VCO A</td><td>Coarse</td><td>vers midi pour commencer, puis jusqu’à la note voulue (un la grave à 110 Hz, par exemple)</td></tr>
+                <tr><td>DPO, VCO A</td><td>Fine</td><td>pour accorder finement, accordeur à côté</td></tr>
+                <tr><td>DPO, VCO B</td><td>Coarse et Fine</td><td>sur la même note que le VCO A, seulement pour écouter le carré</td></tr>
+                <tr><td>René</td><td>séquence</td><td>quatre à huit pas, sur une gamme simple, pentatonique mineure par exemple</td></tr>
+                <tr><td>Tempi</td><td>tempo</td><td>posé, vers 90 BPM</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ écoute</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">ce qu’il faut écouter.</h2>
+          <ol class="listen-list reveal">
+            <li>Le passage du rythme à la note. Sans René, tournez Coarse lentement depuis la gauche, sur la dent de scie : des clics séparés accélèrent, puis deviennent une note vers une vingtaine de hertz.</li>
+            <li>Le timbre. Sur la même note, passez d’une sortie à l’autre : la sinusoïde est presque sans couleur, le triangle un peu plus présent, la dent de scie brillante, le carré creux. La hauteur ne bouge pas.</li>
+            <li>La tension qui joue. Branchez René : l’oscillateur suit chaque pas. Le séquenceur ne fait aucun son, il envoie des instructions.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ variations</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">trois variations.</h2>
+          <ol class="listen-list reveal">
+            <li>Jouer à la main. Remplacez René par Pressure Points : chaque plaque envoie sa tension dans l’entrée 1V/Oct, et vous choisissez la note du bout des doigts.</li>
+            <li>Changer de forme pendant que la séquence tourne. Gardez René et déplacez le câble 3 d’une sortie à l’autre : la mélodie reste la même, seule sa couleur change.</li>
+            <li>Un vibrato. MATHS, canal 4 en Cycle, Rise et Fall lents, dans l’entrée Expo du VCO A, avec son atténuateur presque fermé : la note ondule doucement autour de sa hauteur.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ à vous</div>
+        <div class="exercise-box reveal">
+          <p class="construction-notice-title">à vous d’écouter.</p>
+          <p class="construction-notice-body">Reconnaître les formes d’onde à l’oreille. Accordez le VCO A et le VCO B sur la même note. Fermez les yeux et demandez à quelqu’un de brancher une sortie au hasard : sinusoïde, triangle, dent de scie ou carré. Nommez-la avant de regarder. Seul, branchez sans regarder la sérigraphie, écoutez, puis vérifiez.</p>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ newsletter</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">les prochains patchs.</h2>
+          <p class="manifesto-text reveal">Laissez votre email : on vous envoie chaque samedi le patch de la semaine, et ce qui se prépare.</p>
+          <div class="form-container reveal">
+          <form class="newsletter-form" action="https://formspree.io/f/xoeqqgnn" method="POST" novalidate>
+            <input type="hidden" name="source" value="fiche oscillateur-vco">
+            <div class="newsletter-row">
+              <input type="email" name="newsletter-email" class="form-input" required autocomplete="email"
+                placeholder="votre@email.com" aria-label="votre adresse email">
+              <button type="submit" class="form-submit form-submit--compact">s'inscrire →</button>
+            </div>
+            <p class="form-error" role="alert">merci d'indiquer un email valide</p>
+          </form>
+          <div class="form-success">
+            <p class="manifesto-text">inscription confirmée ✓ — merci !</p>
+          </div>
+          <p class="form-error" role="alert">une erreur est survenue, merci de réessayer.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">→ plus loin</div>
+        <div class="further-grid">
+          <div>
+            <p class="lesson-meta" style="margin-bottom: 8px">dans le cours</p>
+            <a href="../../le-cours/son-et-harmonique/" class="further-link reveal">
+              <h3 class="lesson-title-sm">Son, harmoniques et timbre</h3>
+              <p class="lesson-meta">leçon 2 · pourquoi la forme d’onde change le timbre</p>
+            </a>
+            <a href="../../le-cours/controle-en-tension/" class="further-link reveal">
+              <h3 class="lesson-title-sm">Le control voltage</h3>
+              <p class="lesson-meta">leçon 4 · une tension qui commande un autre module</p>
+            </a>
+          </div>
+          <div>
+            <p class="lesson-meta" style="margin-bottom: 8px">d’autres patchs</p>
+            <a href="../guitare-dans-un-modulaire/" class="further-link reveal">
+              <h3 class="lesson-title-sm">Brancher sa guitare dans un synthé modulaire</h3>
+              <p class="lesson-meta">quatre patchs · débutant à intermédiaire</p>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="page-container footer">
+    <div class="footer-layout">
+      <div class="footer-brand">modulr lab</div>
+      <div class="footer-grid">
+        <div>
+          <h4 class="footer-col-title">navigation</h4>
+          <ul style="list-style: none">
+            <li style="margin-bottom: 8px"><a href="../../" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">accueil</a></li>
+            <li style="margin-bottom: 8px"><a href="../../le-cours/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">le cours</a></li>
+            <li style="margin-bottom: 8px"><a href="../../histoire/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">histoire</a></li>
+            <li style="margin-bottom: 8px"><a href="../../a-propos/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">à propos</a></li>
+            <li><a href="../../contact/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-col-title">rester informé</h4>
+          <p style="font-family: var(--font-body); font-size: 14px; color: var(--color-text); margin-bottom: 12px">
+            chaque nouveau patch, et ce qui se prépare</p>
+          <a href="../../newsletter/" class="cta" style="font-size: 12px">s'inscrire →</a>
+          <div style="margin-top: 10px"><a href="https://www.youtube.com/@modulrlab" class="cta" style="font-size: 12px" target="_blank" rel="noopener">la chaîne YouTube →</a></div>
+        </div>
+        <div>
+          <h4 class="footer-col-title">informations</h4>
+          <ul style="list-style: none">
+            <li style="margin-bottom: 8px"><a href="../../mentions-legales/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">mentions légales</a></li>
+            <li style="margin-bottom: 8px"><a href="../../mentions-legales/#donnees" class="nav-link" data-consent-open data-no-swap
+                style="font-family: var(--font-body); font-size: 14px">gérer les cookies</a></li>
+            <li style="font-family: var(--font-body); font-size: 14px; color: var(--color-text-secondary)">© 2026 modulr
+              lab</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>
