@@ -185,18 +185,13 @@
 
                 submitBtn.disabled = true;
 
-                // Inscription envoyée à MailerLite (formulaire intégré, double opt-in)
-                const data = new FormData();
-                data.append('fields[email]', email.value.trim());
-                const source = form.querySelector('input[name="source"]');
-                if (source) data.append('fields[origine]', source.value);
-                data.append('ml-submit', '1');
-                data.append('anticsrf', 'true');
-
-                fetch(form.action, { method: 'POST', body: data })
-                    .then((response) => response.json())
-                    .then((result) => {
-                        if (!result || !result.success) throw new Error('mailerlite');
+                fetch(form.action, {
+                    method: 'POST',
+                    body: new FormData(form),
+                    headers: { 'Accept': 'application/json' }
+                })
+                    .then((response) => {
+                        if (!response.ok) throw new Error('formspree');
                         form.style.display = 'none';
                         success.classList.add('is-visible');
                     })
