@@ -33,6 +33,22 @@ function toFrenchPath(p) {
    le contenu en attendant (voir .js .reveal dans common.css). */
 document.documentElement.className += ' js';
 
+/* Ouverture de l'accueil : un rideau noir où ondulent des ondes, puis il s'ouvre.
+   Une fois par visite (sessionStorage), jamais pour les robots ni pour les visiteurs
+   qui demandent moins d'animations. La classe .intro affiche le noir dès le premier
+   affichage ; main.js anime ensuite le rideau puis le retire. */
+(function () {
+  try {
+    var p = window.location.pathname;
+    if (p !== '/' && p !== '/en/' && p !== '/index.html' && p !== '/en/index.html') return;
+    if (/bot|crawl|spider|slurp|google|bing|lighthouse|facebookexternalhit|preview/i.test(navigator.userAgent || '')) return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (sessionStorage.getItem('modulr-intro')) return;
+    sessionStorage.setItem('modulr-intro', '1');
+    document.documentElement.className += ' intro';
+  } catch (e) { }
+})();
+
 /* localStorage peut être indisponible (stockage bloqué) : on ne plante pas. */
 function langGet(key) { try { return localStorage.getItem(key); } catch (e) { return null; } }
 function langSet(key, value) { try { localStorage.setItem(key, value); } catch (e) { } }

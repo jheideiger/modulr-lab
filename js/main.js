@@ -256,6 +256,9 @@
         initContactForm();
         initNewsletterForms();
         initVideos();
+        initCables();
+        initScopes();
+        initProgress();
     }
 
     /* =====================================================
@@ -439,8 +442,14 @@
         async function navigate(href, { push = true, scrollY = 0 } = {}) {
             const token = ++navToken;
             const target = new URL(href, window.location.href);
+            // Fondu de sortie, pendant que la page suivante se charge
+            const leaving = document.querySelector('main');
+            if (leaving && !reduceMotion()) leaving.classList.add('is-leaving');
             try {
-                const response = await fetch(target.href, { headers: { 'Accept': 'text/html' } });
+                const [response] = await Promise.all([
+                    fetch(target.href, { headers: { 'Accept': 'text/html' } }),
+                    new Promise((resolve) => setTimeout(resolve, reduceMotion() ? 0 : 220))
+                ]);
                 const type = response.headers.get('content-type') || '';
                 if (!response.ok || !type.includes('text/html')) throw new Error('page');
                 const html = await response.text();
@@ -460,6 +469,12 @@
 
                 swap(doc);
                 currentPath = window.location.pathname;
+                // Fondu d'entrée de la nouvelle page
+                const entering = document.querySelector('main');
+                if (entering && !reduceMotion()) {
+                    entering.classList.add('is-entering');
+                    requestAnimationFrame(() => requestAnimationFrame(() => entering.classList.remove('is-entering')));
+                }
                 initPage();
                 document.dispatchEvent(new Event('modulr:page'));
 
@@ -470,6 +485,7 @@
                 focusNewPage();
                 if (tracked) pageView();
             } catch (error) {
+                if (leaving) leaving.classList.remove('is-leaving');
                 if (token === navToken) window.location.assign(target.href);
             }
         }
@@ -509,7 +525,296 @@
         }
     }
 
+
+    /* =====================================================
+       4. IMMERSION VISUELLE
+       Trois effets discrets, tous désactivés si le visiteur demande moins
+       d'animations (prefers-reduced-motion) :
+       - les câbles des schémas se tracent quand le schéma arrive à l'écran ;
+       - une trace d'oscilloscope (accueil et pied de page) suit la nappe sonore,
+         et ondule lentement quand le son est coupé ;
+       - une fine barre de lecture sur les pages longues (leçons, histoire, fiches).
+       ===================================================== */
+
+    const reduceMotion = () => window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const cssVar = (name, fallback) => {
+        const value = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+        return value || fallback;
+    };
+
+    // --- Les câbles des schémas se tracent ---
+    function initCables() {
+        if (reduceMotion() || !('IntersectionObserver' in window)) return;
+        const schemas = document.querySelectorAll('main svg[role="img"]');
+        if (!schemas.length) return;
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+                observer.unobserve(entry.target);
+                entry.target.querySelectorAll('[data-cable]').forEach((path, i) => {
+                    path.style.transition = `stroke-dashoffset 0.9s ease ${0.15 + i * 0.25}s`;
+                    path.style.strokeDashoffset = '0';
+                });
+            });
+        }, { threshold: 0.35 });
+        schemas.forEach((svg) => {
+            const cables = Array.from(svg.querySelectorAll('path')).filter((p) => {
+                const style = p.getAttribute('style') || '';
+                return style.includes('fill:none') && style.includes('--color-accent');
+            });
+            if (!cables.length) return;
+            cables.forEach((path) => {
+                let length = 0;
+                try { length = path.getTotalLength(); } catch (e) { return; }
+                if (!length) return;
+                path.setAttribute('data-cable', '');
+                path.style.strokeDasharray = `${length}`;
+                path.style.strokeDashoffset = `${length}`;
+            });
+            observer.observe(svg);
+        });
+    }
+
+    // --- Oscilloscope ---
+    const scope = { canvases: [], visible: new Set(), analyser: null, ctx: null, data: null, smooth: null, mix: 0, running: false, observer: null };
+
+    function connectAnalyser() {
+        const audio = document.getElementById('ambient-audio');
+        if (!audio || scope.analyser || !(window.AudioContext || window.webkitAudioContext)) return;
+        try {
+            if (!scope.ctx) scope.ctx = new (window.AudioContext || window.webkitAudioContext)();
+            scope.ctx.resume().then(() => {
+                // On ne branche le son sur l'analyseur que si le contexte tourne vraiment :
+                // sinon la nappe deviendrait muette.
+                if (scope.analyser || scope.ctx.state !== 'running') return;
+                const source = scope.ctx.createMediaElementSource(audio);
+                const analyser = scope.ctx.createAnalyser();
+                analyser.fftSize = 2048;
+                source.connect(analyser);
+                analyser.connect(scope.ctx.destination);
+                scope.analyser = analyser;
+                scope.data = new Float32Array(analyser.fftSize);
+                scope.smooth = new Float32Array(256);
+            }).catch(() => { });
+        } catch (e) { scope.analyser = null; }
+    }
+
+    function initSoundScope() {
+        const audio = document.getElementById('ambient-audio');
+        if (!audio) return;
+        audio.addEventListener('play', () => {
+            connectAnalyser();
+            if (scope.ctx && scope.ctx.state !== 'running') scope.ctx.resume().catch(() => { });
+        });
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden && scope.ctx && scope.ctx.state !== 'running' && !audio.paused) scope.ctx.resume().catch(() => { });
+            if (!document.hidden) startScope();
+        });
+    }
+
+    function makeScope(parent, before, className) {
+        const canvas = document.createElement('canvas');
+        canvas.className = 'scope ' + className;
+        canvas.setAttribute('aria-hidden', 'true');
+        parent.insertBefore(canvas, before);
+        return canvas;
+    }
+
+    function initScopes() {
+        if (scope.observer) scope.observer.disconnect();
+        scope.canvases = [];
+        scope.visible.clear();
+        if (!window.HTMLCanvasElement) return;
+
+        const isHome = /^\/(en\/)?$/.test(window.location.pathname);
+        const heroActions = document.querySelector('.hero-actions');
+        if (isHome && heroActions) scope.canvases.push(makeScope(heroActions.parentNode, heroActions.nextSibling, 'scope--hero'));
+        const footer = document.querySelector('footer.footer');
+        if (footer) scope.canvases.push(makeScope(footer, footer.firstChild, 'scope--footer'));
+        if (!scope.canvases.length) return;
+
+        if (reduceMotion()) { scope.canvases.forEach((c) => drawScope(c, 0)); return; }
+
+        scope.observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) scope.visible.add(entry.target); else scope.visible.delete(entry.target);
+            });
+            startScope();
+        });
+        scope.canvases.forEach((c) => scope.observer.observe(c));
+    }
+
+    function sizeCanvas(canvas) {
+        const ratio = Math.min(window.devicePixelRatio || 1, 2);
+        const w = Math.round(canvas.clientWidth * ratio);
+        const h = Math.round(canvas.clientHeight * ratio);
+        if (canvas.width !== w || canvas.height !== h) { canvas.width = w; canvas.height = h; }
+        return ratio;
+    }
+
+    function drawScope(canvas, time) {
+        const ratio = sizeCanvas(canvas);
+        const g = canvas.getContext('2d');
+        const w = canvas.width, h = canvas.height;
+        if (!w || !h) return;
+        g.clearRect(0, 0, w, h);
+
+        const points = 256;
+        const live = scope.mix;
+        const t = time / 1000;
+        g.beginPath();
+        for (let i = 0; i < points; i++) {
+            const x = i / (points - 1);
+            // Repos : une onde lente, presque immobile
+            const idle = Math.sin(x * Math.PI * 4 + t * 0.6) * (0.5 + 0.5 * Math.sin(t * 0.25 + x * 3)) * 0.28;
+            const sound = scope.smooth ? scope.smooth[i] : 0;
+            const y = idle * (1 - live) + sound * live;
+            const px = x * w;
+            const py = h / 2 - y * (h / 2 - 2 * ratio);
+            if (i === 0) g.moveTo(px, py); else g.lineTo(px, py);
+        }
+        const accent = cssVar('--color-accent', '#00B8D9');
+        g.strokeStyle = live > 0.5 ? accent : cssVar('--color-border', 'rgba(10,10,10,0.15)');
+        g.globalAlpha = live > 0.5 ? 0.4 + 0.6 * live : 1;
+        g.lineWidth = 1.5 * ratio;
+        g.lineJoin = 'round';
+        g.stroke();
+        g.globalAlpha = 1;
+    }
+
+    function startScope() {
+        if (scope.running || document.hidden || !scope.visible.size || reduceMotion()) return;
+        scope.running = true;
+        const audio = document.getElementById('ambient-audio');
+        const frame = (time) => {
+            if (document.hidden || !scope.visible.size) { scope.running = false; return; }
+            const playing = audio && !audio.paused && scope.analyser;
+            // Passage en douceur entre l'onde au repos et la trace du son
+            scope.mix += ((playing ? 1 : 0) - scope.mix) * 0.03;
+            if (playing) {
+                scope.analyser.getFloatTimeDomainData(scope.data);
+                const step = scope.data.length / scope.smooth.length;
+                let peak = 0;
+                for (let i = 0; i < scope.data.length; i++) peak = Math.max(peak, Math.abs(scope.data[i]));
+                const gain = peak > 0.001 ? Math.min(0.85 / peak, 12) : 0;
+                for (let i = 0; i < scope.smooth.length; i++) {
+                    const v = scope.data[Math.floor(i * step)] * gain;
+                    scope.smooth[i] += (v - scope.smooth[i]) * 0.15;
+                }
+            }
+            scope.visible.forEach((canvas) => drawScope(canvas, time));
+            requestAnimationFrame(frame);
+        };
+        requestAnimationFrame(frame);
+    }
+
+
+    // --- Ouverture de l'accueil : le rideau ---
+    function initIntro() {
+        const root = document.documentElement;
+        if (!root.classList.contains('intro')) return;
+
+        const curtain = document.createElement('div');
+        curtain.className = 'intro-curtain';
+        curtain.setAttribute('aria-hidden', 'true');
+        // Un seul voile, une seule toile : pas de raccord au centre
+        const veil = document.createElement('div');
+        veil.className = 'intro-veil';
+        const canvas = document.createElement('canvas');
+        veil.appendChild(canvas);
+        curtain.appendChild(veil);
+        const mark = document.createElement('div');
+        mark.className = 'intro-mark';
+        mark.textContent = 'modulr lab';
+        curtain.appendChild(mark);
+        document.body.appendChild(curtain);
+        root.classList.remove('intro');
+
+        const accent = cssVar('--color-accent', '#00B8D9');
+        const waves = [
+            { f: 1.5, s: 0.35, a: 0.30, c: accent, o: 0.9 },
+            { f: 2.3, s: -0.22, a: 0.20, c: '#FFFFFF', o: 0.35 },
+            { f: 3.1, s: 0.18, a: 0.14, c: accent, o: 0.45 },
+            { f: 0.9, s: -0.12, a: 0.38, c: '#FFFFFF', o: 0.18 },
+            { f: 4.2, s: 0.27, a: 0.08, c: accent, o: 0.3 }
+        ];
+        const start = performance.now();
+        const OPEN_AT = 2200, OPEN_FOR = 2200;
+        let opened = false, done = false;
+
+        const draw = (now) => {
+            if (done) return;
+            const t = (now - start) / 1000;
+            const fadeIn = Math.min(t / 0.9, 1);
+            const ratio = Math.min(window.devicePixelRatio || 1, 2);
+            const W = window.innerWidth * ratio, H = window.innerHeight * ratio;
+            {
+                const w = W;
+                if (canvas.width !== w || canvas.height !== H) { canvas.width = w; canvas.height = H; }
+                const g = canvas.getContext('2d');
+                g.clearRect(0, 0, w, H);
+                const offset = 0;
+                waves.forEach((wave, k) => {
+                    g.beginPath();
+                    for (let x = 0; x <= w; x += 3 * ratio) {
+                        const gx = (x - offset) / W;
+                        const env = Math.sin(Math.PI * gx);
+                        const breathe = 0.75 + 0.25 * Math.sin(t * 0.8 + k);
+                        const y = H / 2 + Math.sin(gx * Math.PI * 2 * wave.f + t * wave.s * 6 + k) * wave.a * H * 0.5 * env * breathe;
+                        if (x === 0) g.moveTo(x, y); else g.lineTo(x, y);
+                    }
+                    g.strokeStyle = wave.c;
+                    g.globalAlpha = wave.o * fadeIn;
+                    g.lineWidth = 1.5 * ratio;
+                    g.stroke();
+                });
+                g.globalAlpha = 1;
+            }
+            requestAnimationFrame(draw);
+        };
+        requestAnimationFrame(draw);
+
+        const open = () => {
+            if (opened) return;
+            opened = true;
+            curtain.classList.add('is-open');
+            setTimeout(() => { done = true; curtain.remove(); }, OPEN_FOR + 100);
+            ['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach((ev) => window.removeEventListener(ev, open));
+        };
+        setTimeout(open, OPEN_AT);
+        // Le visiteur pressé ouvre le rideau d'un geste
+        ['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach((ev) => window.addEventListener(ev, open, { passive: true }));
+    }
+
+    // --- Barre de lecture ---
+    let progressBound = false;
+    function initProgress() {
+        const old = document.getElementById('reading-progress');
+        if (old) old.remove();
+        if (/^\/(en\/)?$/.test(window.location.pathname)) return;
+        if (!document.querySelector('main article, main .note-title')) return;
+        const bar = document.createElement('div');
+        bar.id = 'reading-progress';
+        bar.className = 'reading-progress';
+        bar.setAttribute('aria-hidden', 'true');
+        document.body.appendChild(bar);
+        const update = () => {
+            const el = document.getElementById('reading-progress');
+            if (!el) return;
+            const max = document.documentElement.scrollHeight - window.innerHeight;
+            el.style.transform = `scaleX(${max > 0 ? Math.min(window.scrollY / max, 1) : 0})`;
+        };
+        update();
+        if (!progressBound) {
+            progressBound = true;
+            window.addEventListener('scroll', () => requestAnimationFrame(update), { passive: true });
+            window.addEventListener('resize', update, { passive: true });
+        }
+    }
+
+    initIntro();
     initPage();
     initSound();
+    initSoundScope();
     initNavigation();
 })();

@@ -1550,3 +1550,140 @@ a {
         padding: 20px;
     }
 }
+
+
+/* =========================================================
+   IMMERSION VISUELLE (main.js, section 4)
+   ========================================================= */
+
+/* --- Fondu entre les pages (navigation sans rechargement) --- */
+.js main {
+    transition: opacity 0.22s ease;
+}
+
+.js main.is-leaving,
+.js main.is-entering {
+    opacity: 0;
+}
+
+/* --- Oscilloscope : accueil et pied de page --- */
+.scope {
+    display: block;
+    width: 100%;
+    pointer-events: none;
+}
+
+.scope--hero {
+    height: 96px;
+    margin-top: 56px;
+}
+
+.scope--footer {
+    height: 40px;
+    margin-bottom: 40px;
+}
+
+/* --- Barre de lecture des pages longues --- */
+.reading-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--color-accent);
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+    z-index: 101;
+    pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .js main {
+        transition: none;
+    }
+
+    .reading-progress {
+        display: none;
+    }
+}
+
+/* --- Ouverture de l'accueil : le rideau (lang.js + main.js) --- */
+/* Noir dès le premier affichage, avant même main.js */
+html.intro body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: #0A0A0A;
+    z-index: 2000;
+    /* Filet de sécurité : si main.js ne se charge pas, le noir disparaît seul */
+    animation: intro-failsafe 0.4s ease 4s forwards;
+}
+
+@keyframes intro-failsafe {
+    to { opacity: 0; visibility: hidden; }
+}
+
+.intro-curtain {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    pointer-events: none;
+    transition: opacity 2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Le rideau s'écarte à peine et se dissout comme un voile */
+.intro-curtain.is-open {
+    opacity: 0;
+}
+
+.intro-veil {
+    position: absolute;
+    inset: 0;
+    background: #0A0A0A;
+    transition: --seam 2.2s cubic-bezier(0.4, 0, 0.2, 1), filter 2s ease;
+    -webkit-mask-image: linear-gradient(to right, #000 calc(50% - var(--seam) * 2.2), transparent calc(50% - var(--seam)), transparent calc(50% + var(--seam)), #000 calc(50% + var(--seam) * 2.2));
+    mask-image: linear-gradient(to right, #000 calc(50% - var(--seam) * 2.2), transparent calc(50% - var(--seam)), transparent calc(50% + var(--seam)), #000 calc(50% + var(--seam) * 2.2));
+}
+
+.intro-veil canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* Le voile s'ouvre depuis le centre, avec un bord fondu (pas de trait net) */
+@property --seam {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 0%;
+}
+
+.intro-curtain.is-open .intro-veil {
+    --seam: 45%;
+    filter: blur(4px);
+}
+
+.intro-mark {
+    position: absolute;
+    left: 50%;
+    bottom: 12vh;
+    transform: translateX(-50%);
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 20px;
+    letter-spacing: -0.02em;
+    color: #FFFFFF;
+    opacity: 0;
+    animation: intro-mark 2.2s ease forwards;
+    transition: opacity 0.8s ease;
+}
+
+.intro-curtain.is-open .intro-mark {
+    opacity: 0 !important;
+    animation: none;
+}
+
+@keyframes intro-mark {
+    0%, 30% { opacity: 0; }
+    70%, 100% { opacity: 1; }
+}
