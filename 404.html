@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Page servie par GitHub Pages pour toute adresse introuvable, à n'importe quelle profondeur :
+       tous les chemins sont absolus. Pas de lang.js ici (il redirigerait vers une autre adresse
+       introuvable) : la langue est choisie par le petit script en bas de page. -->
+  <script>document.documentElement.className += ' js';</script>
+  <title>modulr lab — câble débranché</title>
+  <meta name="robots" content="noindex">
+  <meta name="description" content="Cette page n'existe pas, ou plus.">
+  <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/icons/favicon-96x96.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+  <link rel="preload" href="/fonts/inter-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/common.css">
+  <script src="/js/main.js" defer></script>
+</head>
+
+<body class="page-404">
+
+  <a href="#contenu" class="skip-link" data-en="skip to content">aller au contenu</a>
+
+  <button class="sound-toggle" id="sound-toggle" type="button" aria-pressed="false"
+    aria-label="Activer l'ambiance sonore" title="ambiance sonore">
+    <svg class="sound-waveform-svg" viewBox="0 0 32 16" xmlns="http://www.w3.org/2000/svg">
+      <path class="wave-idle" d="M3,8 C5,3.5 7,3.5 9.5,8 S14,12.5 16,8 S20.5,3.5 22.5,8 S27,12.5 29,8" fill="none" stroke="currentColor"
+        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+      <path class="wave-active" d="M2,8 C6,3 6,3 10,8 C14,13 14,13 18,8 C22,3 22,3 26,8 C28,10.5 28,10.5 30,8"
+        fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+    </svg>
+  </button>
+  <audio id="ambient-audio" loop preload="none">
+    <source src="/audio/ambient-loop.mp3" type="audio/mpeg">
+  </audio>
+
+  <header class="site-header page-container">
+    <a href="/" class="logo-link" data-en-href="/en/">modulr lab</a>
+    <nav class="desktop-nav">
+      <a href="/le-cours/" class="nav-link" data-en="the course" data-en-href="/en/le-cours/">le cours</a>
+      <a href="/patchs/" class="nav-link" data-en="patches" data-en-href="/en/patchs/">patchs</a>
+      <a href="/histoire/" class="nav-link" data-en="history" data-en-href="/en/histoire/">histoire</a>
+      <a href="/a-propos/" class="nav-link" data-en="about" data-en-href="/en/about/">à propos</a>
+      <a href="/en/" class="nav-link lang-switch" data-no-swap data-lang-target="en" data-en="FR" data-en-href="/">EN</a>
+    </nav>
+    <button class="burger" aria-label="Ouvrir le menu" data-en-label="Open menu"><span></span><span></span><span></span></button>
+  </header>
+
+  <div class="menu-overlay" id="menu-overlay">
+    <div class="menu-overlay-header">
+      <a href="/" class="logo-link" data-en-href="/en/">modulr lab</a>
+      <div class="menu-overlay-controls">
+        <a href="/en/" class="lang-switch-mobile" data-no-swap data-lang-target="en" data-en="FR" data-en-href="/">EN</a>
+        <button class="menu-close" aria-label="Fermer le menu" data-en-label="Close menu">✕</button>
+      </div>
+    </div>
+    <nav>
+      <a href="/le-cours/" data-en="the course" data-en-href="/en/le-cours/">le cours</a>
+      <a href="/patchs/" data-en="patches" data-en-href="/en/patchs/">patchs</a>
+      <a href="/histoire/" data-en="history" data-en-href="/en/histoire/">histoire</a>
+      <a href="/a-propos/" data-en="about" data-en-href="/en/about/">à propos</a>
+    </nav>
+    <div class="menu-overlay-extra">
+      <a href="/newsletter/" data-en="the newsletter" data-en-href="/en/newsletter/">la newsletter</a>
+      <a href="https://www.youtube.com/@modulrlab" target="_blank" rel="noopener" data-en="the YouTube channel">la chaîne YouTube</a>
+      <a href="/contact/" data-en-href="/en/contact/">contact</a>
+    </div>
+  </div>
+
+  <main id="contenu">
+
+    <section class="page-container">
+      <div class="row-grid">
+        <div class="rail-label rail-label--accent" data-en="error 404">erreur 404</div>
+        <div>
+          <h1 class="hero-title" data-en-html="cable<br>unplugged.">câble<br>débranché.</h1>
+          <p class="hero-lead" data-en="This page doesn't exist, or no longer does. The signal stops here.">Cette page
+            n'existe pas, ou plus. Le signal s'arrête ici.</p>
+
+          <!-- Le signal sort, puis s'éteint : le câble pend, la prise d'arrivée est vide -->
+          <svg class="unplugged" viewBox="0 0 720 170" role="img" aria-label="Un câble débranché : le signal s'arrête avant la prise."
+            data-en-label="An unplugged cable: the signal stops before the jack.">
+            <path class="unplugged-wave"
+              d="M0 60 C 18 22, 36 22, 54 60 S 90 98, 108 60 S 144 22, 162 60 S 198 98, 216 60 S 236 40, 250 60" />
+            <path class="unplugged-flat" d="M250 60 H 400" />
+            <path class="unplugged-cable" d="M400 60 C 450 60, 452 132, 512 132" />
+            <rect class="unplugged-plug" x="512" y="122" width="40" height="20" rx="3" />
+            <rect class="unplugged-tip" x="552" y="127" width="18" height="10" rx="2" />
+            <circle class="unplugged-jack-ring" cx="650" cy="60" r="21" />
+            <circle class="unplugged-jack-nut" cx="650" cy="60" r="13" />
+            <circle class="unplugged-jack-hole" cx="650" cy="60" r="6" />
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <h2 class="rail-label" data-en="where to go next">par où repartir</h2>
+        <ul class="lost-links">
+          <li><a href="/" data-en-href="/en/">
+              <span class="lost-title" data-en="home">l'accueil</span>
+              <span class="lost-desc" data-en="patch your first cable, right in the page">branchez votre premier patch,
+                directement dans la page</span>
+            </a></li>
+          <li><a href="/le-cours/" data-en-href="/en/le-cours/">
+              <span class="lost-title" data-en="the course">le cours</span>
+              <span class="lost-desc" data-en="four free lessons, from the signal to control voltage">quatre leçons
+                gratuites, du signal au control voltage</span>
+            </a></li>
+          <li><a href="/patchs/" data-en-href="/en/patchs/">
+              <span class="lost-title" data-en="the patches">les patchs</span>
+              <span class="lost-desc" data-en="one patch note per video: gear, patching, what to listen for">une fiche
+                par vidéo&nbsp;: le matériel, le câblage, ce qu'il faut écouter</span>
+            </a></li>
+        </ul>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="page-container footer">
+    <div class="footer-layout">
+      <div class="footer-brand">modulr lab</div>
+      <div class="footer-grid">
+        <div>
+          <h4 class="footer-col-title">navigation</h4>
+          <ul class="footer-404-list">
+            <li><a href="/" class="nav-link" data-en="home" data-en-href="/en/">accueil</a></li>
+            <li><a href="/le-cours/" class="nav-link" data-en="the course" data-en-href="/en/le-cours/">le cours</a></li>
+            <li><a href="/patchs/" class="nav-link" data-en="patches" data-en-href="/en/patchs/">patchs</a></li>
+            <li><a href="/histoire/" class="nav-link" data-en="history" data-en-href="/en/histoire/">histoire</a></li>
+            <li><a href="/a-propos/" class="nav-link" data-en="about" data-en-href="/en/about/">à propos</a></li>
+            <li><a href="/contact/" class="nav-link" data-en-href="/en/contact/">contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-col-title" data-en="stay in the loop">rester informé</h4>
+          <p class="footer-404-text" data-en="every new patch, and what's coming next">chaque nouveau patch, et ce qui se
+            prépare</p>
+          <a href="/newsletter/" class="cta" style="font-size: 12px" data-en="sign up →" data-en-href="/en/newsletter/">s'inscrire →</a>
+          <div style="margin-top: 10px"><a href="https://www.youtube.com/@modulrlab" class="cta" style="font-size: 12px"
+              target="_blank" rel="noopener" data-en="the YouTube channel →">la chaîne YouTube →</a></div>
+        </div>
+        <div>
+          <h4 class="footer-col-title" data-en="information">informations</h4>
+          <ul class="footer-404-list">
+            <li><a href="/mentions-legales/" class="nav-link" data-en="legal notice" data-en-href="/en/legal-notice/">mentions légales</a></li>
+            <li class="footer-404-muted">© 2026 modulr lab</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /* Langue : anglais pour toute adresse sous /en/, ou si le visiteur a choisi l'anglais */
+    (function () {
+      var path = window.location.pathname;
+      var stored = null;
+      try { stored = localStorage.getItem('modulr-lang'); } catch (e) { }
+      var en = path.indexOf('/en/') === 0 || path === '/en' || stored === 'en';
+      if (en) {
+        document.documentElement.lang = 'en';
+        document.title = 'modulr lab — cable unplugged';
+        document.querySelectorAll('[data-en]').forEach(function (n) { n.textContent = n.getAttribute('data-en'); });
+        document.querySelectorAll('[data-en-html]').forEach(function (n) { n.innerHTML = n.getAttribute('data-en-html'); });
+        document.querySelectorAll('[data-en-href]').forEach(function (n) { n.setAttribute('href', n.getAttribute('data-en-href')); });
+        document.querySelectorAll('[data-en-label]').forEach(function (n) { n.setAttribute('aria-label', n.getAttribute('data-en-label')); });
+        document.querySelectorAll('[data-lang-target]').forEach(function (n) { n.setAttribute('data-lang-target', 'fr'); });
+      }
+      // Le sélecteur de langue retient le choix, comme sur les autres pages
+      document.querySelectorAll('[data-lang-target]').forEach(function (n) {
+        n.addEventListener('click', function () {
+          try { localStorage.setItem('modulr-lang', n.getAttribute('data-lang-target')); } catch (e) { }
+        });
+      });
+    })();
+  </script>
+
+</body>
+
+</html>

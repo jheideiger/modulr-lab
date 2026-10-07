@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <script src="../js/lang.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0A0A0A">
   <link rel="icon" type="image/png" sizes="16x16" href="../icons/favicon-16x16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="../icons/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="96x96" href="../icons/favicon-96x96.png">
@@ -49,7 +50,9 @@
   </script>
 </head>
 
-<body>
+<body class="page-home">
+
+  <a href="#content" class="skip-link">skip to content</a>
 
   <button class="sound-toggle" id="sound-toggle" type="button" aria-pressed="false" aria-label="Turn on ambient sound"
     title="ambient sound">
@@ -92,69 +95,146 @@
       <a href="./patchs/">patches</a>
       <a href="./histoire/">history</a>
       <a href="./about/">about</a>
-
     </nav>
+    <div class="menu-overlay-extra">
+      <a href="./newsletter/">the newsletter</a>
+      <a href="https://www.youtube.com/@modulrlab" target="_blank" rel="noopener">the YouTube channel</a>
+      <a href="./contact/">contact</a>
+    </div>
   </div>
 
-  <main>
+  <main id="content">
 
-    <section class="page-container">
-      <div class="row-grid">
-        <div class="rail-label">→ starting out</div>
-        <div class="lessons-grid lessons-grid--four">
-          <article class="reveal">
-            <h3 class="lesson-title-lg">what is a sound?</h3>
-            <p class="lesson-desc" style="max-width: 38ch">↳ understanding the raw material of modular synthesis before
-              touching your first cable</p>
-            <p class="lesson-meta">lesson 1 · 2 min read · video included</p>
-          </article>
-          <article class="lesson-offset-80 reveal reveal-delay-1">
-            <h3 class="lesson-title-sm">sound, harmonics and timbre</h3>
-            <p class="lesson-desc">↳ where the timbre of things comes from</p>
-            <p class="lesson-meta">lesson 2 · 2 min read</p>
-          </article>
-          <article class="lesson-offset-32 reveal reveal-delay-2">
-            <h3 class="lesson-title-sm">the functions of a modular system</h3>
-            <p class="lesson-desc">↳ produce, transform, control</p>
-            <p class="lesson-meta">lesson 3 · 3 min read</p>
-          </article>
-          <article class="lesson-offset-64 reveal reveal-delay-3">
-            <h3 class="lesson-title-sm">control voltage</h3>
-            <p class="lesson-desc">↳ the voltage that ties every module together</p>
-            <p class="lesson-meta">lesson 4 · 4 min read</p>
-          </article>
-        </div>
-      </div>
-    </section>
+    <!-- STAGE: the title and the instrument -->
+    <section class="stage" aria-labelledby="home-title">
+      <div class="page-container">
+        <h1 class="stage-title" id="home-title">understanding eurorack.</h1>
+        <p class="stage-lead">a free, open introduction to modular synthesis, for curious musicians.
+          <span class="stage-lead-try">patch a cable, turn a knob, listen.</span></p>
 
-    <section class="page-container section-gap">
-      <div class="row-grid">
-        <div class="rail-label rail-label--accent">recently ↘</div>
-        <div>
-          <h1 class="hero-title reveal">understanding<br>eurorack.</h1>
-          <p class="hero-lead reveal reveal-delay-1">a free, open introduction — no detours, no jargon.</p>
-          <p class="hero-meta reveal reveal-delay-2">4 lessons → self-paced · for the curious beginner</p>
-          <div class="hero-actions reveal reveal-delay-3">
-            <a href="./le-cours/intro/" class="cta">→ start lesson 1</a>
-            <a href="./histoire/" class="cta">→ or read the history of modular</a>
+        <div class="stage-grid">
+          <div class="stage-guide">
+            <h2 class="stage-guide-title">your first patch</h2>
+            <div class="guide" data-guide></div>
+          </div>
+          <div class="patch" data-instrument data-base="./">
+            <p class="patch-fallback">The instrument needs JavaScript to work.
+              <a href="./le-cours/intro/" class="cta">→ go straight to lesson 1</a></p>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="page-container section-gap">
+    <!-- WHERE TO START -->
+    <section class="page-container home-section" aria-labelledby="start-title">
       <div class="row-grid">
-        <div class="rail-label">→ manifesto</div>
+        <h2 class="rail-label" id="start-title">where to start</h2>
+        <div class="doors">
+
+          <div class="door">
+            <h3 class="door-title"><a href="./le-cours/">the course.</a></h3>
+            <p class="door-lead">Four free lessons, from the signal to control voltage, each with its video.</p>
+            <ol class="door-lessons">
+              <li><a href="./le-cours/intro/" data-lesson="intro">
+                  <span class="door-lesson-num">1</span>
+                  <span class="door-lesson-text">
+                    <span class="door-lesson-title">what is a signal?</span>
+                    <span class="door-lesson-desc">signal, frequency, amplitude</span>
+                  </span>
+                  <span class="seen-jack" aria-hidden="true"></span>
+                  <span class="visually-hidden seen-label">already seen</span>
+                </a></li>
+              <li><a href="./le-cours/son-et-harmonique/" data-lesson="son-et-harmonique">
+                  <span class="door-lesson-num">2</span>
+                  <span class="door-lesson-text">
+                    <span class="door-lesson-title">sound, harmonics and timbre</span>
+                    <span class="door-lesson-desc">where the colour of a sound comes from</span>
+                  </span>
+                  <span class="seen-jack" aria-hidden="true"></span>
+                  <span class="visually-hidden seen-label">already seen</span>
+                </a></li>
+              <li><a href="./le-cours/les-modules/" data-lesson="les-modules">
+                  <span class="door-lesson-num">3</span>
+                  <span class="door-lesson-text">
+                    <span class="door-lesson-title">the functions of a modular system</span>
+                    <span class="door-lesson-desc">produce, transform, control</span>
+                  </span>
+                  <span class="seen-jack" aria-hidden="true"></span>
+                  <span class="visually-hidden seen-label">already seen</span>
+                </a></li>
+              <li><a href="./le-cours/controle-en-tension/" data-lesson="controle-en-tension">
+                  <span class="door-lesson-num">4</span>
+                  <span class="door-lesson-text">
+                    <span class="door-lesson-title">control voltage</span>
+                    <span class="door-lesson-desc">the voltage that ties every module together</span>
+                  </span>
+                  <span class="seen-jack" aria-hidden="true"></span>
+                  <span class="visually-hidden seen-label">already seen</span>
+                </a></li>
+            </ol>
+            <a href="./le-cours/intro/" class="cta" data-resume data-resume-label="→ pick up: lesson ">→ start lesson 1</a>
+          </div>
+
+          <div class="door">
+            <h3 class="door-title"><a href="./patchs/">the patches.</a></h3>
+            <p class="door-lead">One patch note per video: the gear, the patching, what to listen for.</p>
+            <a class="door-latest" href="./patchs/oscillateur-vco/">
+              <span class="door-thumb"><img src="https://i.ytimg.com/vi_webp/T3RNzxXSNTw/maxresdefault.webp" alt=""
+                  loading="lazy" width="1280" height="720" onerror="this.hidden=true"></span>
+              <span class="door-latest-kicker">latest patch note, no. 5</span>
+              <span class="door-latest-title">what an oscillator does: the DPO's VCO</span>
+            </a>
+            <p class="door-next">Next patch note: MATHS, Saturday 17 October.</p>
+            <a href="./patchs/" class="cta">→ all patch notes</a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- MANIFESTO -->
+    <section class="page-container home-section" aria-labelledby="manifesto-title">
+      <div class="row-grid">
+        <h2 class="rail-label" id="manifesto-title">manifesto</h2>
         <div>
-          <p class="manifesto-text reveal">Modular synthesis isn't just a technique — it's a way of thinking about
+          <p class="manifesto-text">Modular synthesis isn't just a technique — it's a way of thinking about
             sound. Where a classic synthesizer offers a fixed path from oscillator to output, the modular opens up a
             field where every cable you plug in redraws the signal's route.</p>
-          <p class="manifesto-text reveal reveal-delay-1">modulr lab was born from a simple wish: to share this practice
+          <p class="manifesto-text">modulr lab was born from a simple wish: to share this practice
             with anyone who's heard of it but never quite dared to jump in. No displays of virtuosity, no gratuitous
             jargon — just the basics, laid out clearly, so you can decide for yourself whether this world is for you.
           </p>
-          <a href="./about/" class="read-more reveal reveal-delay-2"
-            style="margin-top: 12px; display: inline-block">read the full manifesto →</a>
+          <a href="./about/" class="read-more">read the full manifesto →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- STAY IN THE LOOP -->
+    <section class="page-container home-section" aria-labelledby="newsletter-title">
+      <div class="row-grid">
+        <h2 class="rail-label" id="newsletter-title">stay in the loop</h2>
+        <div class="home-newsletter">
+          <p class="home-newsletter-lead">A patch every week, and what's coming next.</p>
+          <div class="form-container">
+            <form class="newsletter-form"
+              action="https://assets.mailerlite.com/jsonp/2677025/forms/200153214654351354/subscribe" method="POST"
+              novalidate>
+              <input type="hidden" name="source" value="accueil-en">
+              <div class="newsletter-row">
+                <input type="email" name="newsletter-email" class="form-input" required autocomplete="email"
+                  placeholder="you@email.com" aria-label="your email address">
+                <button type="submit" class="form-submit form-submit--compact">sign up →</button>
+              </div>
+              <p class="form-error" role="alert">please enter a valid email</p>
+            </form>
+            <div class="form-success">
+              <p class="manifesto-text">subscription confirmed ✓ — thank you!</p>
+            </div>
+            <p class="form-error" role="alert">something went wrong, please try again.</p>
+          </div>
+          <p class="home-newsletter-yt">New videos on Tuesdays and Saturdays on <a
+              href="https://www.youtube.com/@modulrlab" class="cta" target="_blank" rel="noopener">the YouTube
+              channel →</a></p>
         </div>
       </div>
     </section>

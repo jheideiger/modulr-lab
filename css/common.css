@@ -424,7 +424,7 @@ a {
     border-bottom: 0.5px solid var(--color-border);
     text-decoration: none;
     color: var(--color-text);
-    transition: background 0.3s ease;
+    transition: background-color 0.4s ease;
 }
 
 .lesson-card:first-child {
@@ -813,18 +813,29 @@ a {
     transform: translateY(0);
 }
 
+/* Les lignes de liste gardent leur apparition en cascade, mais le fond du survol
+   répond tout de suite (sinon le délai de cascade retarde aussi le survol) */
+.js .lesson-card.reveal {
+    transition: opacity 0.8s ease var(--reveal-delay, 0s),
+        transform 0.8s ease var(--reveal-delay, 0s),
+        background-color 0.4s ease 0s;
+}
+
 /* Délais en cascade pour les éléments groupés */
 .reveal-delay-1 {
+    --reveal-delay: 0.1s;
     transition-delay: 0.1s;
     animation-delay: 0.1s;
 }
 
 .reveal-delay-2 {
+    --reveal-delay: 0.2s;
     transition-delay: 0.2s;
     animation-delay: 0.2s;
 }
 
 .reveal-delay-3 {
+    --reveal-delay: 0.3s;
     transition-delay: 0.3s;
     animation-delay: 0.3s;
 }
@@ -853,21 +864,18 @@ a {
     animation: reveal-in 0.8s ease both;
 }
 
-/* --- Hover sophistiqué sur les lesson-cards du sommaire --- */
-.lesson-card .lesson-card-number {
-    transition: color 0.3s ease, transform 0.3s ease;
+/* --- Survol des listes (le cours, histoire, patchs) ---
+   Un seul mouvement : le fond se teinte, numéro et texte glissent ensemble.
+   Seuls la couleur et transform changent : rien ne se recalcule dans la page,
+   le texte ne se recompose pas, l'animation reste fluide. */
+.lesson-card .lesson-card-number,
+.lesson-card .lesson-card-content {
+    transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1), color 0.3s ease;
 }
 
-.lesson-card:hover .lesson-card-number {
-    transform: translateX(8px);
-}
-
-.lesson-card .lesson-card-content .lesson-title-sm {
-    transition: color 0.3s ease, letter-spacing 0.3s ease;
-}
-
-.lesson-card:hover .lesson-card-content .lesson-title-sm {
-    letter-spacing: 0.02em;
+.lesson-card:hover .lesson-card-number,
+.lesson-card:hover .lesson-card-content {
+    transform: translateX(10px);
 }
 
 /* --- Hover sur les articles de la page d'accueil --- */
@@ -930,24 +938,21 @@ a {
     width: 100%;
 }
 
-/* --- Hover sur les liens du sommaire (le cours / histoire) --- */
-.lesson-card {
-    transition: padding-left 0.3s ease;
-}
-
-.lesson-card:hover {
-    padding-left: 12px;
-}
 
 /* --- Toggle son immersif (icône fixe, toutes les pages) ---
    À l'arrêt : violet, onde fixe. En lecture : cyan, onde animée. */
 .sound-toggle {
     position: fixed;
-    left: 64px;
-    bottom: 40px;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
+    right: 24px;
+    bottom: 24px;
+    height: 40px;
+    padding: 0 14px 0 12px;
+    gap: 8px;
+    border-radius: 20px;
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
     border: 1.5px solid var(--color-sound-off);
     background: var(--color-bg);
     display: flex;
@@ -1158,8 +1163,8 @@ a {
     }
 
     .sound-toggle {
-        left: 24px;
-        bottom: 24px;
+        right: 16px;
+        bottom: 16px;
     }
 
     /* Encart "en construction" */
@@ -1194,7 +1199,9 @@ a {
         display: none;
     }
 
+    .lesson-card,
     .lesson-card .lesson-card-number,
+    .lesson-card .lesson-card-content,
     .lesson-card .lesson-card-content .lesson-title-sm,
     .lessons-grid article,
     .lesson-nav-prev,
@@ -1214,6 +1221,7 @@ a {
     background: none;
     border: none;
     font: inherit;
+    color: inherit;
     cursor: pointer;
     padding: 0;
 }
@@ -1557,12 +1565,22 @@ a {
    ========================================================= */
 
 /* --- Fondu entre les pages (navigation sans rechargement) --- */
-.js main {
+body {
+    transition: background-color 0.35s ease, color 0.35s ease;
+}
+
+.js main,
+.js body > .site-header,
+.js body > .footer {
     transition: opacity 0.22s ease;
 }
 
 .js main.is-leaving,
-.js main.is-entering {
+.js main.is-entering,
+.js body > .site-header.is-leaving,
+.js body > .site-header.is-entering,
+.js body > .footer.is-leaving,
+.js body > .footer.is-entering {
     opacity: 0;
 }
 
@@ -1607,83 +1625,1287 @@ a {
     }
 }
 
-/* --- Ouverture de l'accueil : le rideau (lang.js + main.js) --- */
-/* Noir dès le premier affichage, avant même main.js */
-html.intro body::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background: #0A0A0A;
-    z-index: 2000;
-    /* Filet de sécurité : si main.js ne se charge pas, le noir disparaît seul */
-    animation: intro-failsafe 0.4s ease 4s forwards;
+
+
+/* =========================================================
+   OUTILS COMMUNS : accessibilité
+   ========================================================= */
+
+.visually-hidden {
+    position: absolute !important;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
 }
 
-@keyframes intro-failsafe {
-    to { opacity: 0; visibility: hidden; }
-}
-
-.intro-curtain {
-    position: fixed;
-    inset: 0;
-    z-index: 2000;
-    pointer-events: none;
-    transition: opacity 2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Le rideau s'écarte à peine et se dissout comme un voile */
-.intro-curtain.is-open {
-    opacity: 0;
-}
-
-.intro-veil {
+.skip-link {
     position: absolute;
-    inset: 0;
-    background: #0A0A0A;
-    transition: --seam 2.2s cubic-bezier(0.4, 0, 0.2, 1), filter 2s ease;
-    -webkit-mask-image: linear-gradient(to right, #000 calc(50% - var(--seam) * 2.2), transparent calc(50% - var(--seam)), transparent calc(50% + var(--seam)), #000 calc(50% + var(--seam) * 2.2));
-    mask-image: linear-gradient(to right, #000 calc(50% - var(--seam) * 2.2), transparent calc(50% - var(--seam)), transparent calc(50% + var(--seam)), #000 calc(50% + var(--seam) * 2.2));
+    left: 16px;
+    top: -100px;
+    z-index: 3000;
+    background: var(--color-text);
+    color: var(--color-bg);
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 500;
+    padding: 10px 14px;
 }
 
-.intro-veil canvas {
+.skip-link:focus {
+    top: 16px;
+}
+
+/* Libellé du bouton d'ambiance (ajouté par main.js) */
+.sound-label {
+    white-space: nowrap;
+}
+
+/* Liens secondaires du menu téléphone */
+.menu-overlay-extra {
+    margin-top: auto;
+    padding-top: 24px;
+    border-top: 0.5px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.menu-overlay-extra a {
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--color-text);
+}
+
+.menu-overlay-extra a:hover {
+    color: var(--color-accent);
+}
+
+
+/* =========================================================
+   ACCUEIL — la scène (instrument.js)
+   L'accueil est noir de haut en bas, comme les vidéos de la chaîne : c'est la
+   scène. Les autres pages restent blanches : c'est le carnet, fait pour lire.
+   Les couleurs du site sont redéfinies pour cette page seulement : en-tête,
+   pied de page, menu, formulaire et liens suivent d'eux-mêmes.
+   Contrastes sur #0A0A0A : texte 16:1, secondaire 7,6:1, mentions 5,7:1,
+   cyan 8,4:1, violet du bouton d'ambiance 7,3:1.
+   ========================================================= */
+
+.page-home {
+    --color-bg: #0A0A0A;
+    --color-text: #E6E6E6;              /* blanc cassé : moins de halo que le blanc pur */
+    --color-text-secondary: #A0A0A0;
+    --color-text-tertiary: #8A8A8A;
+    --color-border: rgba(255, 255, 255, 0.16);
+    --color-sound-off: #A78BFA;         /* le violet d'origine n'a que 3,5:1 sur noir */
+
+    --stage-bg: #0A0A0A;
+    --module-edge: #262626;
+    --silk: #EDEDED;
+    --silk-dim: #8F8F8F;
+    --cable-cv: #EDEDED;
+}
+
+.page-home .site-header {
+    padding-bottom: 56px;
+}
+
+/* Le trait du champ email doit se voir (3,2:1) : c'est la limite du champ */
+.page-home .form-input {
+    border-bottom-color: rgba(255, 255, 255, 0.36);
+}
+
+.page-home .form-input:focus {
+    border-bottom-color: var(--color-accent);
+}
+
+.page-home .manifesto-text {
+    line-height: 1.75;
+}
+
+.stage {
+    color: #FFFFFF;
+}
+
+.stage-title {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(48px, 6.9vw, 100px);
+    line-height: 0.9;
+    letter-spacing: -0.045em;
+    color: #FFFFFF;
+}
+
+.stage-lead {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 1.3;
+    color: rgba(255, 255, 255, 0.68);
+    max-width: 44ch;
+    margin-top: 28px;
+}
+
+.stage-lead-try {
+    display: block;
+    color: #FFFFFF;
+}
+
+.stage-grid {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: 40px;
+    align-items: start;
+    margin-top: 56px;
+}
+
+/* --- Le guide : trois étapes --- */
+.stage-guide-title {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    color: var(--color-accent);
+    margin-bottom: 24px;
+}
+
+.guide-steps {
+    list-style: none;
+    display: grid;
+    gap: 22px;
+}
+
+.guide-step {
+    display: grid;
+    grid-template-columns: 14px 1fr;
+    gap: 12px;
+    opacity: 0.42;
+    transition: opacity 0.4s ease;
+}
+
+.guide-step.is-current,
+.guide-step.is-done {
+    opacity: 1;
+}
+
+.guide-jack {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 2px solid #6B6B6B;
+    margin-top: 3px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.guide-step.is-current .guide-jack {
+    border-color: #FFFFFF;
+}
+
+.guide-step.is-done .guide-jack {
+    border-color: var(--color-accent);
+    background: var(--color-accent);
+}
+
+.guide-todo {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: #FFFFFF;
+}
+
+.guide-how {
+    font-size: 13px;
+    line-height: 1.5;
+    color: #A3A3A3;
+    margin-top: 4px;
+}
+
+.guide-step.is-done .guide-how {
+    color: #DADADA;
+}
+
+.guide-link {
+    color: var(--color-accent);
+    border-bottom: 1px solid currentColor;
+    white-space: nowrap;
+}
+
+.guide-hint {
+    margin-top: 24px;
+    padding-left: 10px;
+    border-left: 2px solid var(--color-accent);
+    font-size: 13px;
+    line-height: 1.5;
+    color: #E6E6E6;
+}
+
+.guide-hint:empty {
+    display: none;
+}
+
+.guide-final {
+    margin-top: 32px;
+}
+
+.guide-final-title {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    color: #FFFFFF;
+    margin-bottom: 14px;
+}
+
+.guide-final-item {
+    margin-top: 10px;
+    line-height: 1.7;
+}
+
+/* En ligne : sur deux lignes, chaque ligne a son propre trait, à la longueur du texte */
+.guide-final-link {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-accent);
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 2px;
+}
+
+.guide-final-link:hover,
+.guide-link:hover {
+    opacity: 0.7;
+}
+
+/* --- Le rack --- */
+.patch {
+    position: relative;
+}
+
+.patch-fallback {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.patch-fallback .cta {
+    display: inline-block;
+    margin-top: 12px;
+}
+
+.rack {
+    position: relative;
+    background: #121212;
+    border-radius: 6px;
+    padding: 10px;
+    box-shadow: inset 0 0 0 1px #1F1F1F, 0 40px 90px rgba(0, 0, 0, 0.55);
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.rack.is-dragging,
+.rack.is-dragging * {
+    cursor: grabbing;
+}
+
+.rack-rail {
+    height: 12px;
+    border-radius: 2px;
+    background: #202020 radial-gradient(circle at center, #0B0B0B 0 2px, transparent 2.5px) 9px 50% / 18px 12px repeat-x;
+}
+
+.rack-modules {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr 1.12fr 0.82fr 1.25fr;
+    gap: 3px;
+    margin: 6px 0;
+}
+
+.module {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    min-height: 330px;
+    padding: 18px 14px;
+    background: linear-gradient(180deg, #1C1C1C, #161616);
+    border-radius: 2px;
+    box-shadow: inset 0 0 0 1px var(--module-edge);
+}
+
+/* Les vis de fixation */
+.module::before,
+.module::after {
+    content: "";
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #2E2E2E 0 1px, #575757 1.5px 3.5px);
+}
+
+.module::before {
+    top: 5px;
+    left: 5px;
+}
+
+.module::after {
+    right: 5px;
+    bottom: 5px;
+}
+
+.module-head {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 2px 8px;
+    padding-right: 14px;
+}
+
+.module-name {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--silk);
+}
+
+.module-role {
+    font-size: 12px;
+    color: var(--silk-dim);
+}
+
+.module-led {
+    position: absolute;
+    top: 5px;
+    right: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    box-shadow: 0 0 10px var(--color-accent);
+    opacity: 0.15;
+}
+
+.module-controls {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: center;
+    gap: 16px 18px;
+}
+
+.module-jacks {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px;
+}
+
+/* --- Boutons rotatifs --- */
+.knob {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    border-radius: 8px;
+    cursor: grab;
+    touch-action: none;
+    outline: none;
+}
+
+.knob:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+}
+
+.knob-face {
+    width: 60px;
+    height: 60px;
+    overflow: visible;
+}
+
+.knob-track,
+.knob-fill {
+    fill: none;
+    stroke-width: 3;
+    stroke-linecap: round;
+}
+
+.knob-track {
+    stroke: #2C2C2C;
+}
+
+.knob-fill {
+    stroke: #6F6F6F;
+    transition: stroke 0.2s ease;
+}
+
+.knob:hover .knob-fill,
+.knob.is-turning .knob-fill,
+.knob:focus-visible .knob-fill {
+    stroke: #CFCFCF;
+}
+
+.knob-cap {
+    fill: #0E0E0E;
+    stroke: #3A3A3A;
+    stroke-width: 1.5;
+}
+
+.knob-needle {
+    stroke: #F2F2F2;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+}
+
+/* La pastille cyan : là où le control voltage pousse le bouton */
+.knob-cv {
+    fill: var(--color-accent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.knob.is-modulated .knob-cv {
+    opacity: 1;
+}
+
+.knob-label {
+    font-size: 12px;
+    color: #BDBDBD;
+}
+
+/* --- Formes d'onde --- */
+.wave-select {
+    display: flex;
+    gap: 6px;
+    align-self: center;
+}
+
+.wave-btn {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 26px;
+    padding: 0;
+    border: 1px solid #333333;
+    border-radius: 4px;
+    background: #101010;
+    color: #8A8A8A;
+    cursor: pointer;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.wave-btn svg {
+    width: 20px;
+    height: 16px;
+}
+
+.wave-btn path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.wave-btn:hover {
+    color: #E0E0E0;
+}
+
+.wave-btn[aria-pressed="true"] {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+}
+
+.wave-btn:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+}
+
+/* --- Oscilloscope --- */
+.module-scope {
+    order: -1;
+    display: block;
+    width: 100%;
+    height: 104px;
+    border-radius: 4px;
+    background: #060606;
+    box-shadow: inset 0 0 0 1px var(--module-edge);
+}
+
+/* --- Prises jack --- */
+.jack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    min-width: 44px;
+    padding: 4px 2px;
+    border: 0;
+    border-radius: 8px;
+    background: none;
+    color: inherit;
+    cursor: grab;
+    touch-action: none;
+    font: inherit;
+}
+
+.jack:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 1px;
+}
+
+.jack-nut {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #000000 0 5px, #262626 5.5px 7px, #BDBDBD 7.5px 9px, #7A7A7A 9.5px 11px, #3A3A3A 11.5px 15px, #2A2A2A 15.5px);
+    box-shadow: inset 0 0 0 1px #4A4A4A;
+    transition: box-shadow 0.2s ease;
+}
+
+.jack:hover .jack-nut {
+    box-shadow: inset 0 0 0 1px #4A4A4A, 0 0 0 3px rgba(255, 255, 255, 0.14);
+}
+
+.jack-label {
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1;
+    padding: 3px 5px;
+    border-radius: 2px;
+    color: #D0D0D0;
+}
+
+/* Les sorties ont l'étiquette blanche, comme sur les vrais panneaux */
+.jack--out .jack-label {
+    background: #ECECEC;
+    color: #0A0A0A;
+}
+
+.jack.is-pending .jack-nut {
+    box-shadow: inset 0 0 0 1px #4A4A4A, 0 0 0 3px var(--color-accent);
+}
+
+.jack.is-target .jack-nut {
+    animation: jack-target 1.1s ease-in-out infinite;
+}
+
+.jack.is-invite .jack-nut {
+    animation: jack-invite 1.8s ease-in-out infinite;
+}
+
+@keyframes jack-target {
+    0%, 100% { box-shadow: inset 0 0 0 1px #4A4A4A, 0 0 0 2px rgba(0, 184, 217, 0.3); }
+    50% { box-shadow: inset 0 0 0 1px #4A4A4A, 0 0 0 6px rgba(0, 184, 217, 0.6); }
+}
+
+@keyframes jack-invite {
+    0%, 100% { box-shadow: inset 0 0 0 1px #4A4A4A, 0 0 0 0 rgba(0, 184, 217, 0); }
+    50% { box-shadow: inset 0 0 0 1px #4A4A4A, 0 0 0 7px rgba(0, 184, 217, 0.45); }
+}
+
+/* --- Câbles --- */
+.rack-cables {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 3;
+    overflow: visible;
+    pointer-events: none;
+}
+
+.cable-shadow,
+.cable-body,
+.cable-flow {
+    fill: none;
+    stroke-linecap: round;
+}
+
+.cable-shadow {
+    stroke: rgba(0, 0, 0, 0.6);
+    stroke-width: 9;
+    transform: translate(0, 3px);
+}
+
+.cable-body {
+    stroke-width: 5;
+}
+
+.cable-flow {
+    stroke-width: 2;
+    stroke-dasharray: 1 15;
+}
+
+.cable--audio .cable-body {
+    stroke: var(--color-accent);
+}
+
+.cable--audio .cable-flow {
+    stroke: rgba(255, 255, 255, 0.8);
+}
+
+.cable--audio .cable-plug {
+    fill: var(--color-accent);
+}
+
+.cable--cv .cable-body {
+    stroke: var(--cable-cv);
+}
+
+.cable--cv .cable-flow {
+    stroke: var(--color-accent);
+}
+
+.cable--cv .cable-plug {
+    fill: var(--cable-cv);
+}
+
+.cable-plug {
+    stroke: rgba(0, 0, 0, 0.45);
+    stroke-width: 1;
+}
+
+.cable-plug-core {
+    fill: rgba(0, 0, 0, 0.35);
+}
+
+.cable--temp {
+    opacity: 0.85;
+}
+
+/* --- Sous le rack : légende et commandes --- */
+.patch-tools {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 12px 40px;
+    margin-top: 28px;
+}
+
+.patch-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 20px;
+    font-size: 12px;
+    color: #9D9D9D;
+}
+
+.legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.legend-item--audio::before,
+.legend-item--cv::before {
+    content: "";
+    width: 18px;
+    height: 4px;
+    border-radius: 2px;
+}
+
+.legend-item--audio::before {
+    background: var(--color-accent);
+}
+
+.legend-item--cv::before {
+    background: var(--cable-cv);
+}
+
+.patch-tool-group {
+    display: inline-flex;
+    gap: 20px;
+}
+
+.patch-tool {
+    padding: 2px 0;
+    border: 0;
+    border-bottom: 1px solid #555555;
+    background: none;
+    color: #D9D9D9;
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.patch-tool:hover,
+.patch-tool[aria-pressed="true"] {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+}
+
+.patch-tool:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+}
+
+/* --- Mise sous tension : les modules s'allument l'un après l'autre --- */
+.rack.is-powering .module {
+    animation: module-power 0.6s ease both;
+    animation-delay: calc(var(--i) * 140ms + 150ms);
+}
+
+@keyframes module-power {
+    from { opacity: 0.08; }
+    to { opacity: 1; }
+}
+
+
+/* =========================================================
+   ACCUEIL — sous la scène
+   ========================================================= */
+
+.home-section {
+    margin-top: var(--section-gap);
+}
+
+.doors {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: start;
+}
+
+.door-title {
+    font-family: var(--font-display);
+    font-size: 56px;
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    margin-bottom: 16px;
+}
+
+.door-title a {
+    transition: color 0.3s ease;
+}
+
+.door-title a:hover {
+    color: var(--color-accent);
+}
+
+.door-lead {
+    font-size: 17px;
+    line-height: 1.55;
+    max-width: 42ch;
+    margin-bottom: 28px;
+}
+
+.door-lessons {
+    list-style: none;
+    border-top: 0.5px solid var(--color-border);
+    margin-bottom: 28px;
+}
+
+.door-lessons a {
+    display: grid;
+    grid-template-columns: 32px 1fr 16px;
+    gap: 16px;
+    align-items: center;
+    padding: 18px 0;
+    border-bottom: 0.5px solid var(--color-border);
+}
+
+.door-lesson-num {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--color-text-tertiary);
+    transition: color 0.3s ease;
+}
+
+.door-lesson-title {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 1.15;
+    transition: color 0.3s ease;
+}
+
+.door-lesson-desc {
+    display: block;
+    margin-top: 3px;
+    font-size: 13px;
+    color: var(--color-text-secondary);
+}
+
+.door-lessons a:hover .door-lesson-num,
+.door-lessons a:hover .door-lesson-title {
+    color: var(--color-accent);
+}
+
+/* Une prise par leçon : remplie quand la leçon a été ouverte */
+.seen-jack {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 2px solid var(--color-border);
+}
+
+.door-lessons a.is-seen .seen-jack {
+    border-color: var(--color-accent);
+    background: var(--color-accent);
+}
+
+.door-lessons a:not(.is-seen) .seen-label {
+    display: none;
+}
+
+.door-latest {
+    display: block;
+    margin-bottom: 20px;
+}
+
+.door-thumb {
+    display: block;
+    aspect-ratio: 16 / 9;
+    margin-bottom: 16px;
+    overflow: hidden;
+    background: #161616;
+}
+
+.door-thumb img {
     display: block;
     width: 100%;
     height: 100%;
+    object-fit: cover;
 }
 
-/* Le voile s'ouvre depuis le centre, avec un bord fondu (pas de trait net) */
-@property --seam {
-    syntax: '<percentage>';
-    inherits: false;
-    initial-value: 0%;
+.door-latest-kicker {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 12px;
+    color: var(--color-text-tertiary);
 }
 
-.intro-curtain.is-open .intro-veil {
-    --seam: 45%;
-    filter: blur(4px);
-}
-
-.intro-mark {
-    position: absolute;
-    left: 50%;
-    bottom: 12vh;
-    transform: translateX(-50%);
+.door-latest-title {
+    display: block;
     font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    transition: color 0.3s ease;
+}
+
+.door-latest:hover .door-latest-title {
+    color: var(--color-accent);
+}
+
+.door-next {
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: var(--color-text-secondary);
+}
+
+.home-newsletter-lead {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    margin-bottom: 20px;
+}
+
+.home-newsletter-yt {
+    margin-top: 24px;
+    font-size: 14px;
+    color: var(--color-text-secondary);
+}
+
+.page-home .read-more {
+    display: inline-block;
+    margin-top: 12px;
+}
+
+
+/* --- Accueil : tablette --- */
+@media (max-width: 1100px) {
+    .stage-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+
+    .guide-steps {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+
+    .doors {
+        gap: 48px;
+    }
+}
+
+@media (max-width: 900px) {
+    .rack-modules {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .module {
+        min-height: 0;
+    }
+}
+
+/* --- Accueil : téléphone --- */
+@media (max-width: 768px) {
+    .page-home .site-header {
+        padding-bottom: 40px;
+    }
+
+    .stage-lead {
+        font-size: 18px;
+        margin-top: 20px;
+    }
+
+    .stage-grid {
+        margin-top: 36px;
+    }
+
+    .guide-steps {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    /* Sur téléphone, les étapes à venir tiennent sur une ligne */
+    .guide-step:not(.is-current):not(.is-done) .guide-how {
+        display: none;
+    }
+
+    /* Le bouton d'ambiance se réduit à son icône (le libellé reste lu par les lecteurs d'écran) */
+    .sound-toggle {
+        width: 40px;
+        padding: 0;
+        justify-content: center;
+    }
+
+    .sound-label {
+        display: none;
+    }
+
+    .rack {
+        padding: 6px;
+    }
+
+    .module {
+        padding: 16px 8px 12px;
+        gap: 14px;
+    }
+
+    .module-name {
+        font-size: 20px;
+    }
+
+    .module-controls {
+        gap: 12px 10px;
+    }
+
+    .knob-face {
+        width: 54px;
+        height: 54px;
+    }
+
+    .jack {
+        min-width: 40px;
+    }
+
+    .jack-nut {
+        width: 30px;
+        height: 30px;
+    }
+
+    .module-scope {
+        height: 84px;
+    }
+
+    .patch-tools {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .doors {
+        grid-template-columns: 1fr;
+        gap: 64px;
+    }
+
+    .door-title {
+        font-size: 44px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .jack.is-target .jack-nut,
+    .jack.is-invite .jack-nut {
+        animation: none;
+        box-shadow: inset 0 0 0 1px #4A4A4A, 0 0 0 3px rgba(0, 184, 217, 0.5);
+    }
+
+    .rack.is-powering .module {
+        animation: none;
+    }
+}
+
+
+/* =========================================================
+   SIGNALÉTIQUE — fil d'Ariane, sommaire du rail, page 404
+   ========================================================= */
+
+/* --- Fil d'Ariane en tête de rail : les rubriques parentes, puis la page --- */
+.crumbs ol {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 0;
+}
+
+.crumbs li {
+    display: inline;
+}
+
+.crumbs li:not(:last-child)::after {
+    content: "/";
+    margin: 0 7px;
+    color: var(--color-text-tertiary);
+}
+
+.crumbs a {
+    color: var(--color-text);
+    border-bottom: 1px solid var(--color-border);
+    transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.crumbs a:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+}
+
+.crumbs [aria-current] {
+    color: var(--color-accent);
+}
+
+/* --- Sommaire du rail (main.js) : seulement sur ordinateur, pages longues --- */
+.rail-toc {
+    display: none;
+}
+
+@media (min-width: 1100px) {
+    .rail-toc {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 40;
+        font-family: var(--font-display);
+        font-size: 13px;
+        line-height: 1.35;
+        will-change: transform;
+    }
+
+    /* Le sommaire prend la place des libellés de section dans le rail */
+    .has-toc main > section ~ section .row-grid > .rail-label {
+        visibility: hidden;
+    }
+
+    .rail-toc-head {
+        margin-bottom: 18px;
+        padding-bottom: 14px;
+        border-bottom: 0.5px solid var(--color-border);
+        font-size: 13px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+    }
+
+    .rail-toc.show-head .rail-toc-head {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .rail-toc-list {
+        list-style: none;
+        display: grid;
+        gap: 10px;
+    }
+
+    .rail-toc-list a {
+        position: relative;
+        display: block;
+        padding-left: 16px;
+        color: var(--color-text-secondary);
+        transition: color 0.2s ease;
+    }
+
+    /* Une petite prise devant chaque section ; celle en cours est branchée */
+    .rail-toc-list a::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.38em;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        border: 1.5px solid var(--color-border);
+        transition: background-color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .rail-toc-list a:hover {
+        color: var(--color-text);
+    }
+
+    .rail-toc-list a[aria-current] {
+        color: var(--color-accent);
+        font-weight: 600;
+    }
+
+    .rail-toc-list a[aria-current]::before {
+        border-color: var(--color-accent);
+        background: var(--color-accent);
+    }
+
+    .rail-toc a:focus-visible {
+        outline: 2px solid var(--color-accent);
+        outline-offset: 2px;
+    }
+}
+
+[data-toc-target] {
+    scroll-margin-top: 40px;
+}
+
+[data-toc-target]:focus {
+    outline: none;
+}
+
+/* --- Page 404 « câble débranché » --- */
+.unplugged {
+    display: block;
+    width: 100%;
+    max-width: 720px;
+    height: auto;
+    margin-top: 56px;
+    overflow: visible;
+}
+
+.unplugged-wave,
+.unplugged-flat,
+.unplugged-cable {
+    fill: none;
+    stroke-linecap: round;
+}
+
+.unplugged-wave {
+    stroke: var(--color-accent);
+    stroke-width: 2.5;
+}
+
+.unplugged-flat {
+    stroke: var(--color-accent);
+    stroke-width: 2.5;
+    opacity: 0.35;
+}
+
+.unplugged-cable {
+    stroke: var(--color-text);
+    stroke-width: 6;
+}
+
+.unplugged-plug,
+.unplugged-tip {
+    fill: var(--color-text);
+}
+
+.unplugged-jack-ring {
+    fill: none;
+    stroke: var(--color-border);
+    stroke-width: 2;
+}
+
+.unplugged-jack-nut {
+    fill: none;
+    stroke: var(--color-text-tertiary);
+    stroke-width: 4;
+}
+
+.unplugged-jack-hole {
+    fill: var(--color-text);
+}
+
+.lost-links {
+    list-style: none;
+    border-top: 0.5px solid var(--color-border);
+    max-width: 640px;
+}
+
+.lost-links a {
+    display: block;
+    padding: 22px 0;
+    border-bottom: 0.5px solid var(--color-border);
+}
+
+.lost-title {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 28px;
     font-weight: 800;
-    font-size: 20px;
+    line-height: 1.05;
     letter-spacing: -0.02em;
-    color: #FFFFFF;
-    opacity: 0;
-    animation: intro-mark 2.2s ease forwards;
-    transition: opacity 0.8s ease;
+    transition: color 0.3s ease;
 }
 
-.intro-curtain.is-open .intro-mark {
-    opacity: 0 !important;
-    animation: none;
+.lost-title::after {
+    content: " →";
 }
 
-@keyframes intro-mark {
-    0%, 30% { opacity: 0; }
-    70%, 100% { opacity: 1; }
+.lost-desc {
+    display: block;
+    margin-top: 6px;
+    font-size: 14px;
+    color: var(--color-text-secondary);
+}
+
+.lost-links a:hover .lost-title {
+    color: var(--color-accent);
+}
+
+.footer-404-list {
+    list-style: none;
+}
+
+.footer-404-list li {
+    margin-bottom: 8px;
+    font-family: var(--font-body);
+    font-size: 14px;
+}
+
+.footer-404-muted {
+    color: var(--color-text-secondary);
+}
+
+.footer-404-text {
+    font-family: var(--font-body);
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lesson-card:hover .lesson-card-number,
+    .lesson-card:hover .lesson-card-content {
+        transform: none;
+    }
 }

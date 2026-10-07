@@ -9,6 +9,10 @@
     'use strict';
 
     const isEnglish = () => document.documentElement.lang === 'en';
+    // Dossier des scripts du site (pour charger instrument.js à la demande)
+    const scriptBase = document.currentScript && document.currentScript.src
+        ? document.currentScript.src.replace(/[^/]*$/, '')
+        : null;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     /* =====================================================
@@ -259,15 +263,56 @@
         initCables();
         initScopes();
         initProgress();
+        initLessonProgress();
+        initInstrument();
+        initToc();
+    }
+
+    // --- Instrument de l'accueil : chargé seulement sur la page qui le contient ---
+    function initInstrument() {
+        if (!document.querySelector('[data-instrument]')) return;
+        if (window.modulrInstrument) { window.modulrInstrument.sync(); return; }
+        if (!scriptBase || document.getElementById('instrument-script')) return;
+        const script = document.createElement('script');
+        script.id = 'instrument-script';
+        script.src = scriptBase + 'instrument.js';
+        document.head.appendChild(script);
+    }
+
+    // --- Progression du cours : les leçons ouvertes, mémorisées dans ce navigateur seulement ---
+    const LESSONS = ['intro', 'son-et-harmonique', 'les-modules', 'controle-en-tension'];
+
+    function initLessonProgress() {
+        let seen = [];
+        try { seen = JSON.parse(store.get('modulr-progress') || '[]'); } catch (e) { seen = []; }
+        if (!Array.isArray(seen)) seen = [];
+
+        const match = window.location.pathname.match(/\/le-cours\/([^/]+)\/?$/);
+        if (match && LESSONS.includes(match[1]) && !seen.includes(match[1])) {
+            seen.push(match[1]);
+            store.set('modulr-progress', JSON.stringify(seen));
+        }
+
+        document.querySelectorAll('[data-lesson]').forEach((link) => {
+            link.classList.toggle('is-seen', seen.includes(link.getAttribute('data-lesson')));
+        });
+
+        const resume = document.querySelector('[data-resume]');
+        const next = LESSONS.find((lesson) => !seen.includes(lesson));
+        if (resume && seen.length && next) {
+            resume.setAttribute('href', resume.getAttribute('href').replace(/intro\/$/, next + '/'));
+            resume.textContent = (resume.getAttribute('data-resume-label') || '→ ') + (LESSONS.indexOf(next) + 1);
+        }
     }
 
     /* =====================================================
-       2. IMMERSION SONORE (initialisée une seule fois)
-       Par défaut le son est activé dès l'arrivée sur le site. Si le visiteur l'arrête,
-       ce choix est gardé pour ses prochaines visites (localStorage). Les navigateurs
-       bloquent souvent le son avant toute interaction : la lecture démarre alors au
-       premier clic ou à la première touche. Le bouton affiche l'état réel : violet et
-       onde fixe à l'arrêt, cyan et onde animée en lecture.
+       2. AMBIANCE SONORE (initialisée une seule fois)
+       Coupée par défaut : la nappe ne joue que si le visiteur l'a mise en marche avec
+       le bouton, et ce choix est gardé pour ses prochaines visites (localStorage). S'il
+       l'a mise en marche lors d'une visite précédente, les navigateurs bloquent souvent
+       le son avant toute interaction : la lecture reprend alors au premier clic ou à la
+       première touche. Le bouton affiche l'état réel en toutes lettres : violet et onde
+       fixe à l'arrêt, cyan et onde animée en lecture.
        ===================================================== */
 
     const store = {
@@ -283,7 +328,16 @@
         if (!soundToggle || !ambientAudio) return;
 
         const VOLUME = 0.5;
-        const wantsSound = () => store.get('modulr-sound') !== 'off';
+        const wantsSound = () => store.get('modulr-sound') === 'on';
+
+        // Libellé visible à côté de l'onde
+        let label = soundToggle.querySelector('.sound-label');
+        if (!label) {
+            label = document.createElement('span');
+            label.className = 'sound-label';
+            label.setAttribute('aria-hidden', 'true');
+            soundToggle.appendChild(label);
+        }
 
         // Le bouton suit la lecture réelle, dans la langue de la page affichée
         const render = () => {
@@ -291,9 +345,12 @@
             const en = isEnglish();
             soundToggle.setAttribute('aria-pressed', playing ? 'true' : 'false');
             soundToggle.setAttribute('aria-label', playing
-                ? (en ? 'Turn off ambient sound' : "Couper l'immersion sonore")
-                : (en ? 'Turn on ambient sound' : "Activer l'immersion sonore"));
-            soundToggle.setAttribute('title', en ? 'ambient sound' : 'immersion sonore');
+                ? (en ? 'Turn off ambient sound' : "Couper l'ambiance sonore")
+                : (en ? 'Turn on ambient sound' : "Activer l'ambiance sonore"));
+            soundToggle.setAttribute('title', en ? 'ambient sound' : 'ambiance sonore');
+            label.textContent = playing
+                ? (en ? 'ambient: on' : 'ambiance : en marche')
+                : (en ? 'ambient: off' : 'ambiance : coupée');
         };
         ambientAudio.addEventListener('play', render);
         ambientAudio.addEventListener('pause', render);
@@ -404,6 +461,7 @@
 
         const swap = (doc) => {
             document.title = doc.title;
+            document.body.className = doc.body.className;
             if (doc.documentElement.lang) document.documentElement.lang = doc.documentElement.lang;
 
             const keep = PERSISTENT.map((id) => document.getElementById(id)).filter(Boolean);
@@ -416,6 +474,15 @@
                 if (!keep.includes(node)) node.remove();
             });
             document.body.appendChild(fresh);
+
+            const theme = doc.querySelector('meta[name="theme-color"]');
+            let currentTheme = document.querySelector('meta[name="theme-color"]');
+            if (!currentTheme) {
+                currentTheme = document.createElement('meta');
+                currentTheme.name = 'theme-color';
+                document.head.appendChild(currentTheme);
+            }
+            currentTheme.content = theme ? theme.content : '#FFFFFF';
 
             const description = doc.querySelector('meta[name="description"]');
             const current = document.querySelector('meta[name="description"]');
@@ -443,8 +510,9 @@
             const token = ++navToken;
             const target = new URL(href, window.location.href);
             // Fondu de sortie, pendant que la page suivante se charge
-            const leaving = document.querySelector('main');
-            if (leaving && !reduceMotion()) leaving.classList.add('is-leaving');
+            const fading = () => Array.from(document.querySelectorAll('main, body > .site-header, body > .footer'));
+            const leaving = fading();
+            if (!reduceMotion()) leaving.forEach((el) => el.classList.add('is-leaving'));
             try {
                 const [response] = await Promise.all([
                     fetch(target.href, { headers: { 'Accept': 'text/html' } }),
@@ -467,13 +535,20 @@
                 // et seulement si le visiteur a accepté (window.gtag n'existe qu'après son accord)
                 const tracked = !!doc.querySelector('script[src*="consent.js"]');
 
+                // Passage de la scène noire (accueil) au carnet blanc, ou l'inverse
+                const themeChanges = document.body.classList.contains('page-home') !== doc.body.classList.contains('page-home');
+
                 swap(doc);
                 currentPath = window.location.pathname;
-                // Fondu d'entrée de la nouvelle page
-                const entering = document.querySelector('main');
-                if (entering && !reduceMotion()) {
-                    entering.classList.add('is-entering');
-                    requestAnimationFrame(() => requestAnimationFrame(() => entering.classList.remove('is-entering')));
+                // Fondu d'entrée de la nouvelle page (le fond, lui, glisse du noir au blanc ou l'inverse)
+                // Quand le fond change de couleur, le texte attend qu'il ait fini de glisser
+                if (!reduceMotion()) {
+                    const entering = fading();
+                    entering.forEach((el) => el.classList.add('is-entering'));
+                    const show = () => entering.forEach((el) => el.classList.remove('is-entering'));
+                    requestAnimationFrame(() => requestAnimationFrame(() => {
+                        if (themeChanges) setTimeout(show, 280); else show();
+                    }));
                 }
                 initPage();
                 document.dispatchEvent(new Event('modulr:page'));
@@ -485,7 +560,7 @@
                 focusNewPage();
                 if (tracked) pageView();
             } catch (error) {
-                if (leaving) leaving.classList.remove('is-leaving');
+                leaving.forEach((el) => el.classList.remove('is-leaving'));
                 if (token === navToken) window.location.assign(target.href);
             }
         }
@@ -538,7 +613,7 @@
 
     const reduceMotion = () => window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const cssVar = (name, fallback) => {
-        const value = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+        const value = getComputedStyle(document.body || document.documentElement).getPropertyValue(name).trim();
         return value || fallback;
     };
 
@@ -709,83 +784,6 @@
     }
 
 
-    // --- Ouverture de l'accueil : le rideau ---
-    function initIntro() {
-        const root = document.documentElement;
-        if (!root.classList.contains('intro')) return;
-
-        const curtain = document.createElement('div');
-        curtain.className = 'intro-curtain';
-        curtain.setAttribute('aria-hidden', 'true');
-        // Un seul voile, une seule toile : pas de raccord au centre
-        const veil = document.createElement('div');
-        veil.className = 'intro-veil';
-        const canvas = document.createElement('canvas');
-        veil.appendChild(canvas);
-        curtain.appendChild(veil);
-        const mark = document.createElement('div');
-        mark.className = 'intro-mark';
-        mark.textContent = 'modulr lab';
-        curtain.appendChild(mark);
-        document.body.appendChild(curtain);
-        root.classList.remove('intro');
-
-        const accent = cssVar('--color-accent', '#00B8D9');
-        const waves = [
-            { f: 1.5, s: 0.35, a: 0.30, c: accent, o: 0.9 },
-            { f: 2.3, s: -0.22, a: 0.20, c: '#FFFFFF', o: 0.35 },
-            { f: 3.1, s: 0.18, a: 0.14, c: accent, o: 0.45 },
-            { f: 0.9, s: -0.12, a: 0.38, c: '#FFFFFF', o: 0.18 },
-            { f: 4.2, s: 0.27, a: 0.08, c: accent, o: 0.3 }
-        ];
-        const start = performance.now();
-        const OPEN_AT = 2200, OPEN_FOR = 2200;
-        let opened = false, done = false;
-
-        const draw = (now) => {
-            if (done) return;
-            const t = (now - start) / 1000;
-            const fadeIn = Math.min(t / 0.9, 1);
-            const ratio = Math.min(window.devicePixelRatio || 1, 2);
-            const W = window.innerWidth * ratio, H = window.innerHeight * ratio;
-            {
-                const w = W;
-                if (canvas.width !== w || canvas.height !== H) { canvas.width = w; canvas.height = H; }
-                const g = canvas.getContext('2d');
-                g.clearRect(0, 0, w, H);
-                const offset = 0;
-                waves.forEach((wave, k) => {
-                    g.beginPath();
-                    for (let x = 0; x <= w; x += 3 * ratio) {
-                        const gx = (x - offset) / W;
-                        const env = Math.sin(Math.PI * gx);
-                        const breathe = 0.75 + 0.25 * Math.sin(t * 0.8 + k);
-                        const y = H / 2 + Math.sin(gx * Math.PI * 2 * wave.f + t * wave.s * 6 + k) * wave.a * H * 0.5 * env * breathe;
-                        if (x === 0) g.moveTo(x, y); else g.lineTo(x, y);
-                    }
-                    g.strokeStyle = wave.c;
-                    g.globalAlpha = wave.o * fadeIn;
-                    g.lineWidth = 1.5 * ratio;
-                    g.stroke();
-                });
-                g.globalAlpha = 1;
-            }
-            requestAnimationFrame(draw);
-        };
-        requestAnimationFrame(draw);
-
-        const open = () => {
-            if (opened) return;
-            opened = true;
-            curtain.classList.add('is-open');
-            setTimeout(() => { done = true; curtain.remove(); }, OPEN_FOR + 100);
-            ['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach((ev) => window.removeEventListener(ev, open));
-        };
-        setTimeout(open, OPEN_AT);
-        // Le visiteur pressé ouvre le rideau d'un geste
-        ['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach((ev) => window.addEventListener(ev, open, { passive: true }));
-    }
-
     // --- Barre de lecture ---
     let progressBound = false;
     function initProgress() {
@@ -812,7 +810,146 @@
         }
     }
 
-    initIntro();
+    /* =====================================================
+       5. SIGNALÉTIQUE : LE SOMMAIRE DU RAIL
+       Sur les pages longues, la colonne de gauche devient un sommaire qui reste à
+       l'écran : le fil d'Ariane en tête, puis les sections de la page, celle en
+       cours en cyan. Il part de la deuxième section, se fixe en haut de l'écran
+       et s'arrête avant le pied de page. Ordinateur seulement (voir common.css).
+       ===================================================== */
+
+    const toc = { nav: null, items: [], sections: [], bound: false };
+
+    function tocText(node) {
+        return node.textContent.replace(/\s+/g, ' ').trim().replace(/[.:]$/, '').trim();
+    }
+
+    function slugify(text) {
+        return text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+            .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'section';
+    }
+
+    function initToc() {
+        const old = document.getElementById('rail-toc');
+        if (old) old.remove();
+        document.body.classList.remove('has-toc');
+        toc.nav = null;
+        toc.items = [];
+
+        const sections = Array.from(document.querySelectorAll('main > section'));
+        if (sections.length < 3) return;
+
+        // Une entrée par section ; une section qui a plusieurs intertitres en donne un par intertitre
+        const entries = [];
+        sections.slice(1).forEach((section) => {
+            const headings = section.querySelectorAll('h2');
+            const label = section.querySelector('.row-grid > .rail-label');
+            if (headings.length >= 2) headings.forEach((h) => entries.push({ text: tocText(h), target: h }));
+            else if (label && tocText(label)) entries.push({ text: tocText(label), target: section });
+        });
+        // Seulement pour les pages qui se lisent (leçons, fiches, histoire) : au moins quatre sections
+        if (entries.length < 4 || document.body.classList.contains('page-home')) return;
+        if (document.documentElement.scrollHeight < window.innerHeight * 2.2) return;
+
+        const used = new Set(Array.from(document.querySelectorAll('[id]')).map((n) => n.id));
+        const nav = document.createElement('nav');
+        nav.id = 'rail-toc';
+        nav.className = 'rail-toc';
+        nav.setAttribute('aria-label', isEnglish() ? 'on this page' : 'sur cette page');
+
+        const head = document.createElement('div');
+        head.className = 'rail-toc-head';
+        // En tête : le fil d'Ariane de la page (ou, à défaut, le libellé de la rubrique)
+        const crumbs = sections[0].querySelector('.crumbs ol') || sections[0].querySelector('.row-grid > .rail-label');
+        if (crumbs) {
+            const wrap = document.createElement('div');
+            wrap.className = 'crumbs';
+            if (crumbs.tagName === 'OL') wrap.appendChild(crumbs.cloneNode(true));
+            else wrap.textContent = crumbs.textContent.trim();
+            head.appendChild(wrap);
+            head.setAttribute('aria-hidden', 'true');
+            nav.appendChild(head);
+        }
+
+        const list = document.createElement('ol');
+        list.className = 'rail-toc-list';
+        entries.forEach((entry) => {
+            if (!entry.target.id) {
+                let id = slugify(entry.text), n = 2;
+                while (used.has(id)) id = slugify(entry.text) + '-' + n++;
+                used.add(id);
+                entry.target.id = id;
+            }
+            entry.target.setAttribute('data-toc-target', '');
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.href = '#' + entry.target.id;
+            a.textContent = entry.text;
+            a.addEventListener('click', (event) => {
+                event.preventDefault();
+                entry.target.scrollIntoView({ behavior: reduceMotion() ? 'auto' : 'smooth', block: 'start' });
+                history.replaceState(history.state, '', '#' + entry.target.id);
+                if (!entry.target.hasAttribute('tabindex')) entry.target.setAttribute('tabindex', '-1');
+                entry.target.focus({ preventScroll: true });
+            });
+            li.appendChild(a);
+            list.appendChild(li);
+            entry.link = a;
+        });
+        nav.appendChild(list);
+        document.body.appendChild(nav);
+        document.body.classList.add('has-toc');
+
+        toc.nav = nav;
+        toc.items = entries;
+        toc.sections = sections;
+        updateToc();
+
+        if (!toc.bound) {
+            toc.bound = true;
+            let ticking = false;
+            const onScroll = () => {
+                if (ticking) return;
+                ticking = true;
+                requestAnimationFrame(() => { ticking = false; updateToc(); });
+            };
+            window.addEventListener('scroll', onScroll, { passive: true });
+            window.addEventListener('resize', onScroll, { passive: true });
+        }
+    }
+
+    function updateToc() {
+        const nav = toc.nav;
+        if (!nav || !nav.isConnected || getComputedStyle(nav).display === 'none') return;
+
+        // Position : alignée sur le rail, part de la 2e section, se fixe, s'arrête avant le pied de page
+        const grid = toc.sections[0].querySelector('.row-grid') || toc.sections[0];
+        const railLeft = grid.getBoundingClientRect().left;
+        const railWidth = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--rail-width')) || 200;
+        const second = toc.sections[1].querySelector('.row-grid') || toc.sections[1];
+        // La liste (et non l'en-tête, encore invisible) s'aligne sur la 2e section
+        const list = nav.querySelector('.rail-toc-list');
+        const start = second.getBoundingClientRect().top + 12 - (list ? list.offsetTop : 0);
+        let top = Math.max(40, start);
+        const footer = document.querySelector('footer');
+        if (footer) top = Math.min(top, footer.getBoundingClientRect().top - nav.offsetHeight - 48);
+        nav.style.width = railWidth + 'px';
+        nav.style.transform = `translate(${Math.round(railLeft)}px, ${Math.round(top)}px)`;
+
+        // Le fil d'Ariane du sommaire apparaît quand celui de la page est sorti de l'écran
+        nav.classList.toggle('show-head', toc.sections[0].getBoundingClientRect().bottom < 40);
+
+        // Section en cours : la dernière dont le haut a passé le tiers de l'écran
+        const line = window.innerHeight * 0.35;
+        let current = -1;
+        toc.items.forEach((item, i) => { if (item.target.getBoundingClientRect().top <= line) current = i; });
+        if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 4) current = toc.items.length - 1;
+        toc.items.forEach((item, i) => {
+            if (i === current) item.link.setAttribute('aria-current', 'location');
+            else item.link.removeAttribute('aria-current');
+        });
+    }
+
     initPage();
     initSound();
     initSoundScope();
