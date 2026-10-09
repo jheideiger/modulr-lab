@@ -28,22 +28,56 @@
         document.body.style.overflow = '';
         if (!burger || !menuOverlay || !menuClose) return;
 
-        const close = () => {
+        // La barre du navigateur (téléphone) passe au noir avec le menu, puis reprend sa couleur
+        const setBarColor = (color) => {
+            let meta = document.querySelector('meta[name="theme-color"]');
+            if (!meta) {
+                meta = document.createElement('meta');
+                meta.name = 'theme-color';
+                meta.content = '#FFFFFF';
+                document.head.appendChild(meta);
+            }
+            if (color) {
+                if (!meta.dataset.pageColor) meta.dataset.pageColor = meta.content;
+                meta.content = color;
+            } else if (meta.dataset.pageColor) {
+                meta.content = meta.dataset.pageColor;
+                delete meta.dataset.pageColor;
+            }
+        };
+
+        const close = (returnFocus) => {
+            const wasOpen = menuOverlay.classList.contains('is-open');
+            if (wasOpen) setBarColor(null);
             menuOverlay.classList.remove('is-open');
             menuOverlay.setAttribute('inert', '');
             menuOverlay.setAttribute('aria-hidden', 'true');
+            burger.setAttribute('aria-expanded', 'false');
             document.body.style.overflow = '';
+            if (wasOpen && returnFocus === true) burger.focus();
         };
 
         burger.addEventListener('click', () => {
             menuOverlay.classList.add('is-open');
             menuOverlay.removeAttribute('inert');
             menuOverlay.setAttribute('aria-hidden', 'false');
+            burger.setAttribute('aria-expanded', 'true');
             document.body.style.overflow = 'hidden';
+            setBarColor('#0A0A0A');
+            menuClose.focus();
         });
-        menuClose.addEventListener('click', close);
-        menuOverlay.querySelectorAll('nav a').forEach((link) => link.addEventListener('click', close));
+        menuClose.addEventListener('click', () => close(true));
+        menuOverlay.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => close(false)));
+        // Échap ferme le menu (un seul écouteur pour tout le site, le menu change à chaque page)
+        menuState.close = close;
+        if (!menuState.bound) {
+            menuState.bound = true;
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape' && menuState.close) menuState.close(true);
+            });
+        }
     }
+    const menuState = { close: null, bound: false };
 
     // --- Rubrique active dans la navigation ---
     function setActiveNavLink() {
@@ -329,6 +363,9 @@
 
         const VOLUME = 0.5;
         const wantsSound = () => store.get('modulr-sound') === 'on';
+        // L'accueil, c'est l'instrument : l'ambiance s'y tait, sans changer le choix du visiteur
+        const onHome = () => document.body.classList.contains('page-home');
+        let heldForHome = false;
 
         // Libellé visible à côté de l'onde
         let label = soundToggle.querySelector('.sound-label');
@@ -356,14 +393,30 @@
         ambientAudio.addEventListener('pause', render);
         document.addEventListener('modulr:page', render);
 
-        // Montée progressive du volume, pour une arrivée en douceur
+        // Montée progressive du volume, pour une arrivée en douceur ; descente avant l'arrêt
+        let fadeToken = 0;
         const fadeIn = () => {
+            const token = ++fadeToken;
             ambientAudio.volume = 0;
             const start = performance.now();
             const step = (now) => {
+                if (token !== fadeToken) return;
                 const k = Math.max(0, Math.min((now - start) / 1500, 1));
                 ambientAudio.volume = VOLUME * k;
                 if (k < 1 && !ambientAudio.paused) requestAnimationFrame(step);
+            };
+            requestAnimationFrame(step);
+        };
+        const fadeOutAndPause = () => {
+            const token = ++fadeToken;
+            const from = ambientAudio.volume;
+            const start = performance.now();
+            const step = (now) => {
+                if (token !== fadeToken) return;
+                const k = Math.min((now - start) / 600, 1);
+                ambientAudio.volume = from * (1 - k);
+                if (k < 1 && !ambientAudio.paused) requestAnimationFrame(step);
+                else { ambientAudio.pause(); ambientAudio.volume = VOLUME; }
             };
             requestAnimationFrame(step);
         };
@@ -385,18 +438,37 @@
                 if (soundToggle.contains(event.target)) return;
                 document.removeEventListener('pointerdown', onGesture, true);
                 document.removeEventListener('keydown', onGesture, true);
-                if (wantsSound() && ambientAudio.paused) play().catch(() => { });
+                if (wantsSound() && ambientAudio.paused && !onHome()) play().catch(() => { });
             };
             document.addEventListener('pointerdown', onGesture, true);
             document.addEventListener('keydown', onGesture, true);
         };
 
         render();
-        if (wantsSound()) play().catch(startOnFirstGesture);
+        if (wantsSound()) {
+            if (onHome()) heldForHome = true;
+            else play().catch(startOnFirstGesture);
+        }
 
+        // À chaque changement de page : l'ambiance s'efface en arrivant sur l'accueil,
+        // et reprend en le quittant si le visiteur l'avait mise en marche
+        document.addEventListener('modulr:page', () => {
+            if (onHome()) {
+                if (!ambientAudio.paused) { heldForHome = true; fadeOutAndPause(); }
+                else if (wantsSound()) heldForHome = true;
+            } else if (heldForHome) {
+                heldForHome = false;
+                if (wantsSound() && ambientAudio.paused) play().catch(startOnFirstGesture);
+            }
+        });
+
+        // Le bouton reste maître : un clic met l'ambiance en marche, même sur l'accueil
         soundToggle.addEventListener('click', () => {
+            heldForHome = false;
             if (!ambientAudio.paused) {
+                fadeToken++;
                 ambientAudio.pause();
+                ambientAudio.volume = VOLUME;
                 store.set('modulr-sound', 'off');
             } else {
                 store.set('modulr-sound', 'on');
@@ -420,7 +492,7 @@
 
         // Retour arrière depuis le cache du navigateur : on relance si le son était voulu
         window.addEventListener('pageshow', (event) => {
-            if (event.persisted && wantsSound() && ambientAudio.paused) play().catch(startOnFirstGesture);
+            if (event.persisted && wantsSound() && ambientAudio.paused && !onHome()) play().catch(startOnFirstGesture);
         });
     }
 
@@ -483,6 +555,7 @@
                 document.head.appendChild(currentTheme);
             }
             currentTheme.content = theme ? theme.content : '#FFFFFF';
+            delete currentTheme.dataset.pageColor;
 
             const description = doc.querySelector('meta[name="description"]');
             const current = document.querySelector('meta[name="description"]');
@@ -950,8 +1023,26 @@
         });
     }
 
+    // --- Le bouton d'ambiance reste cliquable quand le bandeau des cookies est affiché ---
+    // Tant que le bandeau est là (première visite, avant le choix), le bouton remonte au-dessus ;
+    // il redescend à sa place dès que le bandeau disparaît.
+    function initSoundClearance() {
+        const toggle = document.getElementById('sound-toggle');
+        if (!toggle || !window.MutationObserver) return;
+        const update = () => {
+            const banner = document.getElementById('consent-banner');
+            const r = banner ? banner.getBoundingClientRect() : null;
+            if (!r || !r.height) { toggle.style.removeProperty('bottom'); return; }
+            toggle.style.bottom = Math.round(window.innerHeight - r.top + 12) + 'px';
+        };
+        new MutationObserver(update).observe(document.body, { childList: true });
+        window.addEventListener('resize', update, { passive: true });
+        update();
+    }
+
     initPage();
     initSound();
+    initSoundClearance();
     initSoundScope();
     initNavigation();
 })();

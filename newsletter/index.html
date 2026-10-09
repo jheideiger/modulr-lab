@@ -74,10 +74,12 @@
       <button class="nav-link lang-switch" onclick="switchLang('en')" type="button">EN</button>
 
     </nav>
-    <button class="burger" aria-label="Ouvrir le menu"><span></span><span></span><span></span></button>
+    <button class="burger" aria-label="Ouvrir le menu" aria-expanded="false"
+      aria-controls="menu-overlay"><span></span><span></span><span></span></button>
   </header>
 
-  <div class="menu-overlay" id="menu-overlay">
+  <div class="menu-overlay" id="menu-overlay" role="dialog" aria-modal="true" aria-label="Menu de navigation"
+    aria-hidden="true" inert>
     <div class="menu-overlay-header">
       <a href="../" class="logo-link">modulr lab</a>
       <div class="menu-overlay-controls">
@@ -92,6 +94,11 @@
       <a href="../a-propos/">à propos</a>
 
     </nav>
+    <div class="menu-overlay-extra">
+      <a href="../newsletter/">la newsletter</a>
+      <a href="https://www.youtube.com/@modulrlab" target="_blank" rel="noopener">la chaîne YouTube</a>
+      <a href="../contact/">contact</a>
+    </div>
   </div>
 
   <main>

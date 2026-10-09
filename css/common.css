@@ -354,8 +354,15 @@ a {
     transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
-/* --- Overlay menu mobile (caché par défaut) --- */
+/* --- Overlay menu mobile (caché par défaut) ---
+   Noir sur toutes les pages, comme la scène de l'accueil : mêmes couleurs que .page-home */
 .menu-overlay {
+    --color-bg: #0A0A0A;
+    --color-text: #E6E6E6;
+    --color-text-secondary: #A0A0A0;
+    --color-text-tertiary: #8A8A8A;
+    --color-border: rgba(255, 255, 255, 0.16);
+    color: var(--color-text);
     position: fixed;
     inset: 0;
     background: var(--color-bg);
@@ -961,7 +968,7 @@ a {
     cursor: pointer;
     color: var(--color-sound-off);
     z-index: 50;
-    transition: border-color 0.3s ease, color 0.3s ease, background-color 0.3s ease;
+    transition: border-color 0.3s ease, color 0.3s ease, background-color 0.3s ease, bottom 0.3s ease;
 }
 
 .sound-toggle:hover {
