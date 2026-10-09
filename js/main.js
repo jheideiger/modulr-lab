@@ -508,7 +508,7 @@
         if (!window.fetch || !window.DOMParser || !window.history || !history.pushState) return;
         if (window.location.protocol === 'file:') return;
 
-        const PERSISTENT = ['sound-toggle', 'ambient-audio', 'consent-banner'];
+        const PERSISTENT = ['sound-toggle', 'ambient-audio', 'consent-banner', 'to-top'];
         let navToken = 0;
         let currentPath = window.location.pathname;
 
@@ -1031,17 +1031,66 @@
         if (!toggle || !window.MutationObserver) return;
         const update = () => {
             const banner = document.getElementById('consent-banner');
+            const toTop = document.getElementById('to-top');
             const r = banner ? banner.getBoundingClientRect() : null;
-            if (!r || !r.height) { toggle.style.removeProperty('bottom'); return; }
-            toggle.style.bottom = Math.round(window.innerHeight - r.top + 12) + 'px';
+            if (!r || !r.height) {
+                toggle.style.removeProperty('bottom');
+                if (toTop) toTop.style.removeProperty('bottom');
+                return;
+            }
+            const lift = Math.round(window.innerHeight - r.top + 12);
+            toggle.style.bottom = lift + 'px';
+            if (toTop) toTop.style.bottom = (lift + toggle.offsetHeight + 10) + 'px';
         };
         new MutationObserver(update).observe(document.body, { childList: true });
         window.addEventListener('resize', update, { passive: true });
         update();
     }
 
+    // --- Remonter en haut de la page ---
+    // Un rond au-dessus du bouton d'ambiance, qui n'apparaît qu'après un écran et demi de lecture.
+    // Créé une fois pour toutes : il reste en place d'une page à l'autre.
+    function initToTop() {
+        if (document.getElementById('to-top')) return;
+        const button = document.createElement('button');
+        button.id = 'to-top';
+        button.type = 'button';
+        button.className = 'to-top';
+        button.innerHTML = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5"/></svg>';
+        const label = () => {
+            const text = isEnglish() ? 'Back to top' : 'Revenir en haut de la page';
+            button.setAttribute('aria-label', text);
+            button.setAttribute('title', text);
+        };
+        label();
+        document.body.appendChild(button);
+
+        const update = () => {
+            button.classList.toggle('is-visible', window.scrollY > window.innerHeight * 1.5);
+        };
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (ticking) return;
+            ticking = true;
+            requestAnimationFrame(() => { ticking = false; update(); });
+        }, { passive: true });
+        document.addEventListener('modulr:page', () => { label(); update(); });
+
+        button.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: reduceMotion() ? 'auto' : 'smooth' });
+            // Le clavier repart du titre de la page, pas du bouton
+            const title = document.querySelector('main h1') || document.querySelector('main');
+            if (title) {
+                if (!title.hasAttribute('tabindex')) title.setAttribute('tabindex', '-1');
+                title.focus({ preventScroll: true });
+            }
+        });
+        update();
+    }
+
     initPage();
     initSound();
+    initToTop();
     initSoundClearance();
     initSoundScope();
     initNavigation();

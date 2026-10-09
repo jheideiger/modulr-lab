@@ -2916,3 +2916,77 @@ body {
         transform: none;
     }
 }
+
+
+/* =========================================================
+   REMONTER EN HAUT DE LA PAGE (main.js)
+   Même famille que le bouton d'ambiance, juste au-dessus de lui.
+   ========================================================= */
+.to-top {
+    position: fixed;
+    right: 24px;
+    bottom: 74px;
+    z-index: 50;
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    padding: 0;
+    border-radius: 50%;
+    border: 1.5px solid var(--color-text);
+    background: var(--color-bg);
+    color: var(--color-text);
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s, bottom 0.3s ease,
+        color 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.to-top.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.to-top svg {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.to-top:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+}
+
+.to-top:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+}
+
+@media (max-width: 768px) {
+    .to-top {
+        right: 16px;
+        bottom: 66px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .to-top {
+        transform: none;
+        transition: opacity 0.01s, visibility 0.01s;
+    }
+}
+
+@media print {
+    .to-top,
+    .sound-toggle {
+        display: none;
+    }
+}
