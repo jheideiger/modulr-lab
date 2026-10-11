@@ -7,6 +7,7 @@
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0A0A0A">
   <link rel="icon" type="image/png" sizes="16x16" href="../../icons/favicon-16x16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="../../icons/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="96x96" href="../../icons/favicon-96x96.png">
@@ -79,19 +80,6 @@
 
 <body>
 
-  <!-- TOGGLE SON (icône fixe, toutes les pages) -->
-  <button class="sound-toggle" id="sound-toggle" type="button" aria-pressed="false"
-    aria-label="Activer l'immersion sonore" title="immersion sonore">
-    <svg class="sound-waveform-svg" viewBox="0 0 32 16" xmlns="http://www.w3.org/2000/svg">
-      <path class="wave-idle" d="M3.0,8.00 L3.5,6.92 L4.0,5.91 L4.5,5.02 L5.0,4.30 L5.5,3.79 L6.0,3.53 L6.5,3.53 L7.0,3.79 L7.5,4.30 L8.0,5.02 L8.5,5.91 L9.0,6.92 L9.5,8.00 L10.0,9.08 L10.5,10.09 L11.0,10.98 L11.5,11.70 L12.0,12.21 L12.5,12.47 L13.0,12.47 L13.5,12.21 L14.0,11.70 L14.5,10.98 L15.0,10.09 L15.5,9.08 L16.0,8.00 L16.5,6.92 L17.0,5.91 L17.5,5.02 L18.0,4.30 L18.5,3.79 L19.0,3.53 L19.5,3.53 L20.0,3.79 L20.5,4.30 L21.0,5.02 L21.5,5.91 L22.0,6.92 L22.5,8.00 L23.0,9.08 L23.5,10.09 L24.0,10.98 L24.5,11.70 L25.0,12.21 L25.5,12.47 L26.0,12.47 L26.5,12.21 L27.0,11.70 L27.5,10.98 L28.0,10.09 L28.5,9.08 L29.0,8.00" fill="none" stroke="currentColor"
-        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-      <path class="wave-active" d="M2,8 C6,3 6,3 10,8 C14,13 14,13 18,8 C22,3 22,3 26,8 C28,10.5 28,10.5 30,8"
-        fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-    </svg>
-  </button>
-  <audio id="ambient-audio" loop preload="none">
-    <source src="../../audio/ambient-loop.mp3" type="audio/mpeg">
-  </audio>
 
   <!-- HEADER -->
   <header class="site-header page-container">
@@ -145,7 +133,7 @@
         <nav class="rail-label rail-label--accent crumbs" aria-label="fil d'Ariane"><ol><li><a href="../">le cours</a></li><li aria-current="page">leçon 3</li></ol></nav>
         <div>
           <p class="lesson-meta" style="margin-bottom: 16px">leçon 3 sur 4 · vidéo 4&nbsp;min · lecture 3&nbsp;min</p>
-          <h1 class="hero-title reveal">les fonctions<br>du modulaire.</h1>
+          <h1 class="hero-title reveal">les fonctions<br>du modulaire<span class="title-dot">.</span></h1>
           <p class="hero-lead reveal reveal-delay-1">produire, transformer, contrôler : ce que fait vraiment
             un module.</p>
         </div>
@@ -175,32 +163,32 @@
       <div class="row-grid">
         <div class="rail-label">texte</div>
         <article class="lesson-content">
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">que fait un module ?</h2>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">que fait un module <span class="title-dot">?</span></h2>
           <p class="manifesto-text reveal">Dans les deux premières leçons, nous avons observé le son lui-même. Un signal possède une fréquence et une amplitude, et il peut contenir plusieurs fréquences dont la composition influence son timbre.</p>
           <p class="manifesto-text reveal">Mais dans un synthétiseur modulaire, ces signaux ne restent pas isolés. Ils peuvent être produits, transformés, mélangés… et utilisés pour contrôler d'autres éléments du système. Alors, que fait réellement un module ?</p>
 
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">produire.</h2>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">produire<span class="title-dot">.</span></h2>
           <p class="manifesto-text reveal">Pour fabriquer un son, il faut d'abord une source. Un oscillateur produit un signal électrique qui évolue continuellement dans le temps. Ce signal peut être sinusoïdal, triangulaire, carré ou en dent de scie, et chacune de ces formes possède une composition harmonique différente : c'est ce que nous avons vu dans la leçon 2.</p>
           <p class="manifesto-text reveal">L'oscillateur est donc une source. Il produit quelque chose que l'on peut ensuite envoyer ailleurs dans le système. Pour l'entendre sur un vrai module, voyez la fiche <a href="../../patchs/oscillateur-vco/" class="nav-link" style="border-bottom: 1px solid var(--color-border)">à quoi sert un oscillateur</a>.</p>
 
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">transformer.</h2>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">transformer<span class="title-dot">.</span></h2>
           <p class="manifesto-text reveal">Produire un signal ne suffit pas. On peut vouloir le modifier : retirer certaines fréquences, en conserver d'autres, changer son niveau. C'est le rôle d'autres modules.</p>
           <p class="manifesto-text reveal">Un filtre agit sur le contenu fréquentiel du signal : en réduisant progressivement les fréquences aiguës, il rend le son plus sombre. Le signal produit par l'oscillateur est toujours là, mais il a été transformé. D'autres modules agissent sur l'amplitude : un VCA, par exemple, permet de contrôler le niveau d'un signal.</p>
 
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">combiner.</h2>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">combiner<span class="title-dot">.</span></h2>
           <p class="manifesto-text reveal">Dans un système modulaire, plusieurs signaux peuvent être combinés. On peut les mélanger, les comparer, les distribuer, ou les envoyer vers différents endroits du système. Un même signal peut ainsi devenir la matière première de plusieurs traitements différents.</p>
           <p class="manifesto-text reveal">Le système n'est donc pas une chaîne fixe. C'est un ensemble de fonctions que l'on peut connecter de différentes manières.</p>
 
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">contrôler.</h2>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">contrôler<span class="title-dot">.</span></h2>
           <p class="manifesto-text reveal">Il existe une troisième fonction, particulièrement importante dans un système modulaire. Certains modules produisent des signaux qui ne sont pas destinés à être entendus directement : ils servent à contrôler les autres modules.</p>
           <p class="manifesto-text reveal">Un signal lent peut faire varier progressivement la fréquence d'un oscillateur. Un autre peut contrôler l'amplitude d'un son. Une enveloppe peut déterminer comment un son commence, évolue, puis disparaît. Ces signaux de contrôle modifient le comportement du système dans le temps.</p>
 
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">des fonctions, pas des cases.</h2>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">des fonctions, pas des cases<span class="title-dot">.</span></h2>
           <p class="manifesto-text reveal">Produire, transformer, contrôler : ces catégories ne sont pas des cases fermées. Un même module peut parfois remplir plusieurs fonctions. Ce qui compte, ce n'est pas seulement le nom du module, c'est ce qu'il fait avec le signal.</p>
           <p class="manifesto-text reveal">Dans la vidéo, ces fonctions sont incarnées par les modules du Shared System de Make Noise : le DPO, l'Optomix, le modDemix, MATHS et le Wogglebug. MATHS, par exemple, peut aussi bien servir d'enveloppe que de signal lent qui fait varier un paramètre : un seul module, plusieurs fonctions.</p>
           <p class="manifesto-text reveal">Et c'est là que commence vraiment la logique du modulaire. Un oscillateur produit un signal. Ce signal entre dans un filtre. Le filtre est contrôlé par un autre signal, et l'amplitude est elle-même contrôlée par une enveloppe. Nous ne sommes plus simplement en train d'utiliser plusieurs modules : nous construisons un système dans lequel chaque élément peut agir sur les autres. La manière dont nous connectons ces fonctions détermine le comportement du système.</p>
 
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">et maintenant ?</h2>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">et maintenant <span class="title-dot">?</span></h2>
           <p class="manifesto-text reveal">Dans la prochaine leçon, nous nous intéressons justement à ces connexions. Comment un module peut-il en contrôler un autre ? Qu'est-ce qu'un signal de contrôle ? Et comment une tension peut-elle devenir un geste musical ? C'est le control voltage.</p>
         </article>
       </div>

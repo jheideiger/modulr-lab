@@ -7,6 +7,7 @@
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0A0A0A">
   <link rel="icon" type="image/png" sizes="16x16" href="../../icons/favicon-16x16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="../../icons/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="96x96" href="../../icons/favicon-96x96.png">
@@ -79,19 +80,6 @@
 
 <body>
 
-  <!-- TOGGLE SON (icône fixe, toutes les pages) -->
-  <button class="sound-toggle" id="sound-toggle" type="button" aria-pressed="false"
-    aria-label="Activer l'immersion sonore" title="immersion sonore">
-    <svg class="sound-waveform-svg" viewBox="0 0 32 16" xmlns="http://www.w3.org/2000/svg">
-      <path class="wave-idle" d="M3.0,8.00 L3.5,6.92 L4.0,5.91 L4.5,5.02 L5.0,4.30 L5.5,3.79 L6.0,3.53 L6.5,3.53 L7.0,3.79 L7.5,4.30 L8.0,5.02 L8.5,5.91 L9.0,6.92 L9.5,8.00 L10.0,9.08 L10.5,10.09 L11.0,10.98 L11.5,11.70 L12.0,12.21 L12.5,12.47 L13.0,12.47 L13.5,12.21 L14.0,11.70 L14.5,10.98 L15.0,10.09 L15.5,9.08 L16.0,8.00 L16.5,6.92 L17.0,5.91 L17.5,5.02 L18.0,4.30 L18.5,3.79 L19.0,3.53 L19.5,3.53 L20.0,3.79 L20.5,4.30 L21.0,5.02 L21.5,5.91 L22.0,6.92 L22.5,8.00 L23.0,9.08 L23.5,10.09 L24.0,10.98 L24.5,11.70 L25.0,12.21 L25.5,12.47 L26.0,12.47 L26.5,12.21 L27.0,11.70 L27.5,10.98 L28.0,10.09 L28.5,9.08 L29.0,8.00" fill="none" stroke="currentColor"
-        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-      <path class="wave-active" d="M2,8 C6,3 6,3 10,8 C14,13 14,13 18,8 C22,3 22,3 26,8 C28,10.5 28,10.5 30,8"
-        fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-    </svg>
-  </button>
-  <audio id="ambient-audio" loop preload="none">
-    <source src="../../audio/ambient-loop.mp3" type="audio/mpeg">
-  </audio>
 
   <header class="site-header page-container">
     <a href="../../" class="logo-link">modulr lab</a>
@@ -137,7 +125,7 @@
         <nav class="rail-label rail-label--accent crumbs" aria-label="fil d'Ariane"><ol><li><a href="../">histoire</a></li><li aria-current="page">chapitre 2 sur 5</li></ol></nav>
         <div>
           <p class="lesson-meta reveal" style="margin-bottom: 16px">1950s – 1960s</p>
-          <h1 class="hero-title reveal reveal-delay-1">pionniers.</h1>
+          <h1 class="hero-title reveal reveal-delay-1">pionniers<span class="title-dot">.</span></h1>
           <p class="hero-lead reveal reveal-delay-2">deux visions opposées du modulaire naissent presque en même temps,
             à quelques centaines de kilomètres l'une de l'autre.</p>
         </div>
@@ -149,7 +137,7 @@
         <div class="rail-label">texte</div>
         <article class="lesson-content">
           <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">le rca mark ii, un synthétiseur qui tient dans
-            une pièce.</h2>
+            une pièce<span class="title-dot">.</span></h2>
           <p class="manifesto-text reveal reveal-delay-1">En 1957, RCA installe au Columbia-Princeton Electronic Music
             Center de New York le Mark II Sound Synthesizer, une machine imposante que l'on programme à l'aide d'un
             ruban de papier perforé plutôt qu'en temps réel. Le compositeur indique à l'avance chaque paramètre —
@@ -161,7 +149,7 @@
             un instrument que l'on pourrait posséder ou transporter.</p>
 
           <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">robert moog et l'approche du
-            clavier.</h2>
+            clavier<span class="title-dot">.</span></h2>
           <p class="manifesto-text reveal">Au milieu des années 1960, l'ingénieur Robert Moog, en collaboration avec le
             compositeur et musicien Herbert Deutsch, développe un système de modules interconnectables par câbles,
             contrôlés par tension électrique — le principe du voltage control. Sa décision la plus structurante est
@@ -172,7 +160,7 @@
             d'autres horizons dans la décennie suivante.</p>
 
           <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">don buchla et le rejet du
-            clavier.</h2>
+            clavier<span class="title-dot">.</span></h2>
           <p class="manifesto-text reveal">À la même époque, sur la côte ouest américaine, l'ingénieur Don Buchla
             développe un système tout aussi modulaire mais fondé sur une philosophie opposée. Commissionné par les
             compositeurs Morton Subotnick et Ramon Sender pour le San Francisco Tape Music Center, Buchla refuse

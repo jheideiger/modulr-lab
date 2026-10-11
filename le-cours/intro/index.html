@@ -7,6 +7,7 @@
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0A0A0A">
   <title>modulr lab — qu'est-ce qu'un signal ?</title>
   <link rel="icon" type="image/png" sizes="16x16" href="../../icons/favicon-16x16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="../../icons/favicon-32x32.png">
@@ -78,19 +79,6 @@
 
 <body>
 
-  <!-- TOGGLE SON (icône fixe, toutes les pages) -->
-  <button class="sound-toggle" id="sound-toggle" type="button" aria-pressed="false"
-    aria-label="Activer l'immersion sonore" title="immersion sonore">
-    <svg class="sound-waveform-svg" viewBox="0 0 32 16" xmlns="http://www.w3.org/2000/svg">
-      <path class="wave-idle" d="M3.0,8.00 L3.5,6.92 L4.0,5.91 L4.5,5.02 L5.0,4.30 L5.5,3.79 L6.0,3.53 L6.5,3.53 L7.0,3.79 L7.5,4.30 L8.0,5.02 L8.5,5.91 L9.0,6.92 L9.5,8.00 L10.0,9.08 L10.5,10.09 L11.0,10.98 L11.5,11.70 L12.0,12.21 L12.5,12.47 L13.0,12.47 L13.5,12.21 L14.0,11.70 L14.5,10.98 L15.0,10.09 L15.5,9.08 L16.0,8.00 L16.5,6.92 L17.0,5.91 L17.5,5.02 L18.0,4.30 L18.5,3.79 L19.0,3.53 L19.5,3.53 L20.0,3.79 L20.5,4.30 L21.0,5.02 L21.5,5.91 L22.0,6.92 L22.5,8.00 L23.0,9.08 L23.5,10.09 L24.0,10.98 L24.5,11.70 L25.0,12.21 L25.5,12.47 L26.0,12.47 L26.5,12.21 L27.0,11.70 L27.5,10.98 L28.0,10.09 L28.5,9.08 L29.0,8.00" fill="none" stroke="currentColor"
-        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-      <path class="wave-active" d="M2,8 C6,3 6,3 10,8 C14,13 14,13 18,8 C22,3 22,3 26,8 C28,10.5 28,10.5 30,8"
-        fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-    </svg>
-  </button>
-  <audio id="ambient-audio" loop preload="none">
-    <source src="../../audio/ambient-loop.mp3" type="audio/mpeg">
-  </audio>
 
   <header class="site-header page-container">
     <a href="../../" class="logo-link">modulr lab</a>
@@ -136,7 +124,7 @@
         <nav class="rail-label rail-label--accent crumbs" aria-label="fil d'Ariane"><ol><li><a href="../">le cours</a></li><li aria-current="page">leçon 1</li></ol></nav>
         <div>
           <p class="lesson-meta" style="margin-bottom: 16px">leçon 1 sur 4 · vidéo 3&nbsp;min · lecture 2&nbsp;min</p>
-          <h1 class="hero-title reveal">qu'est-ce qu'un<br>signal&nbsp;?</h1>
+          <h1 class="hero-title reveal">qu'est-ce qu'un<br>signal&nbsp;<span class="title-dot">?</span></h1>
           <p class="hero-lead reveal reveal-delay-1">comprendre la matière première du modulaire avant de toucher au
             premier câble.</p>
         </div>
@@ -164,7 +152,7 @@
       <div class="row-grid">
         <div class="rail-label">texte</div>
         <article class="lesson-content">
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">le son, c'est une vibration.</h2>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">le son, c'est une vibration<span class="title-dot">.</span></h2>
           <p class="manifesto-text reveal">Avant de parler de synthétiseur, de modules ou de câbles, commençons par quelque chose de beaucoup plus
             simple : ce que nous entendons. Un son est une vibration qui se propage dans un milieu — généralement
             l'air — jusqu'à nos oreilles.</p>
@@ -174,13 +162,13 @@
             signal qui évolue continuellement dans le temps. C'est la matière première de tout ce que vous allez
             construire.</p>
 
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">la fréquence : la hauteur.</h2>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">la fréquence <span class="title-dot">:</span> la hauteur<span class="title-dot">.</span></h2>
           <p class="manifesto-text reveal">La fréquence, c'est le nombre de cycles que le signal effectue chaque seconde. Elle se mesure en
             hertz (Hz). Plus la fréquence augmente, plus nous percevons généralement le son comme aigu.</p>
           <p class="manifesto-text reveal">Sur une représentation du signal dans le temps, on voit ces cycles : un signal qui oscille lentement
             a une fréquence basse, un signal qui oscille rapidement a une fréquence élevée.</p>
 
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">l'amplitude : le niveau.</h2>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">l'amplitude <span class="title-dot">:</span> le niveau<span class="title-dot">.</span></h2>
           <p class="manifesto-text reveal">La fréquence n'est pas la seule chose qui peut changer. Un même son peut garder exactement la même
             hauteur et changer d'amplitude : c'est alors l'ampleur de la variation qui change.</p>
           <p class="manifesto-text reveal">Sur une représentation du signal, une amplitude plus grande correspond à une variation plus
@@ -188,7 +176,7 @@
             niveau sonore perçu.</p>
           <p class="manifesto-text reveal">Fréquence et amplitude : nous avons déjà deux manières essentielles de décrire un signal.</p>
 
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">produire, transformer, contrôler.</h2>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">produire, transformer, contrôler<span class="title-dot">.</span></h2>
           <p class="manifesto-text reveal">C'est ici que le synthétiseur devient intéressant. Un signal n'est pas seulement quelque chose que
             l'on écoute : on peut aussi le produire, le mesurer, le modifier… et même s'en servir pour contrôler autre
             chose.</p>
@@ -197,7 +185,7 @@
             temps. Ces trois fonctions sont l'objet de la leçon 3, et la dernière — le contrôle — a sa propre
             leçon, la quatrième.</p>
 
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">et maintenant ?</h2>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px; margin-top: 48px">et maintenant <span class="title-dot">?</span></h2>
           <p class="manifesto-text reveal">Avant de connecter tout cela, il reste une question essentielle : pourquoi deux instruments
             peuvent-ils jouer exactement la même note… sans avoir le même son ? C'est ce que nous allons découvrir dans
             la prochaine leçon : fondamentale, harmoniques et timbre.</p>

@@ -6,6 +6,7 @@
   <script src="../../js/consent.js" defer></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0A0A0A">
   <link rel="icon" type="image/png" sizes="16x16" href="../../icons/favicon-16x16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="../../icons/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="96x96" href="../../icons/favicon-96x96.png">
@@ -89,19 +90,6 @@
 
 <body>
 
-  <!-- TOGGLE SON (icône fixe, toutes les pages) -->
-  <button class="sound-toggle" id="sound-toggle" type="button" aria-pressed="false"
-    aria-label="Activer l'immersion sonore" title="immersion sonore">
-    <svg class="sound-waveform-svg" viewBox="0 0 32 16" xmlns="http://www.w3.org/2000/svg">
-      <path class="wave-idle" d="M3.0,8.00 L3.5,6.92 L4.0,5.91 L4.5,5.02 L5.0,4.30 L5.5,3.79 L6.0,3.53 L6.5,3.53 L7.0,3.79 L7.5,4.30 L8.0,5.02 L8.5,5.91 L9.0,6.92 L9.5,8.00 L10.0,9.08 L10.5,10.09 L11.0,10.98 L11.5,11.70 L12.0,12.21 L12.5,12.47 L13.0,12.47 L13.5,12.21 L14.0,11.70 L14.5,10.98 L15.0,10.09 L15.5,9.08 L16.0,8.00 L16.5,6.92 L17.0,5.91 L17.5,5.02 L18.0,4.30 L18.5,3.79 L19.0,3.53 L19.5,3.53 L20.0,3.79 L20.5,4.30 L21.0,5.02 L21.5,5.91 L22.0,6.92 L22.5,8.00 L23.0,9.08 L23.5,10.09 L24.0,10.98 L24.5,11.70 L25.0,12.21 L25.5,12.47 L26.0,12.47 L26.5,12.21 L27.0,11.70 L27.5,10.98 L28.0,10.09 L28.5,9.08 L29.0,8.00" fill="none" stroke="currentColor"
-        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-      <path class="wave-active" d="M2,8 C6,3 6,3 10,8 C14,13 14,13 18,8 C22,3 22,3 26,8 C28,10.5 28,10.5 30,8"
-        fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-    </svg>
-  </button>
-  <audio id="ambient-audio" loop preload="none">
-    <source src="../../audio/ambient-loop.mp3" type="audio/mpeg">
-  </audio>
 
   <header class="site-header page-container">
     <a href="../../" class="logo-link">modulr lab</a>
@@ -146,7 +134,7 @@
       <div class="row-grid">
         <nav class="rail-label rail-label--accent crumbs" aria-label="fil d'Ariane"><ol><li><a href="../">patchs</a></li><li aria-current="page">série de 4&nbsp;fiches</li></ol></nav>
         <div>
-          <h1 class="note-title reveal">Brancher sa guitare dans un synthé modulaire</h1>
+          <h1 class="note-title reveal">Brancher sa guitare dans un synthé modulaire<span class="title-dot">.</span></h1>
           <p class="hero-lead reveal reveal-delay-1">Un accord tenu, envoyé dans un système Eurorack, et quatre patchs qui le transforment. Tout commence au même endroit : le niveau. Le reste tient en quatre fiches, une par patch de la vidéo.</p>
         </div>
       </div>
@@ -173,7 +161,7 @@
       <div class="row-grid">
         <div class="rail-label">le niveau</div>
         <div>
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">le point commun : le niveau.</h2>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">le point commun <span class="title-dot">:</span> le niveau<span class="title-dot">.</span></h2>
           <p class="manifesto-text reveal">Un signal audio dans un système modulaire fait 10 V crête à crête. Une guitare électrique sort quelques centaines de millivolts. Branchée directement, elle ne produit presque rien, et la plupart des gens abandonnent là en croyant que ça ne marche pas.</p>
           <p class="manifesto-text reveal">Il faut donc remonter le niveau avant d’entrer dans le système. Sur le Shared System Plus, l’entrée jack 1/4″ du CV Bus le fait : elle a le gain nécessaire, et ses LED annoncent le niveau atteint. Montez le gain jusqu’à ce qu’elles indiquent le bon niveau de sortie, sans allumer la limitation. Sans cette entrée, une pédale, un préampli ou une carte son font le même travail.</p>
           <p class="manifesto-text reveal">Le signal se récupère ensuite sur une autre prise du même canal de couleur du CV Bus. C’est le câble n° 1 et le câble n° 2 des quatre fiches.</p>
@@ -185,7 +173,7 @@
       <div class="row-grid">
         <div class="rail-label">les patchs</div>
         <div>
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">les quatre patchs.</h2>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">les quatre patchs<span class="title-dot">.</span></h2>
           <div>
             <a href="../guitare-optomix/" class="further-link reveal">
               <h3 class="lesson-title-sm">fiche n° 1 · Optomix, low pass gate</h3>
@@ -212,7 +200,7 @@
       <div class="row-grid">
         <div class="rail-label">newsletter</div>
         <div>
-          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">les prochains patchs.</h2>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">les prochains patchs<span class="title-dot">.</span></h2>
           <p class="manifesto-text reveal">Laissez votre email : on vous envoie chaque samedi le patch de la semaine, et ce qui se prépare.</p>
           <div class="form-container reveal">
           <form class="newsletter-form" action="https://assets.mailerlite.com/jsonp/2677025/forms/200153214654351354/subscribe" method="POST" novalidate>

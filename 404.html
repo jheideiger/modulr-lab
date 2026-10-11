@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0A0A0A">
   <!-- Page servie par GitHub Pages pour toute adresse introuvable, à n'importe quelle profondeur :
        tous les chemins sont absolus. Pas de lang.js ici (il redirigerait vers une autre adresse
        introuvable) : la langue est choisie par le petit script en bas de page. -->
@@ -24,18 +25,6 @@
 
   <a href="#contenu" class="skip-link" data-en="skip to content">aller au contenu</a>
 
-  <button class="sound-toggle" id="sound-toggle" type="button" aria-pressed="false"
-    aria-label="Activer l'ambiance sonore" title="ambiance sonore">
-    <svg class="sound-waveform-svg" viewBox="0 0 32 16" xmlns="http://www.w3.org/2000/svg">
-      <path class="wave-idle" d="M3,8 C5,3.5 7,3.5 9.5,8 S14,12.5 16,8 S20.5,3.5 22.5,8 S27,12.5 29,8" fill="none" stroke="currentColor"
-        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-      <path class="wave-active" d="M2,8 C6,3 6,3 10,8 C14,13 14,13 18,8 C22,3 22,3 26,8 C28,10.5 28,10.5 30,8"
-        fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-    </svg>
-  </button>
-  <audio id="ambient-audio" loop preload="none">
-    <source src="/audio/ambient-loop.mp3" type="audio/mpeg">
-  </audio>
 
   <header class="site-header page-container">
     <a href="/" class="logo-link" data-en-href="/en/">modulr lab</a>
@@ -78,7 +67,7 @@
       <div class="row-grid">
         <div class="rail-label rail-label--accent" data-en="error 404">erreur 404</div>
         <div>
-          <h1 class="hero-title" data-en-html="cable<br>unplugged.">câble<br>débranché.</h1>
+          <h1 class="hero-title" data-en-html="cable<br>unplugged<span class='title-dot'>.</span>">câble<br>débranché<span class="title-dot">.</span></h1>
           <p class="hero-lead" data-en="This page doesn't exist, or no longer does. The signal stops here.">Cette page
             n'existe pas, ou plus. Le signal s'arrête ici.</p>
 

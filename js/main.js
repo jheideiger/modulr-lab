@@ -34,7 +34,7 @@
             if (!meta) {
                 meta = document.createElement('meta');
                 meta.name = 'theme-color';
-                meta.content = '#FFFFFF';
+                meta.content = '#0A0A0A';
                 document.head.appendChild(meta);
             }
             if (color) {
@@ -277,9 +277,6 @@
                 iframe.allowFullscreen = true;
                 iframe.setAttribute('frameborder', '0');
 
-                // Un seul son à la fois : l'ambiance s'arrête (sans changer la préférence du visiteur)
-                const ambient = document.getElementById('ambient-audio');
-                if (ambient && !ambient.paused) ambient.pause();
 
                 facade.replaceWith(iframe);
                 iframe.focus();
@@ -340,13 +337,10 @@
     }
 
     /* =====================================================
-       2. AMBIANCE SONORE (initialisée une seule fois)
-       Coupée par défaut : la nappe ne joue que si le visiteur l'a mise en marche avec
-       le bouton, et ce choix est gardé pour ses prochaines visites (localStorage). S'il
-       l'a mise en marche lors d'une visite précédente, les navigateurs bloquent souvent
-       le son avant toute interaction : la lecture reprend alors au premier clic ou à la
-       première touche. Le bouton affiche l'état réel en toutes lettres : violet et onde
-       fixe à l'arrêt, cyan et onde animée en lecture.
+       2. MÉMOIRE DU NAVIGATEUR
+       Ce que le site retient d'une visite à l'autre (langue, leçons ouvertes),
+       dans ce navigateur seulement. Il n'y a plus d'ambiance sonore : le son du
+       site, ce sont les racks.
        ===================================================== */
 
     const store = {
@@ -356,150 +350,10 @@
         setSession(key, value) { try { sessionStorage.setItem(key, value); } catch (e) { } }
     };
 
-    function initSound() {
-        const soundToggle = document.getElementById('sound-toggle');
-        const ambientAudio = document.getElementById('ambient-audio');
-        if (!soundToggle || !ambientAudio) return;
-
-        const VOLUME = 0.5;
-        const wantsSound = () => store.get('modulr-sound') === 'on';
-        // L'accueil, c'est l'instrument : l'ambiance s'y tait, sans changer le choix du visiteur
-        const onHome = () => document.body.classList.contains('page-home');
-        let heldForHome = false;
-
-        // Libellé visible à côté de l'onde
-        let label = soundToggle.querySelector('.sound-label');
-        if (!label) {
-            label = document.createElement('span');
-            label.className = 'sound-label';
-            label.setAttribute('aria-hidden', 'true');
-            soundToggle.appendChild(label);
-        }
-
-        // Le bouton suit la lecture réelle, dans la langue de la page affichée
-        const render = () => {
-            const playing = !ambientAudio.paused;
-            const en = isEnglish();
-            soundToggle.setAttribute('aria-pressed', playing ? 'true' : 'false');
-            soundToggle.setAttribute('aria-label', playing
-                ? (en ? 'Turn off ambient sound' : "Couper l'ambiance sonore")
-                : (en ? 'Turn on ambient sound' : "Activer l'ambiance sonore"));
-            soundToggle.setAttribute('title', en ? 'ambient sound' : 'ambiance sonore');
-            label.textContent = playing
-                ? (en ? 'ambient: on' : 'ambiance : en marche')
-                : (en ? 'ambient: off' : 'ambiance : coupée');
-        };
-        ambientAudio.addEventListener('play', render);
-        ambientAudio.addEventListener('pause', render);
-        document.addEventListener('modulr:page', render);
-
-        // Montée progressive du volume, pour une arrivée en douceur ; descente avant l'arrêt
-        let fadeToken = 0;
-        const fadeIn = () => {
-            const token = ++fadeToken;
-            ambientAudio.volume = 0;
-            const start = performance.now();
-            const step = (now) => {
-                if (token !== fadeToken) return;
-                const k = Math.max(0, Math.min((now - start) / 1500, 1));
-                ambientAudio.volume = VOLUME * k;
-                if (k < 1 && !ambientAudio.paused) requestAnimationFrame(step);
-            };
-            requestAnimationFrame(step);
-        };
-        const fadeOutAndPause = () => {
-            const token = ++fadeToken;
-            const from = ambientAudio.volume;
-            const start = performance.now();
-            const step = (now) => {
-                if (token !== fadeToken) return;
-                const k = Math.min((now - start) / 600, 1);
-                ambientAudio.volume = from * (1 - k);
-                if (k < 1 && !ambientAudio.paused) requestAnimationFrame(step);
-                else { ambientAudio.pause(); ambientAudio.volume = VOLUME; }
-            };
-            requestAnimationFrame(step);
-        };
-        const play = () => ambientAudio.play().then(fadeIn);
-
-        // Après un rechargement complet (retour sur le site, lien externe…), reprend la boucle
-        // là où elle en était
-        const savedTime = parseFloat(store.getSession('modulr-sound-time') || '0');
-        if (savedTime > 0) {
-            ambientAudio.addEventListener('loadedmetadata', () => {
-                if (ambientAudio.duration) ambientAudio.currentTime = savedTime % ambientAudio.duration;
-            }, { once: true });
-        }
-
-        // Lecture bloquée par le navigateur : on démarre au premier geste
-        // (sauf un clic sur le bouton lui-même, qui gère son propre état)
-        const startOnFirstGesture = () => {
-            const onGesture = (event) => {
-                if (soundToggle.contains(event.target)) return;
-                document.removeEventListener('pointerdown', onGesture, true);
-                document.removeEventListener('keydown', onGesture, true);
-                if (wantsSound() && ambientAudio.paused && !onHome()) play().catch(() => { });
-            };
-            document.addEventListener('pointerdown', onGesture, true);
-            document.addEventListener('keydown', onGesture, true);
-        };
-
-        render();
-        if (wantsSound()) {
-            if (onHome()) heldForHome = true;
-            else play().catch(startOnFirstGesture);
-        }
-
-        // À chaque changement de page : l'ambiance s'efface en arrivant sur l'accueil,
-        // et reprend en le quittant si le visiteur l'avait mise en marche
-        document.addEventListener('modulr:page', () => {
-            if (onHome()) {
-                if (!ambientAudio.paused) { heldForHome = true; fadeOutAndPause(); }
-                else if (wantsSound()) heldForHome = true;
-            } else if (heldForHome) {
-                heldForHome = false;
-                if (wantsSound() && ambientAudio.paused) play().catch(startOnFirstGesture);
-            }
-        });
-
-        // Le bouton reste maître : un clic met l'ambiance en marche, même sur l'accueil
-        soundToggle.addEventListener('click', () => {
-            heldForHome = false;
-            if (!ambientAudio.paused) {
-                fadeToken++;
-                ambientAudio.pause();
-                ambientAudio.volume = VOLUME;
-                store.set('modulr-sound', 'off');
-            } else {
-                store.set('modulr-sound', 'on');
-                play().catch(() => { });
-            }
-        });
-
-        // Un clic dans une vidéo intégrée (YouTube) lui donne le focus : on coupe l'ambiance
-        // pour ne pas jouer deux sons à la fois. La préférence du visiteur n'est pas modifiée.
-        window.addEventListener('blur', () => {
-            setTimeout(() => {
-                const active = document.activeElement;
-                if (active && active.tagName === 'IFRAME' && !ambientAudio.paused) ambientAudio.pause();
-            }, 0);
-        });
-
-        window.addEventListener('pagehide', () => {
-            store.setSession('modulr-sound-time', String(ambientAudio.currentTime || 0));
-            ambientAudio.pause();
-        });
-
-        // Retour arrière depuis le cache du navigateur : on relance si le son était voulu
-        window.addEventListener('pageshow', (event) => {
-            if (event.persisted && wantsSound() && ambientAudio.paused && !onHome()) play().catch(startOnFirstGesture);
-        });
-    }
-
     /* =====================================================
        3. NAVIGATION SANS RECHARGEMENT
        Un clic sur un lien interne charge la page suivante en arrière-plan et remplace le
-       contenu affiché, sans toucher au bouton son ni au lecteur audio : la musique continue.
+       contenu affiché ; le bandeau des cookies et le bouton de remontée restent en place.
        Adresse, retour arrière, titre, langue et statistiques suivent normalement.
        En cas de problème, on bascule sur une navigation classique.
        ===================================================== */
@@ -508,7 +362,7 @@
         if (!window.fetch || !window.DOMParser || !window.history || !history.pushState) return;
         if (window.location.protocol === 'file:') return;
 
-        const PERSISTENT = ['sound-toggle', 'ambient-audio', 'consent-banner', 'to-top'];
+        const PERSISTENT = ['consent-banner', 'to-top'];
         let navToken = 0;
         let currentPath = window.location.pathname;
 
@@ -554,7 +408,7 @@
                 currentTheme.name = 'theme-color';
                 document.head.appendChild(currentTheme);
             }
-            currentTheme.content = theme ? theme.content : '#FFFFFF';
+            currentTheme.content = theme ? theme.content : '#0A0A0A';
             delete currentTheme.dataset.pageColor;
 
             const description = doc.querySelector('meta[name="description"]');
@@ -608,7 +462,8 @@
                 // et seulement si le visiteur a accepté (window.gtag n'existe qu'après son accord)
                 const tracked = !!doc.querySelector('script[src*="consent.js"]');
 
-                // Passage de la scène noire (accueil) au carnet blanc, ou l'inverse
+                // Tout le site est noir aujourd'hui : ce cas ne se présente plus, mais il reste prêt
+                // si une page change un jour de fond (le texte attend alors que le fond ait glissé)
                 const themeChanges = document.body.classList.contains('page-home') !== doc.body.classList.contains('page-home');
 
                 swap(doc);
@@ -723,42 +578,8 @@
         });
     }
 
-    // --- Oscilloscope ---
-    const scope = { canvases: [], visible: new Set(), analyser: null, ctx: null, data: null, smooth: null, mix: 0, running: false, observer: null };
-
-    function connectAnalyser() {
-        const audio = document.getElementById('ambient-audio');
-        if (!audio || scope.analyser || !(window.AudioContext || window.webkitAudioContext)) return;
-        try {
-            if (!scope.ctx) scope.ctx = new (window.AudioContext || window.webkitAudioContext)();
-            scope.ctx.resume().then(() => {
-                // On ne branche le son sur l'analyseur que si le contexte tourne vraiment :
-                // sinon la nappe deviendrait muette.
-                if (scope.analyser || scope.ctx.state !== 'running') return;
-                const source = scope.ctx.createMediaElementSource(audio);
-                const analyser = scope.ctx.createAnalyser();
-                analyser.fftSize = 2048;
-                source.connect(analyser);
-                analyser.connect(scope.ctx.destination);
-                scope.analyser = analyser;
-                scope.data = new Float32Array(analyser.fftSize);
-                scope.smooth = new Float32Array(256);
-            }).catch(() => { });
-        } catch (e) { scope.analyser = null; }
-    }
-
-    function initSoundScope() {
-        const audio = document.getElementById('ambient-audio');
-        if (!audio) return;
-        audio.addEventListener('play', () => {
-            connectAnalyser();
-            if (scope.ctx && scope.ctx.state !== 'running') scope.ctx.resume().catch(() => { });
-        });
-        document.addEventListener('visibilitychange', () => {
-            if (!document.hidden && scope.ctx && scope.ctx.state !== 'running' && !audio.paused) scope.ctx.resume().catch(() => { });
-            if (!document.hidden) startScope();
-        });
-    }
+    // --- Oscilloscope du pied de page : une onde lente, au repos ---
+    const scope = { canvases: [], visible: new Set(), running: false, observer: null };
 
     function makeScope(parent, before, className) {
         const canvas = document.createElement('canvas');
@@ -808,53 +629,34 @@
         g.clearRect(0, 0, w, h);
 
         const points = 256;
-        const live = scope.mix;
         const t = time / 1000;
         g.beginPath();
         for (let i = 0; i < points; i++) {
             const x = i / (points - 1);
-            // Repos : une onde lente, presque immobile
-            const idle = Math.sin(x * Math.PI * 4 + t * 0.6) * (0.5 + 0.5 * Math.sin(t * 0.25 + x * 3)) * 0.28;
-            const sound = scope.smooth ? scope.smooth[i] : 0;
-            const y = idle * (1 - live) + sound * live;
+            // Une onde lente, presque immobile
+            const y = Math.sin(x * Math.PI * 4 + t * 0.6) * (0.5 + 0.5 * Math.sin(t * 0.25 + x * 3)) * 0.28;
             const px = x * w;
             const py = h / 2 - y * (h / 2 - 2 * ratio);
             if (i === 0) g.moveTo(px, py); else g.lineTo(px, py);
         }
-        const accent = cssVar('--color-accent', '#00B8D9');
-        g.strokeStyle = live > 0.5 ? accent : cssVar('--color-border', 'rgba(10,10,10,0.15)');
-        g.globalAlpha = live > 0.5 ? 0.4 + 0.6 * live : 1;
+        g.strokeStyle = cssVar('--color-border', 'rgba(255,255,255,0.16)');
         g.lineWidth = 1.5 * ratio;
         g.lineJoin = 'round';
         g.stroke();
-        g.globalAlpha = 1;
     }
 
     function startScope() {
         if (scope.running || document.hidden || !scope.visible.size || reduceMotion()) return;
         scope.running = true;
-        const audio = document.getElementById('ambient-audio');
         const frame = (time) => {
             if (document.hidden || !scope.visible.size) { scope.running = false; return; }
-            const playing = audio && !audio.paused && scope.analyser;
-            // Passage en douceur entre l'onde au repos et la trace du son
-            scope.mix += ((playing ? 1 : 0) - scope.mix) * 0.03;
-            if (playing) {
-                scope.analyser.getFloatTimeDomainData(scope.data);
-                const step = scope.data.length / scope.smooth.length;
-                let peak = 0;
-                for (let i = 0; i < scope.data.length; i++) peak = Math.max(peak, Math.abs(scope.data[i]));
-                const gain = peak > 0.001 ? Math.min(0.85 / peak, 12) : 0;
-                for (let i = 0; i < scope.smooth.length; i++) {
-                    const v = scope.data[Math.floor(i * step)] * gain;
-                    scope.smooth[i] += (v - scope.smooth[i]) * 0.15;
-                }
-            }
             scope.visible.forEach((canvas) => drawScope(canvas, time));
             requestAnimationFrame(frame);
         };
         requestAnimationFrame(frame);
     }
+    // De retour sur l'onglet, l'onde repart
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) startScope(); });
 
 
     // --- Barre de lecture ---
@@ -1023,24 +825,18 @@
         });
     }
 
-    // --- Le bouton d'ambiance reste cliquable quand le bandeau des cookies est affiché ---
+    // --- Le bouton de remontée reste cliquable quand le bandeau des cookies est affiché ---
     // Tant que le bandeau est là (première visite, avant le choix), le bouton remonte au-dessus ;
-    // il redescend à sa place dès que le bandeau disparaît.
-    function initSoundClearance() {
-        const toggle = document.getElementById('sound-toggle');
-        if (!toggle || !window.MutationObserver) return;
+    // il redescend dans son coin dès que le bandeau disparaît.
+    function initCornerClearance() {
+        if (!window.MutationObserver) return;
         const update = () => {
             const banner = document.getElementById('consent-banner');
             const toTop = document.getElementById('to-top');
+            if (!toTop) return;
             const r = banner ? banner.getBoundingClientRect() : null;
-            if (!r || !r.height) {
-                toggle.style.removeProperty('bottom');
-                if (toTop) toTop.style.removeProperty('bottom');
-                return;
-            }
-            const lift = Math.round(window.innerHeight - r.top + 12);
-            toggle.style.bottom = lift + 'px';
-            if (toTop) toTop.style.bottom = (lift + toggle.offsetHeight + 10) + 'px';
+            if (!r || !r.height) { toTop.style.removeProperty('bottom'); return; }
+            toTop.style.bottom = Math.round(window.innerHeight - r.top + 12) + 'px';
         };
         new MutationObserver(update).observe(document.body, { childList: true });
         window.addEventListener('resize', update, { passive: true });
@@ -1048,7 +844,7 @@
     }
 
     // --- Remonter en haut de la page ---
-    // Un rond au-dessus du bouton d'ambiance, qui n'apparaît qu'après un écran et demi de lecture.
+    // Un rond dans le coin, qui n'apparaît qu'après un écran et demi de lecture.
     // Créé une fois pour toutes : il reste en place d'une page à l'autre.
     function initToTop() {
         if (document.getElementById('to-top')) return;
@@ -1089,9 +885,7 @@
     }
 
     initPage();
-    initSound();
     initToTop();
-    initSoundClearance();
-    initSoundScope();
+    initCornerClearance();
     initNavigation();
 })();

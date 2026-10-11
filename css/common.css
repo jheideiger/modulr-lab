@@ -31,16 +31,24 @@
     box-sizing: border-box;
 }
 
-/* --- Custom properties --- */
+/* --- Custom properties ---
+   Tout le site est noir, comme la scène de l'accueil et les vidéos de la chaîne.
+   Contrastes sur #0A0A0A : texte 16:1, secondaire 7,6:1, mentions 5,7:1,
+   cyan 8,4:1. */
 :root {
-    --color-bg: #FFFFFF;
-    --color-text: #0A0A0A;
-    --color-text-secondary: rgba(10, 10, 10, 0.55);
-    --color-text-tertiary: rgba(10, 10, 10, 0.5);
-    --color-border: rgba(10, 10, 10, 0.15);
+    --color-bg: #0A0A0A;
+    --color-text: #E6E6E6;              /* blanc cassé : moins de halo que le blanc pur */
+    --color-text-secondary: #A0A0A0;
+    --color-text-tertiary: #8A8A8A;
+    --color-border: rgba(255, 255, 255, 0.16);
     --color-accent: #00B8D9;
-    --color-accent-dark: #003B45;
-    --color-sound-off: #7C3AED;
+
+    /* Les racks (instrument de l'accueil, et ceux qui viendront sur les autres pages) */
+    --stage-bg: #0A0A0A;
+    --module-edge: #262626;
+    --silk: #EDEDED;
+    --silk-dim: #8F8F8F;
+    --cable-cv: #EDEDED;
 
     --font-display: 'Inter', sans-serif;
     --font-body: 'Manrope', sans-serif;
@@ -134,7 +142,7 @@ a {
     font-size: 110px;
     line-height: 0.88;
     letter-spacing: -0.045em;
-    color: var(--color-text);
+    color: #FFFFFF;                     /* blanc pur, comme le titre de l'accueil */
     margin-bottom: 32px;
 }
 
@@ -162,7 +170,7 @@ a {
 .manifesto-text {
     font-family: var(--font-body);
     font-size: 18px;
-    line-height: 1.65;
+    line-height: 1.75;                  /* texte clair sur fond noir : un peu plus d'air */
     color: var(--color-text);
     max-width: 60ch;
     margin-bottom: 20px;
@@ -355,7 +363,7 @@ a {
 }
 
 /* --- Overlay menu mobile (caché par défaut) ---
-   Noir sur toutes les pages, comme la scène de l'accueil : mêmes couleurs que .page-home */
+   Noir, comme tout le site */
 .menu-overlay {
     --color-bg: #0A0A0A;
     --color-text: #E6E6E6;
@@ -505,7 +513,7 @@ a {
     color: var(--color-text);
     background: transparent;
     border: none;
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.36);   /* le trait du champ doit se voir (3,2:1) */
     padding: 12px 0;
     outline: none;
     transition: border-color 0.3s ease;
@@ -527,7 +535,7 @@ a {
 .form-select {
     appearance: none;
     cursor: pointer;
-    background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%230A0A0A' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23E6E6E6' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 0 center;
     padding-right: 24px;
@@ -802,6 +810,11 @@ a {
     color: var(--color-text-secondary);
 }
 
+/* Le point final des grands titres, en cyan : « comprendre l'eurorack. » */
+.title-dot {
+    color: var(--color-accent);
+}
+
 /* =========================================================
    ANIMATIONS
    ========================================================= */
@@ -945,82 +958,6 @@ a {
     width: 100%;
 }
 
-
-/* --- Toggle son immersif (icône fixe, toutes les pages) ---
-   À l'arrêt : violet, onde fixe. En lecture : cyan, onde animée. */
-.sound-toggle {
-    position: fixed;
-    right: 24px;
-    bottom: 24px;
-    height: 40px;
-    padding: 0 14px 0 12px;
-    gap: 8px;
-    border-radius: 20px;
-    font-family: var(--font-display);
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 0.01em;
-    border: 1.5px solid var(--color-sound-off);
-    background: var(--color-bg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    color: var(--color-sound-off);
-    z-index: 50;
-    transition: border-color 0.3s ease, color 0.3s ease, background-color 0.3s ease, bottom 0.3s ease;
-}
-
-.sound-toggle:hover {
-    background: rgba(124, 58, 237, 0.08);
-}
-
-.sound-toggle[aria-pressed="true"] {
-    border-color: var(--color-accent);
-    color: var(--color-accent);
-}
-
-.sound-toggle[aria-pressed="true"]:hover {
-    background: rgba(0, 184, 217, 0.08);
-}
-
-.sound-waveform-svg {
-    width: 22px;
-    height: 11px;
-}
-
-.wave-idle {
-    opacity: 1;
-    transition: opacity 0.4s ease;
-}
-
-.wave-active {
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    transform-box: fill-box;
-    transform-origin: center;
-}
-
-.sound-toggle[aria-pressed="true"] .wave-idle {
-    opacity: 0;
-}
-
-.sound-toggle[aria-pressed="true"] .wave-active {
-    opacity: 1;
-    animation: wave-pulse 1.6s ease-in-out infinite;
-}
-
-@keyframes wave-pulse {
-
-    0%,
-    100% {
-        transform: scaleY(1);
-    }
-
-    50% {
-        transform: scaleY(0.55);
-    }
-}
 
 /* =========================================================
    RESPONSIVE
@@ -1167,11 +1104,6 @@ a {
     /* Curseur custom désactivé sur mobile (écran tactile) */
     .custom-cursor {
         display: none;
-    }
-
-    .sound-toggle {
-        right: 16px;
-        bottom: 16px;
     }
 
     /* Encart "en construction" */
@@ -1667,11 +1599,6 @@ body {
     top: 16px;
 }
 
-/* Libellé du bouton d'ambiance (ajouté par main.js) */
-.sound-label {
-    white-space: nowrap;
-}
-
 /* Liens secondaires du menu téléphone */
 .menu-overlay-extra {
     margin-top: auto;
@@ -1696,44 +1623,12 @@ body {
 
 /* =========================================================
    ACCUEIL — la scène (instrument.js)
-   L'accueil est noir de haut en bas, comme les vidéos de la chaîne : c'est la
-   scène. Les autres pages restent blanches : c'est le carnet, fait pour lire.
-   Les couleurs du site sont redéfinies pour cette page seulement : en-tête,
-   pied de page, menu, formulaire et liens suivent d'eux-mêmes.
-   Contrastes sur #0A0A0A : texte 16:1, secondaire 7,6:1, mentions 5,7:1,
-   cyan 8,4:1, violet du bouton d'ambiance 7,3:1.
+   Les couleurs (noir, blanc cassé, cyan) sont celles de tout le site, définies
+   dans :root : ici, seulement ce qui est propre à la scène.
    ========================================================= */
-
-.page-home {
-    --color-bg: #0A0A0A;
-    --color-text: #E6E6E6;              /* blanc cassé : moins de halo que le blanc pur */
-    --color-text-secondary: #A0A0A0;
-    --color-text-tertiary: #8A8A8A;
-    --color-border: rgba(255, 255, 255, 0.16);
-    --color-sound-off: #A78BFA;         /* le violet d'origine n'a que 3,5:1 sur noir */
-
-    --stage-bg: #0A0A0A;
-    --module-edge: #262626;
-    --silk: #EDEDED;
-    --silk-dim: #8F8F8F;
-    --cable-cv: #EDEDED;
-}
 
 .page-home .site-header {
     padding-bottom: 56px;
-}
-
-/* Le trait du champ email doit se voir (3,2:1) : c'est la limite du champ */
-.page-home .form-input {
-    border-bottom-color: rgba(255, 255, 255, 0.36);
-}
-
-.page-home .form-input:focus {
-    border-bottom-color: var(--color-accent);
-}
-
-.page-home .manifesto-text {
-    line-height: 1.75;
 }
 
 .stage {
@@ -1764,136 +1659,286 @@ body {
     color: #FFFFFF;
 }
 
-.stage-grid {
+/* --- L'afficheur du premier patch (instrument.js) ---
+   Une étape à la fois : un grand numéro, une phrase, le geste à faire avec les
+   pastilles ① ② qu'on retrouve sur les prises du rack. Sur téléphone, il reste
+   collé en haut de l'écran pendant qu'on branche. Sa hauteur ne dépend pas de ce
+   qu'il affiche dans une même étape : le rack ne saute pas sous le doigt. */
+.patch-display {
+    position: sticky;
+    top: 0;
+    z-index: 6;
     display: grid;
-    grid-template-columns: 250px 1fr;
-    gap: 40px;
-    align-items: start;
-    margin-top: 56px;
+    grid-template-columns: auto 1fr;
+    grid-template-areas:
+        "num head"
+        "num title"
+        "num line"
+        "num foot";
+    column-gap: 36px;
+    padding: 18px 0 26px;
+    background: var(--stage-bg);
 }
 
-/* --- Le guide : trois étapes --- */
-.stage-guide-title {
+/* Collé en haut : le fond va d'un bord à l'autre de l'écran (une ombre ne crée pas de
+   défilement horizontal), un filet à la largeur du rack le sépare des modules */
+.patch-display.is-stuck {
+    box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.14), 0 0 0 100vmax var(--stage-bg);
+    clip-path: inset(0 -100vmax);
+}
+
+.display-num {
+    grid-area: num;
+    width: 0.66em;          /* même largeur pour 1, 2, 3 et la coche : le texte ne bouge pas */
     font-family: var(--font-display);
-    font-size: 14px;
+    font-weight: 900;
+    font-size: clamp(72px, 8.4vw, 120px);
+    line-height: 0.78;
+    letter-spacing: -0.05em;
+    color: #FFFFFF;
+    transition: color 0.4s ease;
+}
+
+.patch-display.is-done .display-num {
+    color: var(--color-accent);
+}
+
+.display-check {
+    display: block;
+    width: 0.62em;
+    height: 0.62em;
+    margin-top: 0.08em;
+}
+
+.display-check path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.display-head {
+    grid-area: head;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.display-eyebrow {
+    font-family: var(--font-display);
+    font-size: 13px;
     font-weight: 500;
     letter-spacing: 0.01em;
     color: var(--color-accent);
-    margin-bottom: 24px;
 }
 
-.guide-steps {
-    list-style: none;
-    display: grid;
-    gap: 22px;
+.display-progress {
+    display: inline-flex;
+    gap: 4px;
 }
 
-.guide-step {
-    display: grid;
-    grid-template-columns: 14px 1fr;
-    gap: 12px;
-    opacity: 0.42;
-    transition: opacity 0.4s ease;
+.display-seg {
+    width: 18px;
+    height: 3px;
+    border-radius: 2px;
+    background: #333333;
+    transition: background-color 0.4s ease;
 }
 
-.guide-step.is-current,
-.guide-step.is-done {
-    opacity: 1;
+.display-seg.is-current {
+    background: #FFFFFF;
 }
 
-.guide-jack {
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    border: 2px solid #6B6B6B;
-    margin-top: 3px;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
-}
-
-.guide-step.is-current .guide-jack {
-    border-color: #FFFFFF;
-}
-
-.guide-step.is-done .guide-jack {
-    border-color: var(--color-accent);
+.display-seg.is-done {
     background: var(--color-accent);
 }
 
-.guide-todo {
+.display-title {
+    grid-area: title;
+    margin-top: 12px;
     font-family: var(--font-display);
-    font-size: 15px;
-    font-weight: 600;
-    line-height: 1.3;
-    color: #FFFFFF;
-}
-
-.guide-how {
-    font-size: 13px;
-    line-height: 1.5;
-    color: #A3A3A3;
-    margin-top: 4px;
-}
-
-.guide-step.is-done .guide-how {
-    color: #DADADA;
-}
-
-.guide-link {
-    color: var(--color-accent);
-    border-bottom: 1px solid currentColor;
-    white-space: nowrap;
-}
-
-.guide-hint {
-    margin-top: 24px;
-    padding-left: 10px;
-    border-left: 2px solid var(--color-accent);
-    font-size: 13px;
-    line-height: 1.5;
-    color: #E6E6E6;
-}
-
-.guide-hint:empty {
-    display: none;
-}
-
-.guide-final {
-    margin-top: 32px;
-}
-
-.guide-final-title {
-    font-family: var(--font-display);
-    font-size: 22px;
     font-weight: 800;
-    line-height: 1.1;
-    letter-spacing: -0.01em;
+    font-size: clamp(28px, 3vw, 40px);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
     color: #FFFFFF;
-    margin-bottom: 14px;
+    outline: none;
 }
 
-.guide-final-item {
+.display-line {
+    grid-area: line;
+    margin-top: 12px;
+    min-height: 1.5em;
+    font-size: 17px;
+    line-height: 1.5;
+    color: #A8A8A8;
+}
+
+.display-heard {
+    font-weight: 600;
+    color: #FFFFFF;
+    margin-right: 6px;
+}
+
+/* Remarque passagère (mauvais sens, lfo trop lent, son coupé…) */
+.display-line.is-note {
+    color: #E6E6E6;
+    padding-left: 10px;
+    box-shadow: inset 2px 0 0 var(--color-accent);
+}
+
+/* Les pastilles ① ②, les mêmes que sur les prises */
+.display-badge {
+    display: inline-grid;
+    place-items: center;
+    width: 22px;
+    height: 22px;
+    margin: 0 2px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    color: #0A0A0A;
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    vertical-align: 1px;
+}
+
+/* Le petit bouton qui tourne : « tournez pitch » */
+.display-knob {
+    position: relative;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 7px;
+    border-radius: 50%;
+    border: 1.5px solid var(--color-accent);
+    vertical-align: -2px;
+    animation: display-knob 2.4s ease-in-out infinite;
+}
+
+.display-knob::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 2px;
+    width: 1.5px;
+    height: 5px;
+    margin-left: -0.75px;
+    border-radius: 1px;
+    background: var(--color-accent);
+}
+
+@keyframes display-knob {
+    0%, 100% { transform: rotate(-50deg); }
+    50% { transform: rotate(50deg); }
+}
+
+.display-foot {
+    grid-area: foot;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px 28px;
+    min-height: 40px;
     margin-top: 10px;
-    line-height: 1.7;
 }
 
-/* En ligne : sur deux lignes, chaque ligne a son propre trait, à la longueur du texte */
-.guide-final-link {
+.display-caption {
+    font-size: 12px;
+    letter-spacing: 0.02em;
+    color: #8A8A8A;
+}
+
+/* Le trajet du câble, avec le nom des prises tel qu'il est écrit sur le rack */
+.display-route {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 34px;
+    padding: 0 14px 0 8px;
+    border: 1px solid #2E2E2E;
+    border-radius: 17px;
+    font-size: 12px;
+    letter-spacing: 0.02em;
+    color: #A0A0A0;
+}
+
+.display-route-arrow {
+    margin: 0 4px;
+    color: #6B6B6B;
+}
+
+.display-badge--small {
+    width: 17px;
+    height: 17px;
+    margin: 0;
+    font-size: 10px;
+    vertical-align: 0;
+}
+
+.display-link {
     font-family: var(--font-display);
     font-size: 14px;
     font-weight: 500;
     color: var(--color-accent);
     border-bottom: 1px solid currentColor;
-    padding-bottom: 2px;
+    padding-bottom: 1px;
+    transition: opacity 0.2s ease;
 }
 
-.guide-final-link:hover,
-.guide-link:hover {
+.display-link:hover {
     opacity: 0.7;
+}
+
+.patch-display.is-final .display-foot {
+    margin-top: 14px;
+}
+
+.display-next {
+    min-height: 40px;
+    padding: 0 20px;
+    border: 0;
+    border-radius: 20px;
+    background: var(--color-accent);
+    color: #0A0A0A;
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    animation: display-next-in 0.4s ease both;
+}
+
+.display-next:hover {
+    background: #FFFFFF;
+}
+
+.display-next:focus-visible {
+    outline: 2px solid #FFFFFF;
+    outline-offset: 3px;
+}
+
+@keyframes display-next-in {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: none; }
 }
 
 /* --- Le rack --- */
 .patch {
     position: relative;
+    margin-top: 48px;
+}
+
+/* Les racks des autres pages (le cours, l'histoire) : juste sous le titre, dans la colonne du texte */
+.rack-section {
+    margin-top: 88px;
+}
+
+.rack-section .patch {
+    margin-top: 0;
 }
 
 .patch-fallback {
@@ -1932,7 +1977,7 @@ body {
     position: relative;
     z-index: 1;
     display: grid;
-    grid-template-columns: 1fr 1.12fr 0.82fr 1.25fr;
+    grid-template-columns: var(--cols, 1fr 1.12fr 0.82fr 1.25fr);   /* chaque rack peut avoir ses colonnes */
     gap: 3px;
     margin: 6px 0;
 }
@@ -1968,6 +2013,20 @@ body {
 .module::after {
     right: 5px;
     bottom: 5px;
+}
+
+/* Pendant le guide, les modules qui ne servent pas à l'étape s'effacent un peu */
+.module {
+    transition: opacity 0.5s ease;
+}
+
+.module.is-dim {
+    opacity: 0.4;
+}
+
+.module.is-dim:hover,
+.module.is-dim:focus-within {
+    opacity: 0.85;
 }
 
 .module-head {
@@ -2094,6 +2153,22 @@ body {
     color: #BDBDBD;
 }
 
+/* Le bouton que l'étape demande de tourner */
+.knob.is-hinted .knob-fill,
+.knob.is-hinted .knob-label {
+    stroke: var(--color-accent);
+    color: var(--color-accent);
+}
+
+.knob.is-hinted .knob-face {
+    animation: knob-hint 1.6s ease-in-out infinite;
+}
+
+@keyframes knob-hint {
+    0%, 100% { filter: drop-shadow(0 0 0 rgba(0, 184, 217, 0)); }
+    50% { filter: drop-shadow(0 0 7px rgba(0, 184, 217, 0.85)); }
+}
+
 /* --- Formes d'onde --- */
 .wave-select {
     display: flex;
@@ -2151,6 +2226,147 @@ body {
     border-radius: 4px;
     background: #060606;
     box-shadow: inset 0 0 0 1px var(--module-edge);
+}
+
+/* --- Le cours : la fréquence et l'amplitude, en chiffres, sous l'oscilloscope --- */
+.module-readout {
+    order: -1;
+    width: 100%;
+    margin-top: -8px;
+    font-size: 12px;
+    letter-spacing: 0.02em;
+    color: var(--color-accent);
+    white-space: pre;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+}
+
+/* --- L'antenne du theremin : on joue en la survolant (ou du doigt) ---
+   De gauche à droite, la hauteur ; de bas en haut, le volume. */
+.theremin-pad {
+    position: relative;
+    flex: 1 1 100%;
+    width: 100%;
+    min-height: 230px;
+    border-radius: 4px;
+    background:
+        linear-gradient(rgba(0, 184, 217, 0.07) 1px, transparent 1px) 0 0 / 100% 25%,
+        linear-gradient(90deg, rgba(0, 184, 217, 0.07) 1px, transparent 1px) 0 0 / 12.5% 100%,
+        #060606;
+    box-shadow: inset 0 0 0 1px var(--module-edge);
+    cursor: crosshair;
+    touch-action: none;
+    overflow: hidden;
+    outline: none;
+    transition: box-shadow 0.3s ease;
+}
+
+.theremin-pad:focus-visible {
+    box-shadow: inset 0 0 0 1px var(--module-edge), 0 0 0 2px var(--color-accent);
+}
+
+/* L'antenne de hauteur, à droite, comme sur l'instrument */
+.pad-antenna {
+    position: absolute;
+    right: 14px;
+    top: 14px;
+    bottom: 30px;
+    width: 3px;
+    border-radius: 2px;
+    background: linear-gradient(#BDBDBD, #4A4A4A);
+}
+
+.pad-antenna::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: -4px;
+    width: 9px;
+    height: 9px;
+    margin-left: -4.5px;
+    border-radius: 50%;
+    background: #D0D0D0;
+}
+
+.pad-axis {
+    position: absolute;
+    font-size: 11px;
+    letter-spacing: 0.02em;
+    color: #6B6B6B;
+    pointer-events: none;
+}
+
+.pad-axis--loud {
+    left: 12px;
+    top: 10px;
+}
+
+.pad-axis--low {
+    left: 12px;
+    bottom: 10px;
+}
+
+.pad-axis--high {
+    right: 28px;
+    bottom: 10px;
+}
+
+/* La main : un point cyan et ses ondes */
+.pad-hand {
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    width: 18px;
+    height: 18px;
+    margin: -9px 0 0 -9px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    box-shadow: 0 0 18px rgba(0, 184, 217, 0.8);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    pointer-events: none;
+}
+
+.pad-hand::before,
+.pad-hand::after {
+    content: "";
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 1.5px solid var(--color-accent);
+    opacity: 0;
+}
+
+.theremin-pad.is-playing .pad-hand {
+    opacity: 1;
+}
+
+.theremin-pad.is-playing .pad-hand::before,
+.theremin-pad.is-playing .pad-hand::after {
+    animation: pad-wave 1.4s ease-out infinite;
+}
+
+.theremin-pad.is-playing .pad-hand::after {
+    animation-delay: 0.7s;
+}
+
+@keyframes pad-wave {
+    from { transform: scale(1); opacity: 0.7; }
+    to { transform: scale(4); opacity: 0; }
+}
+
+/* L'étape « jouer » : l'antenne appelle la main */
+.theremin-pad.is-hinted:not(.is-playing) {
+    animation: pad-hint 1.8s ease-in-out infinite;
+}
+
+@keyframes pad-hint {
+    0%, 100% { box-shadow: inset 0 0 0 1px var(--module-edge); }
+    50% { box-shadow: inset 0 0 0 1px var(--color-accent), inset 0 0 40px rgba(0, 184, 217, 0.18); }
+}
+
+.rack.is-off .theremin-pad {
+    cursor: default;
 }
 
 /* --- Prises jack --- */
@@ -2211,18 +2427,9 @@ body {
     animation: jack-target 1.1s ease-in-out infinite;
 }
 
-.jack.is-invite .jack-nut {
-    animation: jack-invite 1.8s ease-in-out infinite;
-}
-
 @keyframes jack-target {
     0%, 100% { box-shadow: inset 0 0 0 1px #4A4A4A, 0 0 0 2px rgba(0, 184, 217, 0.3); }
     50% { box-shadow: inset 0 0 0 1px #4A4A4A, 0 0 0 6px rgba(0, 184, 217, 0.6); }
-}
-
-@keyframes jack-invite {
-    0%, 100% { box-shadow: inset 0 0 0 1px #4A4A4A, 0 0 0 0 rgba(0, 184, 217, 0); }
-    50% { box-shadow: inset 0 0 0 1px #4A4A4A, 0 0 0 7px rgba(0, 184, 217, 0.45); }
 }
 
 /* --- Câbles --- */
@@ -2294,6 +2501,72 @@ body {
     opacity: 0.85;
 }
 
+/* --- Le guide sur le rack : le câble à poser, en pointillés, de ① à ② --- */
+.guide-ghost {
+    fill: none;
+    stroke: var(--color-accent);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-dasharray: 5 9;
+    opacity: 0.75;
+    animation: guide-flow 1.1s linear infinite;
+}
+
+.guide-ghost.is-armed {
+    opacity: 1;
+    stroke-width: 2.5;
+}
+
+@keyframes guide-flow {
+    to { stroke-dashoffset: -14; }
+}
+
+.guide-ring,
+.guide-pulse {
+    fill: none;
+    stroke: var(--color-accent);
+    stroke-width: 2;
+}
+
+.guide-pulse {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: guide-pulse 1.8s ease-out infinite;
+}
+
+.guide-mark.is-awaited .guide-pulse {
+    animation-duration: 1.1s;
+}
+
+.guide-mark.is-armed .guide-ring {
+    stroke-width: 3;
+}
+
+.guide-mark.is-armed .guide-pulse {
+    animation: none;
+    opacity: 0;
+}
+
+@keyframes guide-pulse {
+    from { transform: scale(1); opacity: 0.8; }
+    to { transform: scale(1.7); opacity: 0; }
+}
+
+.guide-badge circle {
+    fill: var(--color-accent);
+    stroke: #121212;
+    stroke-width: 2;
+}
+
+.guide-badge text {
+    fill: #0A0A0A;
+    font-family: var(--font-display);
+    font-size: 11.5px;
+    font-weight: 700;
+    text-anchor: middle;
+    dominant-baseline: central;
+}
+
 /* --- Sous le rack : légende et commandes --- */
 .patch-tools {
     display: flex;
@@ -2301,7 +2574,11 @@ body {
     justify-content: flex-start;
     align-items: center;
     gap: 12px 40px;
-    margin-top: 28px;
+    margin-top: 24px;
+}
+
+.patch-legend[hidden] {
+    display: none;
 }
 
 .patch-legend {
@@ -2363,6 +2640,125 @@ body {
     outline-offset: 3px;
 }
 
+/* --- Rack éteint : les modules s'assombrissent de droite à gauche, l'écran et le voyant
+   s'éteignent, les câbles restent en place --- */
+.rack-cables {
+    transition: opacity 0.6s ease;
+}
+
+.rack.is-off .module,
+.rack.is-off .module.is-dim {
+    opacity: 0.38;
+    transition: opacity 0.6s ease;
+    transition-delay: calc((3 - var(--i, 0)) * 80ms);
+}
+
+.rack.is-off .module:hover,
+.rack.is-off .module:focus-within {
+    opacity: 0.6;
+    transition-delay: 0s;
+}
+
+.rack.is-off .rack-cables {
+    opacity: 0.4;
+}
+
+.rack.is-off .knob-cv {
+    opacity: 0;
+}
+
+.rack.is-off .knob.is-hinted .knob-face {
+    animation: none;
+}
+
+/* La sortie du guide, en gros : « commencer la leçon 1 → », « lire le chapitre 1 → » */
+.display-cta {
+    display: inline-flex;
+    align-items: center;
+    min-height: 52px;
+    padding: 0 26px;
+    border-radius: 26px;
+    background: #FFFFFF;
+    color: #0A0A0A;
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 700;
+    transition: background-color 0.2s ease;
+}
+
+.display-cta:hover {
+    background: var(--color-accent);
+}
+
+.display-cta:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+}
+
+/* Le gros bouton de fin : éteindre le rack (ou le rallumer) */
+.display-power {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 52px;
+    padding: 0 26px 0 20px;
+    border: 1.5px solid #FFFFFF;
+    border-radius: 26px;
+    background: #FFFFFF;
+    color: #0A0A0A;
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.display-power svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+}
+
+.display-power:hover {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+}
+
+.display-power.is-off,
+.display-power.is-secondary {
+    background: transparent;
+    border-color: #555555;
+    color: #FFFFFF;
+}
+
+/* À côté d'une sortie en gros, « éteindre » se fait plus discret */
+.display-power.is-secondary {
+    min-height: 44px;
+    padding: 0 20px 0 16px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.display-power.is-secondary:hover {
+    background: transparent;
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+}
+
+.display-power.is-off:hover {
+    background: transparent;
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+}
+
+.display-power:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+}
+
 /* --- Mise sous tension : les modules s'allument l'un après l'autre --- */
 .rack.is-powering .module {
     animation: module-power 0.6s ease both;
@@ -2376,193 +2772,327 @@ body {
 
 
 /* =========================================================
-   ACCUEIL — sous la scène
+   ACCUEIL — la suite : le reste du site, en deuxième rangée du rack
+   Le cours, les patchs, le manifeste, la newsletter : quatre modules, avec
+   leur nom, leur rôle et une sortie (une prise et son étiquette blanche,
+   comme les sorties de l'instrument) pour y aller.
    ========================================================= */
 
-.home-section {
-    margin-top: var(--section-gap);
+.site-rack-section {
+    margin-top: 104px;
+    scroll-margin-top: 24px;
 }
 
-.doors {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 64px;
-    align-items: start;
-}
-
-.door-title {
+.site-rack-label {
+    margin-bottom: 18px;
     font-family: var(--font-display);
-    font-size: 56px;
-    font-weight: 900;
-    line-height: 0.95;
-    letter-spacing: -0.04em;
-    margin-bottom: 16px;
-}
-
-.door-title a {
-    transition: color 0.3s ease;
-}
-
-.door-title a:hover {
-    color: var(--color-accent);
-}
-
-.door-lead {
-    font-size: 17px;
-    line-height: 1.55;
-    max-width: 42ch;
-    margin-bottom: 28px;
-}
-
-.door-lessons {
-    list-style: none;
-    border-top: 0.5px solid var(--color-border);
-    margin-bottom: 28px;
-}
-
-.door-lessons a {
-    display: grid;
-    grid-template-columns: 32px 1fr 16px;
-    gap: 16px;
-    align-items: center;
-    padding: 18px 0;
-    border-bottom: 0.5px solid var(--color-border);
-}
-
-.door-lesson-num {
-    font-family: var(--font-display);
-    font-size: 22px;
-    font-weight: 900;
-    color: var(--color-text-tertiary);
-    transition: color 0.3s ease;
-}
-
-.door-lesson-title {
-    display: block;
-    font-family: var(--font-display);
-    font-size: 19px;
-    font-weight: 700;
-    line-height: 1.15;
-    transition: color 0.3s ease;
-}
-
-.door-lesson-desc {
-    display: block;
-    margin-top: 3px;
     font-size: 13px;
-    color: var(--color-text-secondary);
-}
-
-.door-lessons a:hover .door-lesson-num,
-.door-lessons a:hover .door-lesson-title {
+    font-weight: 500;
+    letter-spacing: 0.01em;
     color: var(--color-accent);
 }
 
-/* Une prise par leçon : remplie quand la leçon a été ouverte */
-.seen-jack {
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    border: 2px solid var(--color-border);
+/* Le texte de cette rangée se sélectionne, contrairement à l'instrument */
+.site-rack {
+    -webkit-user-select: auto;
+    user-select: auto;
 }
 
-.door-lessons a.is-seen .seen-jack {
+.site-modules {
+    display: grid;
+    grid-template-columns: 1.2fr 1.15fr 1fr;
+    gap: 3px;
+    margin: 6px 0;
+}
+
+.site-module {
+    gap: 14px;
+    min-height: 0;
+    padding: 18px 16px 16px;
+}
+
+.site-module .module-name a {
+    transition: color 0.2s ease;
+}
+
+.site-module .module-name a:hover {
+    color: var(--color-accent);
+}
+
+.site-text {
+    font-size: 13px;
+    line-height: 1.5;
+    color: #A8A8A8;
+}
+
+.site-note {
+    font-size: 12px;
+    line-height: 1.5;
+    color: #8A8A8A;
+}
+
+.site-note a {
+    color: #D0D0D0;
+    border-bottom: 1px solid #555555;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.site-note a:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+}
+
+/* Le cours : une ligne par leçon, et un voyant allumé quand la leçon a été ouverte */
+.site-lessons {
+    list-style: none;
+    border-top: 1px solid #262626;
+}
+
+.site-lessons a {
+    display: grid;
+    grid-template-columns: 16px 1fr 10px;
+    gap: 10px;
+    align-items: center;
+    padding: 9px 0;
+    border-bottom: 1px solid #262626;
+}
+
+.site-lesson-num {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 800;
+    color: #6B6B6B;
+    transition: color 0.2s ease;
+}
+
+.site-lesson-title {
+    font-size: 13px;
+    line-height: 1.3;
+    color: #E0E0E0;
+    transition: color 0.2s ease;
+}
+
+.site-lessons a:hover .site-lesson-num,
+.site-lessons a:hover .site-lesson-title {
+    color: var(--color-accent);
+}
+
+.seen-jack {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 1.5px solid #4A4A4A;
+}
+
+.site-lessons a.is-seen .seen-jack {
     border-color: var(--color-accent);
     background: var(--color-accent);
+    box-shadow: 0 0 8px rgba(0, 184, 217, 0.7);
 }
 
-.door-lessons a:not(.is-seen) .seen-label {
+.site-lessons a:not(.is-seen) .seen-label {
     display: none;
 }
 
-.door-latest {
+/* Les patchs : la dernière fiche sur un petit écran, comme l'oscilloscope */
+.site-latest {
     display: block;
-    margin-bottom: 20px;
 }
 
-.door-thumb {
+.site-screen {
     display: block;
     aspect-ratio: 16 / 9;
-    margin-bottom: 16px;
+    margin-bottom: 10px;
     overflow: hidden;
-    background: #161616;
+    border-radius: 4px;
+    background: #060606;
+    box-shadow: inset 0 0 0 1px var(--module-edge);
 }
 
-.door-thumb img {
+.site-screen img {
     display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    opacity: 0.85;
+    transition: opacity 0.3s ease;
 }
 
-.door-latest-kicker {
+.site-screen img[hidden] {
+    display: none;
+}
+
+.site-latest:hover .site-screen img {
+    opacity: 1;
+}
+
+.site-kicker {
     display: block;
-    margin-bottom: 6px;
-    font-size: 12px;
-    color: var(--color-text-tertiary);
+    margin-bottom: 4px;
+    font-size: 11px;
+    color: #8A8A8A;
 }
 
-.door-latest-title {
+.site-latest-title {
     display: block;
     font-family: var(--font-display);
-    font-size: 24px;
+    font-size: 15px;
     font-weight: 700;
-    line-height: 1.1;
-    letter-spacing: -0.01em;
-    transition: color 0.3s ease;
+    line-height: 1.2;
+    color: #EDEDED;
+    transition: color 0.2s ease;
 }
 
-.door-latest:hover .door-latest-title {
+.site-latest:hover .site-latest-title {
     color: var(--color-accent);
 }
 
-.door-next {
-    margin-bottom: 20px;
-    font-size: 14px;
-    color: var(--color-text-secondary);
-}
-
-.home-newsletter-lead {
+/* Le manifeste : une phrase */
+.site-quote {
     font-family: var(--font-display);
-    font-size: 26px;
+    font-size: 19px;
     font-weight: 700;
-    line-height: 1.15;
+    line-height: 1.2;
     letter-spacing: -0.01em;
-    margin-bottom: 20px;
+    color: #EDEDED;
 }
 
-.home-newsletter-yt {
-    margin-top: 24px;
-    font-size: 14px;
-    color: var(--color-text-secondary);
+/* La sortie de chaque module : une prise, puis l'étiquette blanche */
+.module-out {
+    margin-top: auto;
+    padding-top: 4px;
 }
 
-.page-home .read-more {
-    display: inline-block;
-    margin-top: 12px;
+.module-cta {
+    --label: #ECECEC;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 5px 10px 5px 46px;
+    border: 0;
+    border-radius: 3px;
+    background: linear-gradient(var(--label), var(--label)) right center / calc(100% - 36px) 100% no-repeat;
+    color: #0A0A0A;
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.2;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.module-cta::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 28px;
+    height: 28px;
+    margin-top: -14px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #000000 0 4px, #262626 4.5px 6px, #BDBDBD 6.5px 8px, #7A7A7A 8.5px 10px, #3A3A3A 10.5px 13px, #2A2A2A 13.5px);
+    box-shadow: inset 0 0 0 1px #4A4A4A;
+    transition: box-shadow 0.2s ease;
+}
+
+.module-cta::after {
+    content: "\00a0→";
+}
+
+.module-cta:hover {
+    --label: var(--color-accent);
+}
+
+.module-cta:hover::before {
+    box-shadow: inset 0 0 0 1px #4A4A4A, 0 0 0 3px rgba(0, 184, 217, 0.45);
+}
+
+.module-cta:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+}
+
+/* La newsletter : le champ, puis la sortie « s'inscrire » */
+.site-form {
+    max-width: none;
+}
+
+.site-form .newsletter-form {
+    gap: 8px;
+}
+
+.site-form .newsletter-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+}
+
+.site-form .newsletter-row .form-input {
+    flex: none;
+    padding: 6px 0;
+}
+
+.site-form .form-submit.module-cta {
+    align-self: flex-start;
+    padding: 5px 10px 5px 46px;
+    background: linear-gradient(var(--label), var(--label)) right center / calc(100% - 36px) 100% no-repeat;
+    color: #0A0A0A;
+}
+
+.site-form .form-submit.module-cta:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
+.site-form .form-success {
+    padding: 6px 0;
+}
+
+/* À la fin du premier patch, « la suite » s'allume au passage */
+.site-rack.is-lit .module {
+    animation: site-lit 1.4s ease both;
+    animation-delay: calc(var(--i, 0) * 120ms);
+}
+
+.site-rack.is-lit .site-module:nth-child(2) { --i: 1; }
+.site-rack.is-lit .site-module:nth-child(3) { --i: 2; }
+
+@keyframes site-lit {
+    0% { box-shadow: inset 0 0 0 1px var(--module-edge); }
+    30% { box-shadow: inset 0 0 0 1px var(--color-accent), 0 0 24px rgba(0, 184, 217, 0.25); }
+    100% { box-shadow: inset 0 0 0 1px var(--module-edge); }
 }
 
 
 /* --- Accueil : tablette --- */
 @media (max-width: 1100px) {
-    .stage-grid {
-        grid-template-columns: 1fr;
-        gap: 32px;
+    .site-modules {
+        grid-template-columns: 1fr 1fr;
     }
 
-    .guide-steps {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 20px;
+    /* Le troisième module (la newsletter) prend toute la largeur de la ligne */
+    .site-module:nth-child(3) {
+        grid-column: 1 / -1;
     }
 
-    .doors {
-        gap: 48px;
+    /* Deux modules par ligne : la dernière fiche se met à côté de son image */
+    .site-latest {
+        display: grid;
+        grid-template-columns: 42% 1fr;
+        column-gap: 14px;
+        align-items: start;
+    }
+
+    .site-screen {
+        grid-row: span 2;
+        margin-bottom: 0;
     }
 }
 
 @media (max-width: 900px) {
     .rack-modules {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: var(--cols-m, 1fr 1fr);
     }
 
     .module {
@@ -2581,29 +3111,52 @@ body {
         margin-top: 20px;
     }
 
-    .stage-grid {
-        margin-top: 36px;
+    .patch {
+        margin-top: 32px;
     }
 
-    .guide-steps {
-        grid-template-columns: 1fr;
-        gap: 14px;
+    /* L'afficheur : le numéro à côté de la phrase, le reste sur toute la largeur.
+       La ligne garde la place de deux lignes : l'explication qui arrive quand on tourne
+       le bouton ne pousse pas le rack. */
+    .patch-display {
+        grid-template-areas:
+            "num head"
+            "num title"
+            "line line"
+            "foot foot";
+        column-gap: 14px;
+        padding: 10px 0 12px;
     }
 
-    /* Sur téléphone, les étapes à venir tiennent sur une ligne */
-    .guide-step:not(.is-current):not(.is-done) .guide-how {
-        display: none;
+    .display-num {
+        font-size: 56px;
+        align-self: start;
+        margin-top: 1px;
     }
 
-    /* Le bouton d'ambiance se réduit à son icône (le libellé reste lu par les lecteurs d'écran) */
-    .sound-toggle {
-        width: 40px;
-        padding: 0;
-        justify-content: center;
+    .display-title {
+        margin-top: 5px;
+        font-size: 21px;
+        line-height: 1.12;
+        letter-spacing: -0.02em;
     }
 
-    .sound-label {
-        display: none;
+    .display-line {
+        margin-top: 8px;
+        min-height: 2.8em;
+        font-size: 15px;
+        line-height: 1.4;
+    }
+
+    .display-foot {
+        min-height: 34px;
+        margin-top: 4px;
+        gap: 8px 16px;
+    }
+
+    .display-next {
+        min-height: 34px;
+        padding: 0 16px;
     }
 
     .rack {
@@ -2646,24 +3199,58 @@ body {
         align-items: flex-start;
     }
 
-    .doors {
+    .site-rack-section {
+        margin-top: 72px;
+    }
+}
+
+/* Sur téléphone, un module par ligne ; la dernière fiche se met à côté de son image */
+@media (max-width: 600px) {
+    .site-modules {
         grid-template-columns: 1fr;
-        gap: 64px;
     }
 
-    .door-title {
-        font-size: 44px;
+    .site-module:nth-child(3) {
+        grid-column: auto;
+    }
+
+    .site-module {
+        padding: 16px 12px 14px;
+    }
+
+    .site-latest {
+        grid-template-columns: 128px 1fr;
+        column-gap: 12px;
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .jack.is-target .jack-nut,
-    .jack.is-invite .jack-nut {
+    .jack.is-target .jack-nut {
         animation: none;
         box-shadow: inset 0 0 0 1px #4A4A4A, 0 0 0 3px rgba(0, 184, 217, 0.5);
     }
 
-    .rack.is-powering .module {
+    .guide-ghost,
+    .guide-pulse,
+    .display-knob,
+    .display-next,
+    .knob.is-hinted .knob-face,
+    .theremin-pad.is-hinted:not(.is-playing),
+    .theremin-pad.is-playing .pad-hand::before,
+    .theremin-pad.is-playing .pad-hand::after {
+        animation: none;
+    }
+
+    .guide-pulse {
+        opacity: 0;
+    }
+
+    .knob.is-hinted .knob-face {
+        filter: drop-shadow(0 0 5px rgba(0, 184, 217, 0.7));
+    }
+
+    .rack.is-powering .module,
+    .site-rack.is-lit .module {
         animation: none;
     }
 }
@@ -2920,12 +3507,12 @@ body {
 
 /* =========================================================
    REMONTER EN HAUT DE LA PAGE (main.js)
-   Même famille que le bouton d'ambiance, juste au-dessus de lui.
+   Un rond dans le coin, en bas à droite.
    ========================================================= */
 .to-top {
     position: fixed;
     right: 24px;
-    bottom: 74px;
+    bottom: 24px;
     z-index: 50;
     width: 40px;
     height: 40px;
@@ -2973,7 +3560,7 @@ body {
 @media (max-width: 768px) {
     .to-top {
         right: 16px;
-        bottom: 66px;
+        bottom: 16px;
     }
 }
 
@@ -2985,8 +3572,7 @@ body {
 }
 
 @media print {
-    .to-top,
-    .sound-toggle {
+    .to-top {
         display: none;
     }
 }
