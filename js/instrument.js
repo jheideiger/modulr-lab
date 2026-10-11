@@ -6,8 +6,7 @@
    signal. Chargé par main.js seulement quand la page contient
    [data-instrument] ; la valeur de l'attribut choisit le rack :
      (vide)     l'accueil : « votre premier patch », vco, vcf, lfo, out
-     cours      le cours : fréquence et amplitude, vers la leçon 1
-     histoire   l'histoire : un theremin, vers le chapitre 1
+     histoire   l'histoire : un vrai theremin (pas un rack), vers le chapitre 1
 
    Chaque rack a son guide : une étape à la fois (brancher,
    tourner un bouton, jouer), puis une sortie vers la suite du
@@ -40,7 +39,7 @@
             hints: {
                 direction: 'un câble va d’une sortie (étiquette blanche) vers une entrée.',
                 self: 'branchez ce module sur un autre module.',
-                lfoAudio: 'trop lent pour s’entendre : le lfo est un signal de contrôle. branchez-le dans pitch ou cutoff.',
+                lfoAudio: 'trop lent pour s’entendre : le lfo est un signal de contrôle. Branchez-le dans pitch ou cutoff.',
                 unplugged: 'câble débranché.',
                 noAudio: 'votre navigateur ne peut pas produire de son ici.'
             },
@@ -52,9 +51,8 @@
             offSaid: 'rack éteint.', onSaid: 'rack rallumé.',
             legendAudio: 'câble cyan : du son', legendCv: 'câble blanc : du contrôle',
             legendUnplug: { touch: 'touchez une entrée branchée pour la débrancher', mouse: 'cliquez sur une entrée branchée pour la débrancher' },
-            readout: (f, a) => `fréquence ${f}   amplitude ${a}`,
             pad: {
-                label: 'antenne du theremin : de gauche à droite, la hauteur ; de bas en haut, le volume. au clavier, les flèches.',
+                label: 'antenne du theremin : de gauche à droite, la hauteur ; de bas en haut, le volume. Au clavier, les flèches.',
                 low: 'grave', high: 'aigu', loud: 'fort'
             }
         },
@@ -77,7 +75,7 @@
             hints: {
                 direction: 'a cable goes from an output (white label) to an input.',
                 self: 'patch this module into another one.',
-                lfoAudio: 'too slow to hear: the lfo is a control signal. patch it into pitch or cutoff.',
+                lfoAudio: 'too slow to hear: the lfo is a control signal. Patch it into pitch or cutoff.',
                 unplugged: 'cable unplugged.',
                 noAudio: 'your browser can’t play sound here.'
             },
@@ -89,9 +87,8 @@
             offSaid: 'rack switched off.', onSaid: 'rack back on.',
             legendAudio: 'cyan cable: sound', legendCv: 'white cable: control',
             legendUnplug: { touch: 'tap a patched input to unplug it', mouse: 'click a patched input to unplug it' },
-            readout: (f, a) => `frequency ${f}   amplitude ${a}`,
             pad: {
-                label: 'theremin antenna: left to right, the pitch; bottom to top, the volume. with the keyboard, the arrow keys.',
+                label: 'theremin antenna: left to right, the pitch; bottom to top, the volume. With the keyboard, the arrow keys.',
                 low: 'low', high: 'high', loud: 'loud'
             }
         }
@@ -125,7 +122,7 @@
                     // Une étape = une phrase. Puis, une fois branchée : ce qu'on entend, le bouton à tourner,
                     // et seulement après l'avoir tourné, l'explication.
                     steps: [
-                        { title: 'faites sonner le vco.', done: 'une note.', turn: 'tournez pitch.', why: 'la fréquence fait la hauteur. l’oscilloscope dessine l’onde.', link: ['la leçon 1', 'le-cours/intro/'] },
+                        { title: 'faites sonner le vco.', done: 'une note.', turn: 'tournez pitch.', why: 'la fréquence fait la hauteur. L’oscilloscope dessine l’onde.', link: ['la leçon 1', 'le-cours/intro/'] },
                         { title: 'filtrez le son.', done: 'même note, autre couleur.', turn: 'tournez cutoff.', why: 'le filtre retire des harmoniques : l’onde s’arrondit.', link: ['la leçon 2', 'le-cours/son-et-harmonique/'] },
                         { title: 'laissez le lfo tourner cutoff.', done: 'le son bouge tout seul.', turn: 'tournez rate.', why: 'un signal lent tourne cutoff à votre place : c’est du control voltage.', link: ['la leçon 4', 'le-cours/controle-en-tension/'] }
                     ],
@@ -138,7 +135,7 @@
                 en: {
                     eyebrow: 'your first patch',
                     steps: [
-                        { title: 'make the vco sound.', done: 'a note.', turn: 'turn pitch.', why: 'frequency sets the pitch. the scope draws the wave.', link: ['lesson 1', 'le-cours/intro/'] },
+                        { title: 'make the vco sound.', done: 'a note.', turn: 'turn pitch.', why: 'frequency sets the pitch. The scope draws the wave.', link: ['lesson 1', 'le-cours/intro/'] },
                         { title: 'filter the sound.', done: 'same note, different colour.', turn: 'turn cutoff.', why: 'the filter removes harmonics: the wave gets rounder.', link: ['lesson 2', 'le-cours/son-et-harmonique/'] },
                         { title: 'let the lfo turn cutoff.', done: 'the sound moves on its own.', turn: 'turn rate.', why: 'a slow signal turns cutoff for you: that’s control voltage.', link: ['lesson 4', 'le-cours/controle-en-tension/'] }
                     ],
@@ -146,89 +143,6 @@
                         title: 'that’s your first patch.',
                         why: 'produce, transform, control: all of modular starts from these three moves.',
                         links: [['understand what happened: lesson 1 →', 'le-cours/intro/'], ['the rest of the lab ↓', '#whats-next']]
-                    }
-                }
-            }
-        },
-
-        // Le cours : les deux grandeurs d'un signal, avant la leçon 1
-        cours: {
-            modules: [{ id: 'vco', waves: false, wave: 'sine', onlyJacks: ['out'] }, { id: 'out', readout: true }],
-            cols: '1fr 1.5fr', colsM: '1fr 1.25fr',
-            steps: [
-                { goal: 'patch', cables: [['vco.out', 'out.in']], reached: (r) => r.sounding(), focusDone: ['vco', 'out'] },
-                { goal: 'turn', knob: 'vco.pitch', focus: ['vco', 'out'] },
-                { goal: 'turn', knob: 'out.level', focus: ['out'] }
-            ],
-            text: {
-                fr: {
-                    eyebrow: 'avant la leçon 1',
-                    steps: [
-                        { title: 'faites sonner le vco.', why: 'une onde qui se répète : un signal. l’oscilloscope la dessine.' },
-                        { title: 'changez la fréquence.', todo: 'tournez pitch, et regardez l’onde.', why: 'les cycles se resserrent, le son monte : la fréquence fait la hauteur.' },
-                        { title: 'changez l’amplitude.', todo: 'tournez level.', why: 'l’onde grandit sans changer de rythme : l’amplitude fait le niveau.' }
-                    ],
-                    final: {
-                        title: 'fréquence et amplitude.',
-                        why: 'les deux grandeurs d’un signal, expliquées dans la leçon 1.',
-                        primary: ['commencer la leçon 1', 'le-cours/intro/']
-                    }
-                },
-                en: {
-                    eyebrow: 'before lesson 1',
-                    steps: [
-                        { title: 'make the vco sound.', why: 'a wave that repeats: a signal. the scope draws it.' },
-                        { title: 'change the frequency.', todo: 'turn pitch, and watch the wave.', why: 'the cycles squeeze together, the sound rises: frequency sets the pitch.' },
-                        { title: 'change the amplitude.', todo: 'turn level.', why: 'the wave grows without changing its rhythm: amplitude sets the level.' }
-                    ],
-                    final: {
-                        title: 'frequency and amplitude.',
-                        why: 'the two quantities of a signal, explained in lesson 1.',
-                        primary: ['start lesson 1', 'le-cours/intro/']
-                    }
-                }
-            }
-        },
-
-        // L'histoire : jouer sans toucher, comme en 1920, avant le chapitre 1
-        histoire: {
-            modules: [{ id: 'theremin' }, { id: 'out' }],
-            cols: '1.7fr 1fr', colsM: '1fr',
-            steps: [
-                { goal: 'patch', cables: [['theremin.out', 'out.in']], reached: (r) => r.reaches('theremin.out', 'out.in'), auto: true },
-                { goal: 'play', focus: ['theremin', 'out'] }
-            ],
-            text: {
-                fr: {
-                    eyebrow: 'avant le chapitre 1',
-                    steps: [
-                        { title: 'branchez le theremin.', why: 'il attend votre main.' },
-                        {
-                            title: 'jouez sans toucher.',
-                            todo: { mouse: 'passez la souris sur l’antenne : à gauche grave, à droite aigu, en haut fort.', touch: 'glissez le doigt sur l’antenne : à gauche grave, à droite aigu, en haut fort.' },
-                            why: 'en 1920, Léon Theremin jouait ainsi, les mains dans le vide.'
-                        }
-                    ],
-                    final: {
-                        title: 'vous jouez comme en 1920.',
-                        why: 'le theremin, joué sans contact. avant lui, le Telharmonium pesait 200 tonnes.',
-                        primary: ['lire le chapitre 1 : origines', 'histoire/origines/']
-                    }
-                },
-                en: {
-                    eyebrow: 'before chapter 1',
-                    steps: [
-                        { title: 'patch the theremin.', why: 'it’s waiting for your hand.' },
-                        {
-                            title: 'play without touching.',
-                            todo: { mouse: 'move the mouse over the antenna: left low, right high, top loud.', touch: 'slide your finger over the antenna: left low, right high, top loud.' },
-                            why: 'in 1920, Leon Theremin played like this, hands in mid-air.'
-                        }
-                    ],
-                    final: {
-                        title: 'you’re playing like it’s 1920.',
-                        why: 'the theremin, played without contact. before it, the Telharmonium weighed 200 tons.',
-                        primary: ['read chapter 1: origins', 'histoire/origines/']
                     }
                 }
             }
@@ -337,7 +251,7 @@
     function mount(root) {
         if (current && current.root === root) return;
         unmount();
-        current = createInstrument(root);
+        current = root.getAttribute('data-instrument') === 'histoire' ? createTheremin(root) : createInstrument(root);
     }
 
     function unmount() {
@@ -416,7 +330,7 @@
         if (cfg.cols) modulesRow.style.setProperty('--cols', cfg.cols);
         if (cfg.colsM) modulesRow.style.setProperty('--cols-m', cfg.colsM);
         const knobEls = {}, jackEls = {};
-        let ledEl = null, scopeCanvas = null, readoutEl = null, padEl = null, handEl = null;
+        let ledEl = null, scopeCanvas = null, padEl = null, handEl = null;
 
         MODS.forEach((m, index) => {
             const mod = el('section', { class: 'module module--' + m.id, 'data-module': m.id, 'aria-label': m.id + ', ' + T.roles[m.id], style: '--i:' + index });
@@ -438,10 +352,6 @@
             if (m.scope) {
                 scopeCanvas = el('canvas', { class: 'module-scope', 'aria-hidden': 'true' });
                 controls.appendChild(scopeCanvas);
-            }
-            if (m.readout) {
-                readoutEl = el('p', { class: 'module-readout', 'aria-hidden': 'true' });
-                controls.appendChild(readoutEl);
             }
             mod.appendChild(controls);
 
@@ -528,7 +438,6 @@
                 state.values[key] = Math.max(0, Math.min(1, v));
                 update();
                 applyKnob(key);
-                updateReadout();
                 knobTurned(key);
             };
 
@@ -569,14 +478,6 @@
             const large = (to - from) * 270 > 180 ? 1 : 0;
             if (to - from < 0.001) return `M${x0.toFixed(2)} ${y0.toFixed(2)}`;
             return `M${x0.toFixed(2)} ${y0.toFixed(2)} A${r} ${r} 0 ${large} 1 ${x1.toFixed(2)} ${y1.toFixed(2)}`;
-        }
-
-        // Le cours : la fréquence et l'amplitude, en chiffres, sous l'oscilloscope
-        function updateReadout() {
-            if (!readoutEl) return;
-            const f = state.values['vco.pitch'] !== undefined ? fmtHz(pitchHz(state.values['vco.pitch'])) : '–';
-            const a = state.values['out.level'] !== undefined ? Math.round(state.values['out.level'] * 100) + ' %' : '–';
-            readoutEl.textContent = T.readout(f, a);
         }
 
         /* ---------- formes d'onde ---------- */
@@ -1134,8 +1035,7 @@
                 knobEls[key].update();
                 applyKnob(key);
             });
-            updateReadout();
-            state.wave = WAVE0;
+                state.wave = WAVE0;
             waveButtons.forEach((b) => b.setAttribute('aria-pressed', b.getAttribute('data-wave') === state.wave ? 'true' : 'false'));
             if (A.osc) {
                 A.osc.type = state.wave;
@@ -1609,11 +1509,520 @@
         }
 
         enterStep(0);
-        updateReadout();
         drawCables();
         renderGuide();
         onScroll();
         start();
+
+        return {
+            root,
+            destroy() {
+                destroyed = true;
+                if (raf) cancelAnimationFrame(raf);
+                if (io) io.disconnect();
+                if (ro) ro.disconnect();
+                cleanups.forEach((fn) => fn());
+                if (A.ctx) {
+                    const ctx = A.ctx;
+                    try { A.master.gain.setTargetAtTime(0, ctx.currentTime, 0.05); } catch (e) { }
+                    setTimeout(() => { ctx.close().catch(() => { }); }, 300);
+                }
+            }
+        };
+    }
+
+    /* -----------------------------------------------------
+       LE THEREMIN (page histoire)
+       Pas un rack : l'instrument de 1920, un meuble en bois et
+       deux antennes. La main ne touche rien : plus elle approche
+       l'antenne droite, plus la note monte ; plus elle descend
+       vers la boucle de gauche, plus le son s'éteint.
+       À la souris on joue en survolant, sans cliquer ; au doigt,
+       en glissant ; au clavier, avec les flèches.
+       ----------------------------------------------------- */
+    const THEREMIN_TEXT = {
+        fr: {
+            eyebrow: 'avant le chapitre 1',
+            label: 'un theremin : la main approche l’antenne de droite pour monter la note, descend vers la boucle de gauche pour baisser le volume. Au clavier, les flèches.',
+            pitch: 'hauteur', volume: 'volume',
+            powerOff: 'éteindre le theremin', powerOn: 'allumer le theremin',
+            off: { touch: 'theremin éteint : touchez l’appareil pour le rallumer.', mouse: 'theremin éteint : cliquez sur l’appareil pour le rallumer.' },
+            offSaid: 'theremin éteint.', onSaid: 'theremin allumé.',
+            steps: [
+                { title: 'allumez le theremin.', todo: { mouse: 'cliquez sur l’appareil : le voyant s’allume.', touch: 'touchez l’appareil : le voyant s’allume.' }, why: 'en 1920, il fallait le laisser chauffer. Ici, c’est immédiat.' },
+                { title: 'jouez sans toucher.', todo: { mouse: 'approchez la souris de l’antenne de droite, sans cliquer : plus vous êtes près, plus la note monte.', touch: 'glissez le doigt vers l’antenne de droite : plus vous êtes près, plus la note monte.' }, why: 'la main ne touche rien : elle modifie le champ autour de l’antenne.' },
+                { title: 'faites taire la note.', todo: { mouse: 'descendez vers la boucle de gauche : le son s’éteint.', touch: 'descendez le doigt vers la boucle de gauche : le son s’éteint.' }, why: 'deux antennes, deux mains : la hauteur à droite, le volume à gauche.' }
+            ],
+            final: { title: 'vous jouez comme en 1920.', why: 'le theremin, joué sans contact. Avant lui, le Telharmonium pesait 200 tonnes.', primary: ['lire le chapitre 1 : origines', 'histoire/origines/'] }
+        },
+        en: {
+            eyebrow: 'before chapter 1',
+            label: 'a theremin: the hand moves towards the right antenna to raise the note, down towards the left loop to lower the volume. With the keyboard, the arrow keys.',
+            pitch: 'pitch', volume: 'volume',
+            powerOff: 'switch off the theremin', powerOn: 'switch the theremin on',
+            off: { touch: 'theremin off: tap the instrument to switch it back on.', mouse: 'theremin off: click the instrument to switch it back on.' },
+            offSaid: 'theremin switched off.', onSaid: 'theremin on.',
+            steps: [
+                { title: 'switch the theremin on.', todo: { mouse: 'click the instrument: the pilot light comes on.', touch: 'tap the instrument: the pilot light comes on.' }, why: 'in 1920 it had to warm up first. Here it’s instant.' },
+                { title: 'play without touching.', todo: { mouse: 'move the mouse towards the right antenna, without clicking: the closer you get, the higher the note.', touch: 'slide your finger towards the right antenna: the closer you get, the higher the note.' }, why: 'your hand touches nothing: it changes the field around the antenna.' },
+                { title: 'silence the note.', todo: { mouse: 'move down towards the left loop: the sound fades out.', touch: 'slide your finger down towards the left loop: the sound fades out.' }, why: 'two antennas, two hands: pitch on the right, volume on the left.' }
+            ],
+            final: { title: 'you’re playing like it’s 1920.', why: 'the theremin, played without contact. Before it, the Telharmonium weighed 200 tons.', primary: ['read chapter 1: origins', 'histoire/origines/'] }
+        }
+    };
+
+    // Le dessin, en unités du viewBox (800 × 440)
+    const TH = { rodX: 552, rodTop: 44, rodBottom: 246, loopY: 286, loopLeft: 96, loopRight: 232 };
+
+    function createTheremin(root) {
+        const lang = (document.documentElement.lang || 'fr').indexOf('en') === 0 ? 'en' : 'fr';
+        const T = Object.assign({}, COMMON[lang], THEREMIN_TEXT[lang]);
+        const base = root.getAttribute('data-base') || './';
+        const touch = !!(window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
+        const N = T.steps.length;
+        const state = { step: 0, phase: 'todo', power: false, hand: { x: 380, y: 140, on: false }, playMs: 0, quietMs: 0, wasLoud: false, note: '' };
+        const A = {};
+        const cleanups = [];
+        let raf = 0, destroyed = false, visible = true, lastNow = 0, autoTimer = 0, keyTimer = 0, suspendTimer = 0;
+
+        root.innerHTML = '';
+        root.classList.add('is-ready');
+
+        // L'afficheur, le même que sur les racks
+        const dNum = el('span', { class: 'display-num', 'aria-hidden': 'true' });
+        const dSegs = T.steps.map(() => el('span', { class: 'display-seg' }));
+        const dTitle = el('p', { class: 'display-title', tabindex: '-1' });
+        const dLine = el('p', { class: 'display-line' });
+        const dFoot = el('div', { class: 'display-foot' });
+        const display = el('div', { class: 'patch-display' }, [
+            el('div', { class: 'display-head' }, [
+                el('h2', { class: 'display-eyebrow', text: T.eyebrow }),
+                el('span', { class: 'display-progress', 'aria-hidden': 'true' }, dSegs)
+            ]),
+            dNum, dTitle, dLine, dFoot
+        ]);
+        root.appendChild(display);
+
+        /* ---------- le dessin ---------- */
+        const stage = svg('svg', { class: 'theremin', viewBox: '0 0 800 440', role: 'img', tabindex: '0', 'aria-label': T.label });
+        const defs = svg('defs', {});
+        defs.innerHTML =
+            '<linearGradient id="th-front" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6A4428"/><stop offset="0.5" stop-color="#4E321E"/><stop offset="1" stop-color="#341F12"/></linearGradient>' +
+            '<linearGradient id="th-top" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8A5C36"/><stop offset="1" stop-color="#5E3D24"/></linearGradient>' +
+            '<linearGradient id="th-side" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2E1D12"/><stop offset="1" stop-color="#1A0F08"/></linearGradient>' +
+            '<linearGradient id="th-leg" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2A1A0F"/><stop offset="0.45" stop-color="#6A4428"/><stop offset="1" stop-color="#22150C"/></linearGradient>' +
+            '<linearGradient id="th-brass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F4DC9A"/><stop offset="0.22" stop-color="#D9B46A"/><stop offset="0.55" stop-color="#9C7838"/><stop offset="0.85" stop-color="#6A4F22"/><stop offset="1" stop-color="#3E2E14"/></linearGradient>' +
+            '<linearGradient id="th-rod" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#4E3A1A"/><stop offset="0.32" stop-color="#E6C474"/><stop offset="0.45" stop-color="#FFF7DE"/><stop offset="0.7" stop-color="#B08A3E"/><stop offset="1" stop-color="#3E2E14"/></linearGradient>' +
+            '<linearGradient id="th-bakelite" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#0A0605"/><stop offset="0.4" stop-color="#3A2418"/><stop offset="1" stop-color="#080504"/></linearGradient>' +
+            '<radialGradient id="th-ball" cx="0.35" cy="0.3" r="0.8"><stop offset="0" stop-color="#FFF7DE"/><stop offset="0.4" stop-color="#D9B46A"/><stop offset="1" stop-color="#4E3A1A"/></radialGradient>' +
+            '<radialGradient id="th-skirt" cx="0.4" cy="0.35" r="0.75"><stop offset="0" stop-color="#3B3631"/><stop offset="0.55" stop-color="#151311"/><stop offset="1" stop-color="#050505"/></radialGradient>' +
+            '<radialGradient id="th-cap" cx="0.36" cy="0.3" r="0.8"><stop offset="0" stop-color="#FFF3CC"/><stop offset="0.3" stop-color="#E6C474"/><stop offset="0.7" stop-color="#A47A34"/><stop offset="1" stop-color="#5A4220"/></radialGradient>' +
+            '<radialGradient id="th-screen" cx="0.5" cy="0.5" r="0.7"><stop offset="0" stop-color="#06232A"/><stop offset="0.7" stop-color="#03100F"/><stop offset="1" stop-color="#010505"/></radialGradient>' +
+            '<linearGradient id="th-glass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFFFFF" stop-opacity="0.1"/><stop offset="0.35" stop-color="#FFFFFF" stop-opacity="0.02"/><stop offset="0.36" stop-color="#FFFFFF" stop-opacity="0"/></linearGradient>' +
+            '<radialGradient id="th-lamp" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#7FEAFF" stop-opacity="0.9"/><stop offset="0.25" stop-color="#00B8D9" stop-opacity="0.55"/><stop offset="1" stop-color="#00B8D9" stop-opacity="0"/></radialGradient>' +
+            '<linearGradient id="th-light" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE7B8" stop-opacity="0.12"/><stop offset="0.5" stop-color="#FFE7B8" stop-opacity="0"/></linearGradient>' +
+            '<radialGradient id="th-floor" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#000" stop-opacity="0.8"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>';
+        stage.appendChild(defs);
+        const add = (parent, tag, attrs) => { const n = svg(tag, attrs); parent.appendChild(n); return n; };
+
+        add(stage, 'ellipse', { cx: 410, cy: 426, rx: 250, ry: 14, fill: 'url(#th-floor)' });
+        // Les champs autour des antennes : ils s'éclairent quand la main approche
+        const pitchField = add(stage, 'g', { class: 'th-field th-field--pitch' });
+        [36, 70, 104, 138].forEach((r, i) => add(pitchField, 'ellipse', { cx: TH.rodX, cy: 150, rx: r, ry: 96 + i * 14, style: '--k:' + i }));
+        const volumeField = add(stage, 'g', { class: 'th-field th-field--volume' });
+        [22, 40, 58].forEach((r, i) => add(volumeField, 'ellipse', { cx: 164, cy: TH.loopY, rx: 84 + i * 20, ry: r, style: '--k:' + i }));
+
+        // Les pieds de derrière et l'étagère basse
+        add(stage, 'polygon', { points: '266,350 277,350 274,416 269,416', fill: 'url(#th-leg)', opacity: 0.7 });
+        add(stage, 'polygon', { points: '578,330 589,330 586,416 581,416', fill: 'url(#th-leg)', opacity: 0.7 });
+        add(stage, 'polygon', { points: '246,392 554,392 570,380 262,380', fill: 'url(#th-top)', opacity: 0.85 });
+        add(stage, 'rect', { x: 246, y: 392, width: 308, height: 6, fill: '#3B2618' });
+        add(stage, 'rect', { x: 246, y: 392, width: 308, height: 1, fill: '#D9B46A', opacity: 0.7 });
+
+        // Le meuble en noyer, vu de trois quarts : le flanc, le dessus, la façade plaquée en miroir
+        const cabinet = add(stage, 'g', { class: 'th-cabinet' });
+        add(cabinet, 'polygon', { points: '574,250 592,232 592,328 574,346', fill: 'url(#th-side)' });
+        add(cabinet, 'polygon', { points: '226,250 574,250 592,232 244,232', fill: 'url(#th-top)' });
+        ['M250 242 C340 238 430 244 586 236', 'M240 247 C350 243 470 248 578 244', 'M262 237 C380 234 470 239 590 234'].forEach((d) =>
+            add(cabinet, 'path', { d, fill: 'none', stroke: '#2A170C', 'stroke-opacity': 0.35 }));
+        add(cabinet, 'rect', { x: 226, y: 250, width: 348, height: 96, fill: 'url(#th-front)' });
+        const veneer = ['M398 253 C386 268 380 296 390 343', 'M394 253 C376 270 368 300 380 343', 'M388 253 C362 274 350 306 364 343',
+            'M378 253 C346 278 330 312 344 343', 'M364 253 C326 282 306 318 318 343', 'M346 253 C304 286 282 322 290 343',
+            'M322 253 C282 286 262 314 258 334', 'M292 253 C270 272 258 290 254 304'];
+        ['', 'translate(800 0) scale(-1 1)'].forEach((transform) => {
+            const half = add(cabinet, 'g', { fill: 'none', stroke: '#1A0F08', 'stroke-width': 0.9, transform });
+            veneer.forEach((d, i) => add(half, 'path', { d, opacity: [0.35, 0.3, 0.35, 0.25, 0.3, 0.22, 0.25, 0.18][i] }));
+        });
+        add(cabinet, 'line', { x1: 400, y1: 252, x2: 400, y2: 344, stroke: '#1A0F08', 'stroke-opacity': 0.5 });
+        // Les filets de laiton
+        add(cabinet, 'rect', { x: 224, y: 247, width: 352, height: 4, fill: 'url(#th-brass)' });
+        add(cabinet, 'rect', { x: 224, y: 343, width: 352, height: 4, fill: 'url(#th-brass)' });
+        add(cabinet, 'polygon', { points: '574,247 592,229 594,232 576,250', fill: '#C79E52' });
+        // Les pilastres cannelés
+        [236, 241, 246, 554, 559, 564].forEach((x) => {
+            add(cabinet, 'line', { x1: x, y1: 258, x2: x, y2: 338, stroke: '#1A0F08', 'stroke-opacity': 0.55, 'stroke-width': 1.2 });
+            add(cabinet, 'line', { x1: x + 1.5, y1: 258, x2: x + 1.5, y2: 338, stroke: '#FFD9A8', 'stroke-opacity': 0.12 });
+        });
+        // La plaque : un écran, le nom, deux boutons
+        add(cabinet, 'rect', { x: 264, y: 263, width: 276, height: 76, rx: 8, fill: '#000', opacity: 0.45 });
+        add(cabinet, 'rect', { x: 262, y: 260, width: 276, height: 76, rx: 8, fill: '#15110C', stroke: 'url(#th-brass)', 'stroke-width': 2.5 });
+        add(cabinet, 'rect', { x: 267, y: 265, width: 266, height: 66, rx: 5, fill: 'none', stroke: '#C79E52', 'stroke-opacity': 0.3 });
+        add(cabinet, 'rect', { x: 274, y: 268, width: 146, height: 56, rx: 4, class: 'th-screen' });
+        const grid = add(cabinet, 'g', { class: 'th-grid' });
+        [303, 332, 361, 390].forEach((x) => add(grid, 'line', { x1: x, y1: 268, x2: x, y2: 324 }));
+        [282, 310].forEach((y) => add(grid, 'line', { x1: 274, y1: y, x2: 420, y2: y }));
+        add(grid, 'line', { x1: 274, y1: 296, x2: 420, y2: 296, class: 'is-axis' });
+        const wave = add(cabinet, 'polyline', { class: 'th-wave', points: '' });
+        add(cabinet, 'rect', { x: 274, y: 268, width: 146, height: 56, rx: 4, fill: 'url(#th-glass)' });
+        const brand = add(cabinet, 'text', { x: 484, y: 282, class: 'th-brand' });
+        brand.textContent = 'theremin';
+        add(brand, 'tspan', { class: 'th-brand-dot' }).textContent = '.';
+        [[458, T.pitch, 20], [510, T.volume, -40]].forEach(([x, label, angle]) => {
+            add(cabinet, 'circle', { cx: x + 1, cy: 304, r: 11.5, fill: '#000', opacity: 0.5 });
+            add(cabinet, 'circle', { cx: x, cy: 302, r: 11, fill: 'url(#th-skirt)' });
+            add(cabinet, 'circle', { cx: x, cy: 302, r: 10.4, fill: 'none', stroke: '#000', 'stroke-opacity': 0.6, 'stroke-width': 1.4, 'stroke-dasharray': '0.8 0.9' });
+            add(cabinet, 'circle', { cx: x, cy: 302, r: 7.4, fill: 'url(#th-cap)' });
+            add(cabinet, 'line', { x1: x, y1: 299, x2: x, y2: 295.6, class: 'th-knob-needle', transform: `rotate(${angle} ${x} 302)` });
+            add(cabinet, 'line', { x1: x, y1: 293.4, x2: x, y2: 291.6, class: 'th-knob-mark', transform: `rotate(${angle} ${x} 302)` });
+            const t = add(cabinet, 'text', { x, y: 326, class: 'th-silk' }); t.textContent = label;
+        });
+        [[268, 266], [532, 266], [268, 330], [532, 330]].forEach(([x, y]) => add(cabinet, 'circle', { cx: x, cy: y, r: 2.6, fill: 'url(#th-ball)' }));
+        // Le tablier galbé, et son voyant
+        add(cabinet, 'path', { d: 'M232 347 H568 V354 C520 354 500 366 400 366 C300 366 280 354 232 354 Z', fill: '#3B2618' });
+        add(cabinet, 'path', { d: 'M232 354 C280 354 300 366 400 366 C500 366 520 354 568 354', fill: 'none', stroke: '#D9B46A', 'stroke-opacity': 0.5 });
+        add(cabinet, 'circle', { cx: 400, cy: 356, r: 18, fill: 'url(#th-lamp)', class: 'th-pilot-bloom' });
+        add(cabinet, 'circle', { cx: 400, cy: 356, r: 6, fill: '#1A140C', stroke: '#C79E52', 'stroke-width': 1.2 });
+        add(cabinet, 'circle', { cx: 400, cy: 356, r: 4, class: 'th-pilot' });
+        add(cabinet, 'rect', { x: 226, y: 232, width: 366, height: 134, fill: 'url(#th-light)', 'pointer-events': 'none' });
+
+        // Les pieds de devant, chaussés de laiton
+        add(stage, 'polygon', { points: '238,352 256,352 252,428 242,428', fill: 'url(#th-leg)' });
+        add(stage, 'polygon', { points: '544,352 562,352 558,428 548,428', fill: 'url(#th-leg)' });
+        add(stage, 'rect', { x: 241, y: 420, width: 12, height: 8, rx: 1.5, fill: 'url(#th-brass)' });
+        add(stage, 'rect', { x: 547, y: 420, width: 12, height: 8, rx: 1.5, fill: 'url(#th-brass)' });
+
+        // L'antenne de hauteur, à droite : une tige de laiton sur son isolant en bakélite
+        add(stage, 'rect', { x: TH.rodX - 9, y: 226, width: 18, height: 20, rx: 2, fill: 'url(#th-bakelite)' });
+        add(stage, 'rect', { x: TH.rodX - 10, y: 223, width: 20, height: 4, rx: 1.5, fill: 'url(#th-brass)' });
+        add(stage, 'rect', { x: TH.rodX - 3, y: TH.rodTop, width: 6, height: 224 - TH.rodTop, fill: 'url(#th-rod)' });
+        add(stage, 'rect', { x: TH.rodX - 4.5, y: 150, width: 9, height: 3, rx: 1, fill: 'url(#th-rod)' });
+        add(stage, 'circle', { cx: TH.rodX, cy: TH.rodTop, r: 6, fill: 'url(#th-ball)' });
+        const pitchNote = add(stage, 'text', { x: TH.rodX + 14, y: TH.rodTop + 4, class: 'th-note' }); pitchNote.textContent = T.pitch;
+        // La boucle de volume, à gauche, sur son support
+        const loopD = `M220 ${TH.loopY - 12} H${TH.loopLeft + 14} a14 14 0 0 0 0 28 H220`;
+        add(stage, 'path', { class: 'th-loop-edge', d: loopD });
+        add(stage, 'path', { class: 'th-loop', d: loopD });
+        add(stage, 'path', { class: 'th-loop-shine', d: `M220 ${TH.loopY - 13.2} H${TH.loopLeft + 14} a12.8 12.8 0 0 0 -10 4.6` });
+        add(stage, 'rect', { x: 214, y: TH.loopY - 17, width: 14, height: 34, rx: 2, fill: 'url(#th-bakelite)' });
+        add(stage, 'rect', { x: 214, y: TH.loopY - 17, width: 14, height: 3, fill: '#C79E52' });
+        const volumeNote = add(stage, 'text', { x: (TH.loopLeft + TH.loopRight) / 2, y: TH.loopY + 36, class: 'th-note', 'text-anchor': 'middle' }); volumeNote.textContent = T.volume;
+        // La main, et le fil invisible qui la relie à l'antenne
+        const reach = add(stage, 'line', { class: 'th-reach', x1: 0, y1: 0, x2: 0, y2: 0 });
+        const hand = add(stage, 'g', { class: 'th-hand' });
+        add(hand, 'circle', { r: 26, class: 'th-hand-ring' });
+        add(hand, 'circle', { r: 26, class: 'th-hand-ring th-hand-ring--late' });
+        add(hand, 'circle', { r: 9, class: 'th-hand-dot' });
+        const hz = add(hand, 'text', { x: 16, y: -16, class: 'th-hz' });
+        const wrap = el('div', { class: 'theremin-stage' }, [stage]);
+        root.appendChild(wrap);
+
+        const powerBtn = el('button', { type: 'button', class: 'patch-tool', text: T.powerOn });
+        const resetBtn = el('button', { type: 'button', class: 'patch-tool', text: T.reset });
+        root.appendChild(el('div', { class: 'patch-tools' }, [el('span', { class: 'patch-tool-group' }, [powerBtn, resetBtn])]));
+        const live = el('p', { class: 'visually-hidden', 'aria-live': 'polite' });
+        root.appendChild(live);
+        const announce = (t) => { live.textContent = t; };
+
+        /* ---------- le son : une sinusoïde, un vibrato, un volume qui suit la main ---------- */
+        const pitchAt = (x) => {
+            const d = Math.min(Math.abs(TH.rodX - x), 480);
+            return 110 * Math.pow(2, 3.7 * (1 - d / 480));       // loin : 110 Hz ; tout près : 1,4 kHz
+        };
+        const volumeAt = (x, y) => {
+            const cx = Math.max(TH.loopLeft, Math.min(TH.loopRight, x));
+            const d = Math.hypot(x - cx, y - TH.loopY);
+            return Math.max(0, Math.min(1, (d - 18) / 200));      // sur la boucle : silence
+        };
+
+        function ensureAudio() {
+            if (A.ctx) { if (A.ctx.state === 'suspended') A.ctx.resume().catch(() => { }); return A.ctx; }
+            const Ctx = window.AudioContext || window.webkitAudioContext;
+            if (!Ctx) return null;
+            let ctx;
+            try { ctx = new Ctx(); } catch (e) { return null; }
+            A.ctx = ctx;
+            A.osc = ctx.createOscillator();
+            A.osc.type = 'sine';
+            A.osc.frequency.value = pitchAt(state.hand.x);
+            A.vib = ctx.createOscillator();
+            A.vib.frequency.value = 5.6;
+            A.vibDepth = ctx.createGain();
+            A.vibDepth.gain.value = 12;
+            A.vib.connect(A.vibDepth);
+            A.vibDepth.connect(A.osc.detune);
+            // Un soupçon de saturation : le timbre un peu chaud des lampes
+            A.shape = ctx.createWaveShaper();
+            const curve = new Float32Array(512);
+            for (let i = 0; i < 512; i++) { const x = i / 255.5 - 1; curve[i] = Math.tanh(1.6 * x) / Math.tanh(1.6); }
+            A.shape.curve = curve;
+            A.vol = ctx.createGain();
+            A.vol.gain.value = 0;
+            A.analyser = ctx.createAnalyser();
+            A.analyser.fftSize = 2048;
+            A.data = new Float32Array(A.analyser.fftSize);
+            A.master = ctx.createGain();
+            A.master.gain.value = 0.5;
+            A.osc.connect(A.shape);
+            A.shape.connect(A.vol);
+            A.vol.connect(A.analyser);
+            A.analyser.connect(A.master);
+            A.master.connect(ctx.destination);
+            A.osc.start();
+            A.vib.start();
+            return ctx;
+        }
+
+        function sound() {
+            if (!A.ctx) return;
+            const t = A.ctx.currentTime;
+            const on = state.power && state.hand.on;
+            A.osc.frequency.setTargetAtTime(pitchAt(state.hand.x), t, 0.035);
+            A.vol.gain.setTargetAtTime(on ? 0.55 * Math.pow(volumeAt(state.hand.x, state.hand.y), 1.4) : 0, t, on ? 0.05 : 0.15);
+        }
+
+        function setPower(on) {
+            if (state.power === on || destroyed) return;
+            state.power = on;
+            stage.classList.toggle('is-on', on);
+            clearTimeout(suspendTimer);
+            if (on) {
+                ensureAudio();
+                if (A.ctx) A.ctx.resume().catch(() => { });
+                start();
+            } else {
+                sound();
+                suspendTimer = setTimeout(() => { if (!state.power && A.ctx && !destroyed) A.ctx.suspend().catch(() => { }); }, 600);
+            }
+            powerBtn.textContent = on ? T.powerOff : T.powerOn;
+            sound();
+            announce(on ? T.onSaid : T.offSaid);
+            if (on && state.step === 0 && state.phase === 'todo') done();
+            render();
+        }
+        cleanups.push(() => clearTimeout(suspendTimer));
+
+        /* ---------- la main ---------- */
+        function point(e) {
+            const m = stage.getScreenCTM();
+            if (!m) return null;
+            const p = stage.createSVGPoint();
+            p.x = e.clientX; p.y = e.clientY;
+            const q = p.matrixTransform(m.inverse());
+            return { x: Math.max(0, Math.min(800, q.x)), y: Math.max(0, Math.min(440, q.y)) };
+        }
+
+        function moveHand(p, on) {
+            state.hand.x = p.x; state.hand.y = p.y; state.hand.on = on;
+            stage.classList.toggle('is-playing', on && state.power);
+            sound();
+            draw();
+            start();
+        }
+
+        let touching = false;
+        stage.addEventListener('pointermove', (e) => {
+            const p = point(e); if (!p) return;
+            if (e.pointerType === 'mouse') moveHand(p, true);
+            else if (touching) moveHand(p, true);
+        });
+        stage.addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse') moveHand(state.hand, false); });
+        stage.addEventListener('pointerdown', (e) => {
+            const p = point(e); if (!p) return;
+            if (e.pointerType !== 'mouse') {
+                e.preventDefault();
+                touching = true;
+                try { stage.setPointerCapture(e.pointerId); } catch (err) { }
+            }
+            if (!state.power) setPower(true);
+            moveHand(p, true);
+        });
+        const release = (e) => { if (e.pointerType !== 'mouse') { touching = false; moveHand(state.hand, false); } };
+        stage.addEventListener('pointerup', release);
+        stage.addEventListener('pointercancel', release);
+        stage.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setPower(!state.power); return; }
+            const mv = { ArrowLeft: [-24, 0], ArrowRight: [24, 0], ArrowUp: [0, -20], ArrowDown: [0, 20] }[e.key];
+            if (!mv) return;
+            e.preventDefault();
+            if (!state.power) setPower(true);
+            moveHand({ x: Math.max(0, Math.min(800, state.hand.x + mv[0])), y: Math.max(0, Math.min(440, state.hand.y + mv[1])) }, true);
+            clearTimeout(keyTimer);
+            keyTimer = setTimeout(() => moveHand(state.hand, false), 1600);
+        });
+        stage.addEventListener('blur', () => { clearTimeout(keyTimer); if (state.hand.on && !touching) moveHand(state.hand, false); });
+        cleanups.push(() => clearTimeout(keyTimer));
+
+        powerBtn.addEventListener('click', () => setPower(!state.power));
+        resetBtn.addEventListener('click', () => {
+            clearTimeout(autoTimer);
+            Object.assign(state, { step: 0, phase: 'todo', playMs: 0, quietMs: 0, wasLoud: false });
+            setPower(false);
+            render();
+        });
+
+        /* ---------- le dessin qui suit la main et le son ---------- */
+        function draw() {
+            const h = state.hand, on = h.on && state.power;
+            const near = Math.max(0, 1 - Math.abs(TH.rodX - h.x) / 480);
+            const vol = volumeAt(h.x, h.y);
+            pitchField.style.setProperty('--near', on ? near.toFixed(3) : '0');
+            volumeField.style.setProperty('--near', on ? (1 - vol).toFixed(3) : '0');
+            hand.setAttribute('transform', `translate(${h.x.toFixed(1)} ${h.y.toFixed(1)})`);
+            const ry = Math.max(TH.rodTop, Math.min(TH.rodBottom, h.y));
+            reach.setAttribute('x1', h.x.toFixed(1)); reach.setAttribute('y1', h.y.toFixed(1));
+            reach.setAttribute('x2', TH.rodX); reach.setAttribute('y2', ry.toFixed(1));
+            reach.style.opacity = on ? (0.15 + 0.6 * near).toFixed(2) : '0';
+            hz.textContent = fmtHz(pitchAt(h.x));
+            hz.setAttribute('x', h.x > 640 ? -70 : 16);
+        }
+
+        function drawWave() {
+            if (!A.analyser || !state.power) { wave.setAttribute('points', ''); return; }
+            A.analyser.getFloatTimeDomainData(A.data);
+            let start = 0;
+            for (let i = 1; i < 1024; i++) if (A.data[i - 1] < 0 && A.data[i] >= 0) { start = i; break; }
+            const pts = [];
+            for (let i = 0; i < 80; i++) {
+                const v = A.data[start + i * 8] || 0;
+                pts.push((276 + i * 1.8).toFixed(1) + ',' + (296 - Math.max(-1, Math.min(1, v * 1.6)) * 22).toFixed(1));
+            }
+            wave.setAttribute('points', pts.join(' '));
+        }
+
+        function frame(now) {
+            raf = 0;
+            if (destroyed) return;
+            const dt = lastNow ? Math.min(100, now - lastNow) : 16;
+            lastNow = now;
+            const h = state.hand, on = h.on && state.power && A.ctx && A.ctx.state === 'running';
+            const vol = volumeAt(h.x, h.y);
+            if (state.phase === 'todo' && on) {
+                if (state.step === 1 && vol > 0.15) {
+                    state.playMs += dt;
+                    if (state.playMs >= 2200) done();
+                } else if (state.step === 2) {
+                    if (vol > 0.3) state.wasLoud = true;
+                    if (state.wasLoud && vol < 0.08) { state.quietMs += dt; if (state.quietMs >= 350) done(); }
+                    else state.quietMs = 0;
+                }
+            }
+            drawWave();
+            if (state.power && visible && !document.hidden) raf = requestAnimationFrame(frame);
+        }
+
+        function start() {
+            if (!raf && !destroyed && state.power) { lastNow = 0; raf = requestAnimationFrame(frame); }
+        }
+
+        /* ---------- le guide ---------- */
+        function done() {
+            if (state.phase === 'done') return;
+            state.phase = 'done';
+            announce(T.steps[state.step].why);
+            render();
+            if (state.step === 0) {
+                clearTimeout(autoTimer);
+                autoTimer = setTimeout(() => { if (state.step === 0) goNext(); }, 1400);
+            }
+        }
+        cleanups.push(() => clearTimeout(autoTimer));
+
+        function goNext() {
+            const hadFocus = display.contains(document.activeElement);
+            clearTimeout(autoTimer);
+            state.step += 1;
+            state.phase = 'todo';
+            state.playMs = 0; state.quietMs = 0; state.wasLoud = false;
+            render();
+            if (state.step >= N) announce(T.final.title + ' ' + T.final.why);
+            else announce(T.stepOf(state.step + 1, N) + T.steps[state.step].title + ' ' + T.steps[state.step].todo[touch ? 'touch' : 'mouse']);
+            if (hadFocus) dTitle.focus({ preventScroll: true });
+        }
+
+        function fill(node, children) {
+            node.textContent = '';
+            children.forEach((c) => c && node.appendChild(typeof c === 'string' ? document.createTextNode(c) : c));
+        }
+
+        function render() {
+            const final = state.step >= N;
+            const s = final ? null : T.steps[state.step];
+            const isDone = !final && state.phase === 'done';
+            display.classList.toggle('is-done', isDone || final);
+            display.classList.toggle('is-final', final);
+            if (final) {
+                const check = svg('svg', { viewBox: '0 0 40 40', class: 'display-check' });
+                check.appendChild(svg('path', { d: 'M8 21 L16 29 L32 11' }));
+                fill(dNum, [check]);
+            } else fill(dNum, [String(state.step + 1)]);
+            dSegs.forEach((seg, i) => {
+                seg.classList.toggle('is-done', final || i < state.step || (i === state.step && isDone));
+                seg.classList.toggle('is-current', !final && i === state.step && !isDone);
+            });
+            fill(dTitle, [el('span', { class: 'visually-hidden', text: final ? '' : T.stepOf(state.step + 1, N) })].concat(punctuated(final ? T.final.title : s.title)));
+            const off = !state.power && state.step > 0 && !final;
+            dLine.classList.toggle('is-note', off);
+            if (final) fill(dLine, [T.final.why]);
+            else if (off) fill(dLine, [T.off[touch ? 'touch' : 'mouse']]);
+            else fill(dLine, [isDone ? s.why : s.todo[touch ? 'touch' : 'mouse']]);
+            const foot = [];
+            if (final) {
+                foot.push(el('a', { class: 'display-cta', href: base + T.final.primary[1], text: T.final.primary[0] + ' →' }));
+                const icon = svg('svg', { viewBox: '0 0 24 24', 'aria-hidden': 'true' });
+                icon.appendChild(svg('path', { d: 'M12 3v8M6.6 6.6a8 8 0 1 0 10.8 0' }));
+                const power = el('button', { type: 'button', class: 'display-power is-secondary' + (state.power ? '' : ' is-off') }, [icon, state.power ? T.powerOff : T.powerOn]);
+                power.addEventListener('click', () => { setPower(!state.power); const b = dFoot.querySelector('.display-power'); if (b) b.focus({ preventScroll: true }); });
+                foot.push(power);
+            } else if (isDone && state.step > 0) {
+                const next = el('button', { type: 'button', class: 'display-next', text: T.next });
+                next.addEventListener('click', goNext);
+                foot.push(next);
+            }
+            fill(dFoot, foot);
+            stage.classList.toggle('is-hint-pilot', !final && state.step === 0 && !state.power);
+            stage.classList.toggle('is-hint-rod', !final && state.step === 1 && state.phase === 'todo');
+            stage.classList.toggle('is-hint-loop', !final && state.step === 2 && state.phase === 'todo');
+        }
+
+        // Collé en haut sur téléphone ; on descend dans la page : le theremin s'éteint
+        function onScroll() {
+            const t = display.getBoundingClientRect().top;
+            display.classList.toggle('is-stuck', t <= 0.5 && root.getBoundingClientRect().top < -0.5);
+            if (state.power && wrap.getBoundingClientRect().bottom < window.innerHeight * 0.2) setPower(false);
+        }
+        window.addEventListener('scroll', onScroll, { passive: true });
+        cleanups.push(() => window.removeEventListener('scroll', onScroll));
+
+        const io = 'IntersectionObserver' in window ? new IntersectionObserver((entries) => {
+            visible = entries.some((e) => e.isIntersecting);
+            if (visible) start();
+        }) : null;
+        if (io) io.observe(wrap);
+        const onVisibility = () => { if (!document.hidden) start(); };
+        document.addEventListener('visibilitychange', onVisibility);
+        cleanups.push(() => document.removeEventListener('visibilitychange', onVisibility));
+
+        // Sur téléphone, on resserre le cadre autour de l'instrument : plus de place pour la main
+        function frameStage() {
+            stage.setAttribute('viewBox', wrap.clientWidth < 600 ? '80 24 600 416' : '0 0 800 440');
+        }
+        const ro = 'ResizeObserver' in window ? new ResizeObserver(frameStage) : null;
+        if (ro) ro.observe(wrap);
+        frameStage();
+
+        draw();
+        render();
+        onScroll();
 
         return {
             root,

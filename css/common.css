@@ -2228,17 +2228,227 @@ body {
     box-shadow: inset 0 0 0 1px var(--module-edge);
 }
 
-/* --- Le cours : la fréquence et l'amplitude, en chiffres, sous l'oscilloscope --- */
-.module-readout {
-    order: -1;
+/* --- Le theremin de la page histoire : un meuble en bois, deux antennes, la main dans le vide --- */
+.theremin-stage {
+    position: relative;
+    border-radius: 6px;
+    background: radial-gradient(ellipse at 52% 48%, #2A2219, #110E0B 48%, #050505 85%);
+    box-shadow: inset 0 0 0 1px #1F1A14;
+}
+
+.theremin {
+    display: block;
     width: 100%;
-    margin-top: -8px;
-    font-size: 12px;
-    letter-spacing: 0.02em;
-    color: var(--color-accent);
-    white-space: pre;
-    text-align: center;
+    height: auto;
+    cursor: crosshair;
+    touch-action: none;
+    outline: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.theremin:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 6px;
+}
+
+.th-loop-edge,
+.th-loop,
+.th-loop-shine {
+    fill: none;
+    stroke-linecap: round;
+}
+
+.th-loop-edge {
+    stroke: #3E2E14;
+    stroke-width: 7;
+}
+
+.th-loop {
+    stroke: #D9B46A;
+    stroke-width: 4.6;
+}
+
+.th-loop-shine {
+    stroke: #FFF7DE;
+    stroke-width: 1.2;
+    opacity: 0.8;
+}
+
+.th-screen {
+    fill: url(#th-screen);
+}
+
+.th-grid line {
+    stroke: #2CC7E6;
+    stroke-opacity: 0.12;
+}
+
+.th-grid line.is-axis {
+    stroke-opacity: 0.28;
+}
+
+.th-wave {
+    fill: none;
+    stroke: #5FE6FF;
+    stroke-width: 1.6;
+    stroke-linejoin: round;
+    filter: drop-shadow(0 0 3px rgba(0, 184, 217, 0.8));
+}
+
+.th-knob-needle {
+    stroke: #2A1F10;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+}
+
+.th-knob-mark {
+    stroke: #F3E7C9;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+}
+
+.th-silk {
+    fill: #D9CDB3;
+    font-family: var(--font-display);
+    font-size: 6.5px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-anchor: middle;
+}
+
+.th-brand {
+    fill: #EFE4CC;
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    text-anchor: middle;
+}
+
+.th-brand-dot {
+    fill: var(--color-accent);
+}
+
+/* Le nom des antennes, gravé à côté */
+.th-note {
+    fill: #9C8E74;
+    font-family: var(--font-display);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+}
+
+/* Le voyant : éteint, puis cyan quand le theremin est allumé */
+.th-pilot {
+    fill: #2A2218;
+    transition: fill 0.3s ease;
+}
+
+.th-pilot-bloom {
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.theremin.is-on .th-pilot {
+    fill: #7FEAFF;
+}
+
+.theremin.is-on .th-pilot-bloom {
+    opacity: 1;
+}
+
+.theremin.is-hint-pilot .th-cabinet {
+    animation: th-call 1.8s ease-in-out infinite;
+}
+
+/* Les champs : invisibles au repos, ils s'éclairent quand la main approche */
+.th-field ellipse {
+    fill: none;
+    stroke: var(--color-accent);
+    stroke-width: 1.2;
+    opacity: calc(var(--near, 0) * (0.55 - var(--k) * 0.11));
+    transition: opacity 0.12s linear;
+}
+
+.theremin.is-hint-rod .th-field--pitch ellipse,
+.theremin.is-hint-loop .th-field--volume ellipse {
+    animation: th-field-hint 2s ease-in-out infinite;
+    animation-delay: calc(var(--k) * 0.18s);
+}
+
+.theremin.is-playing .th-field ellipse {
+    animation: none;
+}
+
+@keyframes th-field-hint {
+    0%, 100% { opacity: 0.05; }
+    50% { opacity: 0.35; }
+}
+
+@keyframes th-call {
+    0%, 100% { filter: none; }
+    50% { filter: drop-shadow(0 0 12px rgba(0, 184, 217, 0.45)); }
+}
+
+.th-reach {
+    stroke: var(--color-accent);
+    stroke-width: 1;
+    stroke-dasharray: 3 6;
+    opacity: 0;
+}
+
+/* La main */
+.th-hand {
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    pointer-events: none;
+}
+
+.theremin.is-playing .th-hand {
+    opacity: 1;
+}
+
+.th-hand-dot {
+    fill: var(--color-accent);
+    filter: drop-shadow(0 0 8px var(--color-accent));
+}
+
+.th-hand-ring {
+    fill: none;
+    stroke: var(--color-accent);
+    stroke-width: 1.5;
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: th-ripple 1.6s ease-out infinite;
+}
+
+.th-hand-ring--late {
+    animation-delay: 0.8s;
+}
+
+@keyframes th-ripple {
+    from { transform: scale(0.4); opacity: 0.8; }
+    to { transform: scale(1.8); opacity: 0; }
+}
+
+.th-hz {
+    fill: #E6E6E6;
+    font-family: var(--font-display);
+    font-size: 13px;
     font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .th-hand-ring,
+    .theremin.is-hint-pilot .th-cabinet,
+    .theremin.is-hint-rod .th-field--pitch ellipse,
+    .theremin.is-hint-loop .th-field--volume ellipse {
+        animation: none;
+    }
 }
 
 /* --- L'antenne du theremin : on joue en la survolant (ou du doigt) ---
