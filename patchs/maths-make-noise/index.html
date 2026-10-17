@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <script src="../../js/lang.js"></script>
+  <script src="../../js/consent.js" defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0A0A0A">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../icons/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="../../icons/favicon-96x96.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../icons/apple-touch-icon.png">
+  <title>MATHS de Make Noise expliqué : une pente, trois entrées — modulr lab</title>
+  <meta name="description"
+    content="MATHS, c’est une pente qu’on nourrit par une impulsion, une tension ou elle-même : une enveloppe, un portamento, un LFO. Le patch pas à pas.">
+  <link rel="canonical" href="https://modulrlab.com/patchs/maths-make-noise/">
+  <link rel="alternate" hreflang="fr" href="https://modulrlab.com/patchs/maths-make-noise/">
+  <link rel="alternate" hreflang="en" href="https://modulrlab.com/en/patchs/maths-make-noise/">
+  <link rel="alternate" hreflang="x-default" href="https://modulrlab.com/patchs/maths-make-noise/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:title" content="MATHS de Make Noise : une pente, trois entrées">
+  <meta property="og:description"
+    content="MATHS de Make Noise expliqué sur un patch : une seule pente, nourrie par une impulsion, par une tension ou par elle-même, devient une enveloppe, un portamento et un LFO. Le câblage, les réglages, trois variations et un exercice.">
+  <meta property="og:url" content="https://modulrlab.com/patchs/maths-make-noise/">
+  <link rel="preload" href="../../fonts/inter-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../css/common.css">
+  <script src="../../js/main.js" defer></script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "modulr lab",
+      "item": "https://modulrlab.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "patchs",
+      "item": "https://modulrlab.com/patchs/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "MATHS de Make Noise : une pente, trois entrées",
+      "item": "https://modulrlab.com/patchs/maths-make-noise/"
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  "name": "Maths de Make Noise expliqué en français",
+  "description": "MATHS de Make Noise expliqué : une pente que l’on nourrit par une impulsion, une tension ou elle-même. Enveloppe, portamento, LFO, oscillateur, sorties logiques et mélange.",
+  "thumbnailUrl": "https://i.ytimg.com/vi/sGLCFLRchOE/maxresdefault.jpg",
+  "uploadDate": "2026-10-17T10:00:00+02:00",
+  "embedUrl": "https://www.youtube.com/embed/sGLCFLRchOE",
+  "inLanguage": "fr"
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "MATHS de Make Noise : une pente, trois entrées",
+  "description": "MATHS de Make Noise expliqué sur un patch : une seule pente, nourrie par une impulsion, par une tension ou par elle-même, devient une enveloppe, un portamento et un LFO. Le câblage, les réglages, trois variations et un exercice.",
+  "mainEntityOfPage": "https://modulrlab.com/patchs/maths-make-noise/",
+  "author": {
+    "@type": "Person",
+    "name": "Jeremy Heideiger"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "modulr lab",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://modulrlab.com/icons/apple-touch-icon.png"
+    }
+  }
+}
+  </script>
+</head>
+
+<body>
+
+
+  <header class="site-header page-container">
+    <a href="../../" class="logo-link">modulr lab</a>
+    <nav class="desktop-nav">
+      <a href="../../le-cours/" class="nav-link">le cours</a>
+      <a href="../../patchs/" class="nav-link">patchs</a>
+      <a href="../../histoire/" class="nav-link">histoire</a>
+      <a href="../../a-propos/" class="nav-link">à propos</a>
+      <button class="nav-link lang-switch" onclick="switchLang('en')" type="button">EN</button>
+
+    </nav>
+    <button class="burger" aria-label="Ouvrir le menu" aria-expanded="false"
+      aria-controls="menu-overlay"><span></span><span></span><span></span></button>
+  </header>
+
+  <div class="menu-overlay" id="menu-overlay" role="dialog" aria-modal="true" aria-label="Menu de navigation"
+    aria-hidden="true" inert>
+    <div class="menu-overlay-header">
+      <a href="../../" class="logo-link">modulr lab</a>
+      <div class="menu-overlay-controls">
+        <button class="lang-switch-mobile" onclick="switchLang('en')" type="button">EN</button>
+        <button class="menu-close" aria-label="Fermer le menu">✕</button>
+      </div>
+    </div>
+    <nav>
+      <a href="../../le-cours/">le cours</a>
+      <a href="../../patchs/">patchs</a>
+      <a href="../../histoire/">histoire</a>
+      <a href="../../a-propos/">à propos</a>
+
+    </nav>
+    <div class="menu-overlay-extra">
+      <a href="../../newsletter/">la newsletter</a>
+      <a href="https://www.youtube.com/@modulrlab" target="_blank" rel="noopener">la chaîne YouTube</a>
+      <a href="../../contact/">contact</a>
+    </div>
+  </div>
+
+  <main>
+
+    <section class="page-container">
+      <div class="row-grid">
+        <nav class="rail-label rail-label--accent crumbs" aria-label="fil d’Ariane"><ol><li><a href="../">patchs</a></li><li aria-current="page">fiche n°&nbsp;6</li></ol></nav>
+        <div>
+          <p class="lesson-meta reveal" style="margin-bottom: 12px">fiche n° 6 · MATHS</p>
+          <h1 class="note-title reveal">MATHS de Make Noise <span class="title-dot">:</span> une pente, trois entrées<span class="title-dot">.</span></h1>
+          <p class="hero-lead reveal reveal-delay-1">Au cœur de MATHS, il y a une pente : une tension qui monte et redescend, en un temps qu’on règle avec Rise et Fall. On la nourrit de trois façons : par une impulsion, par une tension, ou par elle-même. Ce patch fait entendre les trois, sur une même mélodie de René.</p>
+        </div>
+      </div>
+    </section>
+<!-- 3 · LA VIDÉO -->
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">vidéo</div>
+        <div class="video-container reveal">
+          <div class="video-wrapper">
+            <a class="yt-facade" href="https://www.youtube.com/watch?v=sGLCFLRchOE" data-yt="sGLCFLRchOE" data-title="Maths de Make Noise expliqué en français"
+              aria-label="Lire la vidéo : Maths de Make Noise expliqué en français">
+              <img src="https://i.ytimg.com/vi_webp/sGLCFLRchOE/maxresdefault.webp"
+                srcset="https://i.ytimg.com/vi_webp/sGLCFLRchOE/sddefault.webp 640w, https://i.ytimg.com/vi_webp/sGLCFLRchOE/maxresdefault.webp 1280w"
+                sizes="(max-width: 768px) 100vw, 900px" width="1280" height="720" alt="" decoding="async">
+              <span class="yt-facade-play" aria-hidden="true"></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">résultat</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">ce que vous allez obtenir<span class="title-dot">.</span></h2>
+          <p class="manifesto-text reveal">Une petite mélodie de René jouée par le DPO. Par une impulsion, chaque note s’ouvre et se referme : une enveloppe. Par une tension, elle glisse vers la suivante : un portamento. Par elle-même, la pente tourne seule et fait respirer le son : un LFO.</p>
+          <div class="note-facts reveal">
+            <p class="note-fact">niveau <b>débutant à intermédiaire</b></p>
+            <p class="note-fact">durée <b>30 min</b></p>
+            <p class="note-fact">modules <b>MATHS · DPO · Optomix · René · Tempi · CV Bus</b></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">matériel</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">le matériel <span class="title-dot">:</span> MATHS et ses équivalents<span class="title-dot">.</span></h2>
+          <div class="table-scroll reveal">
+            <table class="patch-table">
+              <thead>
+                <tr><th>fonction</th><th>sur mon système</th><th>équivalent générique</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Générateur de fonctions</td><td>MATHS, canaux 1 et 4</td><td>Tout générateur de fonctions ou d’enveloppe avec une entrée Trigger et une entrée Signal ; à défaut, une enveloppe et un module de slew</td></tr>
+                <tr><td>Oscillateur</td><td>DPO, VCO A, sortie Triangle</td><td>Tout VCO avec une entrée 1V/Oct</td></tr>
+                <tr><td>Ouverture du son</td><td>Optomix, canal 1</td><td>Tout VCA ou low pass gate commandé en tension</td></tr>
+                <tr><td>Séquenceur</td><td>René, sorties X-Gate et X QCV</td><td>Tout séquenceur qui sort un gate et une tension 1V/Oct</td></tr>
+                <tr><td>Horloge</td><td>Tempi, une sortie vers René</td><td>Toute horloge ou tout LFO qui sort des impulsions</td></tr>
+                <tr><td>Sortie</td><td>CV Bus, sortie stéréo vers la carte son</td><td>Toute sortie qui ramène le modulaire au niveau ligne</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">schéma</div>
+        <figure class="patch-figure reveal" style="min-width: 0">
+          <div style="overflow-x: auto; -webkit-overflow-scrolling: touch"><svg viewBox="0 110 1300 345" role="img" aria-label="Schéma : Tempi vers X-CLK de René ; X QCV de René vers l’entrée Signal du canal 1 de MATHS, et X-Gate de René vers l’entrée Trigger du canal 4 ; Unity du canal 1 vers l’entrée 1V/Oct du VCO A du DPO ; sortie Triangle du VCO A vers l’Optomix, ouvert par Unity du canal 4 ; Optomix vers le CV Bus." style="width:100%;min-width:880px;height:auto;display:block;font-family:var(--font-display)"><rect x="20" y="230" width="170" height="100" rx="2" style="fill:none;stroke:var(--color-text);stroke-width:1.5"/><text x="38" y="274" style="fill:var(--color-text);font-size:24px;font-weight:700">Tempi</text><text x="38" y="302" style="fill:var(--color-text-secondary);font-size:15px">horloge</text><rect x="300" y="200" width="180" height="160" rx="2" style="fill:none;stroke:var(--color-text);stroke-width:1.5"/><text x="318" y="244" style="fill:var(--color-text);font-size:24px;font-weight:700">René</text><text x="318" y="272" style="fill:var(--color-text-secondary);font-size:15px">séquenceur</text><rect x="590" y="140" width="200" height="280" rx="2" style="fill:none;stroke:var(--color-text);stroke-width:1.5"/><text x="608" y="184" style="fill:var(--color-text);font-size:24px;font-weight:700">MATHS</text><text x="608" y="236" style="fill:var(--color-text-secondary);font-size:15px">canal 1</text><line x1="600" y1="280" x2="780" y2="280" style="stroke:var(--color-border, #333);stroke-width:1;stroke-dasharray:4 4"/><text x="608" y="396" style="fill:var(--color-text-secondary);font-size:15px">canal 4</text><rect x="920" y="130" width="180" height="110" rx="2" style="fill:none;stroke:var(--color-text);stroke-width:1.5"/><text x="938" y="174" style="fill:var(--color-text);font-size:24px;font-weight:700">DPO</text><text x="938" y="202" style="fill:var(--color-text-secondary);font-size:15px">VCO A</text><rect x="920" y="330" width="180" height="110" rx="2" style="fill:none;stroke:var(--color-text);stroke-width:1.5"/><text x="938" y="374" style="fill:var(--color-text);font-size:24px;font-weight:700">Optomix</text><text x="938" y="402" style="fill:var(--color-text-secondary);font-size:15px">canal 1</text><rect x="1150" y="330" width="140" height="110" rx="2" style="fill:none;stroke:var(--color-text);stroke-width:1.5"/><text x="1168" y="374" style="fill:var(--color-text);font-size:24px;font-weight:700">CV Bus</text><text x="1168" y="402" style="fill:var(--color-text-secondary);font-size:13px">vers la carte son</text><path d="M190,280 L300,280" style="fill:none;stroke:var(--color-accent);stroke-width:3;stroke-linejoin:round"/><circle cx="300" cy="280" r="5" style="fill:var(--color-accent)"/><circle cx="245" cy="280" r="15" style="fill:var(--color-bg, #0A0A0A);stroke:var(--color-accent);stroke-width:2"/><text x="245" y="285.5" text-anchor="middle" style="fill:var(--color-text);font-size:15px;font-weight:700">1</text><text x="198" y="310" text-anchor="start" style="fill:var(--color-text-secondary);font-size:13px">sortie</text><text x="292" y="262" text-anchor="end" style="fill:var(--color-text-secondary);font-size:13px">X-CLK</text><path d="M480,330 L535,330 L535,360 L590,360" style="fill:none;stroke:var(--color-accent);stroke-width:3;stroke-linejoin:round"/><circle cx="590" cy="360" r="5" style="fill:var(--color-accent)"/><circle cx="535" cy="345" r="15" style="fill:var(--color-bg, #0A0A0A);stroke:var(--color-accent);stroke-width:2"/><text x="535" y="350.5" text-anchor="middle" style="fill:var(--color-text);font-size:15px;font-weight:700">2</text><text x="488" y="318" text-anchor="start" style="fill:var(--color-text-secondary);font-size:13px">X-Gate</text><text x="582" y="386" text-anchor="end" style="fill:var(--color-text-secondary);font-size:13px">Trigger</text><path d="M790,370 L920,370" style="fill:none;stroke:var(--color-accent);stroke-width:3;stroke-linejoin:round"/><circle cx="920" cy="370" r="5" style="fill:var(--color-accent)"/><circle cx="855" cy="370" r="15" style="fill:var(--color-bg, #0A0A0A);stroke:var(--color-accent);stroke-width:2"/><text x="855" y="375.5" text-anchor="middle" style="fill:var(--color-text);font-size:15px;font-weight:700">3</text><text x="798" y="398" text-anchor="start" style="fill:var(--color-text-secondary);font-size:13px">Unity</text><text x="912" y="352" text-anchor="end" style="fill:var(--color-text-secondary);font-size:13px">Control</text><path d="M480,230 L535,230 L535,210 L590,210" style="fill:none;stroke:var(--color-accent);stroke-width:3;stroke-linejoin:round"/><circle cx="590" cy="210" r="5" style="fill:var(--color-accent)"/><circle cx="535" cy="220" r="15" style="fill:var(--color-bg, #0A0A0A);stroke:var(--color-accent);stroke-width:2"/><text x="535" y="225.5" text-anchor="middle" style="fill:var(--color-text);font-size:15px;font-weight:700">4</text><text x="488" y="252" text-anchor="start" style="fill:var(--color-text-secondary);font-size:13px">X QCV</text><text x="582" y="196" text-anchor="end" style="fill:var(--color-text-secondary);font-size:13px">Signal</text><path d="M790,190 L920,190" style="fill:none;stroke:var(--color-accent);stroke-width:3;stroke-linejoin:round"/><circle cx="920" cy="190" r="5" style="fill:var(--color-accent)"/><circle cx="855" cy="190" r="15" style="fill:var(--color-bg, #0A0A0A);stroke:var(--color-accent);stroke-width:2"/><text x="855" y="195.5" text-anchor="middle" style="fill:var(--color-text);font-size:15px;font-weight:700">5</text><text x="798" y="218" text-anchor="start" style="fill:var(--color-text-secondary);font-size:13px">Unity</text><text x="912" y="172" text-anchor="end" style="fill:var(--color-text-secondary);font-size:13px">1V/Oct</text><path d="M1010,240 L1010,330" style="fill:none;stroke:var(--color-accent);stroke-width:3;stroke-linejoin:round"/><circle cx="1010" cy="330" r="5" style="fill:var(--color-accent)"/><circle cx="1010" cy="285" r="15" style="fill:var(--color-bg, #0A0A0A);stroke:var(--color-accent);stroke-width:2"/><text x="1010" y="290.5" text-anchor="middle" style="fill:var(--color-text);font-size:15px;font-weight:700">6</text><text x="1030" y="262" text-anchor="start" style="fill:var(--color-text-secondary);font-size:13px">Triangle</text><text x="1030" y="322" text-anchor="start" style="fill:var(--color-text-secondary);font-size:13px">Signal In</text><path d="M1100,400 L1150,400" style="fill:none;stroke:var(--color-accent);stroke-width:3;stroke-linejoin:round"/><circle cx="1150" cy="400" r="5" style="fill:var(--color-accent)"/><circle cx="1125" cy="400" r="15" style="fill:var(--color-bg, #0A0A0A);stroke:var(--color-accent);stroke-width:2"/><text x="1125" y="405.5" text-anchor="middle" style="fill:var(--color-text);font-size:15px;font-weight:700">7</text><text x="1106" y="430" text-anchor="start" style="fill:var(--color-text-secondary);font-size:13px">Out</text><text x="1144" y="382" text-anchor="end" style="fill:var(--color-text-secondary);font-size:13px"></text></svg></div>
+          <figcaption class="lesson-meta">Tempi donne le tempo à René. René envoie deux choses à MATHS : un gate à chaque pas, qui lance le canal 4, et la tension de la note, qui passe par le canal 1 avant d’arriver au VCO A. Le canal 4 ouvre l’Optomix, le canal 1 fait glisser la note. Câbles numérotés comme dans le tableau ci-dessous.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">câblage</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">le câblage, étape par étape<span class="title-dot">.</span></h2>
+          <div class="table-scroll reveal">
+            <table class="patch-table">
+              <thead>
+                <tr><th>#</th><th>de</th><th>vers</th><th>ce que ça fait</th></tr>
+              </thead>
+              <tbody>
+                <tr><td class="cable-num">1</td><td>Tempi, une sortie</td><td>René, X-CLK</td><td>chaque impulsion fait avancer René d’un pas</td></tr>
+                <tr><td class="cable-num">2</td><td>René, X-Gate</td><td>MATHS, canal 4, Trigger</td><td>chaque pas lance la pente du canal 4 : une montée, puis une descente</td></tr>
+                <tr><td class="cable-num">3</td><td>MATHS, canal 4, Unity</td><td>Optomix, canal 1, Control</td><td>la pente ouvre puis referme le son : c’est l’enveloppe</td></tr>
+                <tr><td class="cable-num">4</td><td>René, X QCV</td><td>MATHS, canal 1, Signal</td><td>la tension de la note entre dans le canal 1, qui la suit avec du retard</td></tr>
+                <tr><td class="cable-num">5</td><td>MATHS, canal 1, Unity</td><td>DPO, entrée 1V/Oct du VCO A</td><td>la note arrive au VCO en glissant : c’est le portamento</td></tr>
+                <tr><td class="cable-num">6</td><td>DPO, sortie Triangle du VCO A</td><td>Optomix, canal 1, Signal In</td><td>le son qu’on va ouvrir et refermer</td></tr>
+                <tr><td class="cable-num">7</td><td>Optomix, canal 1, Out</td><td>CV Bus, vers la carte son</td><td>ce qu’on écoute</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">réglages</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">les réglages de départ<span class="title-dot">.</span></h2>
+          <div class="table-scroll reveal">
+            <table class="patch-table">
+              <thead>
+                <tr><th>module</th><th>réglage</th><th>position</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Écoute</td><td>Volume</td><td>bas avant de brancher</td></tr>
+                <tr><td>MATHS, canal 4</td><td>Rise</td><td>à fond à gauche : l’attaque est immédiate</td></tr>
+                <tr><td>MATHS, canal 4</td><td>Fall</td><td>vers midi : la note résonne un peu</td></tr>
+                <tr><td>MATHS, canal 1</td><td>Rise et Fall</td><td>vers 10 h : les notes glissent sans traîner</td></tr>
+                <tr><td>MATHS, canaux 1 et 4</td><td>Vari-Response</td><td>à midi, pente linéaire</td></tr>
+                <tr><td>MATHS, canaux 1 et 4</td><td>Cycle</td><td>éteint</td></tr>
+                <tr><td>Optomix, canal 1</td><td>Control</td><td>à fond à gauche : le son reste fermé tant que MATHS ne l’ouvre pas</td></tr>
+                <tr><td>DPO, VCO A</td><td>Coarse et Fine</td><td>sur un mi grave (82,4 Hz), accordeur à côté</td></tr>
+                <tr><td>René</td><td>séquence</td><td>six à huit pas, quantizer sur la pentatonique mineure de mi</td></tr>
+                <tr><td>Tempi</td><td>tempo</td><td>posé, vers 90 BPM</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">écoute</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">ce qu’il faut écouter<span class="title-dot">.</span></h2>
+          <ol class="listen-list reveal">
+            <li>Une impulsion : Trigger. Débranchez le câble 4 et reliez René directement au VCO : il ne reste que le canal 4. Chaque gate de René lance la pente, qui monte puis redescend et ouvre l’Optomix : c’est une enveloppe. Puis montez Rise doucement : quand la montée dure plus longtemps que l’écart entre deux pas, le son ne s’ouvre plus qu’une fois sur deux. MATHS ignore les impulsions qui arrivent pendant qu’il monte.</li>
+            <li>Une tension : Signal. Remettez le câble 4 et le câble 5. La tension de la note entre dans le canal 1, qui la suit avec du retard : les notes glissent de l’une à l’autre. Tournez Rise et Fall du canal 1 : Rise règle la montée vers une note plus haute, Fall la descente vers une note plus basse. MATHS ne peut que ralentir une tension, jamais l’accélérer.</li>
+            <li>Elle-même : Cycle. Débranchez le câble 2 et appuyez sur Cycle du canal 4 : à la fin de chaque descente, la pente recommence seule. C’est un LFO, qui ouvre et referme le son sans René. Rise égal à Fall, le son respire ; Rise court et Fall long, il pulse.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">variations</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">trois variations<span class="title-dot">.</span></h2>
+          <ol class="listen-list reveal">
+            <li>La forme de la pente. Allongez Fall sur le canal 4, puis tournez Vari-Response d’un bout à l’autre. À gauche, la note gonfle et s’étire ; à droite, elle claque et tombe d’un coup. La durée n’a pas changé : c’est la courbe.</li>
+            <li>Le 281. Câble 2 débranché. MATHS, EOR du canal 1 vers Trigger du canal 4, EOC du canal 4 vers Trigger du canal 1 : les deux pentes se passent le relais sans fin. Envoyez Unity du canal 1 dans un deuxième canal de l’Optomix, sur le VCO B, pour entendre chaque pente sur son propre son.</li>
+            <li>La balle qui rebondit. Le patch du manuel de MATHS : EOR du canal 1 vers Cycle In du canal 4 ; sortie variable du canal 1 vers Fall CV du canal 4 ; Unity du canal 4 vers Control de l’Optomix ; une impulsion dans Trigger du canal 1. Canal 1 : Rise à fond à gauche, Fall à 15 h, attenuverter vers 14 h. Canal 4 : Rise à fond à gauche, Fall vers midi. Chaque rebond est plus court que le précédent, jusqu’à l’arrêt.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">à vous</div>
+        <div class="exercise-box reveal">
+          <p class="construction-notice-title">à vous d’écouter.</p>
+          <p class="construction-notice-body">MATHS comme diviseur d’horloge. Sur le canal 4, montez Rise jusqu’à ce que le son ne s’ouvre plus qu’une note sur deux. Notez la position du bouton. Continuez jusqu’à une note sur trois, puis sur quatre. Changez le tempo de Tempi : les positions bougent-elles ? Pourquoi ?</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">newsletter</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">les prochains patchs<span class="title-dot">.</span></h2>
+          <p class="manifesto-text reveal">Laissez votre email : on vous envoie chaque samedi le patch de la semaine, et ce qui se prépare. Cette semaine, la fiche PDF de MATHS : les réglages commentés et les chiffres du manuel.</p>
+          <div class="form-container reveal">
+          <form class="newsletter-form" action="https://assets.mailerlite.com/jsonp/2677025/forms/200153214654351354/subscribe" method="POST" novalidate>
+            <input type="hidden" name="source" value="fiche maths-make-noise">
+            <div class="newsletter-row">
+              <input type="email" name="newsletter-email" class="form-input" required autocomplete="email"
+                placeholder="votre@email.com" aria-label="votre adresse email">
+              <button type="submit" class="form-submit form-submit--compact">s'inscrire →</button>
+            </div>
+            <p class="form-error" role="alert">merci d'indiquer un email valide</p>
+          </form>
+          <div class="form-success">
+            <p class="manifesto-text">inscription confirmée ✓ — merci !</p>
+          </div>
+          <p class="form-error" role="alert">une erreur est survenue, merci de réessayer.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">plus loin</div>
+        <div class="further-grid">
+          <div>
+            <p class="lesson-meta" style="margin-bottom: 8px">dans le cours</p>
+            <a href="../../le-cours/les-modules/" class="further-link reveal">
+              <h3 class="lesson-title-sm">Les fonctions d’un système modulaire</h3>
+              <p class="lesson-meta">leçon 3 · produire, transformer, contrôler</p>
+            </a>
+            <a href="../../le-cours/controle-en-tension/" class="further-link reveal">
+              <h3 class="lesson-title-sm">Le control voltage</h3>
+              <p class="lesson-meta">leçon 4 · une tension qui commande un autre module</p>
+            </a>
+          </div>
+          <div>
+            <p class="lesson-meta" style="margin-bottom: 8px">d’autres patchs</p>
+            <a href="../../patchs/oscillateur-vco/" class="further-link reveal">
+              <h3 class="lesson-title-sm">À quoi sert un oscillateur : le VCO du DPO</h3>
+              <p class="lesson-meta">fiche n° 5 · le VCO de ce patch</p>
+            </a>
+            <a href="../../patchs/guitare-envelope-follower/" class="further-link reveal">
+              <h3 class="lesson-title-sm">La guitare qui commande le modulaire</h3>
+              <p class="lesson-meta">MATHS en suiveur d’enveloppe</p>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="page-container footer">
+    <div class="footer-layout">
+      <div class="footer-brand">modulr lab</div>
+      <div class="footer-grid">
+        <div>
+          <h4 class="footer-col-title">navigation</h4>
+          <ul style="list-style: none">
+            <li style="margin-bottom: 8px"><a href="../../" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">accueil</a></li>
+            <li style="margin-bottom: 8px"><a href="../../le-cours/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">le cours</a></li>
+            <li style="margin-bottom: 8px"><a href="../../patchs/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">patchs</a></li>
+            <li style="margin-bottom: 8px"><a href="../../histoire/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">histoire</a></li>
+            <li style="margin-bottom: 8px"><a href="../../a-propos/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">à propos</a></li>
+            <li><a href="../../contact/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-col-title">rester informé</h4>
+          <p style="font-family: var(--font-body); font-size: 14px; color: var(--color-text); margin-bottom: 12px">
+            chaque nouveau patch, et ce qui se prépare</p>
+          <a href="../../newsletter/" class="cta" style="font-size: 12px">s'inscrire →</a>
+          <div style="margin-top: 10px"><a href="https://www.youtube.com/@modulrlab" class="cta" style="font-size: 12px" target="_blank" rel="noopener">la chaîne YouTube →</a></div>
+        </div>
+        <div>
+          <h4 class="footer-col-title">informations</h4>
+          <ul style="list-style: none">
+            <li style="margin-bottom: 8px"><a href="../../mentions-legales/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">mentions légales</a></li>
+            <li style="margin-bottom: 8px"><a href="../../mentions-legales/#donnees" class="nav-link" data-consent-open data-no-swap
+                style="font-family: var(--font-body); font-size: 14px">gérer les cookies</a></li>
+            <li style="font-family: var(--font-body); font-size: 14px; color: var(--color-text-secondary)">© 2026 modulr
+              lab</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>

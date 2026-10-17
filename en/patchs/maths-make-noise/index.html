@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <script src="../../../js/lang.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0A0A0A">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../../icons/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../../icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="../../../icons/favicon-96x96.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../../icons/apple-touch-icon.png">
+  <title>Make Noise MATHS explained: one slope, three inputs — modulr lab</title>
+  <meta name="description"
+    content="MATHS is one slope you feed with a pulse, a voltage or itself: an envelope, a portamento, an LFO. The step-by-step patch.">
+  <link rel="canonical" href="https://modulrlab.com/en/patchs/maths-make-noise/">
+  <link rel="alternate" hreflang="fr" href="https://modulrlab.com/patchs/maths-make-noise/">
+  <link rel="alternate" hreflang="en" href="https://modulrlab.com/en/patchs/maths-make-noise/">
+  <link rel="alternate" hreflang="x-default" href="https://modulrlab.com/patchs/maths-make-noise/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:title" content="Make Noise MATHS: one slope, three inputs">
+  <meta property="og:description"
+    content="Make Noise MATHS explained on one patch: a single slope, fed by a pulse, by a voltage or by itself, becomes an envelope, a portamento and an LFO. Wiring, settings, three variations and an exercise.">
+  <meta property="og:url" content="https://modulrlab.com/en/patchs/maths-make-noise/">
+  <link rel="preload" href="../../../fonts/inter-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../../css/common.css">
+  <script src="../../../js/main.js" defer></script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "modulr lab",
+      "item": "https://modulrlab.com/en/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "patches",
+      "item": "https://modulrlab.com/en/patchs/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Make Noise MATHS: one slope, three inputs",
+      "item": "https://modulrlab.com/en/patchs/maths-make-noise/"
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  "inLanguage": "fr",
+  "name": "Maths de Make Noise expliqué en français",
+  "description": "Make Noise MATHS explained (in French): one slope, fed by a pulse, a voltage or itself. Envelope, portamento, LFO, oscillator, logic outputs and mixing.",
+  "thumbnailUrl": "https://i.ytimg.com/vi/sGLCFLRchOE/maxresdefault.jpg",
+  "uploadDate": "2026-10-17T10:00:00+02:00",
+  "embedUrl": "https://www.youtube.com/embed/sGLCFLRchOE"
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Make Noise MATHS: one slope, three inputs",
+  "description": "Make Noise MATHS explained on one patch: a single slope, fed by a pulse, by a voltage or by itself, becomes an envelope, a portamento and an LFO. Wiring, settings, three variations and an exercise.",
+  "mainEntityOfPage": "https://modulrlab.com/en/patchs/maths-make-noise/",
+  "author": {
+    "@type": "Person",
+    "name": "Jeremy Heideiger"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "modulr lab",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://modulrlab.com/icons/apple-touch-icon.png"
+    }
+  }
+}
+  </script>
+</head>
+
+<body>
+
+
+  <header class="site-header page-container">
+    <a href="../../" class="logo-link">modulr lab</a>
+    <nav class="desktop-nav">
+      <a href="../../le-cours/" class="nav-link">the course</a>
+      <a href="../../patchs/" class="nav-link">patches</a>
+      <a href="../../histoire/" class="nav-link">history</a>
+      <a href="../../about/" class="nav-link">about</a>
+      <button class="nav-link lang-switch" onclick="switchLang('fr')" type="button">FR</button>
+
+    </nav>
+    <button class="burger" aria-label="Open menu" aria-expanded="false"
+      aria-controls="menu-overlay"><span></span><span></span><span></span></button>
+  </header>
+
+  <div class="menu-overlay" id="menu-overlay" role="dialog" aria-modal="true" aria-label="Navigation menu"
+    aria-hidden="true" inert>
+    <div class="menu-overlay-header">
+      <a href="../../" class="logo-link">modulr lab</a>
+      <div class="menu-overlay-controls">
+        <button class="lang-switch-mobile" onclick="switchLang('fr')" type="button">FR</button>
+        <button class="menu-close" aria-label="Close menu">✕</button>
+      </div>
+    </div>
+    <nav>
+      <a href="../../le-cours/">the course</a>
+      <a href="../../patchs/">patches</a>
+      <a href="../../histoire/">history</a>
+      <a href="../../about/">about</a>
+
+    </nav>
+    <div class="menu-overlay-extra">
+      <a href="../../newsletter/">the newsletter</a>
+      <a href="https://www.youtube.com/@modulrlab" target="_blank" rel="noopener">the YouTube channel</a>
+      <a href="../../contact/">contact</a>
+    </div>
+  </div>
+
+  <main>
+
+    <section class="page-container">
+      <div class="row-grid">
+        <nav class="rail-label rail-label--accent crumbs" aria-label="breadcrumb"><ol><li><a href="../">patches</a></li><li aria-current="page">patch note no.&nbsp;6</li></ol></nav>
+        <div>
+          <p class="lesson-meta reveal" style="margin-bottom: 12px">patch note 6 · MATHS</p>
+          <h1 class="note-title reveal">Make Noise MATHS<span class="title-dot">:</span> one slope, three inputs<span class="title-dot">.</span></h1>
+          <p class="hero-lead reveal reveal-delay-1">At the heart of MATHS there is a slope: a voltage that rises and falls back, over a time you set with Rise and Fall. You feed it in three ways: with a pulse, with a voltage, or with itself. This patch lets you hear all three, on the same melody from René.</p>
+        </div>
+      </div>
+    </section>
+<!-- 3 · LA VIDÉO -->
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">video</div>
+        <div class="video-container reveal">
+          <div class="video-wrapper">
+            <a class="yt-facade" href="https://www.youtube.com/watch?v=sGLCFLRchOE" data-yt="sGLCFLRchOE" data-title="Maths de Make Noise expliqué en français"
+              aria-label="Play the video: Maths de Make Noise expliqué en français">
+              <img src="https://i.ytimg.com/vi_webp/sGLCFLRchOE/maxresdefault.webp"
+                srcset="https://i.ytimg.com/vi_webp/sGLCFLRchOE/sddefault.webp 640w, https://i.ytimg.com/vi_webp/sGLCFLRchOE/maxresdefault.webp 1280w"
+                sizes="(max-width: 768px) 100vw, 900px" width="1280" height="720" alt="" decoding="async">
+              <span class="yt-facade-play" aria-hidden="true"></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">result</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">what you’ll get<span class="title-dot">.</span></h2>
+          <p class="manifesto-text reveal">A short melody from René played by the DPO. With a pulse, each note opens and closes: an envelope. With a voltage, it glides into the next: a portamento. With itself, the slope runs on its own and makes the sound breathe: an LFO.</p>
+          <div class="note-facts reveal">
+            <p class="note-fact">level <b>beginner to intermediate</b></p>
+            <p class="note-fact">time <b>30 min</b></p>
+            <p class="note-fact">modules <b>MATHS · DPO · Optomix · René · Tempi · CV Bus</b></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">gear</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">the gear<span class="title-dot">:</span> MATHS and its equivalents<span class="title-dot">.</span></h2>
+          <div class="table-scroll reveal">
+            <table class="patch-table">
+              <thead>
+                <tr><th>function</th><th>on my system</th><th>generic equivalent</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Function generator</td><td>MATHS, channels 1 and 4</td><td>Any function or envelope generator with a Trigger input and a Signal input; failing that, an envelope and a slew module</td></tr>
+                <tr><td>Oscillator</td><td>DPO, VCO A, Triangle output</td><td>Any VCO with a 1V/Oct input</td></tr>
+                <tr><td>Opening the sound</td><td>Optomix, channel 1</td><td>Any voltage-controlled VCA or low pass gate</td></tr>
+                <tr><td>Sequencer</td><td>René, X-Gate and X QCV outputs</td><td>Any sequencer with a gate and a 1V/Oct output</td></tr>
+                <tr><td>Clock</td><td>Tempi, one output to René</td><td>Any clock or LFO that outputs pulses</td></tr>
+                <tr><td>Output</td><td>CV Bus, stereo out to the audio interface</td><td>Any output that brings the modular down to line level</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">diagram</div>
+        <figure class="patch-figure reveal" style="min-width: 0">
+          <div style="overflow-x: auto; -webkit-overflow-scrolling: touch"><svg viewBox="0 110 1300 345" role="img" aria-label="Diagram: Tempi to René X-CLK; René X QCV to MATHS channel 1 Signal input, and René X-Gate to channel 4 Trigger input; channel 1 Unity to the 1V/Oct input of DPO VCO A; VCO A Triangle output to the Optomix, opened by channel 4 Unity; Optomix to the CV Bus." style="width:100%;min-width:880px;height:auto;display:block;font-family:var(--font-display)"><rect x="20" y="230" width="170" height="100" rx="2" style="fill:none;stroke:var(--color-text);stroke-width:1.5"/><text x="38" y="274" style="fill:var(--color-text);font-size:24px;font-weight:700">Tempi</text><text x="38" y="302" style="fill:var(--color-text-secondary);font-size:15px">clock</text><rect x="300" y="200" width="180" height="160" rx="2" style="fill:none;stroke:var(--color-text);stroke-width:1.5"/><text x="318" y="244" style="fill:var(--color-text);font-size:24px;font-weight:700">René</text><text x="318" y="272" style="fill:var(--color-text-secondary);font-size:15px">sequencer</text><rect x="590" y="140" width="200" height="280" rx="2" style="fill:none;stroke:var(--color-text);stroke-width:1.5"/><text x="608" y="184" style="fill:var(--color-text);font-size:24px;font-weight:700">MATHS</text><text x="608" y="236" style="fill:var(--color-text-secondary);font-size:15px">channel 1</text><line x1="600" y1="280" x2="780" y2="280" style="stroke:var(--color-border, #333);stroke-width:1;stroke-dasharray:4 4"/><text x="608" y="396" style="fill:var(--color-text-secondary);font-size:15px">channel 4</text><rect x="920" y="130" width="180" height="110" rx="2" style="fill:none;stroke:var(--color-text);stroke-width:1.5"/><text x="938" y="174" style="fill:var(--color-text);font-size:24px;font-weight:700">DPO</text><text x="938" y="202" style="fill:var(--color-text-secondary);font-size:15px">VCO A</text><rect x="920" y="330" width="180" height="110" rx="2" style="fill:none;stroke:var(--color-text);stroke-width:1.5"/><text x="938" y="374" style="fill:var(--color-text);font-size:24px;font-weight:700">Optomix</text><text x="938" y="402" style="fill:var(--color-text-secondary);font-size:15px">channel 1</text><rect x="1150" y="330" width="140" height="110" rx="2" style="fill:none;stroke:var(--color-text);stroke-width:1.5"/><text x="1168" y="374" style="fill:var(--color-text);font-size:24px;font-weight:700">CV Bus</text><text x="1168" y="402" style="fill:var(--color-text-secondary);font-size:13px">to the interface</text><path d="M190,280 L300,280" style="fill:none;stroke:var(--color-accent);stroke-width:3;stroke-linejoin:round"/><circle cx="300" cy="280" r="5" style="fill:var(--color-accent)"/><circle cx="245" cy="280" r="15" style="fill:var(--color-bg, #0A0A0A);stroke:var(--color-accent);stroke-width:2"/><text x="245" y="285.5" text-anchor="middle" style="fill:var(--color-text);font-size:15px;font-weight:700">1</text><text x="198" y="310" text-anchor="start" style="fill:var(--color-text-secondary);font-size:13px">output</text><text x="292" y="262" text-anchor="end" style="fill:var(--color-text-secondary);font-size:13px">X-CLK</text><path d="M480,330 L535,330 L535,360 L590,360" style="fill:none;stroke:var(--color-accent);stroke-width:3;stroke-linejoin:round"/><circle cx="590" cy="360" r="5" style="fill:var(--color-accent)"/><circle cx="535" cy="345" r="15" style="fill:var(--color-bg, #0A0A0A);stroke:var(--color-accent);stroke-width:2"/><text x="535" y="350.5" text-anchor="middle" style="fill:var(--color-text);font-size:15px;font-weight:700">2</text><text x="488" y="318" text-anchor="start" style="fill:var(--color-text-secondary);font-size:13px">X-Gate</text><text x="582" y="386" text-anchor="end" style="fill:var(--color-text-secondary);font-size:13px">Trigger</text><path d="M790,370 L920,370" style="fill:none;stroke:var(--color-accent);stroke-width:3;stroke-linejoin:round"/><circle cx="920" cy="370" r="5" style="fill:var(--color-accent)"/><circle cx="855" cy="370" r="15" style="fill:var(--color-bg, #0A0A0A);stroke:var(--color-accent);stroke-width:2"/><text x="855" y="375.5" text-anchor="middle" style="fill:var(--color-text);font-size:15px;font-weight:700">3</text><text x="798" y="398" text-anchor="start" style="fill:var(--color-text-secondary);font-size:13px">Unity</text><text x="912" y="352" text-anchor="end" style="fill:var(--color-text-secondary);font-size:13px">Control</text><path d="M480,230 L535,230 L535,210 L590,210" style="fill:none;stroke:var(--color-accent);stroke-width:3;stroke-linejoin:round"/><circle cx="590" cy="210" r="5" style="fill:var(--color-accent)"/><circle cx="535" cy="220" r="15" style="fill:var(--color-bg, #0A0A0A);stroke:var(--color-accent);stroke-width:2"/><text x="535" y="225.5" text-anchor="middle" style="fill:var(--color-text);font-size:15px;font-weight:700">4</text><text x="488" y="252" text-anchor="start" style="fill:var(--color-text-secondary);font-size:13px">X QCV</text><text x="582" y="196" text-anchor="end" style="fill:var(--color-text-secondary);font-size:13px">Signal</text><path d="M790,190 L920,190" style="fill:none;stroke:var(--color-accent);stroke-width:3;stroke-linejoin:round"/><circle cx="920" cy="190" r="5" style="fill:var(--color-accent)"/><circle cx="855" cy="190" r="15" style="fill:var(--color-bg, #0A0A0A);stroke:var(--color-accent);stroke-width:2"/><text x="855" y="195.5" text-anchor="middle" style="fill:var(--color-text);font-size:15px;font-weight:700">5</text><text x="798" y="218" text-anchor="start" style="fill:var(--color-text-secondary);font-size:13px">Unity</text><text x="912" y="172" text-anchor="end" style="fill:var(--color-text-secondary);font-size:13px">1V/Oct</text><path d="M1010,240 L1010,330" style="fill:none;stroke:var(--color-accent);stroke-width:3;stroke-linejoin:round"/><circle cx="1010" cy="330" r="5" style="fill:var(--color-accent)"/><circle cx="1010" cy="285" r="15" style="fill:var(--color-bg, #0A0A0A);stroke:var(--color-accent);stroke-width:2"/><text x="1010" y="290.5" text-anchor="middle" style="fill:var(--color-text);font-size:15px;font-weight:700">6</text><text x="1030" y="262" text-anchor="start" style="fill:var(--color-text-secondary);font-size:13px">Triangle</text><text x="1030" y="322" text-anchor="start" style="fill:var(--color-text-secondary);font-size:13px">Signal In</text><path d="M1100,400 L1150,400" style="fill:none;stroke:var(--color-accent);stroke-width:3;stroke-linejoin:round"/><circle cx="1150" cy="400" r="5" style="fill:var(--color-accent)"/><circle cx="1125" cy="400" r="15" style="fill:var(--color-bg, #0A0A0A);stroke:var(--color-accent);stroke-width:2"/><text x="1125" y="405.5" text-anchor="middle" style="fill:var(--color-text);font-size:15px;font-weight:700">7</text><text x="1106" y="430" text-anchor="start" style="fill:var(--color-text-secondary);font-size:13px">Out</text><text x="1144" y="382" text-anchor="end" style="fill:var(--color-text-secondary);font-size:13px"></text></svg></div>
+          <figcaption class="lesson-meta">Tempi sets René’s tempo. René sends MATHS two things: a gate on every step, which fires channel 4, and the note voltage, which goes through channel 1 before reaching VCO A. Channel 4 opens the Optomix, channel 1 makes the note glide. Cables are numbered as in the table below.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">wiring</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">the wiring, step by step<span class="title-dot">.</span></h2>
+          <div class="table-scroll reveal">
+            <table class="patch-table">
+              <thead>
+                <tr><th>#</th><th>from</th><th>to</th><th>what it does</th></tr>
+              </thead>
+              <tbody>
+                <tr><td class="cable-num">1</td><td>Tempi, one output</td><td>René, X-CLK</td><td>each pulse moves René one step forward</td></tr>
+                <tr><td class="cable-num">2</td><td>René, X-Gate</td><td>MATHS, channel 4, Trigger</td><td>each step fires the channel 4 slope: a rise, then a fall</td></tr>
+                <tr><td class="cable-num">3</td><td>MATHS, channel 4, Unity</td><td>Optomix, channel 1, Control</td><td>the slope opens then closes the sound: that’s the envelope</td></tr>
+                <tr><td class="cable-num">4</td><td>René, X QCV</td><td>MATHS, channel 1, Signal</td><td>the note voltage enters channel 1, which follows it with a lag</td></tr>
+                <tr><td class="cable-num">5</td><td>MATHS, channel 1, Unity</td><td>DPO, VCO A 1V/Oct input</td><td>the note reaches the VCO gliding: that’s the portamento</td></tr>
+                <tr><td class="cable-num">6</td><td>DPO, VCO A Triangle output</td><td>Optomix, channel 1, Signal In</td><td>the sound we open and close</td></tr>
+                <tr><td class="cable-num">7</td><td>Optomix, channel 1, Out</td><td>CV Bus, to the interface</td><td>what you hear</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">settings</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">the starting settings<span class="title-dot">.</span></h2>
+          <div class="table-scroll reveal">
+            <table class="patch-table">
+              <thead>
+                <tr><th>module</th><th>control</th><th>position</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Monitoring</td><td>Volume</td><td>low before patching</td></tr>
+                <tr><td>MATHS, channel 4</td><td>Rise</td><td>fully counter-clockwise: instant attack</td></tr>
+                <tr><td>MATHS, channel 4</td><td>Fall</td><td>around noon: the note rings a little</td></tr>
+                <tr><td>MATHS, channel 1</td><td>Rise and Fall</td><td>around 10 o’clock: the notes glide without dragging</td></tr>
+                <tr><td>MATHS, channels 1 and 4</td><td>Vari-Response</td><td>at noon, linear slope</td></tr>
+                <tr><td>MATHS, channels 1 and 4</td><td>Cycle</td><td>off</td></tr>
+                <tr><td>Optomix, channel 1</td><td>Control</td><td>fully counter-clockwise: the sound stays closed until MATHS opens it</td></tr>
+                <tr><td>DPO, VCO A</td><td>Coarse and Fine</td><td>on a low E (82.4 Hz), tuner at hand</td></tr>
+                <tr><td>René</td><td>sequence</td><td>six to eight steps, quantizer on E minor pentatonic</td></tr>
+                <tr><td>Tempi</td><td>tempo</td><td>relaxed, around 90 BPM</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">listening</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">what to listen for<span class="title-dot">.</span></h2>
+          <ol class="listen-list reveal">
+            <li>A pulse: Trigger. Unplug cable 4 and patch René straight into the VCO: only channel 4 is left. Each gate from René fires the slope, which rises, falls back and opens the Optomix: that’s an envelope. Then slowly raise Rise: once the rise lasts longer than the gap between two steps, the sound only opens every other note. MATHS ignores the pulses that arrive while it is rising.</li>
+            <li>A voltage: Signal. Plug cables 4 and 5 back in. The note voltage enters channel 1, which follows it with a lag: the notes glide from one to the next. Turn Rise and Fall on channel 1: Rise sets the glide up to a higher note, Fall the glide down to a lower one. MATHS can only slow a voltage down, never speed it up.</li>
+            <li>Itself: Cycle. Unplug cable 2 and press Cycle on channel 4: at the end of each fall, the slope starts again on its own. That’s an LFO, opening and closing the sound without René. Rise equal to Fall, the sound breathes; short Rise and long Fall, it pulses.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">variations</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">three variations<span class="title-dot">.</span></h2>
+          <ol class="listen-list reveal">
+            <li>The shape of the slope. Lengthen Fall on channel 4, then turn Vari-Response from one end to the other. To the left, the note swells and stretches; to the right, it snaps and drops at once. The time hasn’t changed: the curve has.</li>
+            <li>The 281. Cable 2 unplugged. On MATHS, channel 1 EOR to channel 4 Trigger, channel 4 EOC to channel 1 Trigger: the two slopes hand over to each other endlessly. Send channel 1 Unity to a second Optomix channel, on VCO B, to hear each slope on its own sound.</li>
+            <li>The bouncing ball. The patch from the MATHS manual: channel 1 EOR to channel 4 Cycle In; channel 1 variable output to channel 4 Fall CV; channel 4 Unity to the Optomix Control; a pulse into channel 1 Trigger. Channel 1: Rise fully counter-clockwise, Fall at 3 o’clock, attenuverter around 2 o’clock. Channel 4: Rise fully counter-clockwise, Fall around noon. Each bounce is shorter than the last, until it stops.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">your turn</div>
+        <div class="exercise-box reveal">
+          <p class="construction-notice-title">your turn to listen.</p>
+          <p class="construction-notice-body">MATHS as a clock divider. On channel 4, raise Rise until the sound only opens every other note. Write down the knob position. Keep going to every third note, then every fourth. Change Tempi’s tempo: do the positions move? Why?</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">newsletter</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">the next patches<span class="title-dot">.</span></h2>
+          <p class="manifesto-text reveal">Leave your email: every Saturday we send you the patch of the week, and what’s coming next. This week, the MATHS PDF patch note: commented settings and the figures from the manual.</p>
+          <div class="form-container reveal">
+          <form class="newsletter-form" action="https://assets.mailerlite.com/jsonp/2677025/forms/200153214654351354/subscribe" method="POST" novalidate>
+            <input type="hidden" name="source" value="fiche en maths-make-noise">
+            <div class="newsletter-row">
+              <input type="email" name="newsletter-email" class="form-input" required autocomplete="email"
+                placeholder="you@email.com" aria-label="your email address">
+              <button type="submit" class="form-submit form-submit--compact">sign up →</button>
+            </div>
+            <p class="form-error" role="alert">please enter a valid email</p>
+          </form>
+          <div class="form-success">
+            <p class="manifesto-text">subscription confirmed ✓ — thank you!</p>
+          </div>
+          <p class="form-error" role="alert">something went wrong, please try again.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">further</div>
+        <div class="further-grid">
+          <div>
+            <p class="lesson-meta" style="margin-bottom: 8px">in the course</p>
+            <a href="../../../le-cours/les-modules/" class="further-link reveal">
+              <h3 class="lesson-title-sm">The functions of a modular system</h3>
+              <p class="lesson-meta">lesson 3 · produce, transform, control</p>
+            </a>
+            <a href="../../../le-cours/controle-en-tension/" class="further-link reveal">
+              <h3 class="lesson-title-sm">Control voltage</h3>
+              <p class="lesson-meta">lesson 4 · a voltage that controls another module</p>
+            </a>
+          </div>
+          <div>
+            <p class="lesson-meta" style="margin-bottom: 8px">more patches</p>
+            <a href="../../../patchs/oscillateur-vco/" class="further-link reveal">
+              <h3 class="lesson-title-sm">What an oscillator does: the DPO VCO</h3>
+              <p class="lesson-meta">patch note 5 · the VCO in this patch</p>
+            </a>
+            <a href="../../../patchs/guitare-envelope-follower/" class="further-link reveal">
+              <h3 class="lesson-title-sm">The guitar that drives the modular</h3>
+              <p class="lesson-meta">MATHS as an envelope follower</p>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="page-container footer">
+    <div class="footer-layout">
+      <div class="footer-brand">modulr lab</div>
+      <div class="footer-grid">
+        <div>
+          <h4 class="footer-col-title">navigation</h4>
+          <ul style="list-style: none">
+            <li style="margin-bottom: 8px"><a href="../../" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">home</a></li>
+            <li style="margin-bottom: 8px"><a href="../../le-cours/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">the course</a></li>
+            <li style="margin-bottom: 8px"><a href="../../patchs/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">patches</a></li>
+            <li style="margin-bottom: 8px"><a href="../../histoire/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">history</a></li>
+            <li style="margin-bottom: 8px"><a href="../../about/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">about</a></li>
+            <li><a href="../../contact/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-col-title">stay in the loop</h4>
+          <p style="font-family: var(--font-body); font-size: 14px; color: var(--color-text); margin-bottom: 12px">every new patch, and what's coming next</p>
+          <a href="../../newsletter/" class="cta" style="font-size: 12px">sign up →</a>
+          <div style="margin-top: 10px"><a href="https://www.youtube.com/@modulrlab" class="cta" style="font-size: 12px" target="_blank" rel="noopener">the YouTube channel →</a></div>
+        </div>
+        <div>
+          <h4 class="footer-col-title">information</h4>
+          <ul style="list-style: none">
+            <li style="margin-bottom: 8px"><a href="../../legal-notice/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">legal notice</a></li>
+            <li style="font-family: var(--font-body); font-size: 14px; color: var(--color-text-secondary)">© 2026 modulr
+              lab</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>
