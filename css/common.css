@@ -3112,7 +3112,8 @@ body {
 .site-screen {
     display: block;
     aspect-ratio: 16 / 9;
-    margin-bottom: 10px;
+    /* La vignette prend toute la largeur du panneau, ou presque : un écran bord à bord */
+    margin: 0 -6px 14px;
     overflow: hidden;
     border-radius: 4px;
     background: #060606;
@@ -3146,7 +3147,7 @@ body {
 .site-latest-title {
     display: block;
     font-family: var(--font-display);
-    font-size: 15px;
+    font-size: 17px;
     font-weight: 700;
     line-height: 1.2;
     color: #EDEDED;
@@ -3286,18 +3287,7 @@ body {
         grid-column: 1 / -1;
     }
 
-    /* Deux modules par ligne : la dernière fiche se met à côté de son image */
-    .site-latest {
-        display: grid;
-        grid-template-columns: 42% 1fr;
-        column-gap: 14px;
-        align-items: start;
-    }
-
-    .site-screen {
-        grid-row: span 2;
-        margin-bottom: 0;
-    }
+    /* La dernière fiche : la vignette en grand, le titre dessous, à toutes les tailles */
 }
 
 @media (max-width: 900px) {
@@ -3426,11 +3416,6 @@ body {
 
     .site-module {
         padding: 16px 12px 14px;
-    }
-
-    .site-latest {
-        grid-template-columns: 128px 1fr;
-        column-gap: 12px;
     }
 }
 
@@ -3784,5 +3769,229 @@ body {
 @media print {
     .to-top {
         display: none;
+    }
+}
+
+
+/* =========================================================
+   ACCUEIL — l'ouverture (js/intro.js), à la première visite
+   « modulr lab » s'écrit, son point cyan devient un signal qui
+   dessine le rack ; le voile noir s'efface sur la vraie page.
+   ========================================================= */
+.intro {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: grid;
+    place-items: center;
+    background: #0A0A0A;
+}
+
+.intro-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.intro-word {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(44px, 8vw, 104px);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.045em;
+    color: #FFFFFF;
+    white-space: nowrap;
+}
+
+/* Une lettre après l'autre */
+.intro-letter {
+    display: inline-block;
+    opacity: 0;
+}
+
+/* Le point final, dessiné : c'est lui qui devient le signal */
+.intro-dot {
+    display: inline-block;
+    width: 0.17em;
+    height: 0.17em;
+    margin-left: 0.05em;
+    border-radius: 50%;
+    background: var(--color-accent);
+    transform: scale(0);
+}
+
+.intro-skip {
+    position: absolute;
+    z-index: 2;
+    right: max(24px, env(safe-area-inset-right, 0px));
+    bottom: max(24px, env(safe-area-inset-bottom, 0px));
+    padding: 2px 0;
+    border: 0;
+    border-bottom: 1px solid #555555;
+    background: none;
+    color: #A0A0A0;
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.intro-skip:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+}
+
+.intro-skip:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+}
+
+
+/* =========================================================
+   LA 3D (js/rack3d.js) — quand WebGL est là, three.js dessine
+   le matériel sous le HTML, qui reste en place (gestes, clavier,
+   lecteurs d'écran), mais devient transparent.
+   ========================================================= */
+
+/* --- Le rack « votre premier patch » --- */
+.rack.is-3d {
+    background: transparent;
+    box-shadow: 0 40px 90px rgba(0, 0, 0, 0.55);
+    transform-origin: 50% 50%;
+    will-change: transform;
+}
+
+.rack-3d,
+.site-rack-3d {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 0;
+    pointer-events: none;
+    border-radius: 6px;
+}
+
+/* Les câbles, sur leur propre calque : au-dessus des modules, sous les repères du guide */
+.rack-3d-cables {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.rack.is-3d > .rack-rail {
+    visibility: hidden;
+}
+
+.rack.is-3d .module {
+    background: transparent;
+    box-shadow: none;
+}
+
+.rack.is-3d .module::before,
+.rack.is-3d .module::after {
+    display: none;
+}
+
+/* Les boutons : la 3D dessine le capot ; restent l'arc de valeur et la pastille du control voltage */
+.rack.is-3d .knob-track,
+.rack.is-3d .knob-cap,
+.rack.is-3d .knob-needle {
+    display: none;
+}
+
+.rack.is-3d .jack-nut {
+    background: transparent;
+}
+
+.rack.is-3d .wave-btn {
+    border-color: transparent;
+    background: transparent;
+    color: transparent;
+}
+
+/* Les câbles : la 3D les dessine ; le guide (pointillés, pastilles ① ②) reste en SVG */
+.rack.is-3d .cable-layer,
+.rack.is-3d .temp-layer {
+    display: none;
+}
+
+/* --- « la suite » : les sorties deviennent de vraies touches --- */
+.site-rack.is-3d .site-modules {
+    position: relative;
+    z-index: 1;
+}
+
+.site-rack.is-3d .module-cta,
+.site-rack.is-3d .site-form .form-submit.module-cta {
+    min-height: 32px;
+    padding: 7px 16px;
+    background: transparent;
+    color: transparent;
+}
+
+.site-rack.is-3d .module-cta::before {
+    display: none;
+}
+
+.site-rack.is-3d .module-cta::after {
+    content: none;
+}
+
+.site-rack.is-3d .module-cta:focus-visible {
+    outline-offset: 4px;
+}
+
+/* --- Le theremin : le dessin d'origine reste par-dessus, invisible, pour les gestes et le clavier --- */
+.theremin-stage.is-3d {
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: radial-gradient(ellipse at 50% 45%, #1A1714, #0A0A0A 70%);
+}
+
+.theremin-stage.is-3d .theremin {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+}
+
+.theremin-3d {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* Le contour de focus seulement au clavier (le dessin invisible reçoit le focus au clic aussi) */
+.theremin-stage.is-3d:has(.theremin:focus-visible) {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+}
+
+.theremin-hz {
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: #E6E6E6;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+@media (max-width: 600px) {
+    .theremin-stage.is-3d {
+        aspect-ratio: 1 / 1.05;
     }
 }

@@ -358,6 +358,17 @@
        En cas de problème, on bascule sur une navigation classique.
        ===================================================== */
 
+    // L'ouverture de l'accueil : déjà là si la visite a commencé sur l'accueil, sinon on la charge
+    function replayIntro() {
+        const play = () => { if (window.modulrIntro) window.modulrIntro.play({ force: true }); };
+        if (window.modulrIntro) { play(); return; }
+        const own = document.querySelector('script[src*="main.js"]');
+        const script = document.createElement('script');
+        script.src = own ? new URL('intro.js', own.src).href : 'js/intro.js';
+        script.onload = play;
+        document.head.appendChild(script);
+    }
+
     function initNavigation() {
         if (!window.fetch || !window.DOMParser || !window.history || !history.pushState) return;
         if (window.location.protocol === 'file:') return;
@@ -495,6 +506,13 @@
 
         document.addEventListener('click', (event) => {
             const link = event.target.closest('a');
+            // Sur l'accueil, le logo rejoue l'ouverture (js/intro.js, chargé à la demande)
+            if (link && link.classList.contains('logo-link') && document.body.classList.contains('page-home') &&
+                !event.defaultPrevented && event.button === 0 && !(event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)) {
+                event.preventDefault();
+                replayIntro();
+                return;
+            }
             if (!isPageLink(link, event)) return;
             event.preventDefault();
             rememberScroll();

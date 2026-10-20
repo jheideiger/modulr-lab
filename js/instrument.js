@@ -248,6 +248,32 @@
        ----------------------------------------------------- */
     let current = null;
 
+    /* -----------------------------------------------------
+       LA 3D (js/rack3d.js, après three.js) : chargée à la demande,
+       elle habille le rack et le theremin quand WebGL est là.
+       Sans elle, tout fonctionne comme avant.
+       ----------------------------------------------------- */
+    const SCRIPT_BASE = (function () {
+        const own = document.currentScript || document.querySelector('script[src*="instrument.js"]');
+        return own && own.src ? own.src.replace(/instrument\.js.*$/, '') : 'js/';
+    })();
+    let loading3D = null;
+    function load3D() {
+        if (window.modulr3D) return Promise.resolve(window.modulr3D);
+        if (!loading3D) loading3D = new Promise((resolve, reject) => {
+            const add = (src, then) => {
+                const script = document.createElement('script');
+                script.src = SCRIPT_BASE + src;
+                script.onload = then;
+                script.onerror = () => { loading3D = null; reject(new Error(src)); };
+                document.head.appendChild(script);
+            };
+            const next = () => add('rack3d.js', () => (window.modulr3D ? resolve(window.modulr3D) : reject(new Error('rack3d'))));
+            if (window.THREE) next(); else add('vendor/three.min.js', next);
+        });
+        return loading3D;
+    }
+
     function mount(root) {
         if (current && current.root === root) return;
         unmount();
@@ -376,8 +402,8 @@
 
         const cablesSvg = svg('svg', { class: 'rack-cables', 'aria-hidden': 'true' });
         const guideLayer = svg('g', { class: 'guide-layer' });
-        const cableLayer = svg('g', {});
-        const tempLayer = svg('g', {});
+        const cableLayer = svg('g', { class: 'cable-layer' });
+        const tempLayer = svg('g', { class: 'temp-layer' });
         const badgeLayer = svg('g', { class: 'guide-layer' });
         cablesSvg.appendChild(guideLayer);
         cablesSvg.appendChild(cableLayer);
@@ -408,7 +434,7 @@
         /* ---------- boutons rotatifs ---------- */
         function buildKnob(key, def) {
             const node = el('div', {
-                class: 'knob', role: 'slider', tabindex: '0',
+                class: 'knob', role: 'slider', tabindex: '0', 'data-knob': key,
                 'aria-label': key.replace('.', ' › '),
                 'aria-valuemin': '0', 'aria-valuemax': '100'
             });
@@ -835,8 +861,11 @@
         let drag = null;
         let pointerAt = -1e9;   // dernier geste à la souris ou au doigt sur une prise
 
+        // Le câble qu'on tire, tel que la 3D le dessine (px du rack)
+        let tempState = null;
         function tempCable(from, point) {
             tempLayer.innerHTML = '';
+            tempState = from ? { from, x: point.x, y: point.y } : null;
             if (!from) return;
             const kind = JACKS[from].kind;
             const p = jackCenter(from);
@@ -897,6 +926,7 @@
             n.removeEventListener('pointercancel', onDragCancel);
             rack.classList.remove('is-dragging');
             tempLayer.innerHTML = '';
+            tempState = null;
             drag = null;
         }
 
@@ -1514,10 +1544,25 @@
         onScroll();
         start();
 
+        // La 3D : le rack, et sur l'accueil « la suite » en dessous
+        let skin = null, siteSkin = null;
+        load3D().then((three) => {
+            if (destroyed) return;
+            skin = three.rack(rack, {
+                cables: () => state.cables,
+                temp: () => tempState,
+                value: (k) => state.values[k] || 0,
+                kind: (k) => (JACKS[k] ? JACKS[k].kind : 'audio')
+            });
+            if (cfg === RACKS.home) siteSkin = three.siteRack(document.querySelector('.site-rack'));
+        }).catch(() => { });
+
         return {
             root,
             destroy() {
                 destroyed = true;
+                if (skin) skin.destroy();
+                if (siteSkin) siteSkin.destroy();
                 if (raf) cancelAnimationFrame(raf);
                 if (io) io.disconnect();
                 if (ro) ro.disconnect();
@@ -1724,6 +1769,9 @@
         add(hand, 'circle', { r: 9, class: 'th-hand-dot' });
         const hz = add(hand, 'text', { x: 16, y: -16, class: 'th-hz' });
         const wrap = el('div', { class: 'theremin-stage' }, [stage]);
+        // La 3D : le meuble en noyer et laiton. Le dessin d'origine reste par-dessus, invisible :
+        // il reçoit les gestes, le clavier et le focus ; la 3D dit où la main se trouve dans ce dessin.
+        let view = null;
         root.appendChild(wrap);
 
         const powerBtn = el('button', { type: 'button', class: 'patch-tool', text: T.powerOn });
@@ -1813,6 +1861,7 @@
 
         /* ---------- la main ---------- */
         function point(e) {
+            if (view) { const p = view.toDrawing(e.clientX, e.clientY); if (p) return p; }
             const m = stage.getScreenCTM();
             if (!m) return null;
             const p = stage.createSVGPoint();
@@ -2024,10 +2073,23 @@
         render();
         onScroll();
 
+        load3D().then((three) => {
+            if (destroyed) return;
+            view = three.theremin(wrap, {
+                stage, TH,
+                hand: () => state.hand,
+                power: () => state.power,
+                analyser: () => A.analyser,
+                pitchAt, volumeAt, fmtHz,
+                labels: { pitch: T.pitch, volume: T.volume }
+            });
+        }).catch(() => { });
+
         return {
             root,
             destroy() {
                 destroyed = true;
+                if (view) view.destroy();
                 if (raf) cancelAnimationFrame(raf);
                 if (io) io.disconnect();
                 if (ro) ro.disconnect();
