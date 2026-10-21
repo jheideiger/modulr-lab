@@ -231,7 +231,7 @@
         return {
             state: t,
             // Pendant un geste (tirer un câble, tourner un bouton), le rack revient à plat : les mesures restent justes
-            hold(on) { t.hold = on; if (on) aim(0, 0); },
+            hold(on) { if (t.hold === on) return; t.hold = on; if (on) aim(0, 0); },
             destroy() {
                 window.removeEventListener('pointermove', move);
                 document.removeEventListener('pointerleave', leave);
@@ -254,6 +254,23 @@
             light: key,
             place(t) { key.position.copy(new THREE.Vector3(-0.38 + (t ? t.x : 0) * 0.22, 0.62 - (t ? t.y : 0) * 0.16, 1).normalize().multiplyScalar(D * 1.2)); }
         };
+    }
+
+    // La courbe « ease » des transitions CSS (cubic-bezier(0.25, 0.1, 0.25, 1))
+    function ease(x) {
+        if (x <= 0) return 0;
+        if (x >= 1) return 1;
+        const x1 = 0.25, y1 = 0.1, x2 = 0.25, y2 = 1;
+        let t = x;
+        for (let i = 0; i < 8; i++) {
+            const u = 1 - t;
+            const dx = 3 * x1 * t * u * u + 3 * x2 * t * t * u + t * t * t - x;
+            const d = 3 * x1 * u * u + 6 * (x2 - x1) * t * u + 3 * (1 - x2) * t * t;
+            if (Math.abs(dx) < 1e-5 || Math.abs(d) < 1e-6) break;
+            t = Math.max(0, Math.min(1, t - dx / d));
+        }
+        const u = 1 - t;
+        return 3 * y1 * t * u * u + 3 * y2 * t * t * u + t * t * t;
     }
 
     // Mesurer à plat : l'inclinaison en cours fausserait les positions
@@ -417,9 +434,9 @@
         rackEl.classList.add('is-3d');
         const env = studioEnv(renderer);
         const M = rackMaterials();
-        let scene = null, camera = null, light = null, destroyed = false, visible = true, raf = 0;
-        let knobs = {}, jacks = {}, waves = [], veils = [], modules = [], ropes = {}, tempRope = null, unit = 1, fromRack = null;
-        const tilt = Tilt(rackEl, (t) => { if (light) light.place(t); }, { x: 1.6, y: 2.4 });
+        let scene = null, camera = null, light = null, destroyed = false, visible = true, raf = 0, dirty = true;
+        let knobs = {}, jacks = {}, waves = [], veils = [], modules = [], fades = [], ropes = {}, tempRope = null, unit = 1, fromRack = null;
+        const tilt = Tilt(rackEl, (t) => { if (light) light.place(t); invalidate(); }, { x: 1.6, y: 2.4 });
 
         function build() {
             if (destroyed) return;
@@ -562,14 +579,21 @@
             r.plugs.forEach((p) => { scene.remove(p); p.traverse((o) => { if (o.geometry) o.geometry.dispose(); }); });
         }
         const anchorOf = (j) => new THREE.Vector3(j.x, j.y, 41 * unit);
+        // Renvoie true tant que le câble oscille encore
         function stepRope(r, A0, B0) {
             // Un câble un peu plus long que l'écart, sans jamais pendre trop bas sous le rack
             const d = A0.distanceTo(B0), L = Math.max(d * 1.06, d + 56 * unit);
             const target = Math.min(118 * unit, Math.sqrt(3 * d * (L - d) / 8) + 10 * unit);
+            // Posé et immobile, aux mêmes prises : rien à recalculer
+            const where = A0.x + ',' + A0.y + ',' + B0.x + ',' + B0.y + ',' + B0.z;
+            if (r.still && r.where === where) return false;
             if (r.sag === null) { r.sag = target * 0.35; r.vel = 0; }
             if (reduceMotion()) { r.sag = target; r.vel = 0; }
             r.vel = (r.vel + (target - r.sag) * 0.09) * 0.88;
             r.sag += r.vel;
+            const moving = Math.abs(r.vel) > 0.03 * unit || Math.abs(target - r.sag) > 0.15 * unit;
+            if (!moving) { r.sag = target; r.vel = 0; }
+            r.still = !moving; r.where = where;
             // Devant les boutons et devant le voile des modules grisés par le guide
             const FRONT = 38 * unit;
             for (let i = 0; i <= SEG; i++) {
@@ -584,12 +608,53 @@
             r.mesh.geometry = new THREE.TubeGeometry(new THREE.CatmullRomCurve3(r.pts), SEG * 3, 4.6 * unit, 10, false);
             r.plugs[0].position.set(A0.x, A0.y, 0);
             r.plugs[1].position.set(B0.x, B0.y, B0.z - 41 * unit);
+            return moving;
         }
 
-        /* ---------- l'image ---------- */
-        function frame() {
+        /* ---------- le voile des modules ----------
+           Il suit l'opacité que le CSS donne aux modules, recalculée ici depuis l'état du guide
+           (is-dim, rack éteint, survol ou focus, mise sous tension), avec les mêmes durées et
+           les mêmes délais que les transitions de common.css. */
+        function fadeTarget(m, i) {
+            const hot = m.matches(':hover') || m.matches(':focus-within');
+            if (rackEl.classList.contains('is-off')) return hot ? { op: 0.6, dur: 600, delay: 0 } : { op: 0.38, dur: 600, delay: (3 - i) * 80 };
+            if (m.classList.contains('is-dim')) return { op: hot ? 0.85 : 0.4, dur: 500, delay: 0 };
+            return { op: 1, dur: 500, delay: 0 };
+        }
+        // Renvoie true tant qu'un voile change encore
+        function stepVeils(now) {
+            let busy = false;
+            const since = model.powering ? model.powering() : 0;
+            modules.forEach((m, i) => {
+                const f = fades[i] || (fades[i] = { v: null, to: null });
+                if (since) {
+                    // L'allumage, module par module : de 0,08 à 1 en 0,6 s
+                    f.v = 0.08 + 0.92 * ease((now - since - (i * 140 + 150)) / 600);
+                    f.to = null;
+                    busy = true;
+                } else {
+                    const g = fadeTarget(m, i);
+                    if (f.v === null) f.v = f.to = g.op;
+                    else if (f.to === null) Object.assign(f, { from: f.v, to: g.op, t0: now, dur: 500 });
+                    else if (g.op !== f.to) Object.assign(f, { from: f.v, to: g.op, t0: now + g.delay, dur: g.dur });
+                    if (f.v !== f.to) {
+                        const k = (now - f.t0) / f.dur;
+                        f.v = k >= 1 ? f.to : f.from + (f.to - f.from) * ease(k);
+                        if (f.v !== f.to) busy = true;
+                    }
+                }
+                if (veils[i]) veils[i].material.opacity = Math.min(0.85, (1 - f.v) * 1.05);
+            });
+            return busy;
+        }
+
+        /* ---------- l'image : redessinée seulement quand quelque chose change ---------- */
+        function invalidate() { dirty = true; start(); }
+        function frame(now) {
             raf = 0;
             if (destroyed || !scene) return;
+            dirty = false;
+            let busy = false;
             // Les câbles posés
             const live = {};
             model.cables().forEach((c) => {
@@ -597,7 +662,7 @@
                 if (!a || !b) return;
                 live[c.id] = true;
                 if (!ropes[c.id]) ropes[c.id] = Rope(anchorOf(a), anchorOf(b), c.kind);
-                stepRope(ropes[c.id], anchorOf(a), anchorOf(b));
+                if (stepRope(ropes[c.id], anchorOf(a), anchorOf(b))) busy = true;
             });
             Object.keys(ropes).forEach((id) => { if (!live[id]) { dropRope(ropes[id]); delete ropes[id]; } });
             // Le câble qu'on tire
@@ -605,7 +670,7 @@
             if (t && jacks[t.from]) {
                 const p = fromRack(t.x, t.y), end = new THREE.Vector3(p.x, p.y, 70 * unit);
                 if (!tempRope || tempRope.from !== t.from) { dropRope(tempRope); tempRope = Rope(anchorOf(jacks[t.from]), end, model.kind(t.from)); tempRope.from = t.from; }
-                stepRope(tempRope, anchorOf(jacks[t.from]), end);
+                if (stepRope(tempRope, anchorOf(jacks[t.from]), end)) busy = true;
             } else if (tempRope) { dropRope(tempRope); tempRope = null; }
             tilt.hold(!!t || rackEl.classList.contains('is-dragging'));
             // Les boutons tournent avec leur valeur ; la touche de l'onde choisie s'allume
@@ -616,7 +681,7 @@
                 w.mesh.position.z = on ? -1.6 : hot ? -0.6 : 0;
             });
             // Les modules effacés par le guide, ou le rack éteint
-            modules.forEach((m, i) => { if (veils[i]) veils[i].material.opacity = Math.min(0.85, (1 - parseFloat(getComputedStyle(m).opacity || '1')) * 1.05); });
+            if (stepVeils(now)) busy = true;
             // Dessous : le matériel (et l'ombre des câbles) ; dessus : les câbles seuls, sans les reflets du studio
             camera.layers.set(0);
             renderer.render(scene, camera);
@@ -626,28 +691,36 @@
             top.render(scene, camera);
             scene.environment = envMap;
             camera.layers.set(0);
-            if (visible && !document.hidden) raf = requestAnimationFrame(frame);
+            // Un câble qui se balance, un voile qui change : on continue ; sinon la boucle s'arrête
+            if (busy) dirty = true;
+            if (dirty) start();
         }
-        function start() { if (!raf && !destroyed) raf = requestAnimationFrame(frame); }
+        function start() { if (!raf && !destroyed && visible && !document.hidden) raf = requestAnimationFrame(frame); }
 
-        const io = 'IntersectionObserver' in window ? new IntersectionObserver((e) => { visible = e.some((x) => x.isIntersecting); if (visible) start(); }) : null;
+        const io = 'IntersectionObserver' in window ? new IntersectionObserver((e) => { visible = e.some((x) => x.isIntersecting); if (visible && dirty) start(); }) : null;
         if (io) io.observe(rackEl);
-        const onVis = () => { if (!document.hidden) start(); };
+        const onVis = () => { if (!document.hidden && dirty) start(); };
         document.addEventListener('visibilitychange', onVis);
+        // Survol et focus : les touches d'onde s'enfoncent, les modules grisés se rallument un peu
+        const onHover = () => invalidate();
+        ['pointerover', 'pointerout', 'focusin', 'focusout'].forEach((ev) => rackEl.addEventListener(ev, onHover));
         let timer = 0;
-        const again = () => { clearTimeout(timer); timer = setTimeout(() => { build(); start(); }, 60); };
+        const again = () => { clearTimeout(timer); timer = setTimeout(() => { build(); invalidate(); }, 60); };
         const ro = 'ResizeObserver' in window ? new ResizeObserver(again) : null;
         if (ro) ro.observe(rackEl);
         build();
-        start();
+        invalidate();
 
         return {
+            // instrument.js le signale à chaque changement : câble, bouton, onde, guide, rack éteint ou allumé
+            invalidate,
             destroy() {
                 destroyed = true;
                 cancelAnimationFrame(raf); clearTimeout(timer);
                 if (io) io.disconnect();
                 if (ro) ro.disconnect();
                 document.removeEventListener('visibilitychange', onVis);
+                ['pointerover', 'pointerout', 'focusin', 'focusout'].forEach((ev) => rackEl.removeEventListener(ev, onHover));
                 tilt.destroy();
                 disposeScene(scene);
                 env.dispose();
@@ -892,18 +965,20 @@
             camera.lookAt(target);
             camera.updateProjectionMatrix();
         }
-        const ro = 'ResizeObserver' in window ? new ResizeObserver(resize) : null;
+        /* ---------- l'image : redessinée seulement quand quelque chose change ---------- */
+        let raf = 0, destroyed = false, visible = true, dirty = true, last = 0, pointer = { x: 0, y: 0, inside: false };
+        function invalidate() { dirty = true; start(); }
+        const ro = 'ResizeObserver' in window ? new ResizeObserver(() => { resize(); invalidate(); }) : null;
         if (ro) ro.observe(wrap);
         resize();
 
-        /* ---------- l'image ---------- */
-        let raf = 0, destroyed = false, visible = true, last = 0, pointer = { x: 0, y: 0, inside: false };
         const tilt = { x: 0, y: 0 };
         const onMove = (e) => {
             const r = wrap.getBoundingClientRect();
             pointer = { x: ((e.clientX - r.left) / r.width) * 2 - 1, y: ((e.clientY - r.top) / r.height) * 2 - 1, inside: e.pointerType === 'mouse' };
+            invalidate();
         };
-        const onLeave = () => { pointer.inside = false; };
+        const onLeave = () => { pointer.inside = false; invalidate(); };
         wrap.addEventListener('pointermove', onMove);
         wrap.addEventListener('pointerleave', onLeave);
         const data = new Float32Array(2048);
@@ -925,11 +1000,15 @@
         function frame(now) {
             raf = 0;
             if (destroyed) return;
-            const dt = Math.min(100, now - last || 16); last = now;
+            dirty = false;
+            const dt = last ? Math.min(100, now - last) : 16; last = now;
             const k = Math.min(1, dt / 250);
             const still = reduceMotion();
-            tilt.x += ((pointer.inside && !still ? pointer.y * 0.04 : 0) - tilt.x) * k;
-            tilt.y += ((pointer.inside && !still ? pointer.x * 0.07 : 0) - tilt.y) * k;
+            const tx = pointer.inside && !still ? pointer.y * 0.04 : 0, ty = pointer.inside && !still ? pointer.x * 0.07 : 0;
+            tilt.x += (tx - tilt.x) * k;
+            tilt.y += (ty - tilt.y) * k;
+            const tilting = Math.abs(tx - tilt.x) > 1e-4 || Math.abs(ty - tilt.y) > 1e-4;
+            if (!tilting) { tilt.x = tx; tilt.y = ty; }
             th.rotation.set(tilt.x, tilt.y, 0);
             const cls = opts.stage.classList, on = opts.power(), h = opts.hand(), playing = cls.contains('is-playing');
             const near = Math.max(0, 1 - Math.abs(TH.rodX - h.x) / 480), vol = opts.volumeAt(h.x, h.y);
@@ -954,17 +1033,23 @@
             } else hz.hidden = true;
             drawScreen(on);
             renderer.render(scene, camera);
-            if (visible && !document.hidden) raf = requestAnimationFrame(frame);
+            // Ce qui bouge tout seul : l'écran allumé, les repères qui pulsent, l'inclinaison qui se pose
+            const hinting = !still && (cls.contains('is-hint-pilot') || cls.contains('is-hint-rod') || cls.contains('is-hint-loop'));
+            if (on || playing || hinting || tilting) dirty = true;
+            else last = 0;
+            if (dirty) start();
         }
-        function start() { if (!raf && !destroyed) raf = requestAnimationFrame(frame); }
-        const io = 'IntersectionObserver' in window ? new IntersectionObserver((e) => { visible = e.some((x) => x.isIntersecting); if (visible) start(); }) : null;
+        function start() { if (!raf && !destroyed && visible && !document.hidden) raf = requestAnimationFrame(frame); }
+        const io = 'IntersectionObserver' in window ? new IntersectionObserver((e) => { visible = e.some((x) => x.isIntersecting); if (visible && dirty) start(); }) : null;
         if (io) io.observe(wrap);
-        const onVis = () => { if (!document.hidden) start(); };
+        const onVis = () => { if (!document.hidden && dirty) start(); };
         document.addEventListener('visibilitychange', onVis);
-        start();
+        invalidate();
 
         return {
             toDrawing,
+            // instrument.js le signale à chaque changement : allumé ou éteint, la main, l'étape du guide
+            invalidate,
             destroy() {
                 destroyed = true;
                 cancelAnimationFrame(raf);

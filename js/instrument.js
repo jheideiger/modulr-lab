@@ -330,6 +330,9 @@
         const cleanups = [];
         const waveButtons = [];
         let raf = 0, visible = true, destroyed = false, noteTimer = 0, suspendTimer = 0, autoTimer = 0, keyTimer = 0, lastNow = 0;
+        // La 3D (le rack, et sur l'accueil « la suite ») : elle ne redessine que quand on le lui signale
+        let skin = null, siteSkin = null, poweringAt = 0;
+        const redraw3D = () => { if (skin) skin.invalidate(); };
 
         /* ---------- construction ---------- */
         root.innerHTML = '';
@@ -456,6 +459,7 @@
                 fill.setAttribute('d', arcPath(0, v));
                 node.setAttribute('aria-valuenow', String(Math.round(v * 100)));
                 node.setAttribute('aria-valuetext', def.text(v));
+                redraw3D();
             };
             knob.update = update;
             update();
@@ -517,6 +521,7 @@
                 b.addEventListener('click', () => {
                     state.wave = w;
                     waveButtons.forEach((x) => x.setAttribute('aria-pressed', x === b ? 'true' : 'false'));
+                    redraw3D();
                     ensureAudio();
                     if (A.osc) {
                         A.osc.type = w;
@@ -794,6 +799,7 @@
         }
 
         function drawCables() {
+            redraw3D();
             const base = rack.getBoundingClientRect();
             cablesSvg.setAttribute('viewBox', `0 0 ${base.width.toFixed(1)} ${base.height.toFixed(1)}`);
             cablesSvg.setAttribute('width', base.width.toFixed(1));
@@ -866,6 +872,7 @@
         function tempCable(from, point) {
             tempLayer.innerHTML = '';
             tempState = from ? { from, x: point.x, y: point.y } : null;
+            redraw3D();
             if (!from) return;
             const kind = JACKS[from].kind;
             const p = jackCenter(from);
@@ -928,6 +935,7 @@
             tempLayer.innerHTML = '';
             tempState = null;
             drag = null;
+            redraw3D();
         }
 
         function onDragCancel() {
@@ -1048,6 +1056,7 @@
             announce(on ? T.onSaid : T.offSaid);
             if (on) start(); else frame(performance.now());
             renderGuide();
+            redraw3D();
         }
         cleanups.push(() => clearTimeout(suspendTimer));
 
@@ -1228,6 +1237,7 @@
         const knobIcon = () => el('span', { class: 'display-knob', 'aria-hidden': 'true' });
 
         function renderGuide() {
+            redraw3D();
             const final = state.step >= STEPS.length;
             const step = final ? null : STEPS[state.step];
             const s = final ? null : T.steps[state.step];
@@ -1535,7 +1545,8 @@
         // Mise sous tension : les modules s'allument l'un après l'autre (une seule fois)
         if (!reduceMotion()) {
             rack.classList.add('is-powering');
-            setTimeout(() => rack.classList.remove('is-powering'), 1600);
+            poweringAt = performance.now();
+            setTimeout(() => { rack.classList.remove('is-powering'); redraw3D(); }, 1600);
         }
 
         enterStep(0);
@@ -1545,14 +1556,15 @@
         start();
 
         // La 3D : le rack, et sur l'accueil « la suite » en dessous
-        let skin = null, siteSkin = null;
         load3D().then((three) => {
             if (destroyed) return;
             skin = three.rack(rack, {
                 cables: () => state.cables,
                 temp: () => tempState,
                 value: (k) => state.values[k] || 0,
-                kind: (k) => (JACKS[k] ? JACKS[k].kind : 'audio')
+                kind: (k) => (JACKS[k] ? JACKS[k].kind : 'audio'),
+                // L'allumage en cours (le moment où il a commencé), sinon 0
+                powering: () => (rack.classList.contains('is-powering') ? poweringAt : 0)
             });
             if (cfg === RACKS.home) siteSkin = three.siteRack(document.querySelector('.site-rack'));
         }).catch(() => { });
@@ -1856,6 +1868,7 @@
             announce(on ? T.onSaid : T.offSaid);
             if (on && state.step === 0 && state.phase === 'todo') done();
             render();
+            if (view) view.invalidate();
         }
         cleanups.push(() => clearTimeout(suspendTimer));
 
@@ -1876,6 +1889,7 @@
             sound();
             draw();
             start();
+            if (view) view.invalidate();
         }
 
         let touching = false;
@@ -2004,6 +2018,7 @@
         }
 
         function render() {
+            if (view) view.invalidate();
             const final = state.step >= N;
             const s = final ? null : T.steps[state.step];
             const isDone = !final && state.phase === 'done';
