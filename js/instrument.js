@@ -481,15 +481,30 @@
                 knobTurned(key);
             };
 
-            // Glisser vers le haut ou vers la droite pour tourner
+            // À la souris, glisser vers le haut ou vers la droite pour tourner ; au doigt, vers la droite
+            // seulement : glisser vers le haut ou le bas fait défiler la page (touch-action: pan-y).
             node.addEventListener('pointerdown', (e) => {
                 e.preventDefault();
-                ensureAudio();
+                const horizontal = e.pointerType === 'touch';
+                // Au doigt, le bouton ne bouge qu'au-delà de 6 px vers la gauche ou la droite : un pouce
+                // qui fait défiler la page ne tourne rien et ne rallume pas un rack éteint ; un simple toucher,
+                // lui, le rallume (pointerup n'arrive pas quand le navigateur a pris le geste pour défiler)
+                let turning = !horizontal;
+                if (turning) ensureAudio();
                 const startX = e.clientX, startY = e.clientY, startV = state.values[key];
                 node.setPointerCapture(e.pointerId);
-                node.classList.add('is-turning');
-                const move = (ev) => set(startV + ((ev.clientX - startX) - (ev.clientY - startY)) / 160);
-                const up = () => {
+                if (turning) node.classList.add('is-turning');
+                const move = (ev) => {
+                    if (!turning) {
+                        if (Math.abs(ev.clientX - startX) < 6) return;
+                        turning = true;
+                        ensureAudio();
+                        node.classList.add('is-turning');
+                    }
+                    set(startV + ((ev.clientX - startX) - (horizontal ? 0 : (ev.clientY - startY))) / 160);
+                };
+                const up = (ev) => {
+                    if (!turning && ev.type === 'pointerup') ensureAudio();
                     node.classList.remove('is-turning');
                     node.removeEventListener('pointermove', move);
                     node.removeEventListener('pointerup', up);
@@ -904,9 +919,12 @@
             if (e.button !== undefined && e.button !== 0) return;
             e.preventDefault();
             pointerAt = performance.now();
-            ensureAudio();
+            // Au doigt, une prise se branche en deux touchers, sans glisser : le geste peut devenir
+            // un défilement de la page (touch-action: manipulation), le son attend donc le toucher
+            const touch = e.pointerType === 'touch';
+            if (!touch) ensureAudio();
             const key = jack.getAttribute('data-jack');
-            drag = { key, x: e.clientX, y: e.clientY, moved: false, pointerId: e.pointerId, from: null };
+            drag = { key, x: e.clientX, y: e.clientY, moved: false, touch, pointerId: e.pointerId, from: null };
             try { jack.setPointerCapture(e.pointerId); } catch (err) { }
             jack.addEventListener('pointermove', onDragMove);
             jack.addEventListener('pointerup', onDragEnd);
@@ -915,7 +933,7 @@
         }
 
         function onDragMove(e) {
-            if (!drag) return;
+            if (!drag || drag.touch) return;
             if (!drag.moved && Math.hypot(e.clientX - drag.x, e.clientY - drag.y) < 6) return;
             if (!drag.moved) {
                 drag.moved = true;
@@ -948,10 +966,15 @@
             redraw3D();
         }
 
+        // Le navigateur annule le geste quand le doigt fait défiler la page : la prise ① déjà touchée
+        // reste en attente. Seul un câble qu'on tirait est abandonné.
         function onDragCancel() {
-            state.pending = null;
+            const pulling = drag && drag.moved;
             endDrag();
+            if (!pulling) return;
+            state.pending = null;
             refreshJacks();
+            renderGuide();
         }
 
         function onDragEnd(e) {
@@ -959,6 +982,7 @@
             const d = drag;
             if (!d.moved) {
                 endDrag();
+                if (d.touch) ensureAudio();
                 tapJack(d.key);
                 return;
             }

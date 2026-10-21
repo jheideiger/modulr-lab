@@ -2736,6 +2736,13 @@ body {
     font: inherit;
 }
 
+/* Au doigt, le rack laisse défiler la page : un bouton se tourne de gauche à droite (le geste
+   vertical reste au défilement), une prise se branche en deux touchers et n'a pas besoin de glisser */
+@media (pointer: coarse) {
+    .knob { touch-action: pan-y; }
+    .jack { touch-action: manipulation; }
+}
+
 .jack:focus-visible {
     outline: 2px solid var(--color-accent);
     outline-offset: 1px;
