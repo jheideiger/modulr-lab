@@ -29,6 +29,13 @@
     const lin = (hex) => new THREE.Color(hex).convertSRGBToLinear();
     const reduceMotion = () => window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const coarse = () => !!(window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
+    // Un appareil modeste (peu de mémoire, peu de cœurs, ou économie de données demandée) :
+    // pas d'ombres calculées en temps réel, mais une ombre simple et fixe, et une densité de pixels de 1
+    const modest = (function () {
+        const n = navigator, c = n.connection || {};
+        return (n.deviceMemory > 0 && n.deviceMemory <= 4) || (n.hardwareConcurrency > 0 && n.hardwareConcurrency <= 4) || c.saveData === true ||
+            !!(window.matchMedia && window.matchMedia('(prefers-reduced-data: reduce)').matches);
+    })();
 
     function supported() {
         if (!window.THREE) return false;
@@ -38,11 +45,11 @@
     /* ---------- outils communs ---------- */
     function makeRenderer(opts) {
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: !!opts.alpha });
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, coarse() ? 1.5 : 2));
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, modest ? 1 : coarse() ? 1.5 : 2));
         renderer.outputEncoding = THREE.sRGBEncoding;
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
         renderer.toneMappingExposure = opts.exposure || 1;
-        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.enabled = !modest;
         renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         renderer.setClearColor(opts.clear === undefined ? 0x000000 : opts.clear, opts.alpha ? 0 : 1);
         return renderer;
@@ -71,6 +78,26 @@
     }
 
     function canvasTexture(c) { const t = new THREE.CanvasTexture(c); t.encoding = THREE.sRGBEncoding; return t; }
+
+    // L'ombre simple et fixe des appareils modestes : une tache sombre et floue, posée sous la pièce
+    // (décalée vers le bas à droite, à l'opposé de la lumière clé). Rien sur les autres appareils.
+    let blobTex = null;
+    function contactShadow(w, h, opacity, dx, dy) {
+        if (!modest) return null;
+        if (!blobTex) {
+            const c = document.createElement('canvas'); c.width = c.height = 64;
+            // En niveaux de gris : alphaMap lit le canal vert (blanc = opaque, noir = transparent)
+            const g = c.getContext('2d'), r = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+            r.addColorStop(0, '#FFFFFF'); r.addColorStop(0.45, '#8C8C8C'); r.addColorStop(1, '#000000');
+            g.fillStyle = r; g.fillRect(0, 0, 64, 64);
+            blobTex = new THREE.CanvasTexture(c);
+        }
+        const mat = new THREE.MeshBasicMaterial({ color: 0x000000, alphaMap: blobTex, transparent: true, opacity, depthWrite: false, toneMapped: false });
+        mat.userData.own = true;
+        const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), mat);
+        m.position.set(dx || 0, dy || 0, 0.25);
+        return m;
+    }
 
     // L'aluminium brossé d'un panneau, avec, si besoin, la graduation des boutons imprimée
     function panelTexture(w, h, ticks) {
@@ -244,7 +271,7 @@
     // La lumière clé, qui glisse un peu avec l'inclinaison
     function keyLight(scene, W, H, D) {
         const key = new THREE.DirectionalLight(0xffffff, 1.45);
-        key.castShadow = true;
+        key.castShadow = !modest;
         key.shadow.mapSize.set(coarse() ? 1024 : 2048, coarse() ? 1024 : 2048);
         const span = Math.max(W, H) * 0.75;
         Object.assign(key.shadow.camera, { left: -span, right: span, top: span, bottom: -span, near: 1, far: D * 3 });
@@ -334,6 +361,8 @@
                     mesh.position.set(q.x, q.y, 0);
                     mesh.castShadow = true;
                     scene.add(mesh);
+                    const sh = contactShadow(r.width + 12, r.height + 12, 0.45, 2, -3);
+                    if (sh) { sh.position.x += q.x; sh.position.y += q.y; scene.add(sh); }
                     keys.push({ cta, mesh, mats, hot: false, down: false });
                 });
                 showKeys(true);
@@ -498,6 +527,8 @@
                     g.position.set(q.x, q.y, 0);
                     scene.add(g);
                     knobs[node.dataset.knob] = g;
+                    const sh = contactShadow(60 * k, 60 * k, 0.75, 7 * k, -9 * k);
+                    if (sh) { sh.position.x += q.x; sh.position.y += q.y; scene.add(sh); }
                 });
 
                 // Les prises : écrou hexagonal en acier, douille, trou noir
@@ -513,6 +544,8 @@
                     g.add(nut, sleeve, hole);
                     g.position.set(q.x, q.y, 0);
                     scene.add(g);
+                    const sh = contactShadow(40 * s, 40 * s, 0.5, 3 * s, -4 * s);
+                    if (sh) { sh.position.x += q.x; sh.position.y += q.y; scene.add(sh); }
                     // Position dans le repère du rack (px depuis le coin haut gauche), comme les câbles d'instrument.js
                     jacks[btn.dataset.jack] = { x: q.x, y: q.y, lx: r.left + r.width / 2 - R.left, ly: r.top + r.height / 2 - R.top };
                 });
@@ -530,6 +563,8 @@
                     const q = at(r.left + r.width / 2, r.top + r.height / 2);
                     mesh.position.set(q.x, q.y, 0); mesh.castShadow = true;
                     scene.add(mesh);
+                    const sh = contactShadow(r.width + 10, r.height + 10, 0.45, 2, -3);
+                    if (sh) { sh.position.x += q.x; sh.position.y += q.y; scene.add(sh); }
                     waves.push({ btn: b, mesh, mats });
                 });
 
@@ -562,6 +597,8 @@
             const ring = new THREE.Mesh(new THREE.CylinderGeometry(11.7 * s, 11.7 * s, 4.5 * s, 24), kind === 'audio' ? M.audio : M.cv); ring.rotation.x = Math.PI / 2; ring.position.z = 10 * s;
             const tip = new THREE.Mesh(new THREE.CylinderGeometry(7.5 * s, 9 * s, 8 * s, 24), M.steel); tip.rotation.x = Math.PI / 2; tip.position.z = 6 * s;
             [body, ring, tip].forEach((n) => { n.castShadow = true; n.layers.enable(1); g.add(n); });
+            const sh = contactShadow(40 * s, 40 * s, 0.6, 4 * s, -6 * s);
+            if (sh) g.add(sh);
             scene.add(g);
             return g;
         }
@@ -809,7 +846,7 @@
         scene.add(new THREE.HemisphereLight(0x3a332c, 0x080706, 0.9));
         const key = new THREE.DirectionalLight(0xfff1dc, 1.7);
         key.position.set(-22, 70, 42);
-        key.castShadow = true;
+        key.castShadow = !modest;
         key.shadow.mapSize.set(coarse() ? 1024 : 2048, coarse() ? 1024 : 2048);
         Object.assign(key.shadow.camera, { left: -70, right: 70, top: 70, bottom: -70, near: 1, far: 260 });
         key.shadow.bias = -0.0005; key.shadow.radius = 4;
@@ -915,8 +952,11 @@
         loopPath.add(new THREE.LineCurve3(new THREE.Vector3(LOOP.x1 + LOOP.z, LOOP.y, LOOP.z), new THREE.Vector3(LOOP.x0, LOOP.y, LOOP.z)));
         add(new THREE.TubeGeometry(loopPath, 120, 0.26, 16, false), brass, 0, 0, 0);
         add(new THREE.BoxGeometry(1.4, 2.6, 6.4), bakelite, -CAB.w / 2 - 0.6, LOOP.y, 0);
-        const floor = new THREE.Mesh(new THREE.PlaneGeometry(400, 400), own(new THREE.ShadowMaterial({ opacity: 0.55 })));
-        floor.rotation.x = -Math.PI / 2; floor.position.y = FLOOR; floor.receiveShadow = true;
+        const floor = modest
+            // Sans ombres calculées : une ombre floue et fixe sous le meuble et ses pieds
+            ? contactShadow(CAB.w * 1.25, CAB.d * 1.6, 0.6, 0, 0)
+            : new THREE.Mesh(new THREE.PlaneGeometry(400, 400), own(new THREE.ShadowMaterial({ opacity: 0.55 })));
+        floor.rotation.x = -Math.PI / 2; floor.position.set(0, FLOOR + (modest ? 0.02 : 0), 0); floor.receiveShadow = true;
         th.add(floor);
 
         // Les champs autour des antennes, et la main

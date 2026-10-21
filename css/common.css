@@ -3971,6 +3971,20 @@ body {
     height: 100%;
 }
 
+/* En attendant la 3D (chargée quand le navigateur est libre) : le cadre a déjà ses proportions,
+   le dessin d'origine reste visible et utilisable, centré dedans */
+.theremin-stage.is-3d-soon {
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+}
+
+.theremin-stage.is-3d-soon:not(.is-3d) .theremin {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
 /* Le contour de focus seulement au clavier (le dessin invisible reçoit le focus au clic aussi) */
 .theremin-stage.is-3d:has(.theremin:focus-visible) {
     outline: 2px solid var(--color-accent);
@@ -3991,7 +4005,8 @@ body {
 }
 
 @media (max-width: 600px) {
-    .theremin-stage.is-3d {
+    .theremin-stage.is-3d,
+    .theremin-stage.is-3d-soon {
         aspect-ratio: 1 / 1.05;
     }
 }

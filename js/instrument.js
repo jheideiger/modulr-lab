@@ -274,6 +274,16 @@
         return loading3D;
     }
 
+    // three.js (600 Ko) arrive après le premier affichage, quand le navigateur est libre :
+    // en attendant, l'instrument en HTML fonctionne déjà (gestes, son, guide, clavier)
+    function whenIdle() {
+        return new Promise((resolve) => {
+            const go = () => (window.requestIdleCallback ? window.requestIdleCallback(() => resolve(), { timeout: 4000 }) : setTimeout(resolve, 300));
+            if (document.readyState === 'complete') requestAnimationFrame(() => setTimeout(go, 0));
+            else window.addEventListener('load', () => setTimeout(go, 0), { once: true });
+        });
+    }
+
     function mount(root) {
         if (current && current.root === root) return;
         unmount();
@@ -1556,7 +1566,7 @@
         start();
 
         // La 3D : le rack, et sur l'accueil « la suite » en dessous
-        load3D().then((three) => {
+        whenIdle().then(load3D).then((three) => {
             if (destroyed) return;
             skin = three.rack(rack, {
                 cables: () => state.cables,
@@ -2088,7 +2098,9 @@
         render();
         onScroll();
 
-        load3D().then((three) => {
+        // Le cadre prend tout de suite les proportions de la 3D : la page ne bouge pas quand elle arrive
+        if (window.WebGLRenderingContext) wrap.classList.add('is-3d-soon');
+        whenIdle().then(load3D).then((three) => {
             if (destroyed) return;
             view = three.theremin(wrap, {
                 stage, TH,
@@ -2098,7 +2110,8 @@
                 pitchAt, volumeAt, fmtHz,
                 labels: { pitch: T.pitch, volume: T.volume }
             });
-        }).catch(() => { });
+            if (!view) wrap.classList.remove('is-3d-soon');
+        }).catch(() => { wrap.classList.remove('is-3d-soon'); });
 
         return {
             root,
