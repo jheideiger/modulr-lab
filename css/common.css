@@ -87,8 +87,9 @@ a {
 .page-container {
     max-width: var(--page-max-width);
     margin: 0 auto;
-    padding-left: var(--page-margin);
-    padding-right: var(--page-margin);
+    /* viewport-fit=cover : en paysage sur iPhone, le texte reste hors de l'encoche */
+    padding-left: max(var(--page-margin), env(safe-area-inset-left, 0px));
+    padding-right: max(var(--page-margin), env(safe-area-inset-right, 0px));
 }
 
 /* --- Grille rail + contenu (2 colonnes desktop) --- */
@@ -381,11 +382,18 @@ a {
     color: var(--color-text);
     position: fixed;
     inset: 0;
+    /* La hauteur visible, barre d'outils de Safari déduite (100vh pour les navigateurs plus anciens) ;
+       le menu défile s'il dépasse, sans entraîner la page derrière */
+    height: 100vh;
+    height: 100dvh;
+    overflow-y: auto;
+    overscroll-behavior: contain;
     background: var(--color-bg);
     z-index: 100;
     display: flex;
     flex-direction: column;
-    padding: 32px 24px;
+    padding: max(32px, env(safe-area-inset-top, 0px)) max(24px, env(safe-area-inset-right, 0px))
+        calc(24px + env(safe-area-inset-bottom, 0px)) max(24px, env(safe-area-inset-left, 0px));
     transform: translateX(100%);
     transition: transform 0.4s ease;
 }
@@ -430,6 +438,21 @@ a {
 
 .menu-overlay nav a:hover {
     color: var(--color-accent);
+}
+
+/* Écrans peu hauts : le menu se resserre pour que « contact » reste visible */
+@media (max-height: 700px) {
+    .menu-overlay-header {
+        margin-bottom: 40px;
+    }
+
+    .menu-overlay nav {
+        gap: 20px;
+    }
+
+    .menu-overlay nav a {
+        font-size: 30px;
+    }
 }
 
 /* --- Lesson cards (page le cours — sommaire) --- */
@@ -1565,8 +1588,7 @@ a {
     display: flex;
     align-items: center;
     gap: 24px;
-    padding: 10px 40px;
-    padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+    padding: 10px max(40px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(40px, env(safe-area-inset-left, 0px));
     background: var(--color-bg);
     border-top: 0.5px solid var(--color-border);
     font-family: var(--font-body);
@@ -1623,8 +1645,7 @@ a {
         flex-direction: column;
         align-items: stretch;
         gap: 8px;
-        padding: 10px 16px;
-        padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+        padding: 10px max(16px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
     }
 
     .consent-text {
@@ -3853,8 +3874,8 @@ body {
    ========================================================= */
 .to-top {
     position: fixed;
-    right: 24px;
-    bottom: 24px;
+    right: max(24px, env(safe-area-inset-right, 0px));
+    bottom: calc(24px + env(safe-area-inset-bottom, 0px));
     z-index: 50;
     width: 40px;
     height: 40px;
@@ -3901,8 +3922,8 @@ body {
 
 @media (max-width: 768px) {
     .to-top {
-        right: 16px;
-        bottom: 16px;
+        right: max(16px, env(safe-area-inset-right, 0px));
+        bottom: calc(16px + env(safe-area-inset-bottom, 0px));
     }
 }
 
