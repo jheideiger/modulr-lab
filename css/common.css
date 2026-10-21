@@ -4185,6 +4185,74 @@ main {
     pointer-events: none;
 }
 
+/* En 3D, le dessin d'origine est invisible : ses animations (dont un filter: drop-shadow qui
+   repeindrait à chaque image) s'arrêtent */
+.theremin-stage.is-3d .theremin * {
+    animation: none !important;
+}
+
+/* Les repères du guide sur la 3D : des halos en CSS, calés sur l'image par rack3d.js.
+   Seuls opacity et transform s'animent : la carte graphique s'en charge, sans recalcul de la 3D. */
+.th3d-halos {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.th3d-pilot,
+.th3d-field {
+    position: absolute;
+    display: none;
+}
+
+.th3d-pilot {
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0, 184, 217, 0.95) 0, rgba(0, 184, 217, 0.5) 14%, rgba(0, 184, 217, 0.12) 38%, rgba(0, 184, 217, 0) 70%);
+    animation: th3d-call 1.9s ease-in-out infinite;
+    will-change: opacity, transform;
+}
+
+.th3d-ring {
+    position: absolute;
+    border: 1.5px solid var(--color-accent);
+    border-radius: 50%;
+    opacity: 0.06;
+    animation: th3d-field 2s ease-in-out infinite;
+    animation-delay: calc(var(--i) * -0.32s);
+    will-change: opacity;
+}
+
+.theremin.is-hint-pilot:not(.is-on) ~ .th3d-halos .th3d-pilot,
+.theremin.is-hint-rod:not(.is-playing) ~ .th3d-halos .th3d-field--rod,
+.theremin.is-hint-loop:not(.is-playing) ~ .th3d-halos .th3d-field--loop {
+    display: block;
+}
+
+@keyframes th3d-call {
+    0%, 100% { opacity: 0; transform: scale(0.8); }
+    50% { opacity: 0.75; transform: scale(1); }
+}
+
+@keyframes th3d-field {
+    0%, 100% { opacity: 0.06; }
+    50% { opacity: 0.26; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .th3d-pilot,
+    .th3d-ring {
+        animation: none;
+    }
+
+    .th3d-pilot {
+        opacity: 0.6;
+    }
+
+    .th3d-ring {
+        opacity: 0.18;
+    }
+}
+
 @media (max-width: 600px) {
     .theremin-stage.is-3d,
     .theremin-stage.is-3d-soon {

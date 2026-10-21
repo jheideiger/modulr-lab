@@ -243,14 +243,19 @@
             onFrame(t);
             if (Math.abs(t.tx - t.x) > 0.0015 || Math.abs(t.ty - t.y) > 0.0015) t.raf = requestAnimationFrame(step);
         }
-        function aim(x, y) { t.tx = x; t.ty = y; if (!t.raf) t.raf = requestAnimationFrame(step); }
+        function aim(x, y) {
+            // Déjà posé là : rien à redessiner
+            if (t.tx === x && t.ty === y && t.x === x && t.y === y) return;
+            t.tx = x; t.ty = y; if (!t.raf) t.raf = requestAnimationFrame(step);
+        }
         function move(e) {
             if (e.pointerType !== 'mouse' || t.hold) return;
             const r = el.getBoundingClientRect(), m = 140;
             if (e.clientX < r.left - m || e.clientX > r.right + m || e.clientY < r.top - m || e.clientY > r.bottom + m) { if (t.tx || t.ty) aim(0, 0); return; }
             aim(Math.max(-1, Math.min(1, (e.clientX - (r.left + r.width / 2)) / (r.width / 2))), Math.max(-1, Math.min(1, (e.clientY - (r.top + r.height / 2)) / (r.height / 2))));
         }
-        const leave = () => aim(0, 0);
+        // Au doigt, chaque fin de toucher « quitte » la page : seule la souris compte
+        const leave = (e) => { if (isMouse(e)) aim(0, 0); };
         if (!reduceMotion()) {
             window.addEventListener('pointermove', move, { passive: true });
             document.addEventListener('pointerleave', leave);
@@ -306,6 +311,23 @@
         el.style.transform = 'none';
         try { return fn(); } finally { el.style.transform = saved; }
     }
+
+    // Pendant un défilement (un événement scroll il y a moins de 150 ms), les rendus qui peuvent
+    // attendre (survol, focus, taille, retour à l'écran) sont reportés à la fin du défilement
+    let lastScroll = -Infinity;
+    window.addEventListener('scroll', () => { lastScroll = performance.now(); }, { passive: true });
+    const scrolling = () => performance.now() - lastScroll < 150;
+    // Appelle fn une fois le défilement fini ; un seul report à la fois par appelant
+    function afterScroll(fn) {
+        let timer = 0;
+        const check = () => { timer = 0; if (scrolling()) timer = setTimeout(check, 160 - (performance.now() - lastScroll)); else fn(); };
+        return {
+            run() { if (!scrolling()) { clearTimeout(timer); timer = 0; fn(); } else if (!timer) check(); },
+            cancel() { clearTimeout(timer); timer = 0; }
+        };
+    }
+    // Survol : seulement à la souris. Au doigt, chaque toucher pendant un défilement relancerait un rendu.
+    const isMouse = (e) => !e.pointerType || e.pointerType === 'mouse';
 
     /* =====================================================
        « LA SUITE »
@@ -367,22 +389,27 @@
                 });
                 showKeys(true);
             });
-            render();
+            renderSoon();
         }
-        function render() { if (scene && !destroyed) renderer.render(scene, camera); }
+        function render() { lazy.cancel(); if (scene && !destroyed) renderer.render(scene, camera); }
+        // Survol, focus, taille : le rendu attend la fin d'un défilement
+        const lazy = afterScroll(render);
+        const renderSoon = () => lazy.run();
         function showKeys(quiet) {
             keys.forEach((k) => {
                 const on = k.hot || k.down || k.cta === document.activeElement;
                 k.mesh.material[0] = k.mats[on ? 1 : 0];
                 k.mesh.position.z = k.down ? -3.2 : on ? -0.8 : 0;
             });
-            if (!quiet) render();
+            if (!quiet) renderSoon();
         }
         const keyOf = (e) => { const cta = e.target.closest && e.target.closest('.module-cta'); return cta && keys.find((k) => k.cta === cta); };
+        // Au doigt, ni survol ni touche enfoncée : le toucher ouvre le lien tout de suite, et un pouce
+        // qui fait défiler la page ne doit rien redessiner
         const on = {
-            over: (e) => { const hit = keyOf(e); keys.forEach((k) => { k.hot = k === hit; }); showKeys(); },
-            leave: () => { keys.forEach((k) => { k.hot = false; k.down = false; }); showKeys(); },
-            down: (e) => { const k = keyOf(e); if (k) { k.down = true; showKeys(); } },
+            over: (e) => { if (!isMouse(e)) return; const hit = keyOf(e); keys.forEach((k) => { k.hot = k === hit; }); showKeys(); },
+            leave: (e) => { if (!isMouse(e)) return; keys.forEach((k) => { k.hot = false; k.down = false; }); showKeys(); },
+            down: (e) => { if (!isMouse(e)) return; const k = keyOf(e); if (k) { k.down = true; showKeys(); } },
             up: () => { if (keys.some((k) => k.down)) { keys.forEach((k) => { k.down = false; }); showKeys(); } },
             focus: () => setTimeout(() => showKeys(), 0),
             key: (e) => { const k = keyOf(e); if (k && (e.key === 'Enter' || e.key === ' ')) { k.down = true; showKeys(); setTimeout(() => { k.down = false; showKeys(); }, 140); } }
@@ -410,6 +437,7 @@
             destroy() {
                 destroyed = true;
                 clearTimeout(timer);
+                lazy.cancel();
                 if (ro) ro.disconnect();
                 if (mo) mo.disconnect();
                 tilt.destroy();
@@ -685,8 +713,11 @@
             return busy;
         }
 
-        /* ---------- l'image : redessinée seulement quand quelque chose change ---------- */
-        function invalidate() { dirty = true; start(); }
+        /* ---------- l'image : redessinée seulement quand quelque chose change ----------
+           lazy : survol, focus, taille, retour à l'écran, rack éteint en défilant. Ces rendus attendent
+           la fin d'un défilement ; un câble, un bouton ou une onde changés par un geste sont dessinés tout de suite. */
+        function invalidate(lazy) { dirty = true; if (lazy) later.run(); else start(); }
+        const later = afterScroll(() => start());
         function frame(now) {
             raf = 0;
             if (destroyed || !scene) return;
@@ -734,15 +765,15 @@
         }
         function start() { if (!raf && !destroyed && visible && !document.hidden) raf = requestAnimationFrame(frame); }
 
-        const io = 'IntersectionObserver' in window ? new IntersectionObserver((e) => { visible = e.some((x) => x.isIntersecting); if (visible && dirty) start(); }) : null;
+        const io = 'IntersectionObserver' in window ? new IntersectionObserver((e) => { visible = e.some((x) => x.isIntersecting); if (visible && dirty) invalidate(true); }) : null;
         if (io) io.observe(rackEl);
         const onVis = () => { if (!document.hidden && dirty) start(); };
         document.addEventListener('visibilitychange', onVis);
-        // Survol et focus : les touches d'onde s'enfoncent, les modules grisés se rallument un peu
-        const onHover = () => invalidate();
+        // Survol (à la souris) et focus : les touches d'onde s'enfoncent, les modules grisés se rallument un peu
+        const onHover = (e) => { if (isMouse(e)) invalidate(true); };
         ['pointerover', 'pointerout', 'focusin', 'focusout'].forEach((ev) => rackEl.addEventListener(ev, onHover));
         let timer = 0;
-        const again = () => { clearTimeout(timer); timer = setTimeout(() => { build(); invalidate(); }, 60); };
+        const again = () => { clearTimeout(timer); timer = setTimeout(() => { build(); invalidate(true); }, 60); };
         const ro = 'ResizeObserver' in window ? new ResizeObserver(again) : null;
         if (ro) ro.observe(rackEl);
         build();
@@ -753,7 +784,7 @@
             invalidate,
             destroy() {
                 destroyed = true;
-                cancelAnimationFrame(raf); clearTimeout(timer);
+                cancelAnimationFrame(raf); clearTimeout(timer); later.cancel();
                 if (io) io.disconnect();
                 if (ro) ro.disconnect();
                 document.removeEventListener('visibilitychange', onVis);
@@ -976,6 +1007,38 @@
         const ripples = [sprite(ringTex), sprite(ringTex)]; ripples.forEach((s) => hand.add(s));
         hand.visible = false;
 
+        /* ---------- les repères du guide : des halos en CSS, posés par-dessus ----------
+           Le voyant qui dit « allumez-moi », les champs autour de l'antenne et de la boucle : ils pulsent
+           en CSS (opacity seulement), sans redessiner la 3D. Le CSS les montre selon les classes du dessin
+           d'origine (is-hint-pilot, is-hint-rod, is-hint-loop) ; ici, on les cale sur l'image. */
+        const span = (cls, parent) => { const e = document.createElement('span'); e.className = cls; parent.appendChild(e); return e; };
+        const halos = document.createElement('div');
+        halos.className = 'th3d-halos'; halos.setAttribute('aria-hidden', 'true');
+        const pilotHalo = span('th3d-pilot', halos);
+        const rodHalo = span('th3d-field th3d-field--rod', halos), loopHalo = span('th3d-field th3d-field--loop', halos);
+        const rodSpans = pitchRings.map((r, i) => { const e = span('th3d-ring', rodHalo); e.style.setProperty('--i', i); return e; });
+        const loopSpans = volRings.map((r, i) => { const e = span('th3d-ring', loopHalo); e.style.setProperty('--i', i); return e; });
+        wrap.appendChild(halos);
+        const v3 = new THREE.Vector3();
+        // Un point du repère d'un objet, en px du cadre
+        const toPx = (obj, x, y, z, w, h) => { v3.set(x, y, z).applyMatrix4(obj.matrixWorld).project(camera); return { x: (v3.x + 1) / 2 * w, y: (1 - v3.y) / 2 * h }; };
+        const box = (pts) => { const xs = pts.map((p) => p.x), ys = pts.map((p) => p.y); const l = Math.min(...xs), t = Math.min(...ys); return { l, t, w: Math.max(...xs) - l, h: Math.max(...ys) - t }; };
+        const place = (e, b, o) => Object.assign(e.style, { left: (b.l - (o ? o.l : 0)).toFixed(1) + 'px', top: (b.t - (o ? o.t : 0)).toFixed(1) + 'px', width: b.w.toFixed(1) + 'px', height: b.h.toFixed(1) + 'px' });
+        function placeHalos() {
+            const w = wrap.clientWidth, h = wrap.clientHeight;
+            if (!w || !h) return;
+            th.updateMatrixWorld(true);
+            const ringBox = (r) => { const a = r.geometry.attributes.position, pts = []; for (let i = 0; i < a.count; i += 4) pts.push(toPx(r, a.getX(i), a.getY(i), a.getZ(i), w, h)); return box(pts); };
+            [[pitchRings, rodSpans, rodHalo], [volRings, loopSpans, loopHalo]].forEach(([rings, spans, field]) => {
+                const boxes = rings.map(ringBox), all = box(boxes.flatMap((b) => [{ x: b.l, y: b.t }, { x: b.l + b.w, y: b.t + b.h }]));
+                place(field, all);
+                boxes.forEach((b, i) => place(spans[i], b, all));
+            });
+            const c = toPx(th, 0, -CAB.h / 2 - 1.15, CAB.d / 2 + 0.05, w, h), e = toPx(th, 0.42, -CAB.h / 2 - 1.15, CAB.d / 2 + 0.05, w, h);
+            const r = Math.max(4, Math.hypot(e.x - c.x, e.y - c.y)) * 4;
+            place(pilotHalo, { l: c.x - r, t: c.y - r, w: 2 * r, h: 2 * r });
+        }
+
         /* ---------- la main : la souris rapportée dans le plan des antennes ---------- */
         const ray = new THREE.Raycaster(), ndc = new THREE.Vector2(), plane = new THREE.Plane();
         function toDrawing(clientX, clientY) {
@@ -1007,8 +1070,10 @@
         }
         /* ---------- l'image : redessinée seulement quand quelque chose change ---------- */
         let raf = 0, destroyed = false, visible = true, dirty = true, last = 0, pointer = { x: 0, y: 0, inside: false };
-        function invalidate() { dirty = true; start(); }
-        const ro = 'ResizeObserver' in window ? new ResizeObserver(() => { resize(); invalidate(); }) : null;
+        // lazy : taille, retour à l'écran ; ces rendus attendent la fin d'un défilement
+        function invalidate(lazy) { dirty = true; if (lazy) later.run(); else start(); }
+        const later = afterScroll(() => start());
+        const ro = 'ResizeObserver' in window ? new ResizeObserver(() => { resize(); invalidate(true); }) : null;
         if (ro) ro.observe(wrap);
         resize();
 
@@ -1022,16 +1087,28 @@
         wrap.addEventListener('pointermove', onMove);
         wrap.addEventListener('pointerleave', onLeave);
         const data = new Float32Array(2048);
-        function drawScreen(on) {
+        // Éteint : l'écran est dessiné une fois. Allumé : seulement quand le son change ; un son plat
+        // déjà dessiné n'est pas redessiné. Renvoie true tant que le son bouge.
+        let screenState = '';
+        function updateScreen(on) {
+            const an = on ? opts.analyser() : null;
+            let peak = 0;
+            if (an) { an.getFloatTimeDomainData(data); for (let i = 0; i < data.length; i += 4) peak = Math.max(peak, Math.abs(data[i])); }
+            const now = !on ? 'off' : peak < 0.002 ? 'flat' : 'sound';
+            if (now !== 'sound' && now === screenState) return false;
+            screenState = now;
+            drawScreen(on, !!an);
+            return now === 'sound';
+        }
+        function drawScreen(on, has) {
             const g = scr.getContext('2d'), w = scr.width, h = scr.height;
             g.fillStyle = '#031014'; g.fillRect(0, 0, w, h);
             g.strokeStyle = 'rgba(0,184,217,0.15)'; g.lineWidth = 1; g.beginPath();
             for (let i = 1; i < 8; i++) { const x = Math.round(w * i / 8) + 0.5; g.moveTo(x, 0); g.lineTo(x, h); }
             for (let i = 1; i < 4; i++) { const y = Math.round(h * i / 4) + 0.5; g.moveTo(0, y); g.lineTo(w, y); }
             g.stroke();
-            const an = opts.analyser();
-            let s0 = 0, has = false;
-            if (an && on) { an.getFloatTimeDomainData(data); has = true; for (let i = 1; i < 1024; i++) if (data[i - 1] < 0 && data[i] >= 0) { s0 = i; break; } }
+            let s0 = 0;
+            if (has) for (let i = 1; i < 1024; i++) if (data[i - 1] < 0 && data[i] >= 0) { s0 = i; break; }
             g.beginPath();
             for (let i = 0; i < 260; i++) { const v = has ? data[s0 + i * 3] || 0 : 0; const x = (i / 259) * w, y = h / 2 - Math.max(-1, Math.min(1, v * 1.6)) * (h / 2 - 10); if (i) g.lineTo(x, y); else g.moveTo(x, y); }
             g.strokeStyle = on ? CYAN : '#0D3A42'; g.lineWidth = 3; g.shadowColor = 'rgba(0,184,217,0.9)'; g.shadowBlur = on ? 14 : 0; g.stroke(); g.shadowBlur = 0;
@@ -1052,13 +1129,12 @@
             th.rotation.set(tilt.x, tilt.y, 0);
             const cls = opts.stage.classList, on = opts.power(), h = opts.hand(), playing = cls.contains('is-playing');
             const near = Math.max(0, 1 - Math.abs(TH.rodX - h.x) / 480), vol = opts.volumeAt(h.x, h.y);
-            const pulse = (i) => 0.06 + 0.18 * (0.5 + 0.5 * Math.sin(now / 320 - i));
-            pitchRings.forEach((r) => { r.material.opacity = playing ? near * (0.6 - r.userData.k * 0.12) : (cls.contains('is-hint-rod') && !still ? pulse(r.userData.k) : 0); });
-            volRings.forEach((r) => { r.material.opacity = playing ? (1 - vol) * (0.55 - r.userData.k * 0.13) : (cls.contains('is-hint-loop') && !still ? pulse(r.userData.k) : 0); });
-            // Le voyant : éteint, il pulse doucement pour dire « allumez-moi » ; allumé, cyan franc
-            const hint = cls.contains('is-hint-pilot') && !still ? 0.35 + 0.35 * Math.sin(now / 300) : 0;
-            pilotMat.emissiveIntensity = on ? 3 : hint;
-            pilotLight.intensity = on ? 1.6 : hint * 0.4;
+            // Les champs ne s'allument en 3D que quand on joue ; les repères du guide sont les halos CSS
+            pitchRings.forEach((r) => { r.material.opacity = playing ? near * (0.6 - r.userData.k * 0.12) : 0; });
+            volRings.forEach((r) => { r.material.opacity = playing ? (1 - vol) * (0.55 - r.userData.k * 0.13) : 0; });
+            // Le voyant : cyan franc quand le theremin est allumé (éteint, c'est le halo CSS qui pulse)
+            pilotMat.emissiveIntensity = on ? 3 : 0;
+            pilotLight.intensity = on ? 1.6 : 0;
             hand.visible = playing;
             if (playing) {
                 const w = fromTH(h.x, h.y);
@@ -1071,16 +1147,17 @@
                 hz.textContent = opts.fmtHz(opts.pitchAt(h.x));
                 hz.hidden = false;
             } else hz.hidden = true;
-            drawScreen(on);
+            const sounding = updateScreen(on);
             renderer.render(scene, camera);
-            // Ce qui bouge tout seul : l'écran allumé, les repères qui pulsent, l'inclinaison qui se pose
-            const hinting = !still && (cls.contains('is-hint-pilot') || cls.contains('is-hint-rod') || cls.contains('is-hint-loop'));
-            if (on || playing || hinting || tilting) dirty = true;
+            placeHalos();
+            // Ce qui bouge tout seul : la main qui joue, le son qui s'éteint, l'inclinaison qui se pose.
+            // Allumé mais silencieux, éteint, sans geste : plus aucune image.
+            if (playing || sounding || tilting) dirty = true;
             else last = 0;
             if (dirty) start();
         }
         function start() { if (!raf && !destroyed && visible && !document.hidden) raf = requestAnimationFrame(frame); }
-        const io = 'IntersectionObserver' in window ? new IntersectionObserver((e) => { visible = e.some((x) => x.isIntersecting); if (visible && dirty) start(); }) : null;
+        const io = 'IntersectionObserver' in window ? new IntersectionObserver((e) => { visible = e.some((x) => x.isIntersecting); if (visible && dirty) invalidate(true); }) : null;
         if (io) io.observe(wrap);
         const onVis = () => { if (!document.hidden && dirty) start(); };
         document.addEventListener('visibilitychange', onVis);
@@ -1092,7 +1169,7 @@
             invalidate,
             destroy() {
                 destroyed = true;
-                cancelAnimationFrame(raf);
+                cancelAnimationFrame(raf); later.cancel();
                 if (io) io.disconnect();
                 if (ro) ro.disconnect();
                 document.removeEventListener('visibilitychange', onVis);
@@ -1101,7 +1178,7 @@
                 disposeScene(scene);
                 env.dispose();
                 renderer.dispose();
-                canvas.remove(); hz.remove();
+                canvas.remove(); hz.remove(); halos.remove();
                 wrap.classList.remove('is-3d');
             }
         };

@@ -339,10 +339,11 @@
         const A = {};              // nœuds Web Audio
         const cleanups = [];
         const waveButtons = [];
-        let raf = 0, visible = true, destroyed = false, noteTimer = 0, suspendTimer = 0, autoTimer = 0, keyTimer = 0, lastNow = 0;
+        let raf = 0, visible = true, destroyed = false, noteTimer = 0, suspendTimer = 0, autoTimer = 0, keyTimer = 0, lastNow = 0, idleFrom = 0;
         // La 3D (le rack, et sur l'accueil « la suite ») : elle ne redessine que quand on le lui signale
         let skin = null, siteSkin = null, poweringAt = 0;
-        const redraw3D = () => { if (skin) skin.invalidate(); };
+        // lazy : le rendu 3D peut attendre la fin d'un défilement
+        const redraw3D = (lazy) => { if (skin) skin.invalidate(lazy === true); };
 
         /* ---------- construction ---------- */
         root.innerHTML = '';
@@ -476,6 +477,7 @@
 
             const set = (v) => {
                 state.values[key] = Math.max(0, Math.min(1, v));
+                start();
                 update();
                 applyKnob(key);
                 knobTurned(key);
@@ -646,6 +648,8 @@
             try { ctx = new Ctx(); } catch (e) { note(T.hints.noAudio); return null; }
             A.ctx = ctx;
             const now = ctx.currentTime;
+            // Le moteur audio démarre (ou repart) après coup : la boucle reprend pour l'oscilloscope
+            ctx.addEventListener('statechange', () => start());
 
             // Sortie : in → level → oscilloscope → limiteur → enceintes
             A.outIn = ctx.createGain();
@@ -788,6 +792,7 @@
             const existing = cableAt(to);
             if (existing) removeCable(existing, true);
             const cable = { id: state.nextId++, from, to, kind: JACKS[from].kind, born: performance.now() };
+            start();
             state.cables.push(cable);
             ensureAudio();
             wire(cable);
@@ -801,6 +806,7 @@
 
         function removeCable(cable, silent) {
             state.cables = state.cables.filter((c) => c !== cable);
+            start();
             unwire(cable);
             drawCables();
             refreshJacks();
@@ -897,6 +903,7 @@
         function tempCable(from, point) {
             tempLayer.innerHTML = '';
             tempState = from ? { from, x: point.x, y: point.y } : null;
+            start();
             redraw3D();
             if (!from) return;
             const kind = JACKS[from].kind;
@@ -1066,7 +1073,7 @@
 
         // Éteindre : le son s'efface, puis le moteur audio s'arrête ; l'oscilloscope et le voyant
         // s'éteignent, les modules s'assombrissent. Rallumer : tout repart, avec les câbles en place.
-        function setPower(on) {
+        function setPower(on, lazy) {
             if (state.power === on || destroyed) return;
             state.power = on;
             rack.classList.toggle('is-off', !on);
@@ -1090,7 +1097,7 @@
             announce(on ? T.onSaid : T.offSaid);
             if (on) start(); else frame(performance.now());
             renderGuide();
-            redraw3D();
+            redraw3D(lazy);
         }
         cleanups.push(() => clearTimeout(suspendTimer));
 
@@ -1432,7 +1439,7 @@
         function onScroll() {
             const t = display.getBoundingClientRect().top;
             display.classList.toggle('is-stuck', t <= 0.5 && root.getBoundingClientRect().top < -0.5);
-            if (state.power && A.ctx && rack.getBoundingClientRect().bottom < window.innerHeight * 0.2) setPower(false);
+            if (state.power && A.ctx && rack.getBoundingClientRect().bottom < window.innerHeight * 0.2) setPower(false, true);
         }
         window.addEventListener('scroll', onScroll, { passive: true });
         cleanups.push(() => window.removeEventListener('scroll', onScroll));
@@ -1509,7 +1516,15 @@
             }
 
             drawScope();
-            if (visible && !document.hidden) raf = requestAnimationFrame(frame);
+            // La boucle ne continue que si quelque chose bouge : du son vers la sortie, le lfo branché,
+            // un câble qui se balance ou qu'on tire, un bouton qu'on tourne. Sinon, encore 300 ms (le temps
+            // que l'oscilloscope retombe à plat), puis plus aucune image : un geste la relance (start).
+            const running = A.ctx && A.ctx.state === 'running';
+            const moving = (running && state.cables.some((c) => c.to === 'out.in' || c.from === 'lfo.out')) ||
+                (motion && state.cables.some((c) => now - c.born < 1600)) ||
+                !!tempState || !!rack.querySelector('.knob.is-turning') || state.hand.on;
+            if (moving) idleFrom = now + 300;
+            if (now < idleFrom && visible && !document.hidden) raf = requestAnimationFrame(frame);
         }
 
         function drawScope(off) {
@@ -1555,8 +1570,9 @@
             g.shadowBlur = 0;
         }
 
+        // Une image au moins, puis la boucle décide elle-même si elle continue (idleFrom)
         function start() {
-            if (!raf && !destroyed && state.power) { lastNow = 0; raf = requestAnimationFrame(frame); }
+            if (!raf && !destroyed && state.power) { lastNow = 0; idleFrom = Math.max(idleFrom, performance.now() + 50); raf = requestAnimationFrame(frame); }
         }
 
         // Ne rien calculer quand l'instrument n'est pas à l'écran
@@ -1674,7 +1690,7 @@
         const state = { step: 0, phase: 'todo', power: false, hand: { x: 380, y: 140, on: false }, playMs: 0, quietMs: 0, wasLoud: false, note: '' };
         const A = {};
         const cleanups = [];
-        let raf = 0, destroyed = false, visible = true, lastNow = 0, autoTimer = 0, keyTimer = 0, suspendTimer = 0;
+        let raf = 0, destroyed = false, visible = true, lastNow = 0, autoTimer = 0, keyTimer = 0, suspendTimer = 0, playUntil = 0;
 
         root.innerHTML = '';
         root.classList.add('is-ready');
@@ -2014,11 +2030,13 @@
                 }
             }
             drawWave();
-            if (state.power && visible && !document.hidden) raf = requestAnimationFrame(frame);
+            // Seulement pendant qu’on joue, puis 900 ms : le son s’éteint en 0,15 s de constante, l’onde retombe à plat
+            if (h.on) playUntil = now + 900;
+            if (state.power && now < playUntil && visible && !document.hidden) raf = requestAnimationFrame(frame);
         }
 
         function start() {
-            if (!raf && !destroyed && state.power) { lastNow = 0; raf = requestAnimationFrame(frame); }
+            if (!raf && !destroyed && state.power) { lastNow = 0; playUntil = Math.max(playUntil, performance.now() + 50); raf = requestAnimationFrame(frame); }
         }
 
         /* ---------- le guide ---------- */
