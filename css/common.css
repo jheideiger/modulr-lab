@@ -1432,26 +1432,32 @@ a {
 
 /* =========================================================
    BANDEAU DE CONSENTEMENT (consent.js, pages françaises)
+   Une barre basse et compacte : le texte, puis les deux boutons.
    « refuser » et « accepter » ont exactement le même poids.
    ========================================================= */
 .consent-banner {
     position: fixed;
-    right: 40px;
-    bottom: 40px;
+    left: 0;
+    right: 0;
+    bottom: 0;
     z-index: 90;
-    max-width: 420px;
-    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 10px 40px;
+    padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
     background: var(--color-bg);
-    border: 0.5px solid var(--color-border);
-    box-shadow: 0 8px 32px rgba(10, 10, 10, 0.08);
+    border-top: 0.5px solid var(--color-border);
     font-family: var(--font-body);
 }
 
 .consent-text {
+    flex: 1;
+    min-width: 0;
+    margin: 0;
     font-size: 14px;
-    line-height: 1.55;
+    line-height: 1.45;
     color: var(--color-text);
-    margin-bottom: 16px;
 }
 
 .consent-more {
@@ -1460,13 +1466,15 @@ a {
 }
 
 .consent-actions {
+    flex: none;
     display: flex;
     gap: 12px;
 }
 
 .consent-btn {
-    flex: 1;
-    padding: 10px 16px;
+    min-width: 112px;
+    min-height: 44px;
+    padding: 0 16px;
     font-family: var(--font-display);
     font-size: 14px;
     font-weight: 500;
@@ -1488,13 +1496,24 @@ a {
     outline-offset: 2px;
 }
 
+/* Téléphone : le texte sur deux lignes au plus, les deux boutons côte à côte en dessous */
 @media (max-width: 768px) {
     .consent-banner {
-        left: 16px;
-        right: 16px;
-        bottom: 16px;
-        max-width: none;
-        padding: 20px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+        padding: 10px 16px;
+        padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+    }
+
+    .consent-text {
+        font-size: 13px;
+        line-height: 1.4;
+    }
+
+    .consent-btn {
+        flex: 1;
+        min-width: 0;
     }
 }
 

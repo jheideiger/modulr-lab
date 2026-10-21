@@ -11,7 +11,8 @@
    5 secondes, à la première visite seulement ; sur l'accueil,
    un clic sur le logo la rejoue (main.js). On peut passer
    (bouton ou Échap). Rien si l'appareil demande moins
-   d'animations ou si WebGL manque.
+   d'animations, si WebGL manque, ou sur un appareil modeste
+   (même règle que rack3d.js).
 
    Chargé tout en haut du body de l'accueil, sans defer : le
    voile noir couvre la page avant qu'elle s'affiche. three.js
@@ -52,6 +53,13 @@
     const easeInOut = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
     const easeOut = (x) => 1 - Math.pow(1 - x, 3);
     const lerp = (a, b, k) => a + (b - a) * k;
+
+    // Un appareil modeste : peu de mémoire, peu de cœurs, ou économie de données demandée (comme rack3d.js)
+    function modest() {
+        const n = navigator, c = n.connection || {};
+        return (n.deviceMemory > 0 && n.deviceMemory <= 4) || (n.hardwareConcurrency > 0 && n.hardwareConcurrency <= 4) || c.saveData === true ||
+            !!(window.matchMedia && window.matchMedia('(prefers-reduced-data: reduce)').matches);
+    }
 
     function seen() { try { return localStorage.getItem(KEY) === '1'; } catch (e) { return false; } }
     function markSeen() { try { localStorage.setItem(KEY, '1'); } catch (e) { } }
@@ -243,7 +251,7 @@
     function play(opts) {
         opts = opts || {};
         if (running) return;
-        if (!webgl() || reduceMotion()) return;
+        if (reduceMotion() || modest() || !webgl()) return;
         if (!opts.force && seen()) return;
         markSeen();
 

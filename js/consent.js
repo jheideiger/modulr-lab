@@ -66,8 +66,8 @@
     banner.setAttribute('role', 'region');
     banner.setAttribute('aria-label', 'mesure d\'audience');
     banner.innerHTML =
-      '<p class="consent-text">modulr lab aimerait mesurer son audience avec Google Analytics, ' +
-      'pour savoir quelles pages vous sont utiles. Rien n\'est déposé sans votre accord. ' +
+      '<p class="consent-text">modulr lab aimerait mesurer son audience avec Google Analytics. ' +
+      'Rien n\'est déposé sans votre accord. ' +
       '<a href="/mentions-legales/#donnees" class="consent-more">en savoir plus</a></p>' +
       '<div class="consent-actions">' +
       '<button type="button" class="consent-btn" data-consent="denied">refuser</button>' +
