@@ -908,7 +908,7 @@
             g.fillStyle = CYAN; g.beginPath(); g.arc(20.2 * k + tw / 2 + 0.18 * k, 2.32 * k, 0.12 * k, 0, Math.PI * 2); g.fill();
             g.fillStyle = '#9C8E74'; g.font = `600 ${0.36 * k}px Inter, sans-serif`;
             if ('letterSpacing' in g) g.letterSpacing = `${0.08 * k}px`;
-            g.fillText('MODULR LAB · 1920', 20.2 * k, 3.05 * k);
+            g.fillText('modulr lab · 1920', 20.2 * k, 3.05 * k);
             g.fillStyle = '#D9CDB3'; g.font = `600 ${0.34 * k}px Inter, sans-serif`;
             g.fillText(opts.labels.pitch.toUpperCase(), 18 * k, 6.45 * k); g.fillText(opts.labels.volume.toUpperCase(), 22.4 * k, 6.45 * k);
         })();

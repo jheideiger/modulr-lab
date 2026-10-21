@@ -195,9 +195,17 @@ a {
     font-size: 12px;
     font-weight: 500;
     letter-spacing: 0.06em;
-    text-transform: uppercase;
     color: var(--color-text-secondary);
     padding-top: 48px;
+}
+
+/* Les liens vers la chaîne YouTube et Instagram, sous « s'inscrire » */
+.footer-social {
+    margin-top: 10px;
+}
+
+.footer-social .cta {
+    font-size: 12px;
 }
 
 .footer-grid {
