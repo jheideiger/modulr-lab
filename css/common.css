@@ -4150,3 +4150,91 @@ body {
         aspect-ratio: 1 / 1.05;
     }
 }
+
+
+/* =========================================================
+   CIBLES TACTILES — sur écran tactile, chaque lien et chaque bouton
+   offre au moins 44 × 44 px au doigt, sans changer la taille du texte.
+   Une zone invisible, centrée sur l'élément, agrandit la zone de clic
+   là où un padding déplacerait un soulignement ou une bordure ; les
+   listes trop serrées (pied de page, menu) s'espacent avec du padding.
+   ========================================================= */
+@media (pointer: coarse) {
+    .nav-link,
+    .cta,
+    .logo-link,
+    .burger,
+    .menu-close,
+    .lang-switch,
+    .lang-switch-mobile,
+    .menu-overlay nav a,
+    .patch-tool,
+    .wave-btn,
+    .jack,
+    .module-name a,
+    .consent-more {
+        position: relative;
+    }
+
+    .nav-link::before,
+    .cta::before,
+    .logo-link::before,
+    .burger::before,
+    .menu-close::before,
+    .lang-switch::before,
+    .lang-switch-mobile::before,
+    .menu-overlay nav a::before,
+    .patch-tool::before,
+    .wave-btn::before,
+    .jack::before,
+    .module-name a::before,
+    .consent-more::before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: max(100%, 44px);
+        height: max(100%, 44px);
+        transform: translate(-50%, -50%);
+    }
+
+    /* Pied de page : un lien par ligne de 44 px (les marges sont posées en style="" dans le HTML) */
+    .footer-grid li {
+        margin-bottom: 0 !important;
+    }
+
+    .footer-grid .nav-link {
+        display: inline-block;
+        padding: 12.5px 0;
+    }
+
+    .footer-grid .nav-link::after {
+        bottom: 10.5px;
+    }
+
+    .footer-social {
+        margin-top: 24px;
+    }
+
+    /* Menu : les liens secondaires sur des lignes de 44 px */
+    .menu-overlay-extra {
+        gap: 0;
+    }
+
+    .menu-overlay-extra a {
+        padding: 10px 0;
+    }
+
+    /* Accueil : la liste des leçons, les sorties de « la suite », l'inscription */
+    .site-lessons a {
+        padding: 10.5px 0;
+    }
+
+    .module-cta,
+    .site-rack.is-3d .module-cta,
+    .site-rack.is-3d .site-form .form-submit.module-cta,
+    .form-submit--compact,
+    .skip-link {
+        min-height: 44px;
+    }
+}
