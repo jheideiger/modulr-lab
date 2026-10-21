@@ -1292,6 +1292,56 @@ a {
     margin: 0;
 }
 
+/* --- Le schéma : quand il déborde (téléphone), un dégradé sur le bord droit et « faites glisser → »,
+   qui disparaît dès qu'on a fait défiler (main.js, initFigureScroll) --- */
+.patch-figure-frame {
+    position: relative;
+}
+
+.patch-figure-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.patch-figure-frame::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 56px;
+    background: linear-gradient(to right, rgba(10, 10, 10, 0), var(--color-bg));
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.patch-figure-frame.is-overflowing:not(.is-end)::after {
+    opacity: 1;
+}
+
+.scroll-hint {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    padding: 4px 0 4px 10px;
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    background: var(--color-bg);
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s;
+}
+
+.patch-figure-frame.is-overflowing:not(.is-scrolled) .scroll-hint {
+    opacity: 1;
+    visibility: visible;
+}
+
 .patch-figure img {
     display: block;
     width: 100%;
@@ -1418,6 +1468,69 @@ a {
 
     .patch-table {
         font-size: 14px;
+    }
+
+    /* Les fiches : des sections moins espacées sur téléphone */
+    main:has(.note-title) {
+        --section-gap: 72px;
+    }
+
+    @media (max-width: 600px) {
+        /* Le tableau « matériel » en cartes : la fonction en titre, puis chaque colonne avec son intitulé.
+           En HTML, il reste un tableau (rôles ARIA posés dans la page). */
+        .patch-table--gear thead {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            clip: rect(0 0 0 0);
+            clip-path: inset(50%);
+            white-space: nowrap;
+        }
+
+        .patch-table--gear,
+        .patch-table--gear tbody,
+        .patch-table--gear tr,
+        .patch-table--gear td {
+            display: block;
+            width: 100%;
+        }
+
+        .patch-table--gear {
+            border-top: 1px solid var(--color-text);
+        }
+
+        .patch-table--gear tr {
+            padding: 16px 0;
+            border-bottom: 0.5px solid var(--color-border);
+        }
+
+        .patch-table--gear td {
+            padding: 0;
+            border-bottom: 0;
+        }
+
+        .patch-table--gear td:first-child {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .patch-table--gear td + td {
+            margin-top: 8px;
+        }
+
+        .patch-table--gear td[data-label]::before {
+            content: attr(data-label);
+            content: attr(data-label) / "";
+            display: block;
+            margin-bottom: 2px;
+            font-family: var(--font-display);
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--color-text-secondary);
+        }
     }
 
     .listen-list li {

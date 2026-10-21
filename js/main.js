@@ -284,6 +284,33 @@
         });
     }
 
+    // --- Schéma des fiches : quand il déborde, un dégradé à droite et « faites glisser → » ---
+    // La mention disparaît au premier défilement ; le dégradé, une fois au bout.
+    let figureObservers = [];
+    function initFigureScroll() {
+        figureObservers.forEach((o) => o.disconnect());
+        figureObservers = [];
+        document.querySelectorAll('.patch-figure-frame').forEach((frame) => {
+            const scroller = frame.querySelector('.patch-figure-scroll');
+            if (!scroller) return;
+            const update = () => {
+                const over = scroller.scrollWidth > scroller.clientWidth + 1;
+                frame.classList.toggle('is-overflowing', over);
+                frame.classList.toggle('is-end', over && scroller.scrollLeft + scroller.clientWidth >= scroller.scrollWidth - 2);
+            };
+            scroller.addEventListener('scroll', () => {
+                if (scroller.scrollLeft > 8) frame.classList.add('is-scrolled');
+                update();
+            }, { passive: true });
+            if ('ResizeObserver' in window) {
+                const ro = new ResizeObserver(update);
+                ro.observe(scroller);
+                figureObservers.push(ro);
+            } else window.addEventListener('resize', update, { passive: true });
+            update();
+        });
+    }
+
     function initPage() {
         initMenu();
         setActiveNavLink();
@@ -291,6 +318,7 @@
         initContactForm();
         initNewsletterForms();
         initVideos();
+        initFigureScroll();
         initCables();
         initScopes();
         initProgress();
