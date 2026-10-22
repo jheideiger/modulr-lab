@@ -8,7 +8,7 @@
    instant sur les vrais boutons et les vraies prises, puis
    s'éteignent un à un : le rack est prêt.
 
-   5 secondes, à la première visite seulement ; sur l'accueil,
+   2,5 secondes, à la première visite seulement ; sur l'accueil,
    un clic sur le logo la rejoue (main.js). On peut passer
    (bouton ou Échap). Rien si l'appareil demande moins
    d'animations, si WebGL manque, ou sur un appareil modeste
@@ -17,7 +17,14 @@
    Chargé tout en haut du body de l'accueil, sans defer : le
    voile noir couvre la page avant qu'elle s'affiche. three.js
    (js/vendor/three.min.js, r147) n'est téléchargé que si
-   l'ouverture joue vraiment.
+   l'ouverture joue vraiment ; instrument.js le réutilise ensuite.
+
+   Pendant l'ouverture, rien de lourd : instrument.js attend
+   « modulr:intro-end » (envoyé à la fin, ou quand on passe)
+   pour charger la 3D du rack, et sa boucle 2D est en pause.
+   Le déroulé suit une horloge interne qui avance de 33 ms au
+   plus par image : un gel met l'ouverture en pause au lieu de
+   la faire sauter. Au-delà de 4 s réelles, elle s'efface vite.
    ========================================================= */
 (function () {
     'use strict';
@@ -26,25 +33,28 @@
     // three.js est rangé à côté de ce fichier
     const SRC = (document.currentScript && document.currentScript.src) || '';
     const THREE_URL = SRC ? new URL('vendor/three.min.js', SRC).href : 'js/vendor/three.min.js';
-    const DURATION = 5000;
+    const DURATION = 2500;
+    const MAX_STEP = 33;      // l'horloge interne avance de 33 ms au plus par image
+    const MAX_REAL = 4000;    // au-delà, en temps réel, l'ouverture s'efface vite
+    const LETTER_FADE = 80;   // le fondu de chaque lettre
 
     // Le déroulé, en millisecondes
     const T = {
-        type: [0, 700],          // « modulr lab » s'écrit, lettre après lettre
-        dotOn: [700, 820],       // le point final s'allume
-        pulse: [820, 1150],      // il pulse
-        wordOut: [1150, 1450],   // le mot s'efface, le point devient le signal
-        travel: [1150, 1550],    // le signal rejoint le début de l'onde
-        draw: [1550, 2550],      // il trace la dent de scie
-        morph: [2550, 3400],     // l'onde se replie en contour du rack
-        details: [2850, 3750],   // rails, modules, boutons, prises se dessinent, de gauche à droite
-        tilt: [1150, 3900],      // la perspective se redresse
-        fill: [3450, 3950],      // les panneaux se remplissent de noir
-        settle: [3550, 4150],    // le rack quitte le centre de l'écran et se pose à sa place
-        structOut: [3950, 4450], // le contour, les rails et les modules s'éteignent
-        bgOut: [4100, 4600],     // la page apparaît autour du rack
-        panelsOut: [4350, 4750], // le vrai rack apparaît sous les cercles cyan
-        controlsOff: [4550, 5000] // les cercles s'éteignent un à un, de gauche à droite
+        type: [0, 450],          // « modulr lab » s'écrit, lettre après lettre
+        dotOn: [450, 530],       // le point final s'allume
+        pulse: [530, 700],       // il pulse
+        wordOut: [700, 850],     // le mot s'efface, le point devient le signal
+        travel: [700, 900],      // le signal rejoint le début de l'onde
+        draw: [900, 1350],       // il trace la dent de scie
+        morph: [1350, 1750],     // l'onde se replie en contour du rack
+        details: [1500, 1900],   // rails, modules, boutons, prises se dessinent, de gauche à droite
+        tilt: [700, 1950],       // la perspective se redresse
+        fill: [1800, 2050],      // les panneaux se remplissent de noir
+        settle: [1850, 2150],    // le rack quitte le centre de l'écran et se pose à sa place
+        structOut: [2050, 2300], // le contour, les rails et les modules s'éteignent
+        bgOut: [2100, 2350],     // la page apparaît autour du rack
+        panelsOut: [2250, 2450], // le vrai rack apparaît sous les cercles cyan
+        controlsOff: [2350, 2500] // les cercles s'éteignent un à un, de gauche à droite
     };
 
     const reduceMotion = () => window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -300,7 +310,8 @@
                 document.removeEventListener('keydown', onKey);
                 window.removeEventListener('resize', onResize);
                 running = null;
-                document.dispatchEvent(new CustomEvent('modulr:intro-done'));
+                // instrument.js attend ce signal pour charger la 3D du rack et relancer sa boucle
+                document.dispatchEvent(new CustomEvent('modulr:intro-end'));
             };
             if (fast) {
                 overlay.style.transition = 'opacity 0.3s ease';
@@ -331,6 +342,7 @@
             build(rack);
             window.addEventListener('resize', onResize);
             state.start = performance.now();
+            state.t = 0; state.last = 0;
             state.raf = requestAnimationFrame(frame);
         }).catch(() => finish(true));
 
@@ -339,9 +351,11 @@
 
         function build(rack) {
             const iw = window.innerWidth, ih = window.innerHeight;
-            // Un canevas transparent : le noir est celui du voile, qui s'efface à la fin pour montrer la page
-            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, premultipliedAlpha: true });
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+            // Un canevas transparent : le noir est celui du voile, qui s'efface à la fin pour montrer la page.
+            // Sans antialias (les traits sont des rubans texturés, déjà doux) ; sur écran tactile, densité 1,5 au plus.
+            const coarse = !!(window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
+            renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true, premultipliedAlpha: true });
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, coarse ? 1.5 : 2));
             renderer.setSize(iw, ih);
             renderer.setClearColor(0x000000, 0);
             renderer.domElement.className = 'intro-canvas';
@@ -487,13 +501,19 @@
         const tmp = [];
         function frame(now) {
             if (state.done) return;
+            // Garde-fou : un appareil trop lent ne garde pas le voile plus de 4 s
+            if (opts.freezeAt === undefined && now - state.start > MAX_REAL) { finish(true); return; }
+            // L'horloge interne : un gel met le déroulé en pause au lieu de le faire sauter.
             // freezeAt : une image fixe du déroulé, pour les essais
-            const t = opts.freezeAt !== undefined ? opts.freezeAt : now - state.start;
+            const dt = state.last ? now - state.last : 16;
+            state.last = now;
+            state.t += Math.min(dt, MAX_STEP);
+            const t = opts.freezeAt !== undefined ? opts.freezeAt : state.t;
 
             // « modulr lab » s'écrit, puis son point s'allume et pulse
             const per = (T.type[1] - T.type[0]) / letters.length;
             letters.forEach((l, i) => {
-                const k = easeOut(span(t, [T.type[0] + i * per, T.type[0] + i * per + 120]));
+                const k = easeOut(span(t, [T.type[0] + i * per, T.type[0] + i * per + LETTER_FADE]));
                 l.style.opacity = String(k);
                 l.style.transform = `translateY(${((1 - k) * 0.12).toFixed(3)}em)`;
             });
@@ -571,7 +591,8 @@
         }
     }
 
-    window.modulrIntro = { play };
+    // playing() : instrument.js le demande au montage, pour savoir s'il doit attendre la fin
+    window.modulrIntro = { play, playing: () => !!running };
 
     // À l'accueil, à la première visite
     function auto() {

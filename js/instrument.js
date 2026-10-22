@@ -277,12 +277,30 @@
         }).catch((e) => { loadingSkin = null; throw e; });
         return loadingSkin;
     }
+    // three.js : déjà là, ou déjà en route (l'ouverture de l'accueil le charge) ; sinon on le charge, une fois
+    function loadThree() {
+        if (window.THREE) return Promise.resolve();
+        const pending = document.querySelector('script[src*="three.min.js"]');
+        if (pending) return new Promise((resolve, reject) => {
+            pending.addEventListener('load', () => (window.THREE ? resolve() : reject(new Error('three'))), { once: true });
+            pending.addEventListener('error', () => reject(new Error('three')), { once: true });
+        });
+        return addScript('vendor/three.min.js');
+    }
     function load3D() {
         if (!loading3D) loading3D = loadSkin().then((three) => {
             if (!three.wanted()) throw new Error('3D désactivée sur cet appareil (MOBILE_3D)');
-            return window.THREE ? three : addScript('vendor/three.min.js').then(() => three);
+            return loadThree().then(() => three);
         }).catch((e) => { loading3D = null; throw e; });
         return loading3D;
+    }
+
+    // L'ouverture de l'accueil (intro.js) : tant qu'elle joue, rien de lourd. La 3D attend sa fin.
+    const introPlaying = () => !!(window.modulrIntro && window.modulrIntro.playing && window.modulrIntro.playing());
+    function afterIntro() {
+        if (!introPlaying()) return null;
+        // La fin de l'ouverture compte comme un geste : la page a 300 ms de répit avant la 3D
+        return new Promise((resolve) => document.addEventListener('modulr:intro-end', () => { lastGesture = Math.max(lastGesture, performance.now()); resolve(); }, { once: true }));
     }
 
     // three.js (600 Ko) arrive après le premier affichage, quand le navigateur est libre :
@@ -1470,6 +1488,8 @@
         function frame(now) {
             raf = 0;
             if (destroyed) return;
+            // Sous le voile de l'ouverture : rien à dessiner, la boucle reprend à sa fin
+            if (introPlaying()) return;
             if (!state.power) {
                 // Éteint : voyant éteint, écran vide, et plus aucune image calculée
                 if (ledEl) ledEl.style.opacity = '0.08';
@@ -1594,8 +1614,10 @@
 
         // Une image au moins, puis la boucle décide elle-même si elle continue (idleFrom)
         function start() {
-            if (!raf && !destroyed && state.power) { lastNow = 0; idleFrom = Math.max(idleFrom, performance.now() + 50); raf = requestAnimationFrame(frame); }
+            if (!raf && !destroyed && state.power && !introPlaying()) { lastNow = 0; idleFrom = Math.max(idleFrom, performance.now() + 50); raf = requestAnimationFrame(frame); }
         }
+        document.addEventListener('modulr:intro-end', start);
+        cleanups.push(() => document.removeEventListener('modulr:intro-end', start));
 
         // Ne rien calculer quand l'instrument n'est pas à l'écran
         const io = 'IntersectionObserver' in window ? new IntersectionObserver((entries) => {
@@ -1628,7 +1650,7 @@
         start();
 
         // La 3D : le rack, et sur l'accueil « la suite » en dessous
-        whenIdle().then(() => whenCalm()).then(load3D).then(whenCalm).then((three) => {
+        (afterIntro() || whenIdle()).then(() => whenCalm()).then(load3D).then(whenCalm).then((three) => {
             if (destroyed) return;
             skin = three.rack(rack, {
                 cables: () => state.cables,
