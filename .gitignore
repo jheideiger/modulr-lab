@@ -1,3 +1,5 @@
 .DS_Store
 _drafts/
 .fuse_hidden*
+dist/
+.wrangler/

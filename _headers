@@ -1,0 +1,29 @@
+# Cloudflare Pages : en-têtes HTTP (copié dans dist/ par scripts/build.mjs)
+#
+# La Content-Security-Policy est en Report-Only : elle ne bloque rien, elle signale dans
+# la console ce qui ne passerait pas. Les empreintes sha256 sont celles des scripts en ligne
+# (404.html, pages de redirection) et des onclick / onerror restants : un script en ligne
+# modifié doit voir son empreinte recalculée (la console donne la nouvelle).
+#
+# Cache : HTML, CSS et JS gardent le comportement par défaut de Cloudflare (revalidation
+# à chaque visite). Les polices et three.js changent de nom quand elles changent
+# (three-r147.min.js), d'où le cache d'un an.
+
+/*
+  Strict-Transport-Security: max-age=31536000
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' https://www.googletagmanager.com 'unsafe-hashes' 'sha256-gafUZnXAS2xs2QuJY8Ky4nephoWa1MUl6/EakPOjrn8=' 'sha256-GeE+wYaICmiiQlncqeqPAK2TM3+q2RGYSlZhG/xcW1A=' 'sha256-Kkh0ufQbkIVTWPYjIGk2bAJsmDwjmUuIAt2LyPfNr3g=' 'sha256-DamCoPgB/VkDCPsu0R6X4sJsz1c66vGlUGBXLu04Yxg=' 'sha256-ry51m2OGf9Uv3YTtYeQCAasckGxPvIrh5sUima4KvuI=' 'sha256-NBTvTMUNj5tozo+kyAjCLOAUbc50I6rHATwbwBvRsyU=' 'sha256-hn97lZp1Tjiyzn2PQFeJme7iL8RvpYbITCoIWMK2eHU=' 'sha256-XR2cN0jn3Tn9ilNQzWAOaFc4mCwVmEWqV26wAy2dVRg=' 'sha256-EtJJ4LI1u7uwyj5gHNKSXX4YDs1NWaoiBmN6VlbiNz8='; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://i.ytimg.com https://*.google-analytics.com https://*.googletagmanager.com; font-src 'self'; connect-src 'self' https://assets.mailerlite.com https://formspree.io https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; frame-src https://www.youtube-nocookie.com https://www.youtube.com; form-action 'self' https://assets.mailerlite.com https://formspree.io; object-src 'none'; base-uri 'self'; frame-ancestors 'none'
+
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/js/vendor/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/icons/*
+  Cache-Control: public, max-age=604800
+
+/textures/*
+  Cache-Control: public, max-age=604800

@@ -280,12 +280,12 @@
     // three.js : déjà là, ou déjà en route (l'ouverture de l'accueil le charge) ; sinon on le charge, une fois
     function loadThree() {
         if (window.THREE) return Promise.resolve();
-        const pending = document.querySelector('script[src*="three.min.js"]');
+        const pending = document.querySelector('script[src*="three-r147.min.js"]');
         if (pending) return new Promise((resolve, reject) => {
             pending.addEventListener('load', () => (window.THREE ? resolve() : reject(new Error('three'))), { once: true });
             pending.addEventListener('error', () => reject(new Error('three')), { once: true });
         });
-        return addScript('vendor/three.min.js');
+        return addScript('vendor/three-r147.min.js');
     }
     function load3D() {
         if (!loading3D) loading3D = loadSkin().then((three) => {

@@ -1,6 +1,6 @@
 /* =========================================================
    MODULR LAB — rack3d.js
-   La 3D du site, en three.js (js/vendor/three.min.js, r147).
+   La 3D du site, en three.js (js/vendor/three-r147.min.js).
    Chargé à la demande par instrument.js, après three.js.
 
    Trois habillages, posés sous le HTML existant :

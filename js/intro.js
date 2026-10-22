@@ -16,7 +16,7 @@
 
    Chargé tout en haut du body de l'accueil, sans defer : le
    voile noir couvre la page avant qu'elle s'affiche. three.js
-   (js/vendor/three.min.js, r147) n'est téléchargé que si
+   (js/vendor/three-r147.min.js) n'est téléchargé que si
    l'ouverture joue vraiment ; instrument.js le réutilise ensuite.
 
    Pendant l'ouverture, rien de lourd : instrument.js attend
@@ -32,7 +32,7 @@
     const KEY = 'modulr-intro-seen';
     // three.js est rangé à côté de ce fichier
     const SRC = (document.currentScript && document.currentScript.src) || '';
-    const THREE_URL = SRC ? new URL('vendor/three.min.js', SRC).href : 'js/vendor/three.min.js';
+    const THREE_URL = SRC ? new URL('vendor/three-r147.min.js', SRC).href : 'js/vendor/three-r147.min.js';
     const DURATION = 2500;
     const MAX_STEP = 33;      // l'horloge interne avance de 33 ms au plus par image
     const MAX_REAL = 4000;    // au-delà, en temps réel, l'ouverture s'efface vite
