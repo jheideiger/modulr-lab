@@ -493,7 +493,7 @@
             try {
                 const [response] = await Promise.all([
                     fetch(target.href, { headers: { 'Accept': 'text/html' } }),
-                    new Promise((resolve) => setTimeout(resolve, fade ? 220 : 0))
+                    new Promise((resolve) => setTimeout(resolve, fade ? 240 : 0))   // 240 ms : --dur-enter
                 ]);
                 const type = response.headers.get('content-type') || '';
                 if (!response.ok || !type.includes('text/html')) throw new Error('page');
@@ -638,7 +638,7 @@
                 if (!entry.isIntersecting) return;
                 observer.unobserve(entry.target);
                 entry.target.querySelectorAll('[data-cable]').forEach((path, i) => {
-                    path.style.transition = `stroke-dashoffset 0.9s ease ${0.15 + i * 0.25}s`;
+                    path.style.transition = `stroke-dashoffset var(--dur-cable) var(--ease-signal) ${0.15 + i * 0.25}s`;
                     path.style.strokeDashoffset = '0';
                 });
             });

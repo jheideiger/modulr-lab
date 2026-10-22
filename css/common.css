@@ -58,6 +58,17 @@
     --rail-width: 200px;
     --gutter: 24px;
     --section-gap: 144px;
+
+    /* La charte d'animation : une courbe, quatre durées.
+       geste : la réponse immédiate à un survol, un appui, un focus (couleur, ombre, petit glissement) ;
+       entrée : ce qui apparaît ou s'efface (apparitions au défilement, menu, bouton de remontée) ;
+       page : le passage d'une page à l'autre ; câble : ce qui suit le signal (câbles des schémas,
+       mise sous tension du rack). Les boucles (halos, repères du guide) gardent leur propre rythme. */
+    --ease-signal: cubic-bezier(0.2, 0.7, 0.2, 1);
+    --dur-gesture: 120ms;
+    --dur-enter: 240ms;
+    --dur-page: 480ms;
+    --dur-cable: 900ms;
 }
 
 /* --- Base --- */
@@ -247,7 +258,7 @@ a {
     letter-spacing: -0.02em;
     color: var(--color-text);
     text-decoration: none;
-    transition: text-decoration-color 0.3s ease;
+    transition: text-decoration-color var(--dur-gesture) var(--ease-signal);
 }
 
 .logo-link:hover {
@@ -266,7 +277,7 @@ a {
 
 /* --- Liens --- */
 .nav-link {
-    transition: color 0.3s ease;
+    transition: color var(--dur-gesture) var(--ease-signal);
 }
 
 .nav-link:hover {
@@ -290,7 +301,7 @@ a {
     border-bottom: 1px solid var(--color-accent);
     padding-bottom: 4px;
     letter-spacing: 0.01em;
-    transition: opacity 0.3s ease;
+    transition: opacity var(--dur-gesture) var(--ease-signal);
 }
 
 .cta:hover {
@@ -304,7 +315,7 @@ a {
     color: var(--color-text);
     border-bottom: 1px solid var(--color-text);
     padding-bottom: 4px;
-    transition: color 0.3s ease, border-color 0.3s ease;
+    transition: color var(--dur-gesture) var(--ease-signal), border-color var(--dur-gesture) var(--ease-signal);
 }
 
 .read-more:hover {
@@ -368,7 +379,7 @@ a {
     height: 2px;
     background: var(--color-text);
     border-radius: 1px;
-    transition: transform 0.3s ease, opacity 0.3s ease;
+    transition: transform var(--dur-gesture) var(--ease-signal), opacity var(--dur-gesture) var(--ease-signal);
 }
 
 /* --- Overlay menu mobile (caché par défaut) ---
@@ -399,13 +410,13 @@ a {
        visibility attend la fin du glissement pour passer à hidden. */
     clip-path: inset(0 0 0 100%);
     visibility: hidden;
-    transition: clip-path 0.4s ease, visibility 0s linear 0.4s;
+    transition: clip-path var(--dur-enter) var(--ease-signal), visibility 0s linear var(--dur-enter);
 }
 
 .menu-overlay.is-open {
     clip-path: inset(0);
     visibility: visible;
-    transition: clip-path 0.4s ease, visibility 0s;
+    transition: clip-path var(--dur-enter) var(--ease-signal), visibility 0s;
 }
 
 .menu-overlay-header {
@@ -439,7 +450,7 @@ a {
     font-weight: 700;
     line-height: 1.1;
     color: var(--color-text);
-    transition: color 0.3s ease;
+    transition: color var(--dur-gesture) var(--ease-signal);
 }
 
 .menu-overlay nav a:hover {
@@ -476,7 +487,7 @@ a {
     border-bottom: 0.5px solid var(--color-border);
     text-decoration: none;
     color: var(--color-text);
-    transition: background-color 0.4s ease;
+    transition: background-color var(--dur-gesture) var(--ease-signal);
 }
 
 .lesson-card:first-child {
@@ -509,7 +520,7 @@ a {
 }
 
 .lesson-card-content .lesson-title-sm {
-    transition: color 0.3s ease;
+    transition: color var(--dur-gesture) var(--ease-signal);
 }
 
 .lesson-card-content .lesson-desc {
@@ -553,7 +564,7 @@ a {
     border-bottom: 1px solid rgba(255, 255, 255, 0.36);   /* le trait du champ doit se voir (3,2:1) */
     padding: 12px 0;
     outline: none;
-    transition: border-color 0.3s ease;
+    transition: border-color var(--dur-gesture) var(--ease-signal);
     width: 100%;
 }
 
@@ -603,7 +614,7 @@ a {
     border: none;
     padding: 16px 32px;
     cursor: pointer;
-    transition: background 0.3s ease;
+    transition: background var(--dur-gesture) var(--ease-signal);
     align-self: flex-start;
 }
 
@@ -676,7 +687,7 @@ a {
     border-radius: 50%;
     background: rgba(10, 10, 10, 0.72);
     border: 1.5px solid rgba(255, 255, 255, 0.9);
-    transition: background 0.3s ease, transform 0.3s ease;
+    transition: background var(--dur-gesture) var(--ease-signal), transform var(--dur-gesture) var(--ease-signal);
 }
 
 .yt-facade-play::after {
@@ -732,7 +743,7 @@ a {
     gap: 4px;
     text-decoration: none;
     color: var(--color-text);
-    transition: color 0.3s ease;
+    transition: color var(--dur-gesture) var(--ease-signal);
 }
 
 .lesson-nav-next {
@@ -753,7 +764,7 @@ a {
     text-align: center;
     text-decoration: none;
     color: var(--color-text);
-    transition: color 0.3s ease, transform 0.3s ease;
+    transition: color var(--dur-gesture) var(--ease-signal), transform var(--dur-gesture) var(--ease-signal);
 }
 
 .lesson-nav-index:hover {
@@ -861,8 +872,8 @@ a {
    sans JS, le contenu reste lisible. */
 .js .reveal {
     opacity: 0;
-    transform: translateY(32px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
+    transform: translateY(14px);
+    transition: opacity var(--dur-enter) var(--ease-signal), transform var(--dur-enter) var(--ease-signal);
 }
 
 .js .reveal.is-visible {
@@ -873,9 +884,9 @@ a {
 /* Les lignes de liste gardent leur apparition en cascade, mais le fond du survol
    répond tout de suite (sinon le délai de cascade retarde aussi le survol) */
 .js .lesson-card.reveal {
-    transition: opacity 0.8s ease var(--reveal-delay, 0s),
-        transform 0.8s ease var(--reveal-delay, 0s),
-        background-color 0.4s ease 0s;
+    transition: opacity var(--dur-enter) var(--ease-signal) var(--reveal-delay, 0s),
+        transform var(--dur-enter) var(--ease-signal) var(--reveal-delay, 0s),
+        background-color var(--dur-gesture) var(--ease-signal) 0s;
 }
 
 /* Délais en cascade pour les éléments groupés */
@@ -902,7 +913,7 @@ a {
 @keyframes reveal-in {
     from {
         opacity: 0;
-        transform: translateY(32px);
+        transform: translateY(14px);
     }
 
     to {
@@ -918,7 +929,7 @@ a {
 .js .hero-actions.reveal,
 .js .lesson-meta.reveal,
 .js .note-title.reveal {
-    animation: reveal-in 0.8s ease both;
+    animation: reveal-in var(--dur-enter) var(--ease-signal) both;
 }
 
 /* --- Survol des listes (le cours, histoire, patchs) ---
@@ -927,7 +938,7 @@ a {
    le texte ne se recompose pas, l'animation reste fluide. */
 .lesson-card .lesson-card-number,
 .lesson-card .lesson-card-content {
-    transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1), color 0.3s ease;
+    transition: transform var(--dur-gesture) var(--ease-signal), color var(--dur-gesture) var(--ease-signal);
 }
 
 .lesson-card:hover .lesson-card-number,
@@ -937,7 +948,7 @@ a {
 
 /* --- Hover sur les articles de la page d'accueil --- */
 .lessons-grid article {
-    transition: transform 0.3s ease;
+    transition: transform var(--dur-gesture) var(--ease-signal);
 }
 
 .lessons-grid article:hover {
@@ -947,7 +958,7 @@ a {
 /* --- Transition douce sur les liens de navigation leçon --- */
 .lesson-nav-prev,
 .lesson-nav-next {
-    transition: color 0.3s ease, transform 0.3s ease;
+    transition: color var(--dur-gesture) var(--ease-signal), transform var(--dur-gesture) var(--ease-signal);
 }
 
 .lesson-nav-next:hover {
@@ -966,7 +977,7 @@ a {
 .read-more::after {
     content: '';
     display: inline-block;
-    transition: transform 0.3s ease;
+    transition: transform var(--dur-gesture) var(--ease-signal);
 }
 
 .read-more:hover::after {
@@ -988,7 +999,7 @@ a {
     width: 0;
     height: 1px;
     background: var(--color-accent);
-    transition: width 0.3s ease;
+    transition: width var(--dur-gesture) var(--ease-signal);
 }
 
 .nav-link:hover::after {
@@ -1219,7 +1230,7 @@ a {
     font-weight: 500;
     color: var(--color-text);
     cursor: pointer;
-    transition: border-color 0.3s ease, color 0.3s ease;
+    transition: border-color var(--dur-gesture) var(--ease-signal), color var(--dur-gesture) var(--ease-signal);
 }
 
 .lang-switch-mobile:hover {
@@ -1343,7 +1354,7 @@ a {
     background: linear-gradient(to right, rgba(10, 10, 10, 0), var(--color-bg));
     pointer-events: none;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity var(--dur-enter) var(--ease-signal);
 }
 
 .patch-figure-frame.is-overflowing:not(.is-end)::after {
@@ -1364,7 +1375,7 @@ a {
     pointer-events: none;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s;
+    transition: opacity var(--dur-enter) var(--ease-signal), visibility var(--dur-enter);
 }
 
 .patch-figure-frame.is-overflowing:not(.is-scrolled) .scroll-hint {
@@ -1431,7 +1442,7 @@ a {
 }
 
 .further-link .lesson-title-sm {
-    transition: color 0.3s ease;
+    transition: color var(--dur-gesture) var(--ease-signal);
 }
 
 .further-link:hover .lesson-title-sm {
@@ -1632,7 +1643,7 @@ a {
     background: var(--color-bg);
     border: 1px solid var(--color-text);
     cursor: pointer;
-    transition: color 0.3s ease, border-color 0.3s ease;
+    transition: color var(--dur-gesture) var(--ease-signal), border-color var(--dur-gesture) var(--ease-signal);
 }
 
 .consent-btn:hover,
@@ -1673,13 +1684,13 @@ a {
 
 /* --- Fondu entre les pages (navigation sans rechargement) --- */
 body {
-    transition: background-color 0.35s ease, color 0.35s ease;
+    transition: background-color var(--dur-enter) var(--ease-signal), color var(--dur-enter) var(--ease-signal);
 }
 
 .js main,
 .js body > .site-header,
 .js body > .footer {
-    transition: opacity 0.22s ease;
+    transition: opacity var(--dur-enter) var(--ease-signal);
 }
 
 /* Les canvas 3D du rack débordent de 48 px de chaque côté (les câbles pendent devant la page) :
@@ -1703,8 +1714,8 @@ main {
 ::view-transition-group(*),
 ::view-transition-old(*),
 ::view-transition-new(*) {
-    animation-duration: 480ms;
-    animation-timing-function: cubic-bezier(0.2, 0.7, 0.2, 1);
+    animation-duration: var(--dur-page);
+    animation-timing-function: var(--ease-signal);
 }
 
 /* Le titre où le point arrive s'affiche avec la page, sans seconde apparition */
@@ -1904,7 +1915,7 @@ main {
     line-height: 0.78;
     letter-spacing: -0.05em;
     color: #FFFFFF;
-    transition: color 0.4s ease;
+    transition: color var(--dur-gesture) var(--ease-signal);
 }
 
 .patch-display.is-done .display-num {
@@ -1951,7 +1962,7 @@ main {
     height: 3px;
     border-radius: 2px;
     background: #333333;
-    transition: background-color 0.4s ease;
+    transition: background-color var(--dur-gesture) var(--ease-signal);
 }
 
 .display-seg.is-current {
@@ -2094,7 +2105,7 @@ main {
     color: var(--color-accent);
     border-bottom: 1px solid currentColor;
     padding-bottom: 1px;
-    transition: opacity 0.2s ease;
+    transition: opacity var(--dur-gesture) var(--ease-signal);
 }
 
 .display-link:hover {
@@ -2116,8 +2127,8 @@ main {
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.2s ease;
-    animation: display-next-in 0.4s ease both;
+    transition: background-color var(--dur-gesture) var(--ease-signal);
+    animation: display-next-in var(--dur-enter) var(--ease-signal) both;
 }
 
 .display-next:hover {
@@ -2240,7 +2251,7 @@ main {
 
 /* Pendant le guide, les modules qui ne servent pas à l'étape s'effacent un peu */
 .module {
-    transition: opacity 0.5s ease;
+    transition: opacity var(--dur-enter) var(--ease-signal);
 }
 
 .module.is-dim {
@@ -2339,7 +2350,7 @@ main {
 
 .knob-fill {
     stroke: #6F6F6F;
-    transition: stroke 0.2s ease;
+    transition: stroke var(--dur-gesture) var(--ease-signal);
 }
 
 .knob:hover .knob-fill,
@@ -2364,7 +2375,7 @@ main {
 .knob-cv {
     fill: var(--color-accent);
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity var(--dur-enter) var(--ease-signal);
 }
 
 .knob.is-modulated .knob-cv {
@@ -2410,7 +2421,7 @@ main {
     background: #101010;
     color: #8A8A8A;
     cursor: pointer;
-    transition: color 0.2s ease, border-color 0.2s ease;
+    transition: color var(--dur-gesture) var(--ease-signal), border-color var(--dur-gesture) var(--ease-signal);
 }
 
 .wave-btn svg {
@@ -2568,12 +2579,12 @@ main {
 /* Le voyant : éteint, puis cyan quand le theremin est allumé */
 .th-pilot {
     fill: #2A2218;
-    transition: fill 0.3s ease;
+    transition: fill var(--dur-gesture) var(--ease-signal);
 }
 
 .th-pilot-bloom {
     opacity: 0;
-    transition: opacity 0.4s ease;
+    transition: opacity var(--dur-enter) var(--ease-signal);
 }
 
 .theremin.is-on .th-pilot {
@@ -2594,7 +2605,7 @@ main {
     stroke: var(--color-accent);
     stroke-width: 1.2;
     opacity: calc(var(--near, 0) * (0.55 - var(--k) * 0.11));
-    transition: opacity 0.12s linear;
+    transition: opacity var(--dur-gesture) var(--ease-signal);
 }
 
 .theremin.is-hint-rod .th-field--pitch ellipse,
@@ -2627,7 +2638,7 @@ main {
 /* La main */
 .th-hand {
     opacity: 0;
-    transition: opacity 0.25s ease;
+    transition: opacity var(--dur-gesture) var(--ease-signal);
     pointer-events: none;
 }
 
@@ -2691,7 +2702,7 @@ main {
     touch-action: none;
     overflow: hidden;
     outline: none;
-    transition: box-shadow 0.3s ease;
+    transition: box-shadow var(--dur-gesture) var(--ease-signal);
 }
 
 .theremin-pad:focus-visible {
@@ -2756,7 +2767,7 @@ main {
     background: var(--color-accent);
     box-shadow: 0 0 18px rgba(0, 184, 217, 0.8);
     opacity: 0;
-    transition: opacity 0.25s ease;
+    transition: opacity var(--dur-gesture) var(--ease-signal);
     pointer-events: none;
 }
 
@@ -2837,7 +2848,7 @@ main {
     height: 32px;
     border-radius: 50%;
     box-shadow: inset 0 0 0 1px #4A4A4A;
-    transition: box-shadow 0.2s ease;
+    transition: box-shadow var(--dur-gesture) var(--ease-signal);
 }
 
 /* L'écrou dessiné, sur son propre calque : la 3D l'efface en fondu */
@@ -3076,7 +3087,7 @@ main {
     font-size: 13px;
     font-weight: 500;
     cursor: pointer;
-    transition: color 0.2s ease, border-color 0.2s ease;
+    transition: color var(--dur-gesture) var(--ease-signal), border-color var(--dur-gesture) var(--ease-signal);
 }
 
 .patch-tool:hover,
@@ -3093,13 +3104,13 @@ main {
 /* --- Rack éteint : les modules s'assombrissent de droite à gauche, l'écran et le voyant
    s'éteignent, les câbles restent en place --- */
 .rack-cables {
-    transition: opacity 0.6s ease;
+    transition: opacity var(--dur-cable) var(--ease-signal);
 }
 
 .rack.is-off .module,
 .rack.is-off .module.is-dim {
     opacity: 0.38;
-    transition: opacity 0.6s ease;
+    transition: opacity var(--dur-cable) var(--ease-signal);
     transition-delay: calc((3 - var(--i, 0)) * 80ms);
 }
 
@@ -3133,7 +3144,7 @@ main {
     font-family: var(--font-display);
     font-size: 16px;
     font-weight: 700;
-    transition: background-color 0.2s ease;
+    transition: background-color var(--dur-gesture) var(--ease-signal);
 }
 
 .display-cta:hover {
@@ -3160,7 +3171,7 @@ main {
     font-size: 16px;
     font-weight: 700;
     cursor: pointer;
-    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    transition: background-color var(--dur-gesture) var(--ease-signal), border-color var(--dur-gesture) var(--ease-signal), color var(--dur-gesture) var(--ease-signal);
 }
 
 .display-power svg {
@@ -3211,7 +3222,7 @@ main {
 
 /* --- Mise sous tension : les modules s'allument l'un après l'autre --- */
 .rack.is-powering .module {
-    animation: module-power 0.6s ease both;
+    animation: module-power var(--dur-cable) var(--ease-signal) both;
     animation-delay: calc(var(--i) * 140ms + 150ms);
 }
 
@@ -3262,7 +3273,7 @@ main {
 }
 
 .site-module .module-name a {
-    transition: color 0.2s ease;
+    transition: color var(--dur-gesture) var(--ease-signal);
 }
 
 .site-module .module-name a:hover {
@@ -3284,7 +3295,7 @@ main {
 .site-note a {
     color: #D0D0D0;
     border-bottom: 1px solid #555555;
-    transition: color 0.2s ease, border-color 0.2s ease;
+    transition: color var(--dur-gesture) var(--ease-signal), border-color var(--dur-gesture) var(--ease-signal);
 }
 
 .site-note a:hover {
@@ -3312,14 +3323,14 @@ main {
     font-size: 15px;
     font-weight: 800;
     color: #6B6B6B;
-    transition: color 0.2s ease;
+    transition: color var(--dur-gesture) var(--ease-signal);
 }
 
 .site-lesson-title {
     font-size: 13px;
     line-height: 1.3;
     color: #E0E0E0;
-    transition: color 0.2s ease;
+    transition: color var(--dur-gesture) var(--ease-signal);
 }
 
 .site-lessons a:hover .site-lesson-num,
@@ -3366,7 +3377,7 @@ main {
     height: 100%;
     object-fit: cover;
     opacity: 0.85;
-    transition: opacity 0.3s ease;
+    transition: opacity var(--dur-enter) var(--ease-signal);
 }
 
 .site-screen img[hidden] {
@@ -3391,7 +3402,7 @@ main {
     font-weight: 700;
     line-height: 1.2;
     color: #EDEDED;
-    transition: color 0.2s ease;
+    transition: color var(--dur-gesture) var(--ease-signal);
 }
 
 .site-latest:hover .site-latest-title {
@@ -3430,7 +3441,7 @@ main {
     font-weight: 600;
     line-height: 1.2;
     cursor: pointer;
-    transition: color 0.2s ease;
+    transition: color var(--dur-gesture) var(--ease-signal);
 }
 
 .module-cta::before {
@@ -3444,7 +3455,7 @@ main {
     border-radius: 50%;
     background: radial-gradient(circle, #000000 0 4px, #262626 4.5px 6px, #BDBDBD 6.5px 8px, #7A7A7A 8.5px 10px, #3A3A3A 10.5px 13px, #2A2A2A 13.5px);
     box-shadow: inset 0 0 0 1px #4A4A4A;
-    transition: box-shadow 0.2s ease;
+    transition: box-shadow var(--dur-gesture) var(--ease-signal);
 }
 
 .module-cta::after {
@@ -3502,7 +3513,7 @@ main {
 
 /* À la fin du premier patch, « la suite » s'allume au passage */
 .site-rack.is-lit .module {
-    animation: site-lit 1.4s ease both;
+    animation: site-lit var(--dur-cable) var(--ease-signal) both;
     animation-delay: calc(var(--i, 0) * 120ms);
 }
 
@@ -3716,7 +3727,7 @@ main {
 .crumbs a {
     color: var(--color-text);
     border-bottom: 1px solid var(--color-border);
-    transition: color 0.3s ease, border-color 0.3s ease;
+    transition: color var(--dur-gesture) var(--ease-signal), border-color var(--dur-gesture) var(--ease-signal);
 }
 
 .crumbs a:hover {
@@ -3758,7 +3769,7 @@ main {
         font-size: 13px;
         opacity: 0;
         pointer-events: none;
-        transition: opacity 0.3s ease;
+        transition: opacity var(--dur-enter) var(--ease-signal);
     }
 
     .rail-toc.show-head .rail-toc-head {
@@ -3777,7 +3788,7 @@ main {
         display: block;
         padding-left: 16px;
         color: var(--color-text-secondary);
-        transition: color 0.2s ease;
+        transition: color var(--dur-gesture) var(--ease-signal);
     }
 
     /* Une petite prise devant chaque section ; celle en cours est branchée */
@@ -3790,7 +3801,7 @@ main {
         height: 7px;
         border-radius: 50%;
         border: 1.5px solid var(--color-border);
-        transition: background-color 0.2s ease, border-color 0.2s ease;
+        transition: background-color var(--dur-gesture) var(--ease-signal), border-color var(--dur-gesture) var(--ease-signal);
     }
 
     .rail-toc-list a:hover {
@@ -3894,7 +3905,7 @@ main {
     font-weight: 800;
     line-height: 1.05;
     letter-spacing: -0.02em;
-    transition: color 0.3s ease;
+    transition: color var(--dur-gesture) var(--ease-signal);
 }
 
 .lost-title::after {
@@ -3962,8 +3973,8 @@ main {
     opacity: 0;
     visibility: hidden;
     transform: translateY(8px);
-    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s, bottom 0.3s ease,
-        color 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
+    transition: opacity var(--dur-enter) var(--ease-signal), transform var(--dur-enter) var(--ease-signal), visibility var(--dur-enter), bottom var(--dur-enter) var(--ease-signal),
+        color var(--dur-gesture) var(--ease-signal), border-color var(--dur-gesture) var(--ease-signal), background-color var(--dur-gesture) var(--ease-signal);
 }
 
 .to-top.is-visible {
