@@ -867,18 +867,14 @@ a {
    ANIMATIONS
    ========================================================= */
 
-/* --- Apparitions au scroll --- */
-/* Masqué seulement si le JavaScript tourne (classe .js posée par lang.js) :
-   sans JS, le contenu reste lisible. */
+/* --- Apparitions au scroll ---
+   Là où le CSS sait suivre le défilement (animation-timeline: view()), elles sont pilotées par
+   le défilement, sans JavaScript (bloc @supports plus bas).
+   Ailleurs (Firefox aujourd'hui), l'IntersectionObserver de main.js pose .is-visible ; l'état
+   « masqué en attendant » n'est pas ici mais dans une feuille que lang.js ajoute au document
+   pendant que la page tourne : une page sans JavaScript, enregistrée ou imprimée montre tout. */
 .js .reveal {
-    opacity: 0;
-    transform: translateY(14px);
     transition: opacity var(--dur-enter) var(--ease-signal), transform var(--dur-enter) var(--ease-signal);
-}
-
-.js .reveal.is-visible {
-    opacity: 1;
-    transform: translateY(0);
 }
 
 /* Les lignes de liste gardent leur apparition en cascade, mais le fond du survol
@@ -930,6 +926,43 @@ a {
 .js .lesson-meta.reveal,
 .js .note-title.reveal {
     animation: reveal-in var(--dur-enter) var(--ease-signal) both;
+}
+
+/* Pilotées par le défilement : l'élément apparaît pendant ses 160 premiers pixels à l'écran
+   (les éléments groupés un peu plus tard, en cascade), et reste affiché une fois passé.
+   Le haut de page garde son apparition au chargement (règle ci-dessus, plus spécifique :
+   son raccourci « animation » remet la timeline au temps). */
+@supports (animation-timeline: view()) {
+    @media screen and (prefers-reduced-motion: no-preference) {
+        .reveal {
+            animation: reveal-in both;
+            animation-duration: auto;
+            animation-timing-function: var(--ease-signal);
+            animation-timeline: view();
+            animation-range: entry 0% entry 160px;
+            transition: none;
+        }
+
+        .reveal.reveal-delay-1 {
+            animation-delay: 0s;
+            animation-range: entry 40px entry 200px;
+        }
+
+        .reveal.reveal-delay-2 {
+            animation-delay: 0s;
+            animation-range: entry 80px entry 240px;
+        }
+
+        .reveal.reveal-delay-3 {
+            animation-delay: 0s;
+            animation-range: entry 120px entry 280px;
+        }
+
+        /* Les lignes de liste gardent la réponse immédiate de leur fond au survol */
+        .js .lesson-card.reveal {
+            transition: background-color var(--dur-gesture) var(--ease-signal);
+        }
+    }
 }
 
 /* --- Survol des listes (le cours, histoire, patchs) ---
@@ -1771,6 +1804,25 @@ main {
     transform-origin: 0 50%;
     z-index: 101;
     pointer-events: none;
+}
+
+/* Pilotée par le défilement de la page là où le CSS le sait ; ailleurs, main.js règle scaleX */
+@keyframes reading-progress {
+    from {
+        transform: scaleX(0);
+    }
+
+    to {
+        transform: scaleX(1);
+    }
+}
+
+@supports (animation-timeline: scroll()) {
+    .reading-progress {
+        animation: reading-progress linear both;
+        animation-duration: auto;
+        animation-timeline: scroll(root block);
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -4018,8 +4070,21 @@ main {
 }
 
 @media print {
-    .to-top {
+    .to-top,
+    .reading-progress {
         display: none;
+    }
+
+    /* À l'impression, tout le contenu est là, sans apparition ni fondu en cours */
+    .reveal,
+    .js .reveal,
+    .js main,
+    .js body > .site-header,
+    .js body > .footer {
+        opacity: 1 !important;
+        transform: none !important;
+        animation: none !important;
+        transition: none !important;
     }
 }
 

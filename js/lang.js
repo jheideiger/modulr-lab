@@ -29,9 +29,25 @@ function toFrenchPath(p) {
   return stripped === '' ? '/' : stripped;
 }
 
-/* Le JavaScript tourne : les animations d'apparition peuvent masquer
-   le contenu en attendant (voir .js .reveal dans common.css). */
+/* Le JavaScript tourne : le haut de page joue son apparition au chargement
+   (voir .js .reveal dans common.css). */
 document.documentElement.className += ' js';
+
+/* Apparitions au défilement, là où le CSS ne sait pas les piloter seul (sans
+   animation-timeline: view(), Firefox aujourd'hui) : main.js les révèle avec un
+   IntersectionObserver, et cette feuille les masque en attendant. Feuille « adoptée » :
+   elle n'existe que pendant que la page tourne et n'est ni enregistrée avec la page,
+   ni appliquée à l'impression ; sans elle, tout le contenu reste affiché. */
+(function () {
+  try {
+    if (window.CSS && CSS.supports && CSS.supports('animation-timeline: view()')) return;
+    if (!('IntersectionObserver' in window) || !('adoptedStyleSheets' in document)) return;
+    var sheet = new CSSStyleSheet();
+    sheet.replaceSync('@media screen and (prefers-reduced-motion: no-preference) {' +
+      ' .reveal:not(.is-visible) { opacity: 0; transform: translateY(14px); } }');
+    document.adoptedStyleSheets = document.adoptedStyleSheets.concat(sheet);
+  } catch (e) { }
+})();
 
 /* localStorage peut être indisponible (stockage bloqué) : on ne plante pas. */
 function langGet(key) { try { return localStorage.getItem(key); } catch (e) { return null; } }

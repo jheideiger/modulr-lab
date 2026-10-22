@@ -104,8 +104,13 @@
     // --- Animations au scroll (IntersectionObserver) ---
     let revealObserver = null;
 
+    // Là où le CSS pilote les apparitions par le défilement (animation-timeline: view()), rien à faire ici
+    const cssReveal = !!(window.CSS && CSS.supports && CSS.supports('animation-timeline: view()'));
+    const cssProgress = !!(window.CSS && CSS.supports && CSS.supports('animation-timeline: scroll()'));
+
     function initReveal() {
         if (revealObserver) revealObserver.disconnect();
+        if (cssReveal) return;
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
         const reveals = document.querySelectorAll('.reveal');
@@ -754,6 +759,8 @@
         bar.className = 'reading-progress';
         bar.setAttribute('aria-hidden', 'true');
         document.body.appendChild(bar);
+        // La barre suit le défilement en CSS (animation-timeline: scroll()) : pas d'écouteur
+        if (cssProgress) return;
         const update = () => {
             const el = document.getElementById('reading-progress');
             if (!el) return;
