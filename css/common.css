@@ -1688,6 +1688,40 @@ main {
     overflow-x: clip;
 }
 
+/* Transition native entre deux pages (main.js, document.startViewTransition) : la page fond
+   d'un état à l'autre, le logo reste en place, et le point cyan du titre de départ rejoint
+   celui du titre d'arrivée (une seule paire « signal », posée par main.js le temps du passage).
+   Sans startViewTransition, c'est le fondu .is-leaving / .is-entering ci-dessous. */
+.site-header .logo-link {
+    view-transition-name: logo;
+}
+
+.title-dot.is-signal {
+    view-transition-name: signal;
+}
+
+::view-transition-group(*),
+::view-transition-old(*),
+::view-transition-new(*) {
+    animation-duration: 480ms;
+    animation-timing-function: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* Le titre où le point arrive s'affiche avec la page, sans seconde apparition */
+.js .reveal.is-arrived {
+    animation: none;
+    opacity: 1;
+    transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    ::view-transition-group(*),
+    ::view-transition-old(*),
+    ::view-transition-new(*) {
+        animation: none !important;
+    }
+}
+
 .js main.is-leaving,
 .js main.is-entering,
 .js body > .site-header.is-leaving,

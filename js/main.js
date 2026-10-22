@@ -472,17 +472,28 @@
             }
         };
 
+        // Le point cyan d'un titre (.title-dot) visible à l'écran : celui qui « voyage » d'une page à l'autre
+        const dotOnScreen = () => Array.from(document.querySelectorAll('main .title-dot')).find((dot) => {
+            const r = dot.getBoundingClientRect();
+            return r.width > 0 && r.bottom > 0 && r.top < window.innerHeight;
+        });
+        const clearSignal = () => document.querySelectorAll('.title-dot.is-signal').forEach((dot) => dot.classList.remove('is-signal'));
+
         async function navigate(href, { push = true, scrollY = 0 } = {}) {
             const token = ++navToken;
             const target = new URL(href, window.location.href);
-            // Fondu de sortie, pendant que la page suivante se charge
+            // Transition native là où elle existe (le contenu change à l'intérieur de startViewTransition) ;
+            // ailleurs, le fondu de sortie pendant que la page suivante se charge, puis le fondu d'entrée.
+            // Moins d'animations demandées : ni l'une ni l'autre.
+            const native = !reduceMotion() && typeof document.startViewTransition === 'function';
+            const fade = !reduceMotion() && !native;
             const fading = () => Array.from(document.querySelectorAll('main, body > .site-header, body > .footer'));
             const leaving = fading();
-            if (!reduceMotion()) leaving.forEach((el) => el.classList.add('is-leaving'));
+            if (fade) leaving.forEach((el) => el.classList.add('is-leaving'));
             try {
                 const [response] = await Promise.all([
                     fetch(target.href, { headers: { 'Accept': 'text/html' } }),
-                    new Promise((resolve) => setTimeout(resolve, reduceMotion() ? 0 : 220))
+                    new Promise((resolve) => setTimeout(resolve, fade ? 220 : 0))
                 ]);
                 const type = response.headers.get('content-type') || '';
                 if (!response.ok || !type.includes('text/html')) throw new Error('page');
@@ -505,26 +516,52 @@
                 // si une page change un jour de fond (le texte attend alors que le fond ait glissé)
                 const themeChanges = document.body.classList.contains('page-home') !== doc.body.classList.contains('page-home');
 
-                swap(doc);
-                currentPath = window.location.pathname;
-                // Fondu d'entrée de la nouvelle page (le fond, lui, glisse du noir au blanc ou l'inverse)
-                // Quand le fond change de couleur, le texte attend qu'il ait fini de glisser
-                if (!reduceMotion()) {
-                    const entering = fading();
-                    entering.forEach((el) => el.classList.add('is-entering'));
-                    const show = () => entering.forEach((el) => el.classList.remove('is-entering'));
-                    requestAnimationFrame(() => requestAnimationFrame(() => {
-                        if (themeChanges) setTimeout(show, 280); else show();
-                    }));
-                }
-                initPage();
-                document.dispatchEvent(new Event('modulr:page'));
+                const anchorId = finalUrl.hash ? decodeURIComponent(finalUrl.hash.slice(1)) : '';
+                const show = () => {
+                    swap(doc);
+                    currentPath = window.location.pathname;
+                    // Fondu d'entrée de la nouvelle page (le fond, lui, glisse du noir au blanc ou l'inverse)
+                    // Quand le fond change de couleur, le texte attend qu'il ait fini de glisser
+                    if (fade) {
+                        const entering = fading();
+                        entering.forEach((el) => el.classList.add('is-entering'));
+                        const reveal = () => entering.forEach((el) => el.classList.remove('is-entering'));
+                        requestAnimationFrame(() => requestAnimationFrame(() => {
+                            if (themeChanges) setTimeout(reveal, 280); else reveal();
+                        }));
+                    }
+                    initPage();
+                    document.dispatchEvent(new Event('modulr:page'));
 
-                const anchor = finalUrl.hash ? document.getElementById(decodeURIComponent(finalUrl.hash.slice(1))) : null;
-                if (anchor) anchor.scrollIntoView();
-                else window.scrollTo(0, scrollY);
+                    const anchor = anchorId ? document.getElementById(anchorId) : null;
+                    if (anchor) anchor.scrollIntoView();
+                    else window.scrollTo(0, scrollY);
 
-                focusNewPage();
+                    focusNewPage();
+                };
+
+                if (native) {
+                    // Le point cyan voyage seulement s'il est à l'écran au départ et attendu à l'arrivée
+                    // (haut de la page suivante) : un seul couple de noms « signal » à la fois.
+                    clearSignal();
+                    const from = !anchorId && !scrollY && doc.querySelector('main .title-dot') ? dotOnScreen() : null;
+                    if (from) from.classList.add('is-signal');
+                    const transition = document.startViewTransition(() => {
+                        show();
+                        const to = from ? dotOnScreen() : null;
+                        if (to) {
+                            to.classList.add('is-signal');
+                            // Son titre est déjà là quand le point arrive : pas de seconde apparition
+                            const title = to.closest('.reveal');
+                            if (title) title.classList.add('is-visible', 'is-arrived');
+                        }
+                    });
+                    // Une transition remplacée par la suivante (clic rapide) : rien à signaler
+                    transition.ready.catch(() => { });
+                    transition.finished.then(clearSignal, clearSignal);
+                    await transition.updateCallbackDone;
+                } else show();
+
                 if (tracked) pageView();
             } catch (error) {
                 leaving.forEach((el) => el.classList.remove('is-leaving'));
