@@ -3915,8 +3915,8 @@ main {
     right: max(24px, env(safe-area-inset-right, 0px));
     bottom: calc(24px + env(safe-area-inset-bottom, 0px));
     z-index: 50;
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     display: grid;
     place-items: center;
     padding: 0;
@@ -4326,7 +4326,8 @@ main {
     .wave-btn,
     .jack,
     .module-name a,
-    .consent-more {
+    .consent-more,
+    .site-note a {
         position: relative;
     }
 
@@ -4342,7 +4343,8 @@ main {
     .wave-btn::before,
     .jack::before,
     .module-name a::before,
-    .consent-more::before {
+    .consent-more::before,
+    .site-note a::before {
         content: '';
         position: absolute;
         left: 50%;
@@ -4390,5 +4392,14 @@ main {
     .form-submit--compact,
     .skip-link {
         min-height: 44px;
+    }
+
+    /* Le champ email de « la suite » ; le lien de la note tient sur une ligne, sous sa zone de 44 px */
+    .site-form .newsletter-row .form-input {
+        min-height: 44px;
+    }
+
+    .site-note a {
+        white-space: nowrap;
     }
 }

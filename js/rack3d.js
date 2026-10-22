@@ -1152,12 +1152,14 @@
         resize();
 
         const tilt = { x: 0, y: 0 };
+        // Inclinaison à la souris seulement : au doigt, le jeu passe par instrument.js (view.invalidate)
         const onMove = (e) => {
+            if (e.pointerType !== 'mouse') return;
             const r = wrap.getBoundingClientRect();
-            pointer = { x: ((e.clientX - r.left) / r.width) * 2 - 1, y: ((e.clientY - r.top) / r.height) * 2 - 1, inside: e.pointerType === 'mouse' };
+            pointer = { x: ((e.clientX - r.left) / r.width) * 2 - 1, y: ((e.clientY - r.top) / r.height) * 2 - 1, inside: true };
             invalidate();
         };
-        const onLeave = () => { pointer.inside = false; invalidate(); };
+        const onLeave = () => { if (!pointer.inside) return; pointer.inside = false; invalidate(); };
         wrap.addEventListener('pointermove', onMove);
         wrap.addEventListener('pointerleave', onLeave);
         const data = new Float32Array(2048);
