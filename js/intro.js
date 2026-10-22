@@ -251,8 +251,9 @@
     function play(opts) {
         opts = opts || {};
         if (running) return;
-        if (reduceMotion() || modest() || !webgl()) return;
+        // « Déjà vue » d'abord : tester WebGL crée un contexte, inutile si l'ouverture ne joue pas
         if (!opts.force && seen()) return;
+        if (reduceMotion() || modest() || !webgl()) return;
         markSeen();
 
         const lang = (document.documentElement.lang || 'fr').indexOf('en') === 0 ? 'en' : 'fr';

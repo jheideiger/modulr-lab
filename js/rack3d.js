@@ -25,6 +25,10 @@
 (function () {
     'use strict';
 
+    /* La 3D sur écran tactile. false : aucun écran tactile ne charge three.js ; le rack et le theremin
+       restent dans leur version HTML/SVG (instrument.js lit ce fichier avant three.js). */
+    const MOBILE_3D = true;
+
     const CYAN = '#00B8D9';
     const lin = (hex) => new THREE.Color(hex).convertSRGBToLinear();
     const reduceMotion = () => window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -36,27 +40,75 @@
         return (n.deviceMemory > 0 && n.deviceMemory <= 4) || (n.hardwareConcurrency > 0 && n.hardwareConcurrency <= 4) || c.saveData === true ||
             !!(window.matchMedia && window.matchMedia('(prefers-reduced-data: reduce)').matches);
     })();
+    // Sur écran tactile aussi : densité de pixels de 1 au plus et ombres fixes (le téléphone dessine
+    // trois à neuf fois moins de pixels, et aucune carte d'ombres n'est calculée)
+    const lite = modest || coarse();
 
-    function supported() {
-        if (!window.THREE) return false;
-        try { const c = document.createElement('canvas'); return !!(c.getContext('webgl') || c.getContext('experimental-webgl')); } catch (e) { return false; }
+    /* ---------- un seul contexte WebGL par page ----------
+       Chaque contexte coûte sa création, sa compilation de shaders et son studio de reflets :
+       un seul renderer sert à tout (le rack et ses câbles, le theremin), et d'une page à l'autre.
+       Son canvas est celui de l'habillage en cours ; chacun règle l'exposition et le fond avant de dessiner. */
+    const engine = { renderer: null, failed: false };
+    function sharedRenderer() {
+        if (engine.renderer || engine.failed) return engine.renderer;
+        try { engine.renderer = makeRenderer({ alpha: true }); } catch (e) { engine.failed = true; }
+        return engine.renderer;
+    }
+    function supported() { return !!window.THREE && !!window.WebGLRenderingContext && !!sharedRenderer(); }
+    function look(renderer, o) {
+        renderer.toneMappingExposure = o.exposure || 1;
+        renderer.setClearColor(o.clear === undefined ? 0x000000 : o.clear, o.opaque ? 1 : 0);
+    }
+    // L'arrivée de la 3D : les canvas restent invisibles jusqu'à la première image dessinée, puis
+    // apparaissent en 400 ms pendant que le HTML s'efface (classe is-3d-in, voir common.css)
+    function arrival(host, canvases) {
+        canvases.forEach((c) => { c.style.opacity = '0'; });
+        let done = false;
+        return function shown() {
+            if (done) return;
+            done = true;
+            const still = reduceMotion();
+            if (!still) host.classList.add('is-3d-in');
+            host.classList.add('is-3d');
+            if (still) { canvases.forEach((c) => { c.style.opacity = ''; }); return; }
+            // L'opacité 0 doit être peinte une fois avant que la transition parte
+            requestAnimationFrame(() => requestAnimationFrame(() => canvases.forEach((c) => { c.style.transition = 'opacity 0.4s ease'; c.style.opacity = '1'; })));
+            setTimeout(() => {
+                host.classList.remove('is-3d-in');
+                canvases.forEach((c) => { c.style.transition = ''; c.style.opacity = ''; });
+            }, 520);
+        };
+    }
+
+    // Rendre le canvas partagé : il sort de la page, sans les réglages de l'habillage qui s'en va
+    function release(canvas) {
+        canvas.remove();
+        canvas.removeAttribute('style');
+        canvas.removeAttribute('class');
     }
 
     /* ---------- outils communs ---------- */
     function makeRenderer(opts) {
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: !!opts.alpha });
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, modest ? 1 : coarse() ? 1.5 : 2));
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, lite ? 1 : 2));
         renderer.outputEncoding = THREE.sRGBEncoding;
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
         renderer.toneMappingExposure = opts.exposure || 1;
-        renderer.shadowMap.enabled = !modest;
+        renderer.shadowMap.enabled = !lite;
         renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         renderer.setClearColor(opts.clear === undefined ? 0x000000 : opts.clear, opts.alpha ? 0 : 1);
         return renderer;
     }
 
-    // Un studio pour les reflets : une pièce sombre et trois boîtes à lumière
+    // Un studio pour les reflets : une pièce sombre et trois boîtes à lumière. Calculé une fois par
+    // variante (le rack, le theremin plus chaud) et gardé avec le renderer partagé, d'une page à l'autre.
+    const envs = {};
     function studioEnv(renderer, warm) {
+        const key = warm ? 'warm' : 'cool';
+        if (!envs[key]) envs[key] = makeStudioEnv(renderer, warm);
+        return envs[key];
+    }
+    function makeStudioEnv(renderer, warm) {
         const pmrem = new THREE.PMREMGenerator(renderer);
         const studio = new THREE.Scene();
         studio.add(new THREE.Mesh(new THREE.BoxGeometry(60, 40, 60), new THREE.MeshBasicMaterial({ color: warm ? 0x0c0a08 : 0x0b0b0b, side: THREE.BackSide })));
@@ -79,11 +131,11 @@
 
     function canvasTexture(c) { const t = new THREE.CanvasTexture(c); t.encoding = THREE.sRGBEncoding; return t; }
 
-    // L'ombre simple et fixe des appareils modestes : une tache sombre et floue, posée sous la pièce
+    // L'ombre simple et fixe (appareils modestes, écrans tactiles) : une tache sombre et floue, posée sous la pièce
     // (décalée vers le bas à droite, à l'opposé de la lumière clé). Rien sur les autres appareils.
     let blobTex = null;
     function contactShadow(w, h, opacity, dx, dy) {
-        if (!modest) return null;
+        if (!lite) return null;
         if (!blobTex) {
             const c = document.createElement('canvas'); c.width = c.height = 64;
             // En niveaux de gris : alphaMap lit le canal vert (blanc = opaque, noir = transparent)
@@ -101,7 +153,7 @@
 
     // L'aluminium brossé d'un panneau, avec, si besoin, la graduation des boutons imprimée
     function panelTexture(w, h, ticks) {
-        const k = Math.min(2, window.devicePixelRatio || 1);
+        const k = lite ? 1 : Math.min(2, window.devicePixelRatio || 1);
         const c = document.createElement('canvas');
         c.width = Math.max(2, Math.round(w * k)); c.height = Math.max(2, Math.round(h * k));
         const g = c.getContext('2d');
@@ -169,7 +221,7 @@
     // La face d'une touche : au repos noire avec un liseré gris ; allumée, cyan, comme l'onde choisie sur le vco.
     // draw(g, w, h, on) dessine le contenu (un texte, une forme d'onde).
     function keyFace(w, h, on, draw) {
-        const k = 3, c = document.createElement('canvas');
+        const k = lite ? 2 : 3, c = document.createElement('canvas');
         c.width = Math.round((w + 2) * k); c.height = Math.round((h + 2) * k);
         const g = c.getContext('2d');
         g.scale(k, k);
@@ -276,7 +328,7 @@
     // La lumière clé, qui glisse un peu avec l'inclinaison
     function keyLight(scene, W, H, D) {
         const key = new THREE.DirectionalLight(0xffffff, 1.45);
-        key.castShadow = !modest;
+        key.castShadow = !lite;
         key.shadow.mapSize.set(coarse() ? 1024 : 2048, coarse() ? 1024 : 2048);
         const span = Math.max(W, H) * 0.75;
         Object.assign(key.shadow.camera, { left: -span, right: span, top: span, bottom: -span, near: 1, far: D * 3 });
@@ -332,16 +384,34 @@
     /* =====================================================
        « LA SUITE »
        ===================================================== */
+    // Sur écran tactile, « la suite » reste en HTML. Ailleurs, elle n'est construite qu'à 300 px de l'écran,
+    // hors d'un défilement.
     function siteRack(rackEl) {
-        if (!supported() || !rackEl || rackEl.dataset.three) return null;
+        if (coarse() || !supported() || !rackEl || rackEl.dataset.three) return null;
+        let live = null, gone = false;
+        const wake = afterScroll(() => { if (!gone && !live) live = buildSiteRack(rackEl); });
+        const io = 'IntersectionObserver' in window ? new IntersectionObserver((e) => {
+            if (e.some((x) => x.isIntersecting)) { io.disconnect(); wake.run(); }
+        }, { rootMargin: '300px' }) : null;
+        if (io) io.observe(rackEl); else wake.run();
+        return { destroy() { gone = true; if (io) io.disconnect(); wake.cancel(); if (live) live.destroy(); } };
+    }
+
+    function buildSiteRack(rackEl) {
+        if (!rackEl.isConnected || rackEl.dataset.three) return null;
         rackEl.dataset.three = '1';
-        const renderer = makeRenderer({ alpha: true });
-        const canvas = renderer.domElement;
+        // Le renderer du rack dessine aussi « la suite », dans un canvas qui lui est propre, puis rend
+        // son canvas au rack, redessiné aussitôt (engine.main)
+        const renderer = sharedRenderer();
+        const canvas = document.createElement('canvas');
+        const g2 = canvas.getContext('2d');
         canvas.className = 'site-rack-3d';
         canvas.setAttribute('aria-hidden', 'true');
         rackEl.insertBefore(canvas, rackEl.firstChild);
         rackEl.classList.add('is-3d');
+        const shown = arrival(rackEl, [canvas]);
         const env = studioEnv(renderer);
+        let size = [0, 0];
         const M = rackMaterials();
         let scene = null, camera = null, light = null, keys = [], destroyed = false;
         const tilt = Tilt(rackEl, (t) => { if (light) light.place(t); render(); }, { x: 2.2, y: 3.2 });
@@ -351,7 +421,9 @@
             flat(rackEl, () => {
                 const R = rackEl.getBoundingClientRect(), W = R.width, H = R.height;
                 if (W < 10 || H < 10) return;
-                renderer.setSize(W, H, false);
+                size = [W, H];
+                const k = renderer.getPixelRatio();
+                canvas.width = Math.round(W * k); canvas.height = Math.round(H * k);
                 canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
                 disposeScene(scene);
                 scene = new THREE.Scene();
@@ -391,7 +463,18 @@
             });
             renderSoon();
         }
-        function render() { lazy.cancel(); if (scene && !destroyed) renderer.render(scene, camera); }
+        function render() {
+            lazy.cancel();
+            if (!scene || destroyed) return;
+            const shared = renderer.domElement;
+            renderer.setSize(size[0], size[1], false);
+            look(renderer, {});
+            renderer.render(scene, camera);
+            g2.clearRect(0, 0, canvas.width, canvas.height);
+            g2.drawImage(shared, 0, 0, canvas.width, canvas.height);
+            if (engine.main) engine.main.restore();
+            shown();
+        }
         // Survol, focus, taille : le rendu attend la fin d'un défilement
         const lazy = afterScroll(render);
         const renderSoon = () => lazy.run();
@@ -449,10 +532,8 @@
                 rackEl.removeEventListener('focusout', on.focus);
                 rackEl.removeEventListener('keydown', on.key);
                 disposeScene(scene);
-                env.dispose();
-                renderer.dispose();
                 canvas.remove();
-                rackEl.classList.remove('is-3d');
+                rackEl.classList.remove('is-3d', 'is-3d-in');
                 delete rackEl.dataset.three;
             }
         };
@@ -476,23 +557,35 @@
     function rack(rackEl, model) {
         if (!supported() || !rackEl || rackEl.dataset.three) return null;
         rackEl.dataset.three = '1';
-        const renderer = makeRenderer({ alpha: true });
+        const renderer = sharedRenderer();
         const canvas = renderer.domElement;
         canvas.className = 'rack-3d';
         canvas.setAttribute('aria-hidden', 'true');
         rackEl.insertBefore(canvas, rackEl.firstChild);
-        // Un second calque, au-dessus des modules HTML (écran, étiquettes) : les câbles et leurs fiches
-        const top = makeRenderer({ alpha: true });
-        top.shadowMap.enabled = false;
-        const topCanvas = top.domElement;
+        // Un second calque, au-dessus des modules HTML (écran, étiquettes) : les câbles et leurs fiches.
+        // C'est un canvas 2D : le même renderer les dessine d'abord seuls, et l'image y est recopiée.
+        const topCanvas = document.createElement('canvas');
+        const top2d = topCanvas.getContext('2d');
+        let cablesShown = false;
         topCanvas.className = 'rack-3d-cables';
         topCanvas.setAttribute('aria-hidden', 'true');
         rackEl.appendChild(topCanvas);
-        rackEl.classList.add('is-3d');
+        const shown = arrival(rackEl, [canvas, topCanvas]);
         const env = studioEnv(renderer);
         const M = rackMaterials();
         let scene = null, camera = null, light = null, destroyed = false, visible = true, raf = 0, dirty = true;
-        let knobs = {}, jacks = {}, waves = [], veils = [], modules = [], fades = [], ropes = {}, tempRope = null, unit = 1, fromRack = null;
+        let knobs = {}, jacks = {}, waves = [], veils = [], modules = [], fades = [], ropes = {}, tempRope = null, unit = 1, fromRack = null, drawSize = [0, 0];
+        // « La suite » emprunte le canvas partagé : il revient à sa taille et le matériel est redessiné aussitôt
+        const main = {
+            restore() {
+                if (!scene || destroyed) return;
+                renderer.setSize(drawSize[0], drawSize[1], false);
+                look(renderer, {});
+                camera.layers.set(0);
+                renderer.render(scene, camera);
+            }
+        };
+        engine.main = main;
         const tilt = Tilt(rackEl, (t) => { if (light) light.place(t); invalidate(); }, { x: 1.6, y: 2.4 });
 
         function build() {
@@ -504,7 +597,9 @@
                 const PAD = { side: 48, top: 24, bottom: 240 };
                 const W = R.width + 2 * PAD.side, H = R.height + PAD.top + PAD.bottom;
                 renderer.setSize(W, H, false);
-                top.setSize(W, H, false);
+                drawSize = [W, H];
+                topCanvas.width = canvas.width; topCanvas.height = canvas.height;
+                cablesShown = false;
                 [canvas, topCanvas].forEach((c) => Object.assign(c.style, { width: W + 'px', height: H + 'px', left: -PAD.side + 'px', top: -PAD.top + 'px' }));
                 Object.keys(ropes).forEach((id) => delete ropes[id]);
                 tempRope = null;
@@ -750,15 +845,27 @@
             });
             // Les modules effacés par le guide, ou le rack éteint
             if (stepVeils(now)) busy = true;
-            // Dessous : le matériel (et l'ombre des câbles) ; dessus : les câbles seuls, sans les reflets du studio
+            // Dessus : les câbles seuls, sans les reflets du studio, recopiés sur le calque 2D (rien à faire
+            // sans câble) ; dessous, en dernier, sur le canvas lui-même : le matériel et l'ombre des câbles.
+            // Les câbles gardent l'ombre calculée à l'image d'avant : elle n'est refaite qu'une fois.
+            look(renderer, {});
+            const hasRopes = Object.keys(ropes).length > 0 || !!tempRope;
+            if (hasRopes || cablesShown) {
+                top2d.clearRect(0, 0, topCanvas.width, topCanvas.height);
+                if (hasRopes) {
+                    camera.layers.set(1);
+                    scene.environment = null;
+                    renderer.shadowMap.autoUpdate = false;
+                    renderer.render(scene, camera);
+                    top2d.drawImage(canvas, 0, 0);
+                    renderer.shadowMap.autoUpdate = true;
+                    scene.environment = env;
+                }
+                cablesShown = hasRopes;
+            }
             camera.layers.set(0);
             renderer.render(scene, camera);
-            camera.layers.set(1);
-            const envMap = scene.environment;
-            scene.environment = null;
-            top.render(scene, camera);
-            scene.environment = envMap;
-            camera.layers.set(0);
+            shown();
             // Un câble qui se balance, un voile qui change : on continue ; sinon la boucle s'arrête
             if (busy) dirty = true;
             if (dirty) start();
@@ -790,13 +897,11 @@
                 document.removeEventListener('visibilitychange', onVis);
                 ['pointerover', 'pointerout', 'focusin', 'focusout'].forEach((ev) => rackEl.removeEventListener(ev, onHover));
                 tilt.destroy();
+                if (engine.main === main) engine.main = null;
                 disposeScene(scene);
-                env.dispose();
-                renderer.dispose();
-                top.dispose();
-                canvas.remove();
+                release(canvas);
                 topCanvas.remove();
-                rackEl.classList.remove('is-3d');
+                rackEl.classList.remove('is-3d', 'is-3d-in');
                 delete rackEl.dataset.three;
             }
         };
@@ -814,37 +919,13 @@
          TH         les repères du dessin (antenne, boucle)
          labels     { pitch, volume }
        ===================================================== */
-    function walnutNoise(seed) {
-        const N = 64, grid = new Float32Array(N * N);
-        let x = seed * 9301 + 49297;
-        for (let i = 0; i < N * N; i++) { x = (x * 9301 + 49297) % 233280; grid[i] = x / 233280; }
-        const at = (i, j) => grid[((j % N + N) % N) * N + ((i % N + N) % N)];
-        return (u, v) => {
-            const i = Math.floor(u), j = Math.floor(v), fu = u - i, fv = v - j;
-            const su = fu * fu * (3 - 2 * fu), sv = fv * fv * (3 - 2 * fv);
-            return (at(i, j) * (1 - su) + at(i + 1, j) * su) * (1 - sv) + (at(i, j + 1) * (1 - su) + at(i + 1, j + 1) * su) * sv;
-        };
-    }
-    // Le noyer : un fil qui court dans la longueur, quelques veines plus sombres, un placage en miroir
-    function walnut(w, h, opts) {
-        opts = opts || {};
-        const c = document.createElement('canvas'); c.width = w; c.height = h;
-        const g = c.getContext('2d'), img = g.createImageData(w, h);
-        const n1 = walnutNoise(opts.seed || 1), n2 = walnutNoise((opts.seed || 1) + 7);
-        for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
-            const xx = opts.mirror && x >= w / 2 ? w - 1 - x : x;
-            const along = opts.vertical ? y / h : xx / w, across = opts.vertical ? xx / w : y / h;
-            const warp = n1(along * 3, across * 2) * 0.9 + n1(along * 9, across * 6) * 0.25;
-            const grain = Math.sin((across * (opts.freq || 26) + warp * 2.2) * Math.PI * 2);
-            const vein = Math.pow(Math.max(0, grain), 6);
-            const fine = n2(along * 220, across * 30);
-            const k = (0.78 - 0.22 * vein + 0.08 * (fine - 0.5) + 0.06 * (n1(along * 2, across * 1.5) - 0.5)) * (opts.dark || 1);
-            const i = (y * w + x) * 4;
-            img.data[i] = 112 * k; img.data[i + 1] = 70 * k; img.data[i + 2] = 40 * k; img.data[i + 3] = 255;
-        }
-        g.putImageData(img, 0, 0);
-        if (opts.decorate) opts.decorate(g, w, h);
-        const t = canvasTexture(c); t.anisotropy = 8; return t;
+    // Le noyer : quatre images fixes (textures/), calculées une fois par l'ancien walnut() de ce fichier
+    // (un fil qui court dans la longueur, quelques veines, un placage en miroir sur la façade)
+    const HERE = (document.currentScript && document.currentScript.src) || location.href;
+    function woodTexture(name, done) {
+        const t = new THREE.TextureLoader().load(new URL('../textures/' + name + '.webp', HERE).href, done, undefined, done);
+        t.encoding = THREE.sRGBEncoding; t.anisotropy = 8;
+        return t;
     }
 
     function theremin(wrap, opts) {
@@ -860,12 +941,12 @@
         const toTH = (x, y) => ({ x: TH.rodX + (x - ROD.x) * KX, y: TH.loopY - (y - LOOP.y) * KY });
         const fromTH = (x, y) => ({ x: ROD.x + (x - TH.rodX) / KX, y: LOOP.y - (y - TH.loopY) / KY });
 
-        const renderer = makeRenderer({ exposure: 1.1, clear: 0x0a0a0a });
+        const renderer = sharedRenderer();
         const canvas = renderer.domElement;
         canvas.className = 'theremin-3d';
         canvas.setAttribute('aria-hidden', 'true');
         wrap.insertBefore(canvas, wrap.firstChild);
-        wrap.classList.add('is-3d');
+        const shown = arrival(wrap, [canvas]);
         const hz = document.createElement('span');
         hz.className = 'theremin-hz'; hz.hidden = true; hz.setAttribute('aria-hidden', 'true');
         wrap.appendChild(hz);
@@ -877,7 +958,7 @@
         scene.add(new THREE.HemisphereLight(0x3a332c, 0x080706, 0.9));
         const key = new THREE.DirectionalLight(0xfff1dc, 1.7);
         key.position.set(-22, 70, 42);
-        key.castShadow = !modest;
+        key.castShadow = !lite;
         key.shadow.mapSize.set(coarse() ? 1024 : 2048, coarse() ? 1024 : 2048);
         Object.assign(key.shadow.camera, { left: -70, right: 70, top: 70, bottom: -70, near: 1, far: 260 });
         key.shadow.bias = -0.0005; key.shadow.radius = 4;
@@ -896,20 +977,13 @@
         const add = (geo, mat, x, y, z) => { const m = new THREE.Mesh(geo, mat); m.position.set(x, y, z); m.castShadow = m.receiveShadow = true; th.add(m); return m; };
 
         // Le meuble : façade plaquée en miroir avec pilastres cannelés, dessus, flancs
-        const front = own(new THREE.MeshStandardMaterial({
-            map: walnut(1024, 288, {
-                mirror: true, freq: 9, seed: 3, decorate: (g, w, h) => {
-                    [0.025, 0.04, 0.055, 0.945, 0.96, 0.975].forEach((u) => {
-                        g.fillStyle = 'rgba(20,10,4,0.55)'; g.fillRect(u * w, 0.06 * h, 3, 0.88 * h);
-                        g.fillStyle = 'rgba(255,220,170,0.10)'; g.fillRect(u * w + 3, 0.06 * h, 2, 0.88 * h);
-                    });
-                    g.fillStyle = 'rgba(20,10,4,0.45)'; g.fillRect(w / 2 - 1, 0, 2, h);
-                }
-            }), roughness: 0.38, envMapIntensity: 0.9
-        }));
-        const top = own(new THREE.MeshStandardMaterial({ map: walnut(1024, 460, { freq: 14, seed: 5 }), roughness: 0.34 }));
-        const side = own(new THREE.MeshStandardMaterial({ map: walnut(460, 288, { freq: 8, seed: 9, dark: 0.72 }), roughness: 0.45 }));
-        const legWood = own(new THREE.MeshStandardMaterial({ map: walnut(64, 512, { freq: 4, seed: 11, dark: 0.8, vertical: true }), roughness: 0.45 }));
+        // Le bois arrive en images : pas de première image du theremin sans lui
+        let woodLeft = 4;
+        const woodDone = () => { if (--woodLeft === 0) invalidate(); };
+        const front = own(new THREE.MeshStandardMaterial({ map: woodTexture('noyer-facade', woodDone), roughness: 0.38, envMapIntensity: 0.9 }));
+        const top = own(new THREE.MeshStandardMaterial({ map: woodTexture('noyer-dessus', woodDone), roughness: 0.34 }));
+        const side = own(new THREE.MeshStandardMaterial({ map: woodTexture('noyer-flanc', woodDone), roughness: 0.45 }));
+        const legWood = own(new THREE.MeshStandardMaterial({ map: woodTexture('noyer-pied', woodDone), roughness: 0.45 }));
         add(new THREE.BoxGeometry(CAB.w, CAB.h, CAB.d), [side, side, top, side, front, side], 0, 0, 0);
         add(new THREE.BoxGeometry(CAB.w + 0.3, 0.32, 0.3), brass, 0, CAB.h / 2 - 0.05, CAB.d / 2 + 0.05);
         add(new THREE.BoxGeometry(CAB.w + 0.3, 0.32, 0.3), brass, 0, -CAB.h / 2 + 0.05, CAB.d / 2 + 0.05);
@@ -983,11 +1057,11 @@
         loopPath.add(new THREE.LineCurve3(new THREE.Vector3(LOOP.x1 + LOOP.z, LOOP.y, LOOP.z), new THREE.Vector3(LOOP.x0, LOOP.y, LOOP.z)));
         add(new THREE.TubeGeometry(loopPath, 120, 0.26, 16, false), brass, 0, 0, 0);
         add(new THREE.BoxGeometry(1.4, 2.6, 6.4), bakelite, -CAB.w / 2 - 0.6, LOOP.y, 0);
-        const floor = modest
+        const floor = lite
             // Sans ombres calculées : une ombre floue et fixe sous le meuble et ses pieds
             ? contactShadow(CAB.w * 1.25, CAB.d * 1.6, 0.6, 0, 0)
             : new THREE.Mesh(new THREE.PlaneGeometry(400, 400), own(new THREE.ShadowMaterial({ opacity: 0.55 })));
-        floor.rotation.x = -Math.PI / 2; floor.position.set(0, FLOOR + (modest ? 0.02 : 0), 0); floor.receiveShadow = true;
+        floor.rotation.x = -Math.PI / 2; floor.position.set(0, FLOOR + (lite ? 0.02 : 0), 0); floor.receiveShadow = true;
         th.add(floor);
 
         // Les champs autour des antennes, et la main
@@ -1116,7 +1190,7 @@
         }
         function frame(now) {
             raf = 0;
-            if (destroyed) return;
+            if (destroyed || woodLeft > 0) return;
             dirty = false;
             const dt = last ? Math.min(100, now - last) : 16; last = now;
             const k = Math.min(1, dt / 250);
@@ -1148,8 +1222,10 @@
                 hz.hidden = false;
             } else hz.hidden = true;
             const sounding = updateScreen(on);
+            look(renderer, { exposure: 1.1, clear: 0x0a0a0a, opaque: true });
             renderer.render(scene, camera);
             placeHalos();
+            shown();
             // Ce qui bouge tout seul : la main qui joue, le son qui s'éteint, l'inclinaison qui se pose.
             // Allumé mais silencieux, éteint, sans geste : plus aucune image.
             if (playing || sounding || tilting) dirty = true;
@@ -1176,13 +1252,13 @@
                 wrap.removeEventListener('pointermove', onMove);
                 wrap.removeEventListener('pointerleave', onLeave);
                 disposeScene(scene);
-                env.dispose();
-                renderer.dispose();
-                canvas.remove(); hz.remove(); halos.remove();
-                wrap.classList.remove('is-3d');
+                release(canvas); hz.remove(); halos.remove();
+                wrap.classList.remove('is-3d', 'is-3d-in');
             }
         };
     }
 
-    window.modulr3D = { supported, rack, siteRack, theremin };
+    // La 3D est-elle voulue ici ? Seule question posée avant que three.js soit là
+    const wanted = () => MOBILE_3D || !coarse();
+    window.modulr3D = { wanted, supported, rack, siteRack, theremin };
 })();

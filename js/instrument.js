@@ -249,28 +249,39 @@
     let current = null;
 
     /* -----------------------------------------------------
-       LA 3D (js/rack3d.js, après three.js) : chargée à la demande,
+       LA 3D (js/rack3d.js, puis three.js) : chargée à la demande,
        elle habille le rack et le theremin quand WebGL est là.
-       Sans elle, tout fonctionne comme avant.
+       Sans elle, tout fonctionne comme avant. rack3d.js est lu
+       d'abord : il dit si la 3D est voulue (MOBILE_3D, en tête du
+       fichier) ; three.js (600 Ko) n'est téléchargé que si oui.
        ----------------------------------------------------- */
     const SCRIPT_BASE = (function () {
         const own = document.currentScript || document.querySelector('script[src*="instrument.js"]');
         return own && own.src ? own.src.replace(/instrument\.js.*$/, '') : 'js/';
     })();
-    let loading3D = null;
-    function load3D() {
-        if (window.modulr3D) return Promise.resolve(window.modulr3D);
-        if (!loading3D) loading3D = new Promise((resolve, reject) => {
-            const add = (src, then) => {
-                const script = document.createElement('script');
-                script.src = SCRIPT_BASE + src;
-                script.onload = then;
-                script.onerror = () => { loading3D = null; reject(new Error(src)); };
-                document.head.appendChild(script);
-            };
-            const next = () => add('rack3d.js', () => (window.modulr3D ? resolve(window.modulr3D) : reject(new Error('rack3d'))));
-            if (window.THREE) next(); else add('vendor/three.min.js', next);
+    function addScript(src) {
+        return new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = SCRIPT_BASE + src;
+            script.onload = resolve;
+            script.onerror = () => reject(new Error(src));
+            document.head.appendChild(script);
         });
+    }
+    let loadingSkin = null, loading3D = null;
+    function loadSkin() {
+        if (window.modulr3D) return Promise.resolve(window.modulr3D);
+        if (!loadingSkin) loadingSkin = addScript('rack3d.js').then(() => {
+            if (!window.modulr3D) throw new Error('rack3d');
+            return window.modulr3D;
+        }).catch((e) => { loadingSkin = null; throw e; });
+        return loadingSkin;
+    }
+    function load3D() {
+        if (!loading3D) loading3D = loadSkin().then((three) => {
+            if (!three.wanted()) throw new Error('3D désactivée sur cet appareil (MOBILE_3D)');
+            return window.THREE ? three : addScript('vendor/three.min.js').then(() => three);
+        }).catch((e) => { loading3D = null; throw e; });
         return loading3D;
     }
 
@@ -281,6 +292,17 @@
             const go = () => (window.requestIdleCallback ? window.requestIdleCallback(() => resolve(), { timeout: 4000 }) : setTimeout(resolve, 300));
             if (document.readyState === 'complete') requestAnimationFrame(() => setTimeout(go, 0));
             else window.addEventListener('load', () => setTimeout(go, 0), { once: true });
+        });
+    }
+
+    // La 3D ne se construit pas sous le doigt : il faut 300 ms sans défilement ni toucher
+    // (avant de lire three.js, puis à nouveau avant de bâtir la scène)
+    let lastGesture = -Infinity;
+    ['scroll', 'wheel', 'touchstart', 'touchmove', 'pointerdown'].forEach((t) => window.addEventListener(t, () => { lastGesture = performance.now(); }, { passive: true, capture: true }));
+    function whenCalm(value) {
+        return new Promise((resolve) => {
+            const check = () => { const left = lastGesture + 300 - performance.now(); if (left <= 0) resolve(value); else setTimeout(check, left + 20); };
+            check();
         });
     }
 
@@ -1606,7 +1628,7 @@
         start();
 
         // La 3D : le rack, et sur l'accueil « la suite » en dessous
-        whenIdle().then(load3D).then((three) => {
+        whenIdle().then(() => whenCalm()).then(load3D).then(whenCalm).then((three) => {
             if (destroyed) return;
             skin = three.rack(rack, {
                 cables: () => state.cables,
@@ -2140,9 +2162,12 @@
         render();
         onScroll();
 
-        // Le cadre prend tout de suite les proportions de la 3D : la page ne bouge pas quand elle arrive
+        // Le cadre prend tout de suite les proportions de la 3D : la page ne bouge pas quand elle arrive.
+        // Sur écran tactile, rack3d.js est lu tout de suite : s'il ne veut pas de 3D ici (MOBILE_3D),
+        // le cadre reprend aussitôt les proportions du dessin.
         if (window.WebGLRenderingContext) wrap.classList.add('is-3d-soon');
-        whenIdle().then(load3D).then((three) => {
+        if (touch) loadSkin().then((three) => { if (!three.wanted()) wrap.classList.remove('is-3d-soon'); }).catch(() => { });
+        whenIdle().then(() => whenCalm()).then(load3D).then(whenCalm).then((three) => {
             if (destroyed) return;
             view = three.theremin(wrap, {
                 stage, TH,
