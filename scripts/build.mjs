@@ -4,8 +4,9 @@
 // Reste hors de dist/ : ce qui n'est pas le site (.git, _drafts, scripts, dist, CNAME,
 // .gitignore, les .md de la racine) et, comme le faisait GitHub Pages, tout ce qui commence
 // par « _ » ou « . » (patchs/_gabarit, .DS_Store…), sauf _redirects et _headers,
-// qui sont les réglages de Cloudflare Pages.
-import { cpSync, existsSync, readdirSync, rmSync, statSync } from 'node:fs';
+// qui sont les réglages de Cloudflare Pages. lang.js et intro-veil.js sont mis en ligne dans les pages.
+import { createHash } from 'node:crypto';
+import { cpSync, existsSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { basename, dirname, join, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -32,6 +33,40 @@ for (const name of readdirSync(ROOT)) {
     const src = join(ROOT, name);
     if (!skipped(src)) cpSync(src, join(OUT, name), { recursive: true, filter: (p) => !skipped(p) });
 }
+
+// Petits scripts mis en ligne dans les pages (une requête bloquante de moins chacun) :
+// les pages du dépôt gardent <script src="…/js/lang.js">, la seule source reste js/lang.js.
+// Leur empreinte sha256 rejoint la Content-Security-Policy de dist/_headers.
+const INLINE = ['lang.js', 'intro-veil.js'];
+const hashes = [];
+const inlined = Object.fromEntries(INLINE.map((name) => {
+    const code = readFileSync(join(ROOT, 'js', name), 'utf8')
+        .replace(/\/\*[\s\S]*?\*\//g, '')          // commentaires (aucun « /* » dans les chaînes de ces fichiers)
+        .replace(/^\s*\n/gm, '')
+        .trim();
+    if (/<\/script/i.test(code)) throw new Error(`${name} contient </script>`);
+    hashes.push(`'sha256-${createHash('sha256').update(code, 'utf8').digest('base64')}'`);
+    return [name, code];
+}));
+const counts = Object.fromEntries(INLINE.map((n) => [n, 0]));
+(function walk(dir) {
+    for (const name of readdirSync(dir)) {
+        const p = join(dir, name);
+        if (statSync(p).isDirectory()) { walk(p); continue; }
+        if (!name.endsWith('.html')) continue;
+        let html = readFileSync(p, 'utf8'), changed = false;
+        for (const js of INLINE) {
+            const re = new RegExp(`<script src="[^"]*js/${js.replace('.', '\\.')}"></script>`, 'g');
+            html = html.replace(re, () => { counts[js]++; changed = true; return `<script>${inlined[js]}</script>`; });
+        }
+        if (changed) writeFileSync(p, html);
+    }
+})(OUT);
+const headersPath = join(OUT, '_headers');
+const headers = readFileSync(headersPath, 'utf8');
+if (!headers.includes("'unsafe-hashes'")) throw new Error("_headers : 'unsafe-hashes' introuvable dans la CSP");
+writeFileSync(headersPath, headers.replace("'unsafe-hashes'", `'unsafe-hashes' ${hashes.join(' ')}`));
+console.log('en ligne : ' + INLINE.map((n) => `${n} dans ${counts[n]} pages (${Buffer.byteLength(inlined[n])} octets)`).join(', '));
 
 let files = 0, bytes = 0;
 (function count(dir) {

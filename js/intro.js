@@ -17,8 +17,9 @@
    three.js n'est pas là 1 s après le début de la page : elle
    n'est alors pas marquée vue et jouera la fois suivante.
 
-   Chargé tout en haut du body de l'accueil, sans defer : le
-   voile noir couvre la page avant qu'elle s'affiche. three.js
+   Le voile noir est posé avant le premier affichage par
+   intro-veil.js (en ligne en haut du body de l'accueil) ; ce
+   fichier-ci arrive en async et le reprend. three.js
    (js/vendor/three-r147.min.js) n'est téléchargé que si
    l'ouverture joue vraiment ; instrument.js le réutilise ensuite.
 
@@ -266,21 +267,30 @@
     function play(opts) {
         opts = opts || {};
         if (running) return;
+        // Le voile déjà posé par intro-veil.js (première visite) : on le reprend, ou on le retire
+        const pending = document.querySelector('.intro[data-pending]');
+        const giveUp = () => {
+            if (!pending || !pending.parentNode) return;
+            pending.remove();
+            document.documentElement.style.overflow = '';
+            document.dispatchEvent(new CustomEvent('modulr:intro-end'));
+        };
         // « Déjà vue » d'abord : tester WebGL crée un contexte, inutile si l'ouverture ne joue pas
-        if (!opts.force && seen()) return;
-        if (reduceMotion() || modest() || !webgl()) return;
+        if (!opts.force && seen()) { giveUp(); return; }
+        if (reduceMotion() || modest() || !webgl()) { giveUp(); return; }
         // Vue seulement quand elle joue vraiment (voir build) : si three.js tarde, elle rejouera à la prochaine visite
         const deadline = opts.force ? performance.now() + THREE_BUDGET : THREE_BUDGET;
 
         const lang = (document.documentElement.lang || 'fr').indexOf('en') === 0 ? 'en' : 'fr';
         const root = document.documentElement;
-        const prevOverflow = root.style.overflow;
+        const prevOverflow = pending ? '' : root.style.overflow;
         window.scrollTo(0, 0);
         root.style.overflow = 'hidden';
 
         // Le voile noir, le mot (une lettre par élément, pour l'écrire), le bouton pour passer
-        const overlay = document.createElement('div');
+        const overlay = pending || document.createElement('div');
         overlay.className = 'intro';
+        overlay.removeAttribute('data-pending');
         const word = document.createElement('p');
         word.className = 'intro-word';
         word.setAttribute('aria-hidden', 'true');
@@ -300,7 +310,7 @@
         skip.textContent = lang === 'en' ? 'skip' : 'passer';
         overlay.appendChild(word);
         overlay.appendChild(skip);
-        document.body.appendChild(overlay);
+        if (!pending) document.body.appendChild(overlay);
 
         const state = { start: 0, raf: 0, done: false };
         running = state;
@@ -624,20 +634,11 @@
     // playing() : instrument.js le demande au montage, pour savoir s'il doit attendre la fin
     window.modulrIntro = { play, playing: () => !!running };
 
-    // Arrivée depuis un autre site (moteur de recherche, YouTube, Instagram…) : on va droit au contenu
-    function fromElsewhere() {
-        if (!document.referrer) return false;
-        try {
-            const host = (h) => h.replace(/^www\./, '');
-            return host(new URL(document.referrer).hostname) !== host(location.hostname);
-        } catch (e) { return true; }
-    }
-
-    // À l'accueil, à la première visite, pour une arrivée directe (le logo la rejoue toujours, main.js)
+    // À l'accueil : intro-veil.js a déjà décidé (première visite, arrivée directe…) ; l'ouverture
+    // joue si son voile est posé. Le logo la rejoue toujours (main.js).
     function auto() {
         if (!document.body || !document.body.classList.contains('page-home')) return;
-        if (window.MODULR_INTRO_ALWAYS) { play({ force: true }); return; }
-        if (!fromElsewhere()) play();
+        if (document.querySelector('.intro[data-pending]')) play({ force: !!window.MODULR_INTRO_ALWAYS });
     }
     if (document.body) auto();
     else document.addEventListener('DOMContentLoaded', auto);

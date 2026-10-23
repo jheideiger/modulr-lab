@@ -296,7 +296,9 @@
     }
 
     // L'ouverture de l'accueil (intro.js) : tant qu'elle joue, rien de lourd. La 3D attend sa fin.
-    const introPlaying = () => !!(window.modulrIntro && window.modulrIntro.playing && window.modulrIntro.playing());
+    // Le voile posé (intro-veil.js) compte déjà : intro.js, en async, peut arriver après l'instrument
+    const introPlaying = () => !!(window.modulrIntro && window.modulrIntro.playing && window.modulrIntro.playing()) ||
+        !!document.querySelector('.intro[data-pending]');
     function afterIntro() {
         if (!introPlaying()) return null;
         // La fin de l'ouverture compte comme un geste : la page a 300 ms de répit avant la 3D
