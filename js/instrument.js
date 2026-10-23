@@ -308,8 +308,10 @@
     function whenIdle() {
         return new Promise((resolve) => {
             const go = () => (window.requestIdleCallback ? window.requestIdleCallback(() => resolve(), { timeout: 4000 }) : setTimeout(resolve, 300));
-            if (document.readyState === 'complete') requestAnimationFrame(() => setTimeout(go, 0));
-            else window.addEventListener('load', () => setTimeout(go, 0), { once: true });
+            // Après load ET après une image : load arrive parfois avant le premier affichage
+            const afterPaint = () => requestAnimationFrame(() => setTimeout(go, 0));
+            if (document.readyState === 'complete') afterPaint();
+            else window.addEventListener('load', afterPaint, { once: true });
         });
     }
 
