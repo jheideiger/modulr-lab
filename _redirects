@@ -1,5 +1,10 @@
-# Cloudflare Pages : redirections permanentes (les pages HTML de redirection restent en place, au cas où)
+# Cloudflare : redirections permanentes (les pages HTML de redirection restent en place, au cas où).
+# Avec et sans barre finale : une seule 301, sans passer par la redirection automatique de Workers.
+/atelier /patchs/ 301
 /atelier/ /patchs/ 301
+/en/atelier /en/patchs/ 301
 /en/atelier/ /en/patchs/ 301
+/le-cours/tp-cv-vcv-rack /le-cours/controle-en-tension/ 301
 /le-cours/tp-cv-vcv-rack/ /le-cours/controle-en-tension/ 301
+/en/le-cours/tp-cv-vcv-rack /en/le-cours/controle-en-tension/ 301
 /en/le-cours/tp-cv-vcv-rack/ /en/le-cours/controle-en-tension/ 301
