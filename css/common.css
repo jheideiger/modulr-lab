@@ -2012,6 +2012,37 @@ main {
     color: #FFFFFF;
 }
 
+/* L'instrument de l'accueil garde sa place avant d'être monté (instrument.js pose .is-ready) :
+   si la page s'affiche avant lui (pendant l'ouverture, par exemple), « la suite » ne remonte pas
+   dans le premier écran pour être repoussée ensuite. Hauteurs relevées sur l'instrument monté. */
+.js .stage .patch[data-instrument]:not(.is-ready) {
+    min-height: 845px;
+}
+
+@media (min-width: 375px) {
+    .js .stage .patch[data-instrument]:not(.is-ready) {
+        min-height: 818px;
+    }
+}
+
+@media (min-width: 600px) {
+    .js .stage .patch[data-instrument]:not(.is-ready) {
+        min-height: 780px;
+    }
+}
+
+@media (min-width: 769px) {
+    .js .stage .patch[data-instrument]:not(.is-ready) {
+        min-height: 898px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .js .stage .patch[data-instrument]:not(.is-ready) {
+        min-height: 662px;
+    }
+}
+
 .stage-title {
     font-family: var(--font-display);
     font-weight: 900;
@@ -4206,7 +4237,10 @@ main {
     z-index: 1000;
     display: grid;
     place-items: center;
-    background: #0A0A0A;
+    /* Opaque à 99,5 % et non à 100 % : sous un calque tout à fait opaque, le navigateur ne peint pas
+       la page, et le titre ne compte comme affiché qu'à la fin de l'ouverture. Ainsi, la page est
+       rendue dessous dès le premier affichage ; les 0,5 % ne laissent rien voir (1/255 au plus). */
+    background: rgba(10, 10, 10, 0.995);
 }
 
 .intro-canvas {

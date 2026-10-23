@@ -8,11 +8,14 @@
    instant sur les vrais boutons et les vraies prises, puis
    s'éteignent un à un : le rack est prêt.
 
-   2,5 secondes, à la première visite seulement ; sur l'accueil,
-   un clic sur le logo la rejoue (main.js). On peut passer
-   (bouton ou Échap). Rien si l'appareil demande moins
-   d'animations, si WebGL manque, ou sur un appareil modeste
-   (même règle que rack3d.js).
+   2,5 secondes, à la première visite seulement, et pour une
+   arrivée directe : pas depuis un autre site (moteur de
+   recherche, YouTube…). Sur l'accueil, un clic sur le logo la
+   rejoue (main.js). On peut passer (bouton ou Échap). Rien si
+   l'appareil demande moins d'animations, si WebGL manque, sur
+   un appareil modeste (même règle que rack3d.js), ou si
+   three.js n'est pas là 1 s après le début de la page : elle
+   n'est alors pas marquée vue et jouera la fois suivante.
 
    Chargé tout en haut du body de l'accueil, sans defer : le
    voile noir couvre la page avant qu'elle s'affiche. three.js
@@ -37,6 +40,8 @@
     const MAX_STEP = 33;      // l'horloge interne avance de 33 ms au plus par image
     const MAX_REAL = 4000;    // au-delà, en temps réel, l'ouverture s'efface vite
     const LETTER_FADE = 80;   // le fondu de chaque lettre
+    const VEIL = 0.995;       // l'opacité du voile (voir .intro dans common.css)
+    const THREE_BUDGET = 1000; // three.js doit être là 1 s après le début de la page (ou du clic sur le logo)
 
     // Le déroulé, en millisecondes
     const T = {
@@ -264,7 +269,8 @@
         // « Déjà vue » d'abord : tester WebGL crée un contexte, inutile si l'ouverture ne joue pas
         if (!opts.force && seen()) return;
         if (reduceMotion() || modest() || !webgl()) return;
-        markSeen();
+        // Vue seulement quand elle joue vraiment (voir build) : si three.js tarde, elle rejouera à la prochaine visite
+        const deadline = opts.force ? performance.now() + THREE_BUDGET : THREE_BUDGET;
 
         const lang = (document.documentElement.lang || 'fr').indexOf('en') === 0 ? 'en' : 'fr';
         const root = document.documentElement;
@@ -336,9 +342,33 @@
                 else requestAnimationFrame(check);
             })();
         });
-        Promise.all([waitRack(), ready, loadThree()]).then(([rack]) => {
+        // three.js est demandé une fois la page lue et affichée : son titre passe avant lui.
+        // En retard sur le budget (réseau lent) : on renonce pour cette visite, la page apparaît.
+        const afterPaint = () => new Promise((resolve) => {
+            const go = () => setTimeout(resolve, 0);
+            const paint = () => requestAnimationFrame(go);
+            // Là où le navigateur le dit (largest-contentful-paint), on attend que le titre soit peint ;
+            // ailleurs, que la page soit lue puis affichée une fois. Garde-fou : 600 ms.
+            const lcp = window.PerformanceObserver && (PerformanceObserver.supportedEntryTypes || []).indexOf('largest-contentful-paint') >= 0;
+            if (lcp) {
+                let done = false;
+                const finish = () => { if (done) return; done = true; obs.disconnect(); go(); };
+                const obs = new PerformanceObserver((list) => {
+                    if (list.getEntries().some((e) => e.element && e.element.id === 'titre-accueil')) finish();
+                });
+                obs.observe({ type: 'largest-contentful-paint', buffered: true });
+                setTimeout(finish, 600);
+            } else if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', paint, { once: true });
+            else paint();
+        });
+        const threeInTime = new Promise((resolve, reject) => {
+            const timer = setTimeout(() => reject(new Error('three en retard')), Math.max(0, deadline - performance.now()));
+            afterPaint().then(loadThree).then(() => { clearTimeout(timer); resolve(); }, (e) => { clearTimeout(timer); reject(e); });
+        });
+        Promise.all([waitRack(), ready, threeInTime]).then(([rack]) => {
             if (state.done) return;
             if (!rack) { finish(true); return; }
+            markSeen();
             build(rack);
             window.addEventListener('resize', onResize);
             state.start = performance.now();
@@ -582,7 +612,7 @@
             });
 
             // La page apparaît autour du rack
-            overlay.style.backgroundColor = `rgba(10, 10, 10, ${(1 - easeInOut(span(t, T.bgOut))).toFixed(3)})`;
+            overlay.style.backgroundColor = `rgba(10, 10, 10, ${(VEIL * (1 - easeInOut(span(t, T.bgOut)))).toFixed(3)})`;
 
             renderer.render(scene, camera);
             if (opts.freezeAt !== undefined) return;
@@ -594,9 +624,20 @@
     // playing() : instrument.js le demande au montage, pour savoir s'il doit attendre la fin
     window.modulrIntro = { play, playing: () => !!running };
 
-    // À l'accueil, à la première visite
+    // Arrivée depuis un autre site (moteur de recherche, YouTube, Instagram…) : on va droit au contenu
+    function fromElsewhere() {
+        if (!document.referrer) return false;
+        try {
+            const host = (h) => h.replace(/^www\./, '');
+            return host(new URL(document.referrer).hostname) !== host(location.hostname);
+        } catch (e) { return true; }
+    }
+
+    // À l'accueil, à la première visite, pour une arrivée directe (le logo la rejoue toujours, main.js)
     function auto() {
-        if (document.body && document.body.classList.contains('page-home')) play({ force: !!window.MODULR_INTRO_ALWAYS });
+        if (!document.body || !document.body.classList.contains('page-home')) return;
+        if (window.MODULR_INTRO_ALWAYS) { play({ force: true }); return; }
+        if (!fromElsewhere()) play();
     }
     if (document.body) auto();
     else document.addEventListener('DOMContentLoaded', auto);
