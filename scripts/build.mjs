@@ -1,7 +1,7 @@
 // Copie le site dans dist/ pour Cloudflare Pages (Node seul, sans dépendance).
 // Usage : node scripts/build.mjs
 //
-// Reste hors de dist/ : ce qui n'est pas le site (.git, _drafts, scripts, dist, CNAME,
+// Reste hors de dist/ : ce qui n'est pas le site (.git, _drafts, scripts, dist, CNAME, wrangler.jsonc,
 // .gitignore, les .md de la racine) et, comme le faisait GitHub Pages, tout ce qui commence
 // par « _ » ou « . » (patchs/_gabarit, .DS_Store…), sauf _redirects et _headers,
 // qui sont les réglages de Cloudflare Pages. lang.js et intro-veil.js sont mis en ligne dans les pages.
@@ -14,7 +14,7 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = join(ROOT, 'dist');
 
 const KEEP = new Set(['_redirects', '_headers']);
-const SKIP_AT_ROOT = new Set(['scripts', 'dist', 'node_modules', 'CNAME', 'package.json', 'package-lock.json']);
+const SKIP_AT_ROOT = new Set(['scripts', 'dist', 'node_modules', 'CNAME', 'package.json', 'package-lock.json', 'wrangler.jsonc', 'wrangler.json', 'wrangler.toml']);
 
 function skipped(path) {
     const rel = relative(ROOT, path);
