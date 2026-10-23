@@ -328,6 +328,24 @@
         });
     }
 
+    // La 3D du theremin attend qu'on s'en approche : un premier geste du visiteur (défilement, toucher,
+    // souris, clavier) et l'instrument à moins d'un demi-écran. D'ici là, le dessin joue déjà ;
+    // sans geste, la page ne paie ni three.js ni rack3d.js.
+    function whenNear(el, cleanups) {
+        return new Promise((resolve) => {
+            if (!('IntersectionObserver' in window)) { resolve(); return; }
+            let near = false, moved = lastGesture > -Infinity, done = false;
+            const types = ['scroll', 'wheel', 'touchstart', 'pointerdown', 'mousemove', 'keydown'];
+            const onGesture = () => { moved = true; check(); };
+            const io = new IntersectionObserver((entries) => { near = entries.some((e) => e.isIntersecting); check(); }, { rootMargin: '50% 0px' });
+            const stop = () => { if (done) return; done = true; io.disconnect(); types.forEach((t) => window.removeEventListener(t, onGesture, { capture: true })); };
+            function check() { if (near && moved) { stop(); resolve(); } }
+            types.forEach((t) => window.addEventListener(t, onGesture, { passive: true, capture: true }));
+            io.observe(el);
+            cleanups.push(stop);
+        });
+    }
+
     function mount(root) {
         if (current && current.root === root) return;
         unmount();
@@ -2189,11 +2207,10 @@
         onScroll();
 
         // Le cadre prend tout de suite les proportions de la 3D : la page ne bouge pas quand elle arrive.
-        // Sur écran tactile, rack3d.js est lu tout de suite : s'il ne veut pas de 3D ici (MOBILE_3D),
-        // le cadre reprend aussitôt les proportions du dessin.
+        // rack3d.js n'est lu qu'à l'approche, avec three.js : s'il ne veut pas de 3D ici (MOBILE_3D,
+        // sur écran tactile), le cadre reprend alors les proportions du dessin.
         if (window.WebGLRenderingContext) wrap.classList.add('is-3d-soon');
-        if (touch) loadSkin().then((three) => { if (!three.wanted()) wrap.classList.remove('is-3d-soon'); }).catch(() => { });
-        whenIdle().then(() => whenCalm()).then(load3D).then(whenCalm).then((three) => {
+        whenIdle().then(() => whenNear(wrap, cleanups)).then(() => whenCalm()).then(load3D).then(whenCalm).then((three) => {
             if (destroyed) return;
             view = three.theremin(wrap, {
                 stage, TH,

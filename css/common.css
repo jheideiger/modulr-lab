@@ -2651,6 +2651,39 @@ main {
     box-shadow: inset 0 0 0 1px var(--module-edge);
 }
 
+/* Le theremin garde sa place avant d'être monté (instrument.js pose .is-ready) : l'écran du guide
+   (158 px, environ 198 px sur ordinateur), le cadre aux proportions de la 3D (16:9, ou 1 / 1,05
+   jusqu'à 600 px : voir .theremin-stage.is-3d-soon), puis les outils (24 + 21 px).
+   Le texte de secours se pose par-dessus, sans rien ajouter. */
+.js .patch[data-instrument="histoire"]:not(.is-ready) {
+    padding: 158px 0 45px;
+}
+
+.js .patch[data-instrument="histoire"]:not(.is-ready)::before {
+    content: '';
+    display: block;
+    padding-top: 56.25%;
+}
+
+.js .patch[data-instrument="histoire"]:not(.is-ready) .patch-fallback {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+@media (max-width: 600px) {
+    .js .patch[data-instrument="histoire"]:not(.is-ready)::before {
+        padding-top: 105%;
+    }
+}
+
+@media (min-width: 769px) {
+    .js .patch[data-instrument="histoire"]:not(.is-ready) {
+        padding-top: 198px;
+    }
+}
+
 /* --- Le theremin de la page histoire : un meuble en bois, deux antennes, la main dans le vide --- */
 .theremin-stage {
     position: relative;
