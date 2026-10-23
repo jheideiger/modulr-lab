@@ -478,12 +478,15 @@
             target.focus({ preventScroll: true });
         };
 
-        // Le point cyan d'un titre (.title-dot) visible à l'écran : celui qui « voyage » d'une page à l'autre
-        const dotOnScreen = () => Array.from(document.querySelectorAll('main .title-dot')).find((dot) => {
-            const r = dot.getBoundingClientRect();
-            return r.width > 0 && r.bottom > 0 && r.top < window.innerHeight;
-        });
-        const clearSignal = () => document.querySelectorAll('.title-dot.is-signal').forEach((dot) => dot.classList.remove('is-signal'));
+        // Ce qui est à l'écran à l'arrivée (le premier titre, et le reste du premier écran) s'affiche
+        // avec la page, sans apparition : rien ne glisse une fois la page changée (.is-arrived, common.css).
+        // Plus bas, les apparitions au défilement restent.
+        const settleFirstScreen = () => {
+            document.querySelectorAll('main .reveal').forEach((el) => {
+                const r = el.getBoundingClientRect();
+                if (r.bottom > 0 && r.top < window.innerHeight) el.classList.add('is-visible', 'is-arrived');
+            });
+        };
 
         async function navigate(href, { push = true, scrollY = 0 } = {}) {
             const token = ++navToken;
@@ -540,27 +543,13 @@
                     else window.scrollTo(0, scrollY);
 
                     focusNewPage();
+                    settleFirstScreen();
                 };
 
                 if (native) {
-                    // Le point cyan voyage seulement s'il est à l'écran au départ et attendu à l'arrivée
-                    // (haut de la page suivante) : un seul couple de noms « signal » à la fois.
-                    clearSignal();
-                    const from = !anchorId && !scrollY && doc.querySelector('main .title-dot') ? dotOnScreen() : null;
-                    if (from) from.classList.add('is-signal');
-                    const transition = document.startViewTransition(() => {
-                        show();
-                        const to = from ? dotOnScreen() : null;
-                        if (to) {
-                            to.classList.add('is-signal');
-                            // Son titre est déjà là quand le point arrive : pas de seconde apparition
-                            const title = to.closest('.reveal');
-                            if (title) title.classList.add('is-visible', 'is-arrived');
-                        }
-                    });
+                    const transition = document.startViewTransition(show);
                     // Une transition remplacée par la suivante (clic rapide) : rien à signaler
                     transition.ready.catch(() => { });
-                    transition.finished.then(clearSignal, clearSignal);
                     await transition.updateCallbackDone;
                 } else show();
             } catch (error) {

@@ -1753,15 +1753,10 @@ main {
 }
 
 /* Transition native entre deux pages (main.js, document.startViewTransition) : la page fond
-   d'un état à l'autre, le logo reste en place, et le point cyan du titre de départ rejoint
-   celui du titre d'arrivée (une seule paire « signal », posée par main.js le temps du passage).
+   d'un état à l'autre et le logo reste en place.
    Sans startViewTransition, c'est le fondu .is-leaving / .is-entering ci-dessous. */
 .site-header .logo-link {
     view-transition-name: logo;
-}
-
-.title-dot.is-signal {
-    view-transition-name: signal;
 }
 
 ::view-transition-group(*),
@@ -1771,11 +1766,15 @@ main {
     animation-timing-function: var(--ease-signal);
 }
 
-/* Le titre où le point arrive s'affiche avec la page, sans seconde apparition */
-.js .reveal.is-arrived {
+/* Après un changement de page, ce qui est à l'écran à l'arrivée s'affiche avec la page, sans
+   apparition (main.js, settleFirstScreen) : ni titre ni point cyan ne glissent une fois la page changée.
+   Sélecteur plus fort que l'apparition du haut de page (.js main > section:first-of-type .reveal) ;
+   les transitions de survol (fond, couleur, bordure) restent. */
+.js main .reveal.is-visible.is-arrived {
     animation: none;
     opacity: 1;
     transform: none;
+    transition-property: background-color, color, border-color;
 }
 
 @media (prefers-reduced-motion: reduce) {
