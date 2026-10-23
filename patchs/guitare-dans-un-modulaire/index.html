@@ -155,9 +155,12 @@
           <div class="video-wrapper">
             <a class="yt-facade" href="https://www.youtube.com/watch?v=i3aANeWu7J8" data-yt="i3aANeWu7J8" data-title="J'ai branché ma guitare dans un synthé modulaire"
               aria-label="Lire la vidéo : J'ai branché ma guitare dans un synthé modulaire">
-              <img src="https://i.ytimg.com/vi_webp/i3aANeWu7J8/maxresdefault.webp"
-                srcset="https://i.ytimg.com/vi_webp/i3aANeWu7J8/sddefault.webp 640w, https://i.ytimg.com/vi_webp/i3aANeWu7J8/maxresdefault.webp 1280w"
-                sizes="(max-width: 768px) 100vw, 900px" width="1280" height="720" alt="" decoding="async">
+              <picture>
+                <source type="image/avif" srcset="../../images/yt/i3aANeWu7J8-480.avif 480w, ../../images/yt/i3aANeWu7J8-960.avif 960w"
+                  sizes="(max-width: 768px) calc(100vw - 48px), (max-width: 1440px) 76vw, 1088px">
+                <img src="../../images/yt/i3aANeWu7J8-960.webp" srcset="../../images/yt/i3aANeWu7J8-480.webp 480w, ../../images/yt/i3aANeWu7J8-960.webp 960w"
+                  sizes="(max-width: 768px) calc(100vw - 48px), (max-width: 1440px) 76vw, 1088px" width="960" height="540" alt="" decoding="async">
+              </picture>
               <span class="yt-facade-play" aria-hidden="true"></span>
             </a>
           </div>

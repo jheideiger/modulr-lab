@@ -176,12 +176,16 @@
     </section>
 
     <!-- 3 · LA VIDÉO — la page prolonge la vidéo, elle ne la remplace pas.
+         Miniatures : scripts/yt-thumbs.sh ID_VIDEO (crée images/yt/ID_VIDEO-480 et -960, en WebP et AVIF).
          Remplacer le bloc .video-placeholder par :
          <a class="yt-facade" href="https://www.youtube.com/watch?v=ID_VIDEO" data-yt="ID_VIDEO" data-title="TITRE DE LA VIDÉO"
               aria-label="Lire la vidéo : TITRE DE LA VIDÉO">
-              <img src="https://i.ytimg.com/vi_webp/ID_VIDEO/maxresdefault.webp"
-                srcset="https://i.ytimg.com/vi_webp/ID_VIDEO/sddefault.webp 640w, https://i.ytimg.com/vi_webp/ID_VIDEO/maxresdefault.webp 1280w"
-                sizes="(max-width: 768px) 100vw, 900px" width="1280" height="720" alt="" decoding="async">
+              <picture>
+                <source type="image/avif" srcset="../../images/yt/ID_VIDEO-480.avif 480w, ../../images/yt/ID_VIDEO-960.avif 960w"
+                  sizes="(max-width: 768px) calc(100vw - 48px), (max-width: 1440px) 76vw, 1088px">
+                <img src="../../images/yt/ID_VIDEO-960.webp" srcset="../../images/yt/ID_VIDEO-480.webp 480w, ../../images/yt/ID_VIDEO-960.webp 960w"
+                  sizes="(max-width: 768px) calc(100vw - 48px), (max-width: 1440px) 76vw, 1088px" width="960" height="540" alt="" decoding="async">
+              </picture>
               <span class="yt-facade-play" aria-hidden="true"></span>
             </a> -->
     <section class="page-container section-gap">

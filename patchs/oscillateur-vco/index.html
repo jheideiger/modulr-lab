@@ -155,9 +155,12 @@
           <div class="video-wrapper">
             <a class="yt-facade" href="https://www.youtube.com/watch?v=T3RNzxXSNTw" data-yt="T3RNzxXSNTw" data-title="À quoi sert un oscillateur ? Démonstration sur le DPO"
               aria-label="Lire la vidéo : À quoi sert un oscillateur ? Démonstration sur le DPO">
-              <img src="https://i.ytimg.com/vi_webp/T3RNzxXSNTw/maxresdefault.webp"
-                srcset="https://i.ytimg.com/vi_webp/T3RNzxXSNTw/sddefault.webp 640w, https://i.ytimg.com/vi_webp/T3RNzxXSNTw/maxresdefault.webp 1280w"
-                sizes="(max-width: 768px) 100vw, 900px" width="1280" height="720" alt="" decoding="async">
+              <picture>
+                <source type="image/avif" srcset="../../images/yt/T3RNzxXSNTw-480.avif 480w, ../../images/yt/T3RNzxXSNTw-960.avif 960w"
+                  sizes="(max-width: 768px) calc(100vw - 48px), (max-width: 1440px) 76vw, 1088px">
+                <img src="../../images/yt/T3RNzxXSNTw-960.webp" srcset="../../images/yt/T3RNzxXSNTw-480.webp 480w, ../../images/yt/T3RNzxXSNTw-960.webp 960w"
+                  sizes="(max-width: 768px) calc(100vw - 48px), (max-width: 1440px) 76vw, 1088px" width="960" height="540" alt="" decoding="async">
+              </picture>
               <span class="yt-facade-play" aria-hidden="true"></span>
             </a>
           </div>

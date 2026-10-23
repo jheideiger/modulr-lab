@@ -168,9 +168,12 @@
           <div class="video-wrapper">
             <a class="yt-facade" href="https://www.youtube.com/watch?v=uHgB0En_68I" data-yt="uHgB0En_68I" data-title="Leçon 4 — Le control voltage"
               aria-label="Lire la vidéo : Leçon 4 — Le control voltage">
-              <img src="https://i.ytimg.com/vi_webp/uHgB0En_68I/maxresdefault.webp"
-                srcset="https://i.ytimg.com/vi_webp/uHgB0En_68I/sddefault.webp 640w, https://i.ytimg.com/vi_webp/uHgB0En_68I/maxresdefault.webp 1280w"
-                sizes="(max-width: 768px) 100vw, 900px" width="1280" height="720" alt="" decoding="async">
+              <picture>
+                <source type="image/avif" srcset="../../images/yt/uHgB0En_68I-480.avif 480w, ../../images/yt/uHgB0En_68I-960.avif 960w"
+                  sizes="(max-width: 768px) calc(100vw - 48px), (max-width: 1440px) 76vw, 1088px">
+                <img src="../../images/yt/uHgB0En_68I-960.webp" srcset="../../images/yt/uHgB0En_68I-480.webp 480w, ../../images/yt/uHgB0En_68I-960.webp 960w"
+                  sizes="(max-width: 768px) calc(100vw - 48px), (max-width: 1440px) 76vw, 1088px" width="960" height="540" alt="" decoding="async">
+              </picture>
               <span class="yt-facade-play" aria-hidden="true"></span>
             </a>
           </div>
