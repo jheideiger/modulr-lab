@@ -1732,92 +1732,6 @@ a {
 }
 
 /* =========================================================
-   BANDEAU DE CONSENTEMENT (consent.js, pages françaises)
-   Une barre basse et compacte : le texte, puis les deux boutons.
-   « refuser » et « accepter » ont exactement le même poids.
-   ========================================================= */
-.consent-banner {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 90;
-    display: flex;
-    align-items: center;
-    gap: 24px;
-    padding: 10px max(40px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(40px, env(safe-area-inset-left, 0px));
-    background: var(--color-bg);
-    border-top: 0.5px solid var(--color-border);
-    font-family: var(--font-body);
-}
-
-.consent-text {
-    flex: 1;
-    min-width: 0;
-    margin: 0;
-    font-size: 14px;
-    line-height: 1.45;
-    color: var(--color-text);
-}
-
-.consent-more {
-    color: var(--color-text-secondary);
-    border-bottom: 1px solid var(--color-border);
-}
-
-.consent-actions {
-    flex: none;
-    display: flex;
-    gap: 12px;
-}
-
-.consent-btn {
-    min-width: 112px;
-    min-height: 44px;
-    padding: 0 16px;
-    font-family: var(--font-display);
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--color-text);
-    background: var(--color-bg);
-    border: 1px solid var(--color-text);
-    cursor: pointer;
-    transition: color var(--dur-gesture) var(--ease-signal), border-color var(--dur-gesture) var(--ease-signal);
-}
-
-.consent-btn:hover,
-.consent-btn:focus-visible {
-    color: var(--color-accent);
-    border-color: var(--color-accent);
-}
-
-.consent-btn:focus-visible {
-    outline: 2px solid var(--color-accent);
-    outline-offset: 2px;
-}
-
-/* Téléphone : le texte sur deux lignes au plus, les deux boutons côte à côte en dessous */
-@media (max-width: 768px) {
-    .consent-banner {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 8px;
-        padding: 10px max(16px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
-    }
-
-    .consent-text {
-        font-size: 13px;
-        line-height: 1.4;
-    }
-
-    .consent-btn {
-        flex: 1;
-        min-width: 0;
-    }
-}
-
-
-/* =========================================================
    IMMERSION VISUELLE (main.js, section 4)
    ========================================================= */
 
@@ -4195,7 +4109,7 @@ main {
     opacity: 0;
     visibility: hidden;
     transform: translateY(8px);
-    transition: opacity var(--dur-enter) var(--ease-signal), transform var(--dur-enter) var(--ease-signal), visibility var(--dur-enter), bottom var(--dur-enter) var(--ease-signal),
+    transition: opacity var(--dur-enter) var(--ease-signal), transform var(--dur-enter) var(--ease-signal), visibility var(--dur-enter),
         color var(--dur-gesture) var(--ease-signal), border-color var(--dur-gesture) var(--ease-signal), background-color var(--dur-gesture) var(--ease-signal);
 }
 
@@ -4609,7 +4523,6 @@ main {
     .wave-btn,
     .jack,
     .module-name a,
-    .consent-more,
     .site-note a {
         position: relative;
     }
@@ -4626,7 +4539,6 @@ main {
     .wave-btn::before,
     .jack::before,
     .module-name a::before,
-    .consent-more::before,
     .site-note a::before {
         content: '';
         position: absolute;

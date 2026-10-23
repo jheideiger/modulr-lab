@@ -8,6 +8,17 @@
 (function () {
     'use strict';
 
+    // L'ancienne mesure d'audience (retirée en octobre 2026) : on efface ses cookies _ga et la clé
+    // du choix chez les visiteurs qui l'avaient acceptée. À retirer en 2027.
+    try {
+        localStorage.removeItem('modulr-consent');
+        document.cookie.split(';').map((c) => c.split('=')[0].trim())
+            .filter((name) => name === '_ga' || name.indexOf('_ga_') === 0)
+            .forEach((name) => ['', '; domain=modulrlab.com', '; domain=.modulrlab.com'].forEach((domain) => {
+                document.cookie = name + '=; Max-Age=0; path=/' + domain;
+            }));
+    } catch (e) { }
+
     const isEnglish = () => document.documentElement.lang === 'en';
     // Dossier des scripts du site (pour charger instrument.js à la demande)
     const scriptBase = document.currentScript && document.currentScript.src
@@ -386,8 +397,8 @@
     /* =====================================================
        3. NAVIGATION SANS RECHARGEMENT
        Un clic sur un lien interne charge la page suivante en arrière-plan et remplace le
-       contenu affiché ; le bandeau des cookies et le bouton de remontée restent en place.
-       Adresse, retour arrière, titre, langue et statistiques suivent normalement.
+       contenu affiché ; le bouton de remontée reste en place.
+       Adresse, retour arrière, titre et langue suivent normalement.
        En cas de problème, on bascule sur une navigation classique.
        ===================================================== */
 
@@ -406,7 +417,7 @@
         if (!window.fetch || !window.DOMParser || !window.history || !history.pushState) return;
         if (window.location.protocol === 'file:') return;
 
-        const PERSISTENT = ['consent-banner', 'to-top'];
+        const PERSISTENT = ['to-top'];
         let navToken = 0;
         let currentPath = window.location.pathname;
 
@@ -467,16 +478,6 @@
             target.focus({ preventScroll: true });
         };
 
-        const pageView = () => {
-            if (typeof window.gtag === 'function') {
-                window.gtag('event', 'page_view', {
-                    page_location: window.location.href,
-                    page_path: window.location.pathname,
-                    page_title: document.title
-                });
-            }
-        };
-
         // Le point cyan d'un titre (.title-dot) visible à l'écran : celui qui « voyage » d'une page à l'autre
         const dotOnScreen = () => Array.from(document.querySelectorAll('main .title-dot')).find((dot) => {
             const r = dot.getBoundingClientRect();
@@ -512,10 +513,6 @@
                 const finalUrl = new URL(response.url || target.href);
                 finalUrl.hash = target.hash;
                 if (push) history.pushState({ modulr: true, scrollY: 0 }, '', finalUrl.href);
-
-                // Statistiques : seulement sur les pages qui les prévoient (pages françaises, consent.js),
-                // et seulement si le visiteur a accepté (window.gtag n'existe qu'après son accord)
-                const tracked = !!doc.querySelector('script[src*="consent.js"]');
 
                 // Tout le site est noir aujourd'hui : ce cas ne se présente plus, mais il reste prêt
                 // si une page change un jour de fond (le texte attend alors que le fond ait glissé)
@@ -566,8 +563,6 @@
                     transition.finished.then(clearSignal, clearSignal);
                     await transition.updateCallbackDone;
                 } else show();
-
-                if (tracked) pageView();
             } catch (error) {
                 leaving.forEach((el) => el.classList.remove('is-leaving'));
                 if (token === navToken) window.location.assign(target.href);
@@ -915,24 +910,6 @@
         });
     }
 
-    // --- Le bouton de remontée reste cliquable quand le bandeau des cookies est affiché ---
-    // Tant que le bandeau est là (première visite, avant le choix), le bouton remonte au-dessus ;
-    // il redescend dans son coin dès que le bandeau disparaît.
-    function initCornerClearance() {
-        if (!window.MutationObserver) return;
-        const update = () => {
-            const banner = document.getElementById('consent-banner');
-            const toTop = document.getElementById('to-top');
-            if (!toTop) return;
-            const r = banner ? banner.getBoundingClientRect() : null;
-            if (!r || !r.height) { toTop.style.removeProperty('bottom'); return; }
-            toTop.style.bottom = Math.round(window.innerHeight - r.top + 12) + 'px';
-        };
-        new MutationObserver(update).observe(document.body, { childList: true });
-        window.addEventListener('resize', update, { passive: true });
-        update();
-    }
-
     // --- Remonter en haut de la page ---
     // Un rond dans le coin, qui n'apparaît qu'après un écran et demi de lecture.
     // Créé une fois pour toutes : il reste en place d'une page à l'autre.
@@ -976,6 +953,5 @@
 
     initPage();
     initToTop();
-    initCornerClearance();
     initNavigation();
 })();
