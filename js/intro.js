@@ -291,24 +291,33 @@
         const overlay = pending || document.createElement('div');
         overlay.className = 'intro';
         overlay.removeAttribute('data-pending');
-        const word = document.createElement('p');
-        word.className = 'intro-word';
-        word.setAttribute('aria-hidden', 'true');
-        const letters = Array.from('modulr lab').map((ch) => {
-            const l = document.createElement('span');
-            l.className = 'intro-letter';
-            l.textContent = ch === ' ' ? ' ' : ch;
-            word.appendChild(l);
-            return l;
-        });
-        const dot = document.createElement('span');
-        dot.className = 'intro-dot';
-        word.appendChild(dot);
+        // Le mot déjà en train de s'écrire en CSS sous le voile d'intro-veil.js : on le garde tel quel
+        // (ni clignotement ni nouvelle écriture). Sans lui (rejeu par le logo), on l'écrit ici.
+        const typed = pending && pending.querySelector('.intro-word.is-typing');
+        const word = typed || document.createElement('p');
+        let letters, dot;
+        if (typed) {
+            letters = Array.from(word.querySelectorAll('.intro-letter'));
+            dot = word.querySelector('.intro-dot');
+        } else {
+            word.className = 'intro-word';
+            word.setAttribute('aria-hidden', 'true');
+            letters = Array.from('modulr lab').map((ch) => {
+                const l = document.createElement('span');
+                l.className = 'intro-letter';
+                l.textContent = ch === ' ' ? ' ' : ch;
+                word.appendChild(l);
+                return l;
+            });
+            dot = document.createElement('span');
+            dot.className = 'intro-dot';
+            word.appendChild(dot);
+        }
         const skip = document.createElement('button');
         skip.type = 'button';
         skip.className = 'intro-skip';
         skip.textContent = lang === 'en' ? 'skip' : 'passer';
-        overlay.appendChild(word);
+        if (!typed) overlay.appendChild(word);
         overlay.appendChild(skip);
         if (!pending) document.body.appendChild(overlay);
 
@@ -382,7 +391,11 @@
             build(rack);
             window.addEventListener('resize', onResize);
             state.start = performance.now();
-            state.t = 0; state.last = 0;
+            // Le mot écrit en CSS a de l'avance : l'horloge part du temps déjà écoulé depuis la pose du voile,
+            // sans dépasser la fin de l'écriture. three.js à temps : 2,5 s en tout ; en retard : le mot,
+            // écrit, attend le point sans bouger.
+            state.t = typed ? Math.min(performance.now() - (+pending.getAttribute('data-t0') || performance.now()), T.type[1]) : 0;
+            state.last = 0;
             state.raf = requestAnimationFrame(frame);
         }).catch(() => finish(true));
 
@@ -550,9 +563,9 @@
             state.t += Math.min(dt, MAX_STEP);
             const t = opts.freezeAt !== undefined ? opts.freezeAt : state.t;
 
-            // « modulr lab » s'écrit, puis son point s'allume et pulse
+            // « modulr lab » s'écrit (ici seulement s'il n'est pas déjà écrit en CSS), puis son point s'allume et pulse
             const per = (T.type[1] - T.type[0]) / letters.length;
-            letters.forEach((l, i) => {
+            if (!typed) letters.forEach((l, i) => {
                 const k = easeOut(span(t, [T.type[0] + i * per, T.type[0] + i * per + LETTER_FADE]));
                 l.style.opacity = String(k);
                 l.style.transform = `translateY(${((1 - k) * 0.12).toFixed(3)}em)`;

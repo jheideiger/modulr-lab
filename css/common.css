@@ -4246,6 +4246,61 @@ main {
     opacity: 0;
 }
 
+/* Dès la pose du voile (intro-veil.js), le mot s'écrit en CSS, au même rythme que l'ouverture :
+   une lettre toutes les 45 ms (450 ms pour les dix), 80 ms de fondu chacune. Une fois écrit, il
+   reste immobile ; intro.js reprend la suite (le point, le signal, le rack). */
+@keyframes intro-letter {
+    from {
+        opacity: 0;
+        transform: translateY(0.12em);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.intro-word.is-typing .intro-letter {
+    animation: intro-letter 80ms cubic-bezier(0.33, 1, 0.68, 1) both;
+}
+
+.intro-word.is-typing .intro-letter:nth-child(2) {
+    animation-delay: 45ms;
+}
+
+.intro-word.is-typing .intro-letter:nth-child(3) {
+    animation-delay: 90ms;
+}
+
+.intro-word.is-typing .intro-letter:nth-child(4) {
+    animation-delay: 135ms;
+}
+
+.intro-word.is-typing .intro-letter:nth-child(5) {
+    animation-delay: 180ms;
+}
+
+.intro-word.is-typing .intro-letter:nth-child(6) {
+    animation-delay: 225ms;
+}
+
+.intro-word.is-typing .intro-letter:nth-child(7) {
+    animation-delay: 270ms;
+}
+
+.intro-word.is-typing .intro-letter:nth-child(8) {
+    animation-delay: 315ms;
+}
+
+.intro-word.is-typing .intro-letter:nth-child(9) {
+    animation-delay: 360ms;
+}
+
+.intro-word.is-typing .intro-letter:nth-child(10) {
+    animation-delay: 405ms;
+}
+
 /* Le point final, dessiné : c'est lui qui devient le signal */
 .intro-dot {
     display: inline-block;
