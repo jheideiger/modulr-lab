@@ -49,17 +49,26 @@ const inlined = Object.fromEntries(INLINE.map((name) => {
     return [name, code];
 }));
 const counts = Object.fromEntries(INLINE.map((n) => [n, 0]));
+let charsets = 0;
 (function walk(dir) {
     for (const name of readdirSync(dir)) {
         const p = join(dir, name);
         if (statSync(p).isDirectory()) { walk(p); continue; }
         if (!name.endsWith('.html')) continue;
-        let html = readFileSync(p, 'utf8'), changed = false;
+        const original = readFileSync(p, 'utf8');
+        let html = original;
         for (const js of INLINE) {
             const re = new RegExp(`<script src="[^"]*js/${js.replace('.', '\\.')}"></script>`, 'g');
-            html = html.replace(re, () => { counts[js]++; changed = true; return `<script>${inlined[js]}</script>`; });
+            html = html.replace(re, () => { counts[js]++; return `<script>${inlined[js]}</script>`; });
         }
-        if (changed) writeFileSync(p, html);
+        // <meta charset> en toute première ligne du <head>, avant tout script en ligne :
+        // le navigateur doit la trouver dans les 1 024 premiers octets
+        const charset = html.match(/[ \t]*<meta charset="[^"]*">\n?/i);
+        if (charset && /<head>/i.test(html)) {
+            html = html.replace(charset[0], '').replace(/<head>\n?/i, (h) => `${h.trimEnd()}\n  ${charset[0].trim()}\n`);
+            charsets++;
+        }
+        if (html !== original) writeFileSync(p, html);
     }
 })(OUT);
 const headersPath = join(OUT, '_headers');
@@ -67,6 +76,7 @@ const headers = readFileSync(headersPath, 'utf8');
 if (!headers.includes("'unsafe-hashes'")) throw new Error("_headers : 'unsafe-hashes' introuvable dans la CSP");
 writeFileSync(headersPath, headers.replace("'unsafe-hashes'", `'unsafe-hashes' ${hashes.join(' ')}`));
 console.log('en ligne : ' + INLINE.map((n) => `${n} dans ${counts[n]} pages (${Buffer.byteLength(inlined[n])} octets)`).join(', '));
+console.log(`<meta charset> en tête du <head> : ${charsets} pages`);
 
 let files = 0, bytes = 0;
 (function count(dir) {
