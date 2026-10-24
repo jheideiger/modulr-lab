@@ -425,7 +425,8 @@
         const rememberScroll = () => {
             history.replaceState(Object.assign({}, history.state, { modulr: true, scrollY: window.scrollY }), '');
         };
-        rememberScroll();
+        // À l'image suivante : lire scrollY ici forcerait le calcul de la mise en page au démarrage
+        requestAnimationFrame(rememberScroll);
 
         const isPageLink = (link, event) => {
             if (!link || !link.href) return false;
@@ -937,7 +938,9 @@
                 title.focus({ preventScroll: true });
             }
         });
-        update();
+        // Première vérification à l'image suivante : lire scrollY ici forcerait le calcul de toute
+        // la mise en page pendant le démarrage du script, avant même le premier affichage
+        requestAnimationFrame(update);
     }
 
     initPage();
