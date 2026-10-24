@@ -232,52 +232,74 @@
           <p class="manifesto-text reveal">Modular is an endless playground. Every cable you plug in differently
             creates a new configuration, a sound no one has heard before. There's no wrong patch — there are only
             experiments that teach you something.</p>
-          <p class="manifesto-text reveal">If this introduction made you want to go further, the history of modular
-            is waiting: five chapters, from the origins to the Eurorack revival. And every patch filmed on the channel has its own patch note on this site, in the <a href="../../patchs/" class="nav-link" style="border-bottom: 1px solid var(--color-border)">patches</a> section: the
-            diagram, the wiring, and an exercise to do for real — this time with actual cables.</p>
+          <p class="manifesto-text reveal">To go further, put it into practice: every patch filmed on the channel
+            has its own patch note in the <a href="../../patchs/" class="text-link">patches</a> section, with the
+            diagram, the wiring and an exercise to do for real — this time with actual cables. And if you want to know
+            where it all comes from, <a href="../../histoire/" class="text-link">the history of modular</a> is waiting:
+            five chapters, from the origins to the Eurorack revival.</p>
 
         </article>
       </div>
     </section>
 
-    <section class="page-container section-gap">
+    <!-- LA SUITE : sortie du cours vers les fiches et la newsletter.
+         À mettre à jour à chaque nouvelle fiche, comme le module « les patchs » de l'accueil :
+         le lien, l'image, le numéro et le titre de la dernière fiche. -->
+    <section class="page-container section-gap" aria-label="what comes after the course">
       <div class="row-grid">
         <div class="rail-label">what's next</div>
-        <div>
-          <div class="construction-actions">
-            <div class="construction-action reveal">
-              <h3 class="lesson-title-sm">the newsletter</h3>
-              <p class="manifesto-text">every new patch, and what's coming next.</p>
-              <div class="form-container">
-                <form id="newsletter-form" class="newsletter-form" action="https://assets.mailerlite.com/jsonp/2677025/forms/200153214654351354/subscribe"
-                  method="POST" novalidate>
-                  <div class="newsletter-row">
-                    <input type="email" id="newsletter-email" name="newsletter-email" class="form-input" required
-                      autocomplete="email" placeholder="you@email.com">
-                    <button type="submit" class="form-submit form-submit--compact">sign up →</button>
+        <div class="course-exit reveal">
+          <div class="rack site-rack">
+            <div class="rack-rail" aria-hidden="true"></div>
+            <div class="site-modules">
+
+              <section class="module site-module" aria-labelledby="sortie-patchs">
+                <header class="module-head">
+                  <h3 class="module-name" id="sortie-patchs"><a href="../../patchs/">the patches</a></h3>
+                  <span class="module-role">put it into practice</span>
+                </header>
+                <p class="site-text">the course is over: time for cables. Each patch note covers a filmed patch, with the diagram, the wiring and an exercise.</p>
+                <a class="site-latest" href="../../patchs/maths-make-noise/">
+                  <span class="site-screen"><picture>
+                      <source type="image/avif" srcset="../../images/yt/sGLCFLRchOE-480.avif 480w, ../../images/yt/sGLCFLRchOE-960.avif 960w" sizes="(max-width: 600px) calc(100vw - 72px), (max-width: 1024px) 50vw, 420px">
+                      <img src="../../images/yt/sGLCFLRchOE-960.webp" srcset="../../images/yt/sGLCFLRchOE-480.webp 480w, ../../images/yt/sGLCFLRchOE-960.webp 960w" sizes="(max-width: 600px) calc(100vw - 72px), (max-width: 1024px) 50vw, 420px"
+                        alt="" loading="lazy" decoding="async" width="960" height="540" onerror="this.hidden=true"></picture></span>
+                  <span class="site-kicker">latest patch note, no. 6</span>
+                  <span class="site-latest-title">Make Noise MATHS: one slope, three inputs</span>
+                </a>
+                <div class="module-out"><a href="../../patchs/" class="module-cta">all patch notes</a></div>
+              </section>
+
+              <section class="module site-module" aria-labelledby="sortie-newsletter">
+                <header class="module-head">
+                  <h3 class="module-name" id="sortie-newsletter"><a href="../../newsletter/">newsletter</a></h3>
+                  <span class="module-role">every Saturday</span>
+                </header>
+                <p class="site-text">every Saturday, the patch of the week and its PDF patch note, in your inbox.</p>
+                <div class="form-container site-form">
+                  <form class="newsletter-form"
+                    action="https://assets.mailerlite.com/jsonp/2677025/forms/200153214654351354/subscribe" method="POST"
+                    novalidate>
+                    <input type="hidden" name="source" value="fin-du-cours">
+                    <div class="newsletter-row">
+                      <input type="email" name="newsletter-email" class="form-input" required autocomplete="email"
+                        placeholder="you@email.com" aria-label="your email address">
+                      <button type="submit" class="form-submit module-cta">get the patch</button>
+                    </div>
+                    <p class="form-error" role="alert">please enter a valid email</p>
+                  </form>
+                  <div class="form-success">
+                    <p class="site-text">subscription confirmed ✓ — see you Saturday!</p>
                   </div>
-                  <p class="form-error" id="newsletter-error">please enter a valid email</p>
-                </form>
-                <div class="form-success" id="newsletter-success">
-                  <p class="manifesto-text">subscription confirmed ✓ — thank you!</p>
+                  <p class="form-error" role="alert">something went wrong, please try again.</p>
                 </div>
-                <p class="form-error" id="newsletter-network-error">something went wrong, please try again.</p>
-              </div>
-            </div>
+                <p class="site-note">one email a week, unsubscribe in one click.</p>
+              </section>
 
-            <div class="construction-action reveal">
-              <h3 class="lesson-title-sm">subscribe on YouTube</h3>
-              <p class="manifesto-text">two videos a week, on Tuesdays and Saturdays.</p>
-              <a href="https://www.youtube.com/@modulrlab" class="cta" target="_blank" rel="noopener">→ subscribe on
-                YouTube</a>
             </div>
-
-            <div class="construction-action reveal">
-              <h3 class="lesson-title-sm">the patches</h3>
-              <p class="manifesto-text">one note per patch, at the pace of the videos.</p>
-              <a href="../../patchs/" class="cta">→ see the patches</a>
-            </div>
+            <div class="rack-rail" aria-hidden="true"></div>
           </div>
+          <p class="site-note course-exit-note">and two videos a week, on Tuesdays and Saturdays, on <a href="https://www.youtube.com/@modulrlab" target="_blank" rel="noopener">the YouTube channel</a>.</p>
         </div>
       </div>
     </section>
@@ -294,9 +316,9 @@
             <span class="lesson-nav-label">↑ contents</span>
             <span class="lesson-nav-title">the course</span>
           </a>
-          <a href="../../histoire/" class="lesson-nav-next">
+          <a href="../../patchs/" class="lesson-nav-next">
             <span class="lesson-nav-label">what's next →</span>
-            <span class="lesson-nav-title">the history of modular</span>
+            <span class="lesson-nav-title">the patch notes</span>
           </a>
         </nav>
       </div>

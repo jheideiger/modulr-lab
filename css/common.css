@@ -3790,6 +3790,37 @@ main {
     }
 }
 
+/* --- Fin du cours (leçon 4) : la même rangée de rack, deux modules dans la colonne du texte ---
+   les fiches d'abord (un peu plus large), puis la newsletter ; YouTube en note dessous. */
+.course-exit .site-modules {
+    grid-template-columns: 1.15fr 1fr;
+}
+
+.course-exit .site-module:nth-child(3) {
+    grid-column: auto;
+}
+
+.course-exit-note {
+    margin-top: 14px;
+}
+
+/* Lien dans un paragraphe : souligné d'un filet discret */
+.text-link {
+    border-bottom: 1px solid var(--color-border);
+    transition: color var(--dur-gesture) var(--ease-signal), border-color var(--dur-gesture) var(--ease-signal);
+}
+
+.text-link:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+}
+
+@media (max-width: 600px) {
+    .course-exit .site-modules {
+        grid-template-columns: 1fr;
+    }
+}
+
 /* Sur téléphone, un module par ligne ; la dernière fiche se met à côté de son image */
 @media (max-width: 600px) {
     .site-modules {
