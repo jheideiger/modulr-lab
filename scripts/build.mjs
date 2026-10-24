@@ -73,8 +73,8 @@ let charsets = 0;
 })(OUT);
 const headersPath = join(OUT, '_headers');
 const headers = readFileSync(headersPath, 'utf8');
-if (!headers.includes("'unsafe-hashes'")) throw new Error("_headers : 'unsafe-hashes' introuvable dans la CSP");
-writeFileSync(headersPath, headers.replace("'unsafe-hashes'", `'unsafe-hashes' ${hashes.join(' ')}`));
+if (!headers.includes("script-src 'self'")) throw new Error("_headers : « script-src 'self' » introuvable dans la CSP");
+writeFileSync(headersPath, headers.replace("script-src 'self'", `script-src 'self' ${hashes.join(' ')}`));
 console.log('en ligne : ' + INLINE.map((n) => `${n} dans ${counts[n]} pages (${Buffer.byteLength(inlined[n])} octets)`).join(', '));
 console.log(`<meta charset> en tête du <head> : ${charsets} pages`);
 

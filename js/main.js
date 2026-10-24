@@ -267,6 +267,13 @@
         });
     }
 
+    // --- Vignettes des modules « les patchs » : une image introuvable s'efface, l'écran reste ---
+    // (un écouteur pour toutes, plutôt qu'un onerror en ligne que la CSP refuse)
+    document.addEventListener('error', (event) => {
+        const img = event.target;
+        if (img instanceof HTMLImageElement && img.closest('.site-screen')) img.hidden = true;
+    }, true);
+
     // --- Vidéos : façade légère, le lecteur YouTube n'est chargé qu'au clic ---
     function initVideos() {
         document.querySelectorAll('.yt-facade').forEach((facade) => {

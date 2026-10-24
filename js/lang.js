@@ -102,3 +102,14 @@ function switchLang(target) {
     window.location.href = toFrenchPath(path);
   }
 }
+
+/* Sélecteur FR / EN : les boutons portent data-lang-target="en" ou "fr". Un seul écouteur, posé
+   dès le <head> (le bouton marche avant main.js), plutôt que des onclick en ligne : la
+   Content-Security-Policy n'autorise aucun gestionnaire d'événement écrit dans le HTML.
+   window.switchLang : celle-ci, ou celle de main.js, qui passe par la navigation sans rechargement. */
+document.addEventListener('click', function (e) {
+  var button = e.target && e.target.closest ? e.target.closest('button[data-lang-target]') : null;
+  if (!button) return;
+  e.preventDefault();
+  window.switchLang(button.getAttribute('data-lang-target'));
+});
