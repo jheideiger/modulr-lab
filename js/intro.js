@@ -636,9 +636,12 @@
 
     // À l'accueil : intro-veil.js a déjà décidé (première visite, arrivée directe…) ; l'ouverture
     // joue si son voile est posé. Le logo la rejoue toujours (main.js).
+    // Ce fichier arrive en async : il peut s'exécuter quand le <body> existe déjà mais avant le voile
+    // (page reçue en plusieurs morceaux). Tant que la page se lit, on attend donc DOMContentLoaded.
     function auto() {
         if (!document.body || !document.body.classList.contains('page-home')) return;
         if (document.querySelector('.intro[data-pending]')) play({ force: !!window.MODULR_INTRO_ALWAYS });
+        else if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', auto, { once: true });
     }
     if (document.body) auto();
     else document.addEventListener('DOMContentLoaded', auto);
