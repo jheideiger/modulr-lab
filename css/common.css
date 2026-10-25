@@ -24,106 +24,59 @@
 
 /* Polices de repli calées sur Inter et Manrope, le temps qu'elles arrivent : même largeur moyenne
    et mêmes hauteurs, pour que le texte ne bouge presque pas au changement de police.
-   Arial sur ordinateur ; Roboto sur Android, qui n'a pas Arial. Une police par tranche de graisse,
-   calée sur la graisse la plus employée de la tranche (Inter 500, 700, 900 ; Manrope 400, 700) :
-   largeurs mesurées dans Chrome sur le texte de toutes les pages, hauteurs tirées des WOFF2 (hhea). */
+   Arial sur ordinateur, Roboto sur Android (qui n'a pas Arial) : chaque règle essaie l'une puis
+   l'autre, et ses réglages sont la moyenne des deux (3,5 % d'écart au plus avec chacune).
+   Une seule famille, et Arial en premier : sur ordinateur, aucune recherche de police système
+   ratée (chacune coûte au premier calcul de mise en page). Une règle par tranche de graisse,
+   calée sur la graisse la plus employée (Inter 500, 700, 900 ; Manrope 400, 700) : largeurs
+   mesurées dans Chrome sur le texte de toutes les pages, hauteurs tirées des WOFF2 (hhea). */
 @font-face {
     font-family: 'Inter repli';
     font-weight: 400 500;
-    src: local('Arial'), local('ArialMT');
-    size-adjust: 107.38%;
-    ascent-override: 90.22%;
-    descent-override: 22.46%;
+    src: local('Arial'), local('Roboto');
+    size-adjust: 107.78%;
+    ascent-override: 89.89%;
+    descent-override: 22.38%;
     line-gap-override: 0%;
 }
 
 @font-face {
     font-family: 'Inter repli';
     font-weight: 600 700;
-    src: local('Arial Bold'), local('Arial-BoldMT');
-    size-adjust: 101.82%;
-    ascent-override: 95.14%;
-    descent-override: 23.69%;
+    src: local('Arial Bold'), local('Roboto Bold'), local('Roboto');
+    size-adjust: 105.16%;
+    ascent-override: 92.12%;
+    descent-override: 22.94%;
     line-gap-override: 0%;
 }
 
 @font-face {
     font-family: 'Inter repli';
     font-weight: 800 900;
-    src: local('Arial Bold'), local('Arial-BoldMT');
-    size-adjust: 104.23%;
-    ascent-override: 92.94%;
-    descent-override: 23.14%;
-    line-gap-override: 0%;
-}
-
-@font-face {
-    font-family: 'Inter repli Android';
-    font-weight: 400 500;
-    src: local('Roboto'), local('Roboto-Regular');
-    size-adjust: 108.17%;
-    ascent-override: 89.56%;
-    descent-override: 22.30%;
-    line-gap-override: 0%;
-}
-
-@font-face {
-    font-family: 'Inter repli Android';
-    font-weight: 600 700;
-    src: local('Roboto Bold'), local('Roboto-Bold'), local('Roboto');
-    size-adjust: 108.50%;
-    ascent-override: 89.29%;
-    descent-override: 22.23%;
-    line-gap-override: 0%;
-}
-
-@font-face {
-    font-family: 'Inter repli Android';
-    font-weight: 800 900;
-    src: local('Roboto Bold'), local('Roboto-Bold'), local('Roboto');
-    size-adjust: 111.07%;
-    ascent-override: 87.22%;
-    descent-override: 21.72%;
+    src: local('Arial Bold'), local('Roboto Bold'), local('Roboto');
+    size-adjust: 107.65%;
+    ascent-override: 89.99%;
+    descent-override: 22.41%;
     line-gap-override: 0%;
 }
 
 @font-face {
     font-family: 'Manrope repli';
     font-weight: 400 500;
-    src: local('Arial'), local('ArialMT');
-    size-adjust: 101.97%;
-    ascent-override: 104.54%;
-    descent-override: 29.42%;
+    src: local('Arial'), local('Roboto');
+    size-adjust: 102.35%;
+    ascent-override: 104.15%;
+    descent-override: 29.31%;
     line-gap-override: 0%;
 }
 
 @font-face {
     font-family: 'Manrope repli';
     font-weight: 600 700;
-    src: local('Arial Bold'), local('Arial-BoldMT');
-    size-adjust: 99.98%;
-    ascent-override: 106.62%;
-    descent-override: 30.01%;
-    line-gap-override: 0%;
-}
-
-@font-face {
-    font-family: 'Manrope repli Android';
-    font-weight: 400 500;
-    src: local('Roboto'), local('Roboto-Regular');
-    size-adjust: 102.73%;
-    ascent-override: 103.77%;
-    descent-override: 29.20%;
-    line-gap-override: 0%;
-}
-
-@font-face {
-    font-family: 'Manrope repli Android';
-    font-weight: 600 700;
-    src: local('Roboto Bold'), local('Roboto-Bold'), local('Roboto');
-    size-adjust: 106.54%;
-    ascent-override: 100.06%;
-    descent-override: 28.16%;
+    src: local('Arial Bold'), local('Roboto Bold'), local('Roboto');
+    size-adjust: 103.26%;
+    ascent-override: 103.23%;
+    descent-override: 29.05%;
     line-gap-override: 0%;
 }
 
@@ -156,8 +109,8 @@
     --silk-dim: #8F8F8F;
     --cable-cv: #EDEDED;
 
-    --font-display: 'Inter', 'Inter repli', 'Inter repli Android', sans-serif;
-    --font-body: 'Manrope', 'Manrope repli', 'Manrope repli Android', sans-serif;
+    --font-display: 'Inter', 'Inter repli', sans-serif;
+    --font-body: 'Manrope', 'Manrope repli', sans-serif;
 
     --page-max-width: 1440px;
     --page-margin: 64px;

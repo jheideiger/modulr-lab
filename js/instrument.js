@@ -299,11 +299,20 @@
     // Le voile posé (intro-veil.js) compte déjà : intro.js, en async, peut arriver après l'instrument
     const introPlaying = () => !!(window.modulrIntro && window.modulrIntro.playing && window.modulrIntro.playing()) ||
         !!document.querySelector('.intro[data-pending]');
+    // Rend true si l'ouverture a vraiment joué, false si elle a été abandonnée avant de commencer
     function afterIntro() {
         if (!introPlaying()) return null;
         // La fin de l'ouverture compte comme un geste : la page a 300 ms de répit avant la 3D
-        return new Promise((resolve) => document.addEventListener('modulr:intro-end', () => { lastGesture = Math.max(lastGesture, performance.now()); resolve(); }, { once: true }));
+        return new Promise((resolve) => document.addEventListener('modulr:intro-end', (e) => {
+            lastGesture = Math.max(lastGesture, performance.now());
+            resolve(!!(e.detail && e.detail.played));
+        }, { once: true }));
     }
+
+    // Sans ouverture (abandonnée, déjà vue, arrivée d'un autre site), la 3D du rack attend comme après elle :
+    // premier affichage fait, navigateur libre, puis jamais avant 4 s depuis le début de la page
+    const notBefore = (ms) => new Promise((resolve) => setTimeout(resolve, Math.max(0, ms - performance.now())));
+    const withoutIntro = () => whenIdle().then(() => notBefore(4000));
 
     // three.js (600 Ko) arrive après le premier affichage, quand le navigateur est libre :
     // en attendant, l'instrument en HTML fonctionne déjà (gestes, son, guide, clavier)
@@ -1672,7 +1681,7 @@
         start();
 
         // La 3D : le rack, et sur l'accueil « la suite » en dessous
-        (afterIntro() || whenIdle()).then(() => whenCalm()).then(load3D).then(whenCalm).then((three) => {
+        (afterIntro() || Promise.resolve(false)).then((played) => (played ? null : withoutIntro())).then(() => whenCalm()).then(load3D).then(whenCalm).then((three) => {
             if (destroyed) return;
             skin = three.rack(rack, {
                 cables: () => state.cables,

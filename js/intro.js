@@ -273,7 +273,7 @@
             if (!pending || !pending.parentNode) return;
             pending.remove();
             document.documentElement.style.overflow = '';
-            document.dispatchEvent(new CustomEvent('modulr:intro-end'));
+            document.dispatchEvent(new CustomEvent('modulr:intro-end', { detail: { played: false } }));
         };
         // « Déjà vue » d'abord : tester WebGL crée un contexte, inutile si l'ouverture ne joue pas
         if (!opts.force && seen()) { giveUp(); return; }
@@ -335,8 +335,9 @@
                 document.removeEventListener('keydown', onKey);
                 window.removeEventListener('resize', onResize);
                 running = null;
-                // instrument.js attend ce signal pour charger la 3D du rack et relancer sa boucle
-                document.dispatchEvent(new CustomEvent('modulr:intro-end'));
+                // instrument.js attend ce signal pour charger la 3D du rack et relancer sa boucle.
+                // played : l'ouverture a vraiment joué (sinon, abandonnée avant de commencer)
+                document.dispatchEvent(new CustomEvent('modulr:intro-end', { detail: { played: state.start > 0 } }));
             };
             if (fast) {
                 overlay.style.transition = 'opacity 0.3s ease';
@@ -653,7 +654,9 @@
     // (page reçue en plusieurs morceaux). Tant que la page se lit, on attend donc DOMContentLoaded.
     function auto() {
         if (!document.body || !document.body.classList.contains('page-home')) return;
-        if (document.querySelector('.intro[data-pending]')) play({ force: !!window.MODULR_INTRO_ALWAYS });
+        // Le voile et le mot sont déjà à l'écran : la reprise (dont le test WebGL) attend l'image suivante,
+        // pour ne pas s'ajouter au premier calcul de mise en page de la page
+        if (document.querySelector('.intro[data-pending]')) requestAnimationFrame(() => setTimeout(() => play({ force: !!window.MODULR_INTRO_ALWAYS }), 0));
         else if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', auto, { once: true });
     }
     if (document.body) auto();
