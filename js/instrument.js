@@ -303,16 +303,18 @@
     function afterIntro() {
         if (!introPlaying()) return null;
         // La fin de l'ouverture compte comme un geste : la page a 300 ms de répit avant la 3D
+        // (seulement si elle a joué : une ouverture abandonnée n'est pas un geste du visiteur)
         return new Promise((resolve) => document.addEventListener('modulr:intro-end', (e) => {
-            lastGesture = Math.max(lastGesture, performance.now());
-            resolve(!!(e.detail && e.detail.played));
+            const played = !!(e.detail && e.detail.played);
+            if (played) lastGesture = Math.max(lastGesture, performance.now());
+            resolve(played);
         }, { once: true }));
     }
 
-    // Sans ouverture (abandonnée, déjà vue, arrivée d'un autre site), la 3D du rack attend comme après elle :
-    // premier affichage fait, navigateur libre, puis jamais avant 4 s depuis le début de la page
-    const notBefore = (ms) => new Promise((resolve) => setTimeout(resolve, Math.max(0, ms - performance.now())));
-    const withoutIntro = () => whenIdle().then(() => notBefore(4000));
+    // Sans ouverture (abandonnée, déjà vue, arrivée d'un autre site), la 3D du rack attend le premier geste
+    // du visiteur (défilement, toucher, souris, clavier), comme le theremin d'histoire : une page qu'on ne
+    // touche pas garde son rack en HTML, jouable, et ne paie ni three.js ni sa construction.
+    const withoutIntro = (el, cleanups) => whenIdle().then(() => whenNear(el, cleanups));
 
     // three.js (600 Ko) arrive après le premier affichage, quand le navigateur est libre :
     // en attendant, l'instrument en HTML fonctionne déjà (gestes, son, guide, clavier)
@@ -1681,7 +1683,7 @@
         start();
 
         // La 3D : le rack, et sur l'accueil « la suite » en dessous
-        (afterIntro() || Promise.resolve(false)).then((played) => (played ? null : withoutIntro())).then(() => whenCalm()).then(load3D).then(whenCalm).then((three) => {
+        (afterIntro() || Promise.resolve(false)).then((played) => (played ? null : withoutIntro(rack, cleanups))).then(() => whenCalm()).then(load3D).then(whenCalm).then((three) => {
             if (destroyed) return;
             skin = three.rack(rack, {
                 cables: () => state.cables,
