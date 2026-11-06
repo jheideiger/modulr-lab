@@ -42,7 +42,7 @@ document.documentElement.className += ' js';
     if (!('IntersectionObserver' in window) || !('adoptedStyleSheets' in document)) return;
     var sheet = new CSSStyleSheet();
     sheet.replaceSync('@media screen and (prefers-reduced-motion: no-preference) {' +
-      ' .reveal:not(.is-visible) { opacity: 0; transform: translateY(14px); } }');
+      ' .reveal:not(.is-visible) { opacity: 0; transform: translateY(32px); } }');
     document.adoptedStyleSheets = document.adoptedStyleSheets.concat(sheet);
   } catch (e) { }
 })();

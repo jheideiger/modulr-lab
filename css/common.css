@@ -129,6 +129,9 @@
     --ease-glide: cubic-bezier(0.22, 0.61, 0.36, 1);
     --dur-glide: 400ms;
     --dur-glide-color: 300ms;
+    /* apparition : le fondu des éléments qui arrivent à l'écran en défilant, comme avant la charte
+       (en 240 ms, ils claquaient) ; le haut de page garde --dur-enter, pour s'afficher vite */
+    --dur-reveal: 800ms;
     --dur-gesture: 120ms;
     --dur-enter: 240ms;
     --dur-page: 480ms;
@@ -932,20 +935,20 @@ a {
    ========================================================= */
 
 /* --- Apparitions au scroll ---
-   L'IntersectionObserver de main.js pose .is-visible quand l'élément entre à l'écran : fondu court,
+   L'IntersectionObserver de main.js pose .is-visible quand l'élément entre à l'écran : fondu de 0,8 s,
    en cascade pour les éléments groupés. (Plus de fondu piloté par le défilement : il laissait des
    lignes de liste à moitié grises à l'écran.) L'état
    « masqué en attendant » n'est pas ici mais dans une feuille que lang.js ajoute au document
    pendant que la page tourne : une page sans JavaScript, enregistrée ou imprimée montre tout. */
 .js .reveal {
-    transition: opacity var(--dur-enter) var(--ease-signal), transform var(--dur-enter) var(--ease-signal);
+    transition: opacity var(--dur-reveal) ease, transform var(--dur-reveal) ease;
 }
 
 /* Les lignes de liste gardent leur apparition en cascade, mais le fond du survol
    répond tout de suite (sinon le délai de cascade retarde aussi le survol) */
 .js .lesson-card.reveal {
-    transition: opacity var(--dur-enter) var(--ease-signal) var(--reveal-delay, 0s),
-        transform var(--dur-enter) var(--ease-signal) var(--reveal-delay, 0s),
+    transition: opacity var(--dur-reveal) ease var(--reveal-delay, 0s),
+        transform var(--dur-reveal) ease var(--reveal-delay, 0s),
         background-color var(--dur-glide) ease 0s;
 }
 
