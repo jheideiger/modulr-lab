@@ -989,11 +989,13 @@ a {
 
 /* Pilotées par le défilement : l'élément apparaît pendant ses 160 premiers pixels à l'écran
    (les éléments groupés un peu plus tard, en cascade), et reste affiché une fois passé.
+   Pas dans Safari ni WebKit (.reveal-js, posée par lang.js) : ils passent par l'observer de main.js.
+   :where() garde la spécificité d'origine (0) pour ne rien changer à l'ordre des règles.
    Le haut de page garde son apparition au chargement (règle ci-dessus, plus spécifique :
    son raccourci « animation » remet la timeline au temps). */
 @supports (animation-timeline: view()) {
     @media screen and (prefers-reduced-motion: no-preference) {
-        .reveal {
+        :where(html:not(.reveal-js)) .reveal {
             animation: reveal-in both;
             animation-duration: auto;
             animation-timing-function: var(--ease-signal);
@@ -1002,23 +1004,23 @@ a {
             transition: none;
         }
 
-        .reveal.reveal-delay-1 {
+        :where(html:not(.reveal-js)) .reveal.reveal-delay-1 {
             animation-delay: 0s;
             animation-range: entry 40px entry 200px;
         }
 
-        .reveal.reveal-delay-2 {
+        :where(html:not(.reveal-js)) .reveal.reveal-delay-2 {
             animation-delay: 0s;
             animation-range: entry 80px entry 240px;
         }
 
-        .reveal.reveal-delay-3 {
+        :where(html:not(.reveal-js)) .reveal.reveal-delay-3 {
             animation-delay: 0s;
             animation-range: entry 120px entry 280px;
         }
 
         /* Les lignes de liste gardent la réponse immédiate de leur fond au survol */
-        .js .lesson-card.reveal {
+        :where(html:not(.reveal-js)).js .lesson-card.reveal {
             transition: background-color var(--dur-gesture) var(--ease-signal);
         }
     }

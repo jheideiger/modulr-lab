@@ -116,7 +116,9 @@
     let revealObserver = null;
 
     // Là où le CSS pilote les apparitions par le défilement (animation-timeline: view()), rien à faire ici
-    const cssReveal = !!(window.CSS && CSS.supports && CSS.supports('animation-timeline: view()'));
+    // (sauf là où lang.js a posé .reveal-js : Firefox, Safari et WebKit passent par l'observer)
+    const cssReveal = !document.documentElement.classList.contains('reveal-js') &&
+        !!(window.CSS && CSS.supports && CSS.supports('animation-timeline: view()'));
     const cssProgress = !!(window.CSS && CSS.supports && CSS.supports('animation-timeline: scroll()'));
 
     function initReveal() {
