@@ -8,7 +8,7 @@
    instant sur les vrais boutons et les vraies prises, puis
    s'éteignent un à un : le rack est prêt.
 
-   2,5 secondes, à la première visite seulement, et pour une
+   2,5 secondes, une fois par visite seulement, et pour une
    arrivée directe : pas depuis un autre site (moteur de
    recherche, YouTube…). Sur l'accueil, un clic sur le logo la
    rejoue (main.js). On peut passer (bouton ou Échap). Rien si
@@ -77,8 +77,8 @@
             !!(window.matchMedia && window.matchMedia('(prefers-reduced-data: reduce)').matches);
     }
 
-    function seen() { try { return localStorage.getItem(KEY) === '1'; } catch (e) { return false; } }
-    function markSeen() { try { localStorage.setItem(KEY, '1'); } catch (e) { } }
+    function seen() { try { return sessionStorage.getItem(KEY) === '1'; } catch (e) { return false; } }
+    function markSeen() { try { sessionStorage.setItem(KEY, '1'); localStorage.removeItem(KEY); } catch (e) { } }
 
     function webgl() {
         try {
@@ -267,7 +267,7 @@
     function play(opts) {
         opts = opts || {};
         if (running) return;
-        // Le voile déjà posé par intro-veil.js (première visite) : on le reprend, ou on le retire
+        // Le voile déjà posé par intro-veil.js (début de visite) : on le reprend, ou on le retire
         const pending = document.querySelector('.intro[data-pending]');
         const giveUp = () => {
             if (!pending || !pending.parentNode) return;
@@ -648,7 +648,7 @@
     // playing() : instrument.js le demande au montage, pour savoir s'il doit attendre la fin
     window.modulrIntro = { play, playing: () => !!running };
 
-    // À l'accueil : intro-veil.js a déjà décidé (première visite, arrivée directe…) ; l'ouverture
+    // À l'accueil : intro-veil.js a déjà décidé (début de visite, arrivée directe…) ; l'ouverture
     // joue si son voile est posé. Le logo la rejoue toujours (main.js).
     // Ce fichier arrive en async : il peut s'exécuter quand le <body> existe déjà mais avant le voile
     // (page reçue en plusieurs morceaux). Tant que la page se lit, on attend donc DOMContentLoaded.

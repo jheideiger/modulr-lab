@@ -4157,7 +4157,7 @@ main {
 
 
 /* =========================================================
-   ACCUEIL — l'ouverture (js/intro.js), à la première visite
+   ACCUEIL — l'ouverture (js/intro.js), une fois par visite
    « modulr lab » s'écrit, son point cyan devient un signal qui
    dessine le rack ; le voile noir s'efface sur la vraie page.
    ========================================================= */

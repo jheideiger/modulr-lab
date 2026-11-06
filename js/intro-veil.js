@@ -1,7 +1,8 @@
 /* Le voile noir de l'ouverture de l'accueil, posé avant le premier affichage.
    Tout en haut du body de l'accueil ; mis en ligne dans la page par scripts/build.mjs.
    intro.js (chargé en async) le reprend et joue l'ouverture, ou le retire.
-   Ne pose le voile que si l'ouverture doit jouer : première visite, arrivée directe
+   Ne pose le voile que si l'ouverture doit jouer : première arrivée sur l'accueil de la visite
+   (sessionStorage : elle rejoue à chaque nouvelle visite, pas à chaque retour sur l'accueil), arrivée directe
    (pas depuis un autre site), ni moins d'animations demandées, ni appareil modeste
    (même règle que intro.js et rack3d.js). Garde-fou : si intro.js n'a pas pris
    la main au bout de 2,5 s, le voile s'en va.
@@ -9,7 +10,7 @@
    intro.js reprend le mot là où il en est, puis allume le point et dessine le rack. */
 (function () {
   var always = !!window.MODULR_INTRO_ALWAYS;
-  try { if (!always && localStorage.getItem('modulr-intro-seen') === '1') return; } catch (e) { }
+  try { if (!always && sessionStorage.getItem('modulr-intro-seen') === '1') return; } catch (e) { }
   var mm = function (q) { return !!(window.matchMedia && window.matchMedia(q).matches); };
   if (mm('(prefers-reduced-motion: reduce)')) return;
   var n = navigator, c = n.connection || {};
