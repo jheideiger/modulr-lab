@@ -1842,6 +1842,13 @@ main {
     top: 16px;
 }
 
+/* Titres et sections que le routeur (main.js) focalise après un changement de page, un clic sur
+   « remonter » ou un lien du sommaire : le focus sert au lecteur d'écran et au clavier, pas à l'œil.
+   Sans ceci, Safari et Chrome dessinent leur anneau de focus autour du h1 (tabindex="-1"). */
+[tabindex="-1"]:focus {
+    outline: none;
+}
+
 /* Liens secondaires du menu téléphone */
 .menu-overlay-extra {
     margin-top: auto;
