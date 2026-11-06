@@ -122,8 +122,13 @@
        geste : la réponse immédiate à un survol, un appui, un focus (couleur, ombre, petit glissement) ;
        entrée : ce qui apparaît ou s'efface (apparitions au défilement, menu, bouton de remontée) ;
        page : le passage d'une page à l'autre ; câble : ce qui suit le signal (câbles des schémas,
-       mise sous tension du rack). Les boucles (halos, repères du guide) gardent leur propre rythme. */
+       mise sous tension du rack). Les boucles (halos, repères du guide) gardent leur propre rythme.
+       glisse : le survol des lignes de liste (sommaire du cours, fiches, histoire), plus lent qu'un
+       geste : la ligne entière se teinte et son texte glisse, en 120 ms le mouvement saccadait. */
     --ease-signal: cubic-bezier(0.2, 0.7, 0.2, 1);
+    --ease-glide: cubic-bezier(0.22, 0.61, 0.36, 1);
+    --dur-glide: 400ms;
+    --dur-glide-color: 300ms;
     --dur-gesture: 120ms;
     --dur-enter: 240ms;
     --dur-page: 480ms;
@@ -546,7 +551,7 @@ a {
     border-bottom: 0.5px solid var(--color-border);
     text-decoration: none;
     color: var(--color-text);
-    transition: background-color var(--dur-gesture) var(--ease-signal);
+    transition: background-color var(--dur-glide) ease;
 }
 
 .lesson-card:first-child {
@@ -579,7 +584,7 @@ a {
 }
 
 .lesson-card-content .lesson-title-sm {
-    transition: color var(--dur-gesture) var(--ease-signal);
+    transition: color var(--dur-glide-color) ease;
 }
 
 .lesson-card-content .lesson-desc {
@@ -927,9 +932,9 @@ a {
    ========================================================= */
 
 /* --- Apparitions au scroll ---
-   Là où le CSS sait suivre le défilement (animation-timeline: view()), elles sont pilotées par
-   le défilement, sans JavaScript (bloc @supports plus bas).
-   Ailleurs (Firefox aujourd'hui), l'IntersectionObserver de main.js pose .is-visible ; l'état
+   L'IntersectionObserver de main.js pose .is-visible quand l'élément entre à l'écran : fondu court,
+   en cascade pour les éléments groupés. (Plus de fondu piloté par le défilement : il laissait des
+   lignes de liste à moitié grises à l'écran.) L'état
    « masqué en attendant » n'est pas ici mais dans une feuille que lang.js ajoute au document
    pendant que la page tourne : une page sans JavaScript, enregistrée ou imprimée montre tout. */
 .js .reveal {
@@ -941,14 +946,7 @@ a {
 .js .lesson-card.reveal {
     transition: opacity var(--dur-enter) var(--ease-signal) var(--reveal-delay, 0s),
         transform var(--dur-enter) var(--ease-signal) var(--reveal-delay, 0s),
-        background-color var(--dur-gesture) var(--ease-signal) 0s;
-}
-
-/* Sans la version pilotée par le défilement (Firefox, Safari : .reveal-js), les lignes de liste
-   apparaissent chacune quand elle entre à l'écran, sans attendre leur rang dans la cascade :
-   au défilement, la cascade les faisait arriver en retard, l'une après l'autre. */
-.reveal-js .lesson-card.reveal {
-    --reveal-delay: 0s;
+        background-color var(--dur-glide) ease 0s;
 }
 
 /* Délais en cascade pour les éléments groupés */
@@ -994,52 +992,13 @@ a {
     animation: reveal-in var(--dur-enter) var(--ease-signal) both;
 }
 
-/* Pilotées par le défilement : l'élément apparaît pendant ses 160 premiers pixels à l'écran
-   (les éléments groupés un peu plus tard, en cascade), et reste affiché une fois passé.
-   Pas dans Safari ni WebKit (.reveal-js, posée par lang.js) : ils passent par l'observer de main.js.
-   :where() garde la spécificité d'origine (0) pour ne rien changer à l'ordre des règles.
-   Le haut de page garde son apparition au chargement (règle ci-dessus, plus spécifique :
-   son raccourci « animation » remet la timeline au temps). */
-@supports (animation-timeline: view()) {
-    @media screen and (prefers-reduced-motion: no-preference) {
-        :where(html:not(.reveal-js)) .reveal {
-            animation: reveal-in both;
-            animation-duration: auto;
-            animation-timing-function: var(--ease-signal);
-            animation-timeline: view();
-            animation-range: entry 0% entry 160px;
-            transition: none;
-        }
-
-        :where(html:not(.reveal-js)) .reveal.reveal-delay-1 {
-            animation-delay: 0s;
-            animation-range: entry 40px entry 200px;
-        }
-
-        :where(html:not(.reveal-js)) .reveal.reveal-delay-2 {
-            animation-delay: 0s;
-            animation-range: entry 80px entry 240px;
-        }
-
-        :where(html:not(.reveal-js)) .reveal.reveal-delay-3 {
-            animation-delay: 0s;
-            animation-range: entry 120px entry 280px;
-        }
-
-        /* Les lignes de liste gardent la réponse immédiate de leur fond au survol */
-        :where(html:not(.reveal-js)).js .lesson-card.reveal {
-            transition: background-color var(--dur-gesture) var(--ease-signal);
-        }
-    }
-}
-
 /* --- Survol des listes (le cours, histoire, patchs) ---
    Un seul mouvement : le fond se teinte, numéro et texte glissent ensemble.
    Seuls la couleur et transform changent : rien ne se recalcule dans la page,
    le texte ne se recompose pas, l'animation reste fluide. */
 .lesson-card .lesson-card-number,
 .lesson-card .lesson-card-content {
-    transition: transform var(--dur-gesture) var(--ease-signal), color var(--dur-gesture) var(--ease-signal);
+    transition: transform var(--dur-glide) var(--ease-glide), color var(--dur-glide-color) ease;
 }
 
 .lesson-card:hover .lesson-card-number,
@@ -1737,6 +1696,12 @@ main {
     opacity: 1;
     transform: none;
     transition-property: background-color, color, border-color;
+}
+
+/* Une ligne de liste arrivée avec la page : son fond de survol garde sa durée, sans délai de cascade
+   (la liste de durées et de délais de .js .lesson-card.reveal ne correspond plus aux propriétés ci-dessus) */
+.js main .lesson-card.reveal.is-visible.is-arrived {
+    transition: background-color var(--dur-glide) ease 0s;
 }
 
 @media (prefers-reduced-motion: reduce) {

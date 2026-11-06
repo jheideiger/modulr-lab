@@ -115,15 +115,13 @@
     // --- Animations au scroll (IntersectionObserver) ---
     let revealObserver = null;
 
-    // Là où le CSS pilote les apparitions par le défilement (animation-timeline: view()), rien à faire ici
-    // (sauf là où lang.js a posé .reveal-js : Firefox, Safari et WebKit passent par l'observer)
-    const cssReveal = !document.documentElement.classList.contains('reveal-js') &&
-        !!(window.CSS && CSS.supports && CSS.supports('animation-timeline: view()'));
+    // Apparitions : un fondu court quand l'élément entre à l'écran, dans tous les navigateurs.
+    // (Le fondu piloté par le défilement, animation-timeline: view(), laissait les fiches et les
+    // leçons des sommaires à moitié grises tant qu'on ne les avait pas assez remontées : retiré.)
     const cssProgress = !!(window.CSS && CSS.supports && CSS.supports('animation-timeline: scroll()'));
 
     function initReveal() {
         if (revealObserver) revealObserver.disconnect();
-        if (cssReveal) return;
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
         const reveals = document.querySelectorAll('.reveal');
@@ -137,9 +135,8 @@
                 }
             });
         }, {
-            // Dès que le haut de l'élément entre à l'écran : au défilement, rien n'arrive en retard
-            threshold: 0,
-            rootMargin: '0px 0px 0px 0px'
+            threshold: 0.15,
+            rootMargin: '0px 0px -40px 0px'
         });
 
         reveals.forEach((el) => revealObserver.observe(el));

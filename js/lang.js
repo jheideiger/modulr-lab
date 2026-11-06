@@ -33,18 +33,12 @@ function toFrenchPath(p) {
    (voir .js .reveal dans common.css). */
 document.documentElement.className += ' js';
 
-/* Apparitions au défilement, là où le CSS ne sait pas les piloter seul (sans
-   animation-timeline: view(), Firefox aujourd'hui) ou mal (Safari et tous les navigateurs
-   WebKit : une carte pouvait rester à moitié affichée) : la classe .reveal-js sur <html>
-   coupe la version CSS (common.css), main.js les révèle avec un IntersectionObserver,
-   et cette feuille les masque en attendant. Feuille « adoptée » :
+/* Apparitions au défilement : main.js les révèle avec un IntersectionObserver
+   (un fondu court), et cette feuille les masque en attendant. Feuille « adoptée » :
    elle n'existe que pendant que la page tourne et n'est ni enregistrée avec la page,
    ni appliquée à l'impression ; sans elle, tout le contenu reste affiché. */
 (function () {
   try {
-    var webkit = navigator.vendor === 'Apple Computer, Inc.';
-    if (!webkit && window.CSS && CSS.supports && CSS.supports('animation-timeline: view()')) return;
-    document.documentElement.classList.add('reveal-js');
     if (!('IntersectionObserver' in window) || !('adoptedStyleSheets' in document)) return;
     var sheet = new CSSStyleSheet();
     sheet.replaceSync('@media screen and (prefers-reduced-motion: no-preference) {' +
