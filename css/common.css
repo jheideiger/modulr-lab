@@ -944,6 +944,13 @@ a {
         background-color var(--dur-gesture) var(--ease-signal) 0s;
 }
 
+/* Sans la version pilotée par le défilement (Firefox, Safari : .reveal-js), les lignes de liste
+   apparaissent chacune quand elle entre à l'écran, sans attendre leur rang dans la cascade :
+   au défilement, la cascade les faisait arriver en retard, l'une après l'autre. */
+.reveal-js .lesson-card.reveal {
+    --reveal-delay: 0s;
+}
+
 /* Délais en cascade pour les éléments groupés */
 .reveal-delay-1 {
     --reveal-delay: 0.1s;

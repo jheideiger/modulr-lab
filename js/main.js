@@ -137,8 +137,9 @@
                 }
             });
         }, {
-            threshold: 0.15,
-            rootMargin: '0px 0px -40px 0px'
+            // Dès que le haut de l'élément entre à l'écran : au défilement, rien n'arrive en retard
+            threshold: 0,
+            rootMargin: '0px 0px 0px 0px'
         });
 
         reveals.forEach((el) => revealObserver.observe(el));
