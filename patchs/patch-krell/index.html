@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <script src="../../js/lang.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0A0A0A">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../icons/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="../../icons/favicon-96x96.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../icons/apple-touch-icon.png">
+  <title>Patch Krell : le modulaire qui joue tout seul — modulr lab</title>
+  <meta name="description"
+    content="Une enveloppe qui boucle, une tension aléatoire qui règle la durée de la note suivante : le patch Krell sur le Shared System, câblage et réglages.">
+  <link rel="canonical" href="https://modulrlab.com/patchs/patch-krell/">
+  <link rel="alternate" hreflang="fr" href="https://modulrlab.com/patchs/patch-krell/">
+  <link rel="alternate" hreflang="en" href="https://modulrlab.com/en/patchs/patch-krell/">
+  <link rel="alternate" hreflang="x-default" href="https://modulrlab.com/patchs/patch-krell/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:title" content="Le patch Krell : quand le modulaire joue tout seul">
+  <meta property="og:description"
+    content="Le patch Krell construit sur le Shared System Plus : une enveloppe qui boucle, René qui change de note à chaque fin de cycle, une tension aléatoire qui règle la durée de la note suivante. Le câblage, les réglages, trois variations et un exercice.">
+  <meta property="og:url" content="https://modulrlab.com/patchs/patch-krell/">
+  <meta property="og:site_name" content="modulr lab">
+  <meta property="og:image" content="https://modulrlab.com/icons/og/patchs-fr.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="les patchs. Une fiche par patch : le schéma, le câblage et ce qu'il faut écouter. modulr lab">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preload" href="../../fonts/inter-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../../fonts/manrope-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../css/common.css">
+  <script src="../../js/main.js" defer></script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "modulr lab",
+      "item": "https://modulrlab.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "patchs",
+      "item": "https://modulrlab.com/patchs/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Le patch Krell : quand le modulaire joue tout seul",
+      "item": "https://modulrlab.com/patchs/patch-krell/"
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  "name": "Le patch Krell : quand le modulaire joue tout seul",
+  "description": "Le patch Krell construit pas à pas sur le Shared System Plus de Make Noise : une enveloppe de MATHS qui tourne en boucle, René qui change de note à chaque fin de cycle, le Wogglebug et ses tensions aléatoires qui règlent la durée de la note suivante, et l'Erbe-Verb.",
+  "thumbnailUrl": "https://i.ytimg.com/vi/MnIuWrWx5DM/maxresdefault.jpg",
+  "uploadDate": "2026-11-07T10:00:00+01:00",
+  "duration": "PT9M14S",
+  "embedUrl": "https://www.youtube.com/embed/MnIuWrWx5DM",
+  "inLanguage": "fr"
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Le patch Krell : quand le modulaire joue tout seul",
+  "description": "Le patch Krell construit sur le Shared System Plus : une enveloppe qui boucle, René qui change de note à chaque fin de cycle, une tension aléatoire qui règle la durée de la note suivante. Le câblage, les réglages, trois variations et un exercice.",
+  "mainEntityOfPage": "https://modulrlab.com/patchs/patch-krell/",
+  "author": {
+    "@type": "Person",
+    "name": "Jeremy Heideiger"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "modulr lab",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://modulrlab.com/icons/apple-touch-icon.png"
+    }
+  }
+}
+  </script>
+</head>
+
+<body>
+
+
+  <header class="site-header page-container">
+    <a href="../../" class="logo-link">modulr lab</a>
+    <nav class="desktop-nav">
+      <a href="../../le-cours/" class="nav-link">le cours</a>
+      <a href="../../patchs/" class="nav-link">patchs</a>
+      <a href="../../histoire/" class="nav-link">histoire</a>
+      <a href="../../a-propos/" class="nav-link">à propos</a>
+      <button class="nav-link lang-switch" data-lang-target="en" type="button">EN</button>
+
+    </nav>
+    <button class="burger" aria-label="Ouvrir le menu" aria-expanded="false"
+      aria-controls="menu-overlay"><span></span><span></span><span></span></button>
+  </header>
+
+  <div class="menu-overlay" id="menu-overlay" role="dialog" aria-modal="true" aria-label="Menu de navigation"
+    aria-hidden="true" inert>
+    <div class="menu-overlay-header">
+      <a href="../../" class="logo-link">modulr lab</a>
+      <div class="menu-overlay-controls">
+        <button class="lang-switch-mobile" data-lang-target="en" type="button">EN</button>
+        <button class="menu-close" aria-label="Fermer le menu">✕</button>
+      </div>
+    </div>
+    <nav>
+      <a href="../../le-cours/">le cours</a>
+      <a href="../../patchs/">patchs</a>
+      <a href="../../histoire/">histoire</a>
+      <a href="../../a-propos/">à propos</a>
+
+    </nav>
+    <div class="menu-overlay-extra">
+      <a href="../../newsletter/">la newsletter</a>
+      <a href="https://www.youtube.com/@modulrlab" target="_blank" rel="noopener">la chaîne YouTube</a>
+      <a href="https://www.instagram.com/modulr_lab/" target="_blank" rel="noopener">Instagram</a>
+      <a href="../../contact/">contact</a>
+    </div>
+  </div>
+
+  <main>
+
+    <section class="page-container">
+      <div class="row-grid">
+        <nav class="rail-label rail-label--accent crumbs" aria-label="fil d’Ariane"><ol><li><a href="../">patchs</a></li><li aria-current="page">fiche n°&nbsp;7</li></ol></nav>
+        <div>
+          <p class="lesson-meta reveal" style="margin-bottom: 12px">fiche n° 7 · patch Krell</p>
+          <h1 class="note-title reveal">Le patch Krell <span class="title-dot">:</span> quand le modulaire joue tout seul<span class="title-dot">.</span></h1>
+          <p class="hero-lead reveal reveal-delay-1">Une enveloppe tourne en boucle. À chaque fin de cycle, René passe à la note suivante, et une tension aléatoire règle la durée de cette nouvelle note. On ne programme pas une succession précise de notes : on met en place un ensemble de règles, puis on laisse le système les faire vivre. Voici comment le construire sur le Shared System Plus.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">vidéo</div>
+        <div class="video-container reveal">
+          <div class="video-wrapper">
+            <a class="yt-facade" href="https://www.youtube.com/watch?v=MnIuWrWx5DM" data-yt="MnIuWrWx5DM" data-title="Le patch Krell : quand le modulaire joue tout seul"
+              aria-label="Lire la vidéo : Le patch Krell : quand le modulaire joue tout seul">
+              <picture>
+                <source type="image/avif" srcset="../../images/yt/MnIuWrWx5DM-480.avif 480w, ../../images/yt/MnIuWrWx5DM-960.avif 960w"
+                  sizes="(max-width: 768px) calc(100vw - 48px), (max-width: 1440px) 76vw, 1088px">
+                <img src="../../images/yt/MnIuWrWx5DM-960.webp" srcset="../../images/yt/MnIuWrWx5DM-480.webp 480w, ../../images/yt/MnIuWrWx5DM-960.webp 960w"
+                  sizes="(max-width: 768px) calc(100vw - 48px), (max-width: 1440px) 76vw, 1088px" width="960" height="540" alt="" decoding="async">
+              </picture>
+              <span class="yt-facade-play" aria-hidden="true"></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">résultat</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">ce que vous allez obtenir<span class="title-dot">.</span></h2>
+          <p class="manifesto-text reveal">Une sinusoïde qui joue une pentatonique mineure, note après note, sans clock, sans séquenceur lancé à la main ni boucle préenregistrée. Chaque note a sa hauteur, sa durée et son attaque, et la reverb de l’Erbe-Verb s’agrandit puis se resserre au gré du hasard. Le patch tourne aussi longtemps qu’on le laisse faire.</p>
+          <div class="note-facts reveal">
+            <p class="note-fact">niveau <b>intermédiaire</b></p>
+            <p class="note-fact">durée <b>45 min</b></p>
+            <p class="note-fact">modules <b>MATHS · DPO · Optomix · René · Wogglebug · Erbe-Verb · CV Bus</b></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">matériel</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">le matériel <span class="title-dot">:</span> le Shared System et ses équivalents<span class="title-dot">.</span></h2>
+          <div class="table-scroll reveal">
+            <table class="patch-table patch-table--gear" role="table">
+              <thead role="rowgroup">
+                <tr role="row"><th role="columnheader">fonction</th><th role="columnheader">sur mon système</th><th role="columnheader">équivalent générique</th></tr>
+              </thead>
+              <tbody role="rowgroup">
+                <tr role="row"><td role="cell">Enveloppe qui boucle</td><td role="cell" data-label="sur mon système">MATHS, canal 4, Cycle allumé</td><td role="cell" data-label="équivalent générique">Tout générateur de fonctions qui peut boucler, avec une sortie de fin de cycle et des entrées CV pour la montée et la descente</td></tr>
+                <tr role="row"><td role="cell">Atténuateurs</td><td role="cell" data-label="sur mon système">MATHS, canaux 2 et 3</td><td role="cell" data-label="équivalent générique">Deux atténuateurs, ou mieux deux atténuverteurs</td></tr>
+                <tr role="row"><td role="cell">Oscillateur</td><td role="cell" data-label="sur mon système">DPO, VCO A, sortie Sine</td><td role="cell" data-label="équivalent générique">Tout VCO avec une entrée 1V/Oct ; une forme d’onde douce de préférence</td></tr>
+                <tr role="row"><td role="cell">Ouverture du son</td><td role="cell" data-label="sur mon système">Optomix, canal 1</td><td role="cell" data-label="équivalent générique">Toute low pass gate ; à défaut, un VCA suivi d’un filtre passe-bas</td></tr>
+                <tr role="row"><td role="cell">Séquenceur</td><td role="cell" data-label="sur mon système">René, canal X, quantizer activé</td><td role="cell" data-label="équivalent générique">Tout séquenceur avec une entrée clock, une sortie gate et une sortie 1V/Oct ; à défaut, un sample &amp; hold suivi d’un quantizer</td></tr>
+                <tr role="row"><td role="cell">Source de hasard</td><td role="cell" data-label="sur mon système">Wogglebug, entrée Clock In</td><td role="cell" data-label="équivalent générique">Toute source de tensions aléatoires dont le sample &amp; hold accepte une clock externe</td></tr>
+                <tr role="row"><td role="cell">Reverb</td><td role="cell" data-label="sur mon système">Erbe-Verb, entrée CV Decay</td><td role="cell" data-label="équivalent générique">Toute reverb ; une entrée CV sur la durée de la reverb en plus</td></tr>
+                <tr role="row"><td role="cell">Sortie</td><td role="cell" data-label="sur mon système">CV Bus, sortie stéréo vers la carte son</td><td role="cell" data-label="équivalent générique">Toute sortie qui ramène le modulaire au niveau ligne</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">schéma</div>
+        <figure class="patch-figure reveal" style="min-width: 0">
+          <div class="patch-figure-frame"><div class="patch-figure-scroll"><svg viewBox="0 0 1300 570" role="img" aria-label="Schéma : Unity du canal 4 de MATHS vers Control du canal 1 de l’Optomix ; sortie Sine du VCO A du DPO vers l’Optomix ; EOC du canal 4 vers X-CLK de René ; X-CV de René vers 1V/Oct du VCO A ; X-Gate de René vers Clock In du Wogglebug ; STEPPED du Wogglebug vers le canal 2 de MATHS, puis vers Fall du canal 4 ; SMOOTH vers le canal 3, puis vers Rise du canal 4 ; Sum Out de l’Optomix vers l’Erbe-Verb ; WOGGLE vers Decay de l’Erbe-Verb ; sorties L et R de l’Erbe-Verb vers le CV Bus." style="width:100%;min-width:880px;height:auto;display:block;font-family:var(--font-display)"><rect x="40" y="40" width="180" height="180" rx="2" style="fill:none;stroke:var(--color-text);stroke-width:1.5"/><text x="58" y="84" style="fill:var(--color-text);font-size:24px;font-weight:700">René</text><text x="58" y="112" style="fill:var(--color-text-secondary);font-size:15px">séquenceur</text><rect x="40" y="300" width="180" height="210" rx="2" style="fill:none;stroke:var(--color-text);stroke-width:1.5"/><text x="58" y="344" style="fill:var(--color-text);font-size:24px;font-weight:700">Wogglebug</text><text x="58" y="372" style="fill:var(--color-text-secondary);font-size:15px">hasard</text><rect x="340" y="40" width="220" height="470" rx="2" style="fill:none;stroke:var(--color-text);stroke-width:1.5"/><text x="358" y="84" style="fill:var(--color-text);font-size:24px;font-weight:700">MATHS</text><text x="358" y="112" style="fill:var(--color-text-secondary);font-size:15px">canal 4</text><line x1="350" y1="230" x2="550" y2="230" style="stroke:var(--color-border, #333);stroke-width:1;stroke-dasharray:4 4"/><text x="358" y="262" style="fill:var(--color-text-secondary);font-size:15px">canal 2</text><line x1="350" y1="370" x2="550" y2="370" style="stroke:var(--color-border, #333);stroke-width:1;stroke-dasharray:4 4"/><text x="358" y="402" style="fill:var(--color-text-secondary);font-size:15px">canal 3</text><rect x="680" y="40" width="160" height="110" rx="2" style="fill:none;stroke:var(--color-text);stroke-width:1.5"/><text x="698" y="84" style="fill:var(--color-text);font-size:24px;font-weight:700">DPO</text><text x="698" y="112" style="fill:var(--color-text-secondary);font-size:15px">VCO A</text><rect x="680" y="230" width="160" height="120" rx="2" style="fill:none;stroke:var(--color-text);stroke-width:1.5"/><text x="698" y="274" style="fill:var(--color-text);font-size:24px;font-weight:700">Optomix</text><text x="698" y="302" style="fill:var(--color-text-secondary);font-size:15px">canal 1</text><rect x="920" y="230" width="160" height="150" rx="2" style="fill:none;stroke:var(--color-text);stroke-width:1.5"/><text x="938" y="274" style="fill:var(--color-text);font-size:24px;font-weight:700">Erbe-Verb</text><text x="938" y="302" style="fill:var(--color-text-secondary);font-size:15px">reverb</text><rect x="1160" y="230" width="130" height="150" rx="2" style="fill:none;stroke:var(--color-text);stroke-width:1.5"/><text x="1178" y="274" style="fill:var(--color-text);font-size:24px;font-weight:700">CV Bus</text><text x="1178" y="302" style="fill:var(--color-text-secondary);font-size:13px">vers la carte son</text><path d="M560,80 L640,80 L640,290 L680,290" style="fill:none;stroke:var(--color-accent);stroke-width:3;stroke-linejoin:round"/><circle cx="680" cy="290" r="5" style="fill:var(--color-accent)"/><circle cx="640" cy="250" r="15" style="fill:var(--color-bg, #0A0A0A);stroke:var(--color-accent);stroke-width:2"/><text x="640" y="255.5" text-anchor="middle" style="fill:var(--color-text);font-size:15px;font-weight:700">1</text><text x="568" y="70" text-anchor="start" style="fill:var(--color-text-secondary);font-size:13px">Unity</text><text x="672" y="280" text-anchor="end" style="fill:var(--color-text-secondary);font-size:13px">Control</text><path d="M760,150 L760,230" style="fill:none;stroke:var(--color-accent);stroke-width:3;stroke-linejoin:round"/><circle cx="760" cy="230" r="5" style="fill:var(--color-accent)"/><circle cx="760" cy="190" r="15" style="fill:var(--color-bg, #0A0A0A);stroke:var(--color-accent);stroke-width:2"/><text x="760" y="195.5" text-anchor="middle" style="fill:var(--color-text);font-size:15px;font-weight:700">2</text><text x="778" y="168" text-anchor="start" style="fill:var(--color-text-secondary);font-size:13px">Sine</text><text x="778" y="224" text-anchor="start" style="fill:var(--color-text-secondary);font-size:13px">Signal In</text><path d="M340,100 L220,100" style="fill:none;stroke:var(--color-accent);stroke-width:3;stroke-linejoin:round"/><circle cx="220" cy="100" r="5" style="fill:var(--color-accent)"/><circle cx="280" cy="100" r="15" style="fill:var(--color-bg, #0A0A0A);stroke:var(--color-accent);stroke-width:2"/><text x="280" y="105.5" text-anchor="middle" style="fill:var(--color-text);font-size:15px;font-weight:700">3</text><text x="332" y="90" text-anchor="end" style="fill:var(--color-text-secondary);font-size:13px">EOC</text><text x="228" y="90" text-anchor="start" style="fill:var(--color-text-secondary);font-size:13px">X-CLK</text><path d="M170,40 L170,15 L720,15 L720,40" style="fill:none;stroke:var(--color-accent);stroke-width:3;stroke-linejoin:round"/><circle cx="720" cy="40" r="5" style="fill:var(--color-accent)"/><circle cx="445" cy="15" r="15" style="fill:var(--color-bg, #0A0A0A);stroke:var(--color-accent);stroke-width:2"/><text x="445" y="20.5" text-anchor="middle" style="fill:var(--color-text);font-size:15px;font-weight:700">4</text><text x="178" y="33" text-anchor="start" style="fill:var(--color-text-secondary);font-size:13px">X-CV</text><text x="728" y="33" text-anchor="start" style="fill:var(--color-text-secondary);font-size:13px">1V/Oct</text><path d="M130,220 L130,300" style="fill:none;stroke:var(--color-accent);stroke-width:3;stroke-linejoin:round"/><circle cx="130" cy="300" r="5" style="fill:var(--color-accent)"/><circle cx="130" cy="260" r="15" style="fill:var(--color-bg, #0A0A0A);stroke:var(--color-accent);stroke-width:2"/><text x="130" y="265.5" text-anchor="middle" style="fill:var(--color-text);font-size:15px;font-weight:700">5</text><text x="142" y="238" text-anchor="start" style="fill:var(--color-text-secondary);font-size:13px">X-Gate</text><text x="142" y="294" text-anchor="start" style="fill:var(--color-text-secondary);font-size:13px">Clock In</text><path d="M220,330 L270,330 L270,300 L340,300" style="fill:none;stroke:var(--color-accent);stroke-width:3;stroke-linejoin:round"/><circle cx="340" cy="300" r="5" style="fill:var(--color-accent)"/><circle cx="270" cy="315" r="15" style="fill:var(--color-bg, #0A0A0A);stroke:var(--color-accent);stroke-width:2"/><text x="270" y="320.5" text-anchor="middle" style="fill:var(--color-text);font-size:15px;font-weight:700">6</text><text x="228" y="352" text-anchor="start" style="fill:var(--color-text-secondary);font-size:13px">STEPPED</text><text x="332" y="290" text-anchor="end" style="fill:var(--color-text-secondary);font-size:13px">In</text><path d="M560,300 L600,300 L600,190 L560,190" style="fill:none;stroke:var(--color-accent);stroke-width:3;stroke-linejoin:round"/><circle cx="560" cy="190" r="5" style="fill:var(--color-accent)"/><circle cx="600" cy="245" r="15" style="fill:var(--color-bg, #0A0A0A);stroke:var(--color-accent);stroke-width:2"/><text x="600" y="250.5" text-anchor="middle" style="fill:var(--color-text);font-size:15px;font-weight:700">7</text><text x="568" y="320" text-anchor="start" style="fill:var(--color-text-secondary);font-size:13px">Out</text><text x="568" y="182" text-anchor="start" style="fill:var(--color-text-secondary);font-size:13px">Fall</text><path d="M220,420 L300,420 L300,460 L340,460" style="fill:none;stroke:var(--color-accent);stroke-width:3;stroke-linejoin:round"/><circle cx="340" cy="460" r="5" style="fill:var(--color-accent)"/><circle cx="300" cy="440" r="15" style="fill:var(--color-bg, #0A0A0A);stroke:var(--color-accent);stroke-width:2"/><text x="300" y="445.5" text-anchor="middle" style="fill:var(--color-text);font-size:15px;font-weight:700">8</text><text x="228" y="410" text-anchor="start" style="fill:var(--color-text-secondary);font-size:13px">SMOOTH</text><text x="332" y="450" text-anchor="end" style="fill:var(--color-text-secondary);font-size:13px">In</text><path d="M560,460 L620,460 L620,150 L560,150" style="fill:none;stroke:var(--color-accent);stroke-width:3;stroke-linejoin:round"/><circle cx="560" cy="150" r="5" style="fill:var(--color-accent)"/><circle cx="620" cy="410" r="15" style="fill:var(--color-bg, #0A0A0A);stroke:var(--color-accent);stroke-width:2"/><text x="620" y="415.5" text-anchor="middle" style="fill:var(--color-text);font-size:15px;font-weight:700">9</text><text x="568" y="480" text-anchor="start" style="fill:var(--color-text-secondary);font-size:13px">Out</text><text x="568" y="142" text-anchor="start" style="fill:var(--color-text-secondary);font-size:13px">Rise</text><path d="M840,290 L920,290" style="fill:none;stroke:var(--color-accent);stroke-width:3;stroke-linejoin:round"/><circle cx="920" cy="290" r="5" style="fill:var(--color-accent)"/><circle cx="880" cy="290" r="15" style="fill:var(--color-bg, #0A0A0A);stroke:var(--color-accent);stroke-width:2"/><text x="880" y="295.5" text-anchor="middle" style="fill:var(--color-text);font-size:15px;font-weight:700">10</text><text x="846" y="318" text-anchor="start" style="fill:var(--color-text-secondary);font-size:13px">Sum Out</text><text x="912" y="280" text-anchor="end" style="fill:var(--color-text-secondary);font-size:13px">In</text><path d="M220,490 L250,490 L250,545 L1000,545 L1000,380" style="fill:none;stroke:var(--color-accent);stroke-width:3;stroke-linejoin:round"/><circle cx="1000" cy="380" r="5" style="fill:var(--color-accent)"/><circle cx="625" cy="545" r="15" style="fill:var(--color-bg, #0A0A0A);stroke:var(--color-accent);stroke-width:2"/><text x="625" y="550.5" text-anchor="middle" style="fill:var(--color-text);font-size:15px;font-weight:700">11</text><text x="228" y="480" text-anchor="start" style="fill:var(--color-text-secondary);font-size:13px">WOGGLE</text><text x="1010" y="400" text-anchor="start" style="fill:var(--color-text-secondary);font-size:13px">Decay</text><path d="M1080,270 L1160,270" style="fill:none;stroke:var(--color-accent);stroke-width:3;stroke-linejoin:round"/><circle cx="1160" cy="270" r="5" style="fill:var(--color-accent)"/><circle cx="1120" cy="270" r="15" style="fill:var(--color-bg, #0A0A0A);stroke:var(--color-accent);stroke-width:2"/><text x="1120" y="275.5" text-anchor="middle" style="fill:var(--color-text);font-size:15px;font-weight:700">12</text><text x="1086" y="258" text-anchor="start" style="fill:var(--color-text-secondary);font-size:13px">L</text><path d="M1080,340 L1160,340" style="fill:none;stroke:var(--color-accent);stroke-width:3;stroke-linejoin:round"/><circle cx="1160" cy="340" r="5" style="fill:var(--color-accent)"/><circle cx="1120" cy="340" r="15" style="fill:var(--color-bg, #0A0A0A);stroke:var(--color-accent);stroke-width:2"/><text x="1120" y="345.5" text-anchor="middle" style="fill:var(--color-text);font-size:15px;font-weight:700">13</text><text x="1086" y="328" text-anchor="start" style="fill:var(--color-text-secondary);font-size:13px">R</text></svg></div><span class="scroll-hint" aria-hidden="true">faites glisser →</span></div>
+          <figcaption class="lesson-meta">La boucle se lit à partir de MATHS. L’EOC du canal 4 fait avancer René ; René donne la note au VCO A et cadence le Wogglebug ; le Wogglebug, atténué par les canaux 2 et 3, change le Fall et le Rise du canal 4, donc la note suivante. Câbles numérotés comme dans le tableau ci-dessous.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">câblage</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">le câblage, étape par étape<span class="title-dot">.</span></h2>
+          <div class="table-scroll reveal">
+            <table class="patch-table">
+              <thead>
+                <tr><th>#</th><th>de</th><th>vers</th><th>ce que ça fait</th></tr>
+              </thead>
+              <tbody>
+                <tr><td class="cable-num">1</td><td>MATHS, canal 4, Unity</td><td>Optomix, canal 1, Control</td><td>l’enveloppe ouvre et referme le son : une note par cycle</td></tr>
+                <tr><td class="cable-num">2</td><td>DPO, sortie Sine du VCO A</td><td>Optomix, canal 1, Signal In</td><td>le son qu’on ouvre et qu’on referme</td></tr>
+                <tr><td class="cable-num">3</td><td>MATHS, canal 4, EOC</td><td>René, X-CLK</td><td>chaque fin de cycle fait passer René à la note suivante</td></tr>
+                <tr><td class="cable-num">4</td><td>René, X-CV</td><td>DPO, entrée 1V/Oct du VCO A</td><td>la hauteur de la note, ramenée sur la gamme par le quantizer</td></tr>
+                <tr><td class="cable-num">5</td><td>René, X-Gate</td><td>Wogglebug, Clock In</td><td>chaque nouvelle note échantillonne une nouvelle tension aléatoire</td></tr>
+                <tr><td class="cable-num">6</td><td>Wogglebug, STEPPED</td><td>MATHS, canal 2, entrée</td><td>une tension aléatoire, tenue jusqu’à la note suivante</td></tr>
+                <tr><td class="cable-num">7</td><td>MATHS, canal 2, sortie</td><td>MATHS, canal 4, Fall</td><td>cette tension, atténuée, règle la descente : la durée de la note</td></tr>
+                <tr><td class="cable-num">8</td><td>Wogglebug, SMOOTH</td><td>MATHS, canal 3, entrée</td><td>une tension au hasard qui varie lentement, sans à-coups</td></tr>
+                <tr><td class="cable-num">9</td><td>MATHS, canal 3, sortie</td><td>MATHS, canal 4, Rise</td><td>l’attaque change d’une note à l’autre</td></tr>
+                <tr><td class="cable-num">10</td><td>Optomix, Sum Out</td><td>Erbe-Verb, entrée</td><td>les notes entrent dans la reverb</td></tr>
+                <tr><td class="cable-num">11</td><td>Wogglebug, WOGGLE</td><td>Erbe-Verb, entrée CV Decay</td><td>la durée de la reverb s’allonge et se raccourcit</td></tr>
+                <tr><td class="cable-num">12</td><td>Erbe-Verb, sortie L (Mono)</td><td>CV Bus, vers la carte son</td><td>ce qu’on écoute, à gauche</td></tr>
+                <tr><td class="cable-num">13</td><td>Erbe-Verb, sortie R</td><td>CV Bus, vers la carte son</td><td>ce qu’on écoute, à droite</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">réglages</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">les réglages de départ<span class="title-dot">.</span></h2>
+          <div class="table-scroll reveal">
+            <table class="patch-table">
+              <thead>
+                <tr><th>module</th><th>réglage</th><th>position</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Écoute</td><td>Volume</td><td>bas avant de brancher : les sorties du Wogglebug montent jusqu’à 10 V</td></tr>
+                <tr><td>MATHS, canal 4</td><td>Cycle</td><td>allumé</td></tr>
+                <tr><td>MATHS, canal 4</td><td>Rise</td><td>vers 10 h</td></tr>
+                <tr><td>MATHS, canal 4</td><td>Fall</td><td>vers midi : une note toutes les une à deux secondes, avant le hasard</td></tr>
+                <tr><td>MATHS, canal 4</td><td>Vari-Response</td><td>vers 13 h</td></tr>
+                <tr><td>MATHS, canal 2</td><td>atténuverteur</td><td>à midi (rien ne passe) au branchement, puis vers 14 h</td></tr>
+                <tr><td>MATHS, canal 3</td><td>atténuverteur</td><td>à midi au branchement, puis vers 14 h</td></tr>
+                <tr><td>DPO, VCO A</td><td>Coarse et Fine</td><td>sur un do grave, accordeur à côté</td></tr>
+                <tr><td>Optomix, canal 1</td><td>Control et Damp</td><td>Control vers 13 h, Damp vers 9 h : la note s’ouvre franchement et retombe au silence</td></tr>
+                <tr><td>René</td><td>page QUANT, canal X</td><td>pentatonique mineure de do (do, mi♭, fa, sol, si♭), sur deux octaves</td></tr>
+                <tr><td>René</td><td>page SNAKE</td><td>un motif au choix</td></tr>
+                <tr><td>René</td><td>boutons du canal X</td><td>entre 9 h et 15 h</td></tr>
+                <tr><td>Wogglebug</td><td>Speed/Chaos</td><td>vers 9 h : SMOOTH varie lentement</td></tr>
+                <tr><td>Wogglebug</td><td>Ego/Id et Woggle</td><td>Ego/Id vers midi, Woggle vers 13 h</td></tr>
+                <tr><td>Erbe-Verb</td><td>Mix, Size, Decay</td><td>Mix vers 11 h, Size vers 13 h, Decay vers midi</td></tr>
+                <tr><td>Erbe-Verb</td><td>atténuverteur de Decay</td><td>un peu au-dessus de midi, vers 13 h : Decay à fond à droite tient la reverb sans fin</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">écoute</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">ce qu’il faut écouter<span class="title-dot">.</span></h2>
+          <ol class="listen-list reveal">
+            <li>Une enveloppe qui tourne. Branchez les câbles 1 et 2, et Sum Out de l’Optomix directement dans le CV Bus. Cycle allumé, la même note revient à cadence fixe : c’est une clock, rien de plus. Écoutez l’Optomix : c’est une low pass gate, qui ouvre en même temps le volume et les aigus. À l’ouverture, la note est riche en harmoniques ; en se refermant, elle devient plus douce et plus sourde.</li>
+            <li>Une nouvelle note à chaque cycle. Ajoutez les câbles 3 et 4. À chaque fin de cycle, l’EOC fait passer René à la note suivante : la hauteur change à chaque note, mais toutes les notes durent encore le même temps.</li>
+            <li>Une part d’imprévisible. Ajoutez les câbles 5, 6 et 7, atténuverteur du canal 2 à midi, puis montez-le doucement : les durées se mettent à varier. La boucle est fermée. Et c’est là que tout s’articule : l’enveloppe arrive en fin de cycle, René passe à la note suivante, le Wogglebug échantillonne une nouvelle tension aléatoire, et cette tension règle la durée de la note suivante. Une tension positive sur Fall allonge la descente, une tension négative la raccourcit.</li>
+            <li>L’attaque et l’espace. Ajoutez les câbles 8 et 9 : certaines notes attaquent net, d’autres montent lentement, et le rythme varie un peu plus, puisque la montée fait aussi partie du cycle. Puis les câbles 10 à 13 : la reverb, dont la durée suit WOGGLE avec un temps de retard.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">variations</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">trois variations<span class="title-dot">.</span></h2>
+          <ol class="listen-list reveal">
+            <li>Une deuxième voix. MATHS, canal 1 en Cycle, Unity vers Control du canal 2 de l’Optomix ; DPO, sortie Sine du VCO B vers Signal In du canal 2. Accordez le VCO B une quinte au-dessus du do, et donnez au canal 1 un Rise et un Fall plus longs que ceux du canal 4 : les deux voix se décalent sans jamais se caler. Sum Out mélange déjà les deux canaux.</li>
+            <li>Garder des fragments. Placez le Morphagene après l’Erbe-Verb : sorties L et R vers ses entrées, ses sorties vers le CV Bus. Appuyez sur REC pendant quelques notes, puis de nouveau pour arrêter : le Morphagene rejoue ce fragment en boucle pendant que le patch continue. S.O.S. vers midi : le patch et le fragment se mélangent ; à fond à droite, on n’entend plus que le fragment.</li>
+            <li>Frapper les notes. Avec un câble empilable ou un multiple, envoyez aussi X-Gate de René vers STRIKE du canal 1 de l’Optomix : chaque note est frappée, plus sèche et plus forte. Sur la page GATE de René, éteignez le gate de quelques pas. Ces notes-là ne sont plus frappées, et le Wogglebug n’échantillonne pas de nouvelle tension : elles gardent la durée de la note d’avant.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">à vous</div>
+        <div class="exercise-box reveal">
+          <p class="construction-notice-title">à vous d’écouter.</p>
+          <p class="construction-notice-body">Le hasard à l’envers. Atténuverteur du canal 2 vers 14 h : écoutez une minute et comptez les notes qui durent plus de deux secondes. Passez-le vers 10 h, sous midi, et comptez de nouveau. Le rythme change-t-il de caractère ? Pourquoi les notes très longues disparaissent-elles presque toutes ?</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">newsletter</div>
+        <div>
+          <h2 class="lesson-title-lg reveal" style="margin-bottom: 24px">les prochains patchs<span class="title-dot">.</span></h2>
+          <p class="manifesto-text reveal">Laissez votre email : on vous envoie chaque samedi le patch de la semaine, et ce qui se prépare. Cette semaine, la fiche PDF du patch Krell, à garder à côté du rack.</p>
+          <div class="form-container reveal">
+          <form class="newsletter-form" action="https://assets.mailerlite.com/jsonp/2677025/forms/200153214654351354/subscribe" method="POST" novalidate>
+            <input type="hidden" name="source" value="fiche patch-krell">
+            <div class="newsletter-row">
+              <input type="email" name="newsletter-email" class="form-input" required autocomplete="email"
+                placeholder="votre@email.com" aria-label="votre adresse email">
+              <button type="submit" class="form-submit form-submit--compact">s'inscrire →</button>
+            </div>
+            <p class="form-error" role="alert">merci d'indiquer un email valide</p>
+          </form>
+          <div class="form-success">
+            <p class="manifesto-text">inscription confirmée ✓ — merci !</p>
+          </div>
+          <p class="form-error" role="alert">une erreur est survenue, merci de réessayer.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-container section-gap">
+      <div class="row-grid">
+        <div class="rail-label">plus loin</div>
+        <div class="further-grid">
+          <div>
+            <p class="lesson-meta" style="margin-bottom: 8px">dans le cours</p>
+            <a href="../../le-cours/controle-en-tension/" class="further-link reveal">
+              <h3 class="lesson-title-sm">Le control voltage</h3>
+              <p class="lesson-meta">leçon 4 · une tension qui commande un autre module</p>
+            </a>
+            <a href="../../le-cours/les-modules/" class="further-link reveal">
+              <h3 class="lesson-title-sm">Les fonctions d’un système modulaire</h3>
+              <p class="lesson-meta">leçon 3 · produire, transformer, contrôler</p>
+            </a>
+          </div>
+          <div>
+            <p class="lesson-meta" style="margin-bottom: 8px">d’autres patchs</p>
+            <a href="../../patchs/maths-make-noise/" class="further-link reveal">
+              <h3 class="lesson-title-sm">MATHS de Make Noise : une pente, trois entrées</h3>
+              <p class="lesson-meta">fiche n° 6 · Cycle, Rise, Fall et EOC</p>
+            </a>
+            <a href="../../patchs/oscillateur-vco/" class="further-link reveal">
+              <h3 class="lesson-title-sm">À quoi sert un oscillateur : le VCO du DPO</h3>
+              <p class="lesson-meta">fiche n° 5 · le VCO de ce patch</p>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="page-container footer">
+    <div class="footer-layout">
+      <div class="footer-brand">modulr lab</div>
+      <div class="footer-grid">
+        <div>
+          <h2 class="footer-col-title">navigation</h2>
+          <ul style="list-style: none">
+            <li style="margin-bottom: 8px"><a href="../../" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">accueil</a></li>
+            <li style="margin-bottom: 8px"><a href="../../le-cours/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">le cours</a></li>
+            <li style="margin-bottom: 8px"><a href="../../patchs/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">patchs</a></li>
+            <li style="margin-bottom: 8px"><a href="../../histoire/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">histoire</a></li>
+            <li style="margin-bottom: 8px"><a href="../../a-propos/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">à propos</a></li>
+            <li><a href="../../contact/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="footer-col-title">rester informé</h2>
+          <p style="font-family: var(--font-body); font-size: 14px; color: var(--color-text); margin-bottom: 12px">
+            chaque nouveau patch, et ce qui se prépare</p>
+          <a href="../../newsletter/" class="cta" style="font-size: 12px">s'inscrire →</a>
+          <div class="footer-social"><a href="https://www.youtube.com/@modulrlab" class="cta" target="_blank" rel="noopener">la chaîne YouTube →</a></div>
+          <div class="footer-social"><a href="https://www.instagram.com/modulr_lab/" class="cta" target="_blank" rel="noopener">Instagram →</a></div>
+        </div>
+        <div>
+          <h2 class="footer-col-title">informations</h2>
+          <ul style="list-style: none">
+            <li style="margin-bottom: 8px"><a href="../../mentions-legales/" class="nav-link"
+                style="font-family: var(--font-body); font-size: 14px">mentions légales</a></li>
+            <li style="font-family: var(--font-body); font-size: 14px; color: var(--color-text-secondary)">© 2026 modulr
+              lab</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>
